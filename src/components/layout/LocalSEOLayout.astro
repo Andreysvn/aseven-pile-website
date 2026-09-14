@@ -1,48 +1,96 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import LastUpdated from '../ui/LastUpdated.astro';
+import { siteConfig } from '../../data/site.config';
 
-// Mengambil data dari Frontmatter Markdown atau Props yang di-inject oleh AI
 const { title, description, city, serviceName } = Astro.props;
 
-// Schema JSON-LD untuk Local SEO (Whitehat)
 const schema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": `ASeven Pile - ${serviceName} ${city}`,
+  "name": `${siteConfig.brand} - ${serviceName} ${city}`,
   "description": description,
-  "areaServed": city,
+  "url": `${siteConfig.url}/area/${city.toLowerCase().replace(/\s+/g, "-")}`,
+  "telephone": siteConfig.phone,
+  "email": siteConfig.email,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": siteConfig.address.street,
+    "addressLocality": siteConfig.address.city,
+    "addressRegion": siteConfig.address.province,
+    "postalCode": siteConfig.address.postalCode,
+    "addressCountry": "ID"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": city
+  },
+  "serviceType": [serviceName, "Bore Pile", "Strauss Pile", "Pondasi Bore Pile"],
+  "priceRange": "Rp 70.000 - Rp 350.000",
+  "foundingDate": siteConfig.foundingYear.toString(),
+  "sameAs": Object.values(siteConfig.socialMedia),
   "dateModified": new Date().toISOString()
 };
 ---
 
-<BaseLayout title={`${title} | ASeven Pile`} description={description}>
-  <!-- Inject Schema Rahasia Google -->
+<BaseLayout title={title} description={description}>
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Beranda", "item": siteConfig.url },
+      { "@type": "ListItem", "position": 2, "name": "Area Layanan", "item": `${siteConfig.url}/area` },
+      { "@type": "ListItem", "position": 3, "name": city, "item": `${siteConfig.url}/area/${city.toLowerCase().replace(/\s+/g, "-")}` }
+    ]
+  })} />
+
   <div class="page-header bg-gray-50 py-12 border-b border-gray-200">
-    <div class="container mx-auto px-4 max-w-4xl text-center">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{title}</h1>
-      <div class="flex justify-center mb-6">
-        <LastUpdated prefix={`Info ${city} Update`} />
+    <div class="container mx-auto px-4 max-w-4xl">
+      <!-- Breadcrumbs -->
+      <nav aria-label="Breadcrumb" class="mb-6 text-sm text-gray-500">
+        <ol class="flex flex-wrap items-center gap-1" itemscope itemtype="https://schema.org/BreadcrumbList">
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="/"><span itemprop="name">Beranda</span></a>
+            <meta itemprop="position" content="1" />
+          </li>
+          <li class="mx-1">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="/area"><span itemprop="name">Area Layanan</span></a>
+            <meta itemprop="position" content="2" />
+          </li>
+          <li class="mx-1">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="text-gray-900 font-medium">
+            <span itemprop="name">{city}</span>
+            <meta itemprop="position" content="3" />
+          </li>
+        </ol>
+      </nav>
+
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{title}</h1>
+        <div class="flex justify-center mb-6">
+          <LastUpdated prefix={`Info ${city} Update`} />
+        </div>
+        <p class="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+          {description}
+        </p>
       </div>
-      <p class="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-        {description}
-      </p>
     </div>
   </div>
 
   <article class="container mx-auto px-4 py-12 max-w-4xl prose prose-lg prose-blue">
-    <!-- Di sinilah AI dari Telegram akan menyuntikkan artikelnya -->
     <slot />
   </article>
 
-  <!-- Reusable Call To Action Khusus Lokal -->
+  <!-- CTA WhatsApp -->
   <section class="bg-blue-900 text-white py-12 mt-12 text-center">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold mb-4">Butuh Jasa Pengeboran di {city}?</h2>
       <p class="mb-8 text-blue-100">Tim kami siap meluncur ke lokasi Anda. Hubungi kami sekarang untuk survei gratis.</p>
-      <a href="https://wa.me/6281234567890" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition-transform hover:scale-105">
+      <a href={`https://wa.me/${siteConfig.whatsapp}?text=Halo%20ASEVEN%20PILE,%20saya%20butuh%20jasa%20bore%pile%20di%20${encodeURIComponent(city)}`} class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition-transform hover:scale-105">
         Chat WA Sekarang
       </a>
     </div>

@@ -2,8 +2,8 @@
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
 import PriceCalculator from '../../components/calculator/PriceCalculator.tsx';
 import { SERVICE_CITIES, GLOBAL_FAQS } from '../../data/seo-data';
+import { siteConfig } from '../../data/site.config';
 
-// Fungsi wajib Astro untuk Dynamic Routing (Membangun halaman sesuai data JSON)
 export async function getStaticPaths() {
   return SERVICE_CITIES.map((cityData) => {
     return {
@@ -13,11 +13,11 @@ export async function getStaticPaths() {
   });
 }
 
-// Ambil data kota yang sedang di-generate
 const { cityData } = Astro.props;
-
-// Gabungkan FAQ Global + FAQ Lokal khusus kota ini
 const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
+
+// Internal linking: other cities
+const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
 ---
 
 <LocalSEOLayout 
@@ -33,7 +33,6 @@ const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
     Dengan pengalaman bertahun-tahun, kami menjamin kualitas konstruksi yang kokoh, aman, dan berstandar nasional.
   </p>
 
-  <!-- Fitur Kalkulator (Sama di semua halaman, tapi selalu ada) -->
   <div class="my-12">
     <h3 class="text-2xl font-bold mb-4 text-center">Hitung Estimasi Biaya Proyek Anda di {cityData.name}</h3>
     <div class="p-6 bg-white rounded-xl shadow-lg border border-gray-100">
@@ -41,7 +40,6 @@ const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
     </div>
   </div>
 
-  <!-- Fitur FAQ Gabungan (Global + Lokal) -->
   <div class="my-12">
     <h3 class="text-2xl font-bold mb-6">Pertanyaan Seputar Proyek di {cityData.name}</h3>
     <div class="space-y-4">
@@ -55,6 +53,23 @@ const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
             {faq.answer}
           </p>
         </details>
+      ))}
+    </div>
+  </div>
+
+  <!-- Internal Linking: Area Lainnya -->
+  <div class="my-12 bg-gray-50 rounded-xl p-8">
+    <h3 class="text-2xl font-bold mb-6 text-center">Area Layanan Lainnya</h3>
+    <p class="text-gray-600 text-center mb-6">Kami juga melayani jasa bore pile dan strauss pile di area berikut:</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {otherCities.map((city) => (
+        <a 
+          href={`/area/${city.slug}`} 
+          class="block p-4 bg-white rounded-lg border border-gray-200 hover:border-blue-400 hover:shadow-md transition-all text-center"
+        >
+          <span class="font-semibold text-gray-800">{city.name}</span>
+          <span class="block text-sm text-gray-500 mt-1">{city.province}</span>
+        </a>
       ))}
     </div>
   </div>

@@ -2,7 +2,7 @@ const { execSync, spawn } = require("child_process");
 const path = require("path");
 
 // Project root
-const PROJECT_ROOT = path.resolve(__dirname, "..");
+const PROJECT_ROOT = path.resolve(__dirname, "..", "..");
 
 // Max output length (bytes)
 const MAX_OUTPUT_LENGTH = 4000;

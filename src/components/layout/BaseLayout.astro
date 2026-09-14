@@ -32,6 +32,13 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://asevenpile.com');
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:locale" content="id_ID" />
+    <meta property="og:site_name" content={siteConfig.brand} />
+    <meta property="og:image" content={`${siteConfig.url}/og-image.png`} />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | ${siteConfig.brand}`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteConfig.url}/og-image.png`} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>

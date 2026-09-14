@@ -1,30 +1,24 @@
 import React, { useState } from 'react';
+import { siteConfig } from '../../data/site.config';
+import { straussTiers, pricingTiers, pricingConfig } from '../../data/pricing';
+
+function getTierPrice(tiers: { diameter: number; pricePerMeter: { min: number; max: number } }[], diameter: number) {
+  const tier = tiers.find(t => t.diameter === diameter);
+  return tier ? tier.pricePerMeter.min : 0;
+}
 
 export default function PriceCalculator() {
   const [method, setMethod] = useState('strauss');
-  const [diameter, setDiameter] = useState('20');
+  const [diameter, setDiameter] = useState(20);
   const [depth, setDepth] = useState(6);
   const [points, setPoints] = useState(10);
 
-  // Simple pricing logic based on user's previous data context
   const calculatePrice = () => {
-    let basePrice = 0;
-    if (method === 'strauss') {
-      basePrice = diameter === '20' ? 70000 : (diameter === '25' ? 85000 : 100000);
-    } else {
-      // Bore pile mesin
-      basePrice = diameter === '30' ? 150000 : (diameter === '40' ? 180000 : 250000);
-    }
-    
+    const tiers = method === 'strauss' ? straussTiers : pricingTiers;
+    const basePrice = getTierPrice(tiers, diameter);
     const totalMeter = depth * points;
-    let totalCost = basePrice * totalMeter;
-    
-    // Add mobilization for machine
-    let mobDemob = 0;
-    if (method === 'mesin') {
-      mobDemob = 3500000;
-      totalCost += mobDemob;
-    }
+    const mobDemob = method === 'mesin' ? pricingConfig.mobilizationFee : 0;
+    const totalCost = basePrice * totalMeter + mobDemob;
 
     return { totalCost, totalMeter, basePrice, mobDemob };
   };
@@ -40,7 +34,7 @@ export default function PriceCalculator() {
         
         <div style={{ marginBottom: '16px' }}>
           <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.875rem', fontWeight: 600 }}>Metode Pengeboran</label>
-          <select value={method} onChange={(e) => setMethod(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+          <select value={method} onChange={(e) => { setMethod(e.target.value); setDiameter(method === 'strauss' ? 20 : 30); }} style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
             <option value="strauss">Strauss Pile Manual</option>
             <option value="mesin">Bore Pile Mesin (Mini Crane/Gawang)</option>
           </select>
@@ -48,18 +42,19 @@ export default function PriceCalculator() {
 
         <div style={{ marginBottom: '16px' }}>
           <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.875rem', fontWeight: 600 }}>Diameter Bor (cm)</label>
-          <select value={diameter} onChange={(e) => setDiameter(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+          <select value={diameter} onChange={(e) => setDiameter(Number(e.target.value))} style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
             {method === 'strauss' ? (
               <>
-                <option value="20">20 cm</option>
-                <option value="25">25 cm</option>
-                <option value="30">30 cm</option>
+                <option value={20}>20 cm</option>
+                <option value={25}>25 cm</option>
+                <option value={30}>30 cm</option>
+                <option value={40}>40 cm</option>
               </>
             ) : (
               <>
-                <option value="30">30 cm</option>
-                <option value="40">40 cm</option>
-                <option value="50">50 cm</option>
+                <option value={30}>30 cm</option>
+                <option value={40}>40 cm</option>
+                <option value={50}>50 cm</option>
               </>
             )}
           </select>
@@ -110,8 +105,8 @@ export default function PriceCalculator() {
 
         <button 
           onClick={() => {
-            const text = `Halo ASEVEN PILE, saya sudah cek kalkulator harga:\n- Metode: ${method}\n- Diameter: ${diameter} cm\n- Kedalaman: ${depth} m\n- Jumlah: ${points} titik\n(Total ${totalMeters} meter)\n\nMohon info detail harganya.`;
-            window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(text)}`);
+            const text = `Halo ASEVEN PILE, saya sudah cek kalkulator harga:\n- Metode: ${method === 'strauss' ? 'Strauss Pile Manual' : 'Bore Pile Mesin'}\n- Diameter: ${diameter} cm\n- Kedalaman: ${depth} m\n- Jumlah: ${points} titik\n(Total ${totalMeter} meter)\n\nMohon info detail harganya.`;
+            window.open(`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(text)}`);
           }}
           style={{ width: '100%', padding: '14px', background: '#25D366', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '1rem', marginTop: '24px', cursor: 'pointer' }}
         >

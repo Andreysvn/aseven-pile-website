@@ -1,0 +1,125 @@
+---
+import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
+import { pricingTiers, pricingConfig } from '../../../data/pricing';
+import { SERVICE_CITIES, GLOBAL_FAQS } from '../../../data/seo-data';
+import { siteConfig } from '../../../data/site.config';
+
+export async function getStaticPaths() {
+  const paths = [];
+  
+  for (const tier of pricingTiers) {
+    for (const city of SERVICE_CITIES) {
+      paths.push({
+        params: { diameter: tier.diameter.toString(), kota: city.slug },
+        props: { 
+          tier, 
+          city, 
+          serviceType: "bore-pile",
+          serviceName: "Bore Pile Mesin"
+        },
+      });
+    }
+  }
+  
+  return paths;
+}
+
+const { tier, city, serviceType, serviceName } = Astro.props;
+const combinedFaqs = [...GLOBAL_FAQS, ...(city.localFaqs || [])];
+
+const title = `Harga ${serviceName} Diameter ${tier.diameter}cm di ${city.name}`;
+const description = `Daftar harga jasa ${serviceName.toLowerCase()} diameter ${tier.diameter}cm per meter di ${city.name}. ${tier.notes} Hubungi ${siteConfig.brand} untuk survei gratis.`;
+
+const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
+  ? `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")}`
+  : `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")} - Rp ${tier.pricePerMeter.max.toLocaleString("id-ID")}`;
+
+const otherDiameters = pricingTiers.filter(t => t.diameter !== tier.diameter);
+const otherCities = SERVICE_CITIES.filter(c => c.slug !== city.slug).slice(0, 4);
+---
+
+<LocalSEOLayout 
+  title={title}
+  description={description}
+  city={city.name}
+  serviceName={serviceName}
+>
+
+  <h2>Harga {serviceName} Diameter {tier.diameter}cm di {city.name}</h2>
+  
+  <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 my-8">
+    <div class="text-center">
+      <p class="text-sm text-gray-500 mb-2">Harga per meter</p>
+      <p class="text-4xl font-bold text-blue-700">{priceFormatted}</p>
+      {tier.isEstimate && (
+        <p class="text-sm text-orange-600 mt-2">⚠️ Harga estimasi (tergantung kondisi lapangan)</p>
+      )}
+    </div>
+  </div>
+
+  <h3>Spesifikasi</h3>
+  <ul>
+    <li><strong>Diameter:</strong> {tier.diameter}cm</li>
+    <li><strong>Metode:</strong> Mesin (Bore Pile)</li>
+    <li><strong>Maksimal Kedalaman:</strong> Hingga 30m</li>
+    <li><strong>Cocok untuk:</strong> {tier.notes}</li>
+    <li><strong>Biaya Mobilisasi:</strong> Rp {pricingConfig.mobilizationFee.toLocaleString("id-ID")}</li>
+  </ul>
+
+  <h3>Mengapa Pilih {siteConfig.brand}?</h3>
+  <ul>
+    <li>✅ Survei gratis sebelum pengerjaan</li>
+    <li>✅ Harga transparan tanpa biaya tersembunyi</li>
+    <li>✅ Garansi pengerjaan</li>
+    <li>✅ Tim berpengalaman & bersertifikat</li>
+    <li>✅ Pengerjaan cepat & tepat waktu</li>
+  </ul>
+
+  <div class="my-8 p-6 bg-gray-50 rounded-xl">
+    <h3 class="text-xl font-bold mb-4">Diameter Lainnya</h3>
+    <div class="flex flex-wrap gap-3">
+      {otherDiameters.map(t => (
+        <a 
+          href={`/harga/${serviceType}/${t.diameter}cm-${city.slug}`}
+          class="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-400 hover:shadow transition-all"
+        >
+          {t.diameter}cm — Rp {t.pricePerMeter.min.toLocaleString("id-ID")}/m
+        </a>
+      ))}
+    </div>
+  </div>
+
+  {otherCities.length > 0 && (
+    <div class="my-8 p-6 bg-gray-50 rounded-xl">
+      <h3 class="text-xl font-bold mb-4">Harga di Kota Lain</h3>
+      <div class="flex flex-wrap gap-3">
+        {otherCities.map(c => (
+          <a 
+            href={`/harga/${serviceType}/${tier.diameter}cm-${c.slug}`}
+            class="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-400 hover:shadow transition-all"
+          >
+            {c.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <div class="my-8">
+    <h3 class="text-xl font-bold mb-4">Pertanyaan Seputar {serviceName} di {city.name}</h3>
+    <div class="space-y-4">
+      {combinedFaqs.map((faq) => (
+        <details class="group border border-gray-200 rounded-lg p-4 bg-white cursor-pointer hover:bg-gray-50">
+          <summary class="font-semibold text-gray-800 list-none flex justify-between items-center">
+            {faq.question}
+            <span class="text-blue-500 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="mt-4 text-gray-600 leading-relaxed border-t pt-4">
+            {faq.answer}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+
+</LocalSEOLayout>

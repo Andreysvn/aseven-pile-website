@@ -73,6 +73,72 @@ else {
 [System.IO.File]::WriteAllText($envPath, $envText)
 
 Write-Host "Preview URL: $previewUrl" -ForegroundColor Green
+
+# Auto-detect OpenCode server BEFORE starting bot
+Write-Host "Detecting OpenCode server..."
+$detectedPort = $null
+
+$opencodeProcesses = Get-CimInstance Win32_Process | Where-Object {
+    $_.CommandLine -match "opencode" -and $_.CommandLine -match "serve"
+}
+foreach ($proc in $opencodeProcesses) {
+    if ($proc.CommandLine -match "--port\s+(\d+)") {
+        $detectedPort = [int]$matches[1]
+        Write-Host "Found OpenCode server on port $detectedPort (from process)" -ForegroundColor Green
+        break
+    }
+}
+
+if (-not $detectedPort) {
+    $nodeProcesses = Get-CimInstance Win32_Process | Where-Object {
+        $_.Name -eq "node.exe" -and $_.CommandLine -match "opencode.*serve"
+    }
+    foreach ($proc in $nodeProcesses) {
+        if ($proc.CommandLine -match "--port\s+(\d+)") {
+            $detectedPort = [int]$matches[1]
+            Write-Host "Found OpenCode server on port $detectedPort (from node process)" -ForegroundColor Green
+            break
+        }
+    }
+}
+
+if (-not $detectedPort) {
+    $commonPorts = @(4096, 57777, 8080, 3000, 5000)
+    foreach ($port in $commonPorts) {
+        try {
+            $tcp = New-Object System.Net.Sockets.TcpClient
+            $tcp.Connect("127.0.0.1", $port)
+            $tcp.Close()
+            $detectedPort = $port
+            Write-Host "Found OpenCode server on port $detectedPort (from port scan)" -ForegroundColor Green
+            break
+        } catch {}
+    }
+}
+
+if (-not $detectedPort) {
+    Write-Host "OpenCode server not detected. Starting automatically..." -ForegroundColor Yellow
+    try {
+        $opencodePath = Get-Command opencode -ErrorAction SilentlyContinue
+        if ($opencodePath) {
+            Start-Process powershell.exe -ArgumentList @(
+                "-NoExit",
+                "-Command",
+                "opencode serve --port 4096"
+            )
+            $detectedPort = 4096
+            Write-Host "OpenCode server started on port 4096" -ForegroundColor Green
+            Start-Sleep -Seconds 3
+        } else {
+            Write-Host "opencode command not found. Bot will auto-detect when server is available." -ForegroundColor Yellow
+        }
+    } catch {
+        Write-Host "Failed to start OpenCode server: $_" -ForegroundColor Red
+    }
+} else {
+    Write-Host "OpenCode server is running on port $detectedPort" -ForegroundColor Green
+}
+
 Write-Host "Starting Telegram bot in watch mode..."
 Start-Process powershell.exe -ArgumentList @(
   "-NoExit",

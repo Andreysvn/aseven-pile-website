@@ -22,19 +22,22 @@
           <ul id="map-search-results"></ul>
         </div>
         <button id="gps-btn" title="Lacak Lokasi Saya">&#128205;</button>
+        <button id="reset-view-btn" title="Reset Peta" style="display:none;">&#8634;</button>
       </div>
 
-      <!-- Floating Legend -->
+      <div id="map-loading" style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1000; background:rgba(255,255,255,0.9); padding:16px 24px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.15); font-size:14px; font-weight:600; color:#333;">
+        <span style="display:inline-block; animation:spin 1s linear infinite; margin-right:8px;">&#8635;</span> Memuat peta...
+      </div>
       <div class="map-legend">
         <div class="legend-item">
           <span class="legend-dot" style="background-color: #800000; box-shadow: 0 0 6px rgba(128,0,0,0.6);"></span> Lokasi Kami
         </div>
   
         <div class="legend-item">
-          <span class="legend-dot secondary"></span> Wilayah Besar
+          <span class="legend-dot secondary"></span> Cluster Kota
         </div>
         <div class="legend-item">
-          <span class="legend-dot tertiary"></span> Area Spesifik
+          <span class="legend-dot tertiary"></span> Kecamatan
         </div>
       </div>
     </div>
@@ -197,25 +200,29 @@
   
   .map-controls-overlay {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 10px;
+    right: 10px;
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     align-items: flex-end;
+    pointer-events: none;
+  }
+  .map-controls-overlay > * {
+    pointer-events: auto;
   }
   .search-wrapper {
     position: relative;
-    width: 250px;
+    width: 200px;
   }
   #map-search-input {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid rgba(0,0,0,0.1);
-    border-radius: 8px;
-    font-size: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 8px 12px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 6px;
+    font-size: 13px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     outline: none;
     transition: all 0.3s;
     font-family: inherit;
@@ -229,10 +236,10 @@
     left: 0;
     right: 0;
     background: white;
-    border-radius: 8px;
-    margin-top: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    max-height: 250px;
+    border-radius: 6px;
+    margin-top: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    max-height: 200px;
     overflow-y: auto;
     display: none;
     list-style: none;
@@ -240,9 +247,9 @@
     margin-bottom: 0;
   }
   #map-search-results li {
-    padding: 12px 16px;
+    padding: 8px 12px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12px;
     border-bottom: 1px solid #eee;
     color: #333;
     transition: background 0.2s;
@@ -250,19 +257,20 @@
   #map-search-results li:last-child {
     border-bottom: none;
   }
-  #map-search-results li:hover {
+  #map-search-results li:hover,
+  #map-search-results li.active {
     background: #f0fdf4;
     color: #800000;
   }
   #gps-btn {
     background: white;
     border: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
-    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -271,6 +279,28 @@
   #gps-btn:hover {
     background: #f0fdf4;
     transform: scale(1.05);
+  }
+  #reset-view-btn {
+    background: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  #reset-view-btn:hover {
+    background: #fef2f2;
+    transform: scale(1.05);
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
 </style>
@@ -333,7 +363,7 @@
 
     const openTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenTopoMap',
-      maxNativeZoom: 14, maxZoom: 20 // Di-lock di 14 agar warna hijau hutan tidak hilang memutih saat di-zoom
+      maxNativeZoom: 17, maxZoom: 20
     });
 
     const osmOriginal = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -379,10 +409,11 @@
     // INITIALIZE CLUSTER GROUP (Sistem Hierarki Alami)
     
       const markers = L.markerClusterGroup({
-        maxClusterRadius: 80, // slightly larger to group cities well
-        spiderfyOnMaxZoom: true, // enable smooth expanding when clicked
+        maxClusterRadius: 40,
+        disableClusteringAtZoom: 14,
+        spiderfyOnMaxZoom: true,
         showCoverageOnHover: false,
-        zoomOutOfBoundsOnClick: true,
+        zoomToBoundsOnClick: true,
         iconCreateFunction: function(cluster) {
           const children = cluster.getAllChildMarkers();
           
@@ -851,20 +882,22 @@
 
     // Cache untuk menyimpan data batas wilayah agar tidak delay
     if (!window.geoCache) window.geoCache = {};
+    const mapLoading = document.getElementById('map-loading');
     
     // Lakukan pre-load seluruh batas wilayah Jakarta di background secara rahasia
     if (!window.geoDataPromise) {
+      mapLoading.style.display = 'block';
       window.geoDataPromise = fetch('/data/jakarta-boundaries.json')
         .then(res => res.json())
         .then(data => {
           Object.assign(window.geoCache, data);
-          // Fetch the extra boundaries generated by the bot with cache-busting
           return fetch('/data/extra-boundaries.json?v=' + new Date().getTime())
             .then(res2 => res2.ok ? res2.json() : {})
             .then(data2 => {
               Object.assign(window.geoCache, data2);
-            }).catch(e => console.warn("Extra boundaries missing or failed"));
-        }).catch(e => console.error("Gagal pre-load data wilayah", e));
+              mapLoading.style.display = 'none';
+            }).catch(e => { console.warn("Extra boundaries missing or failed"); mapLoading.style.display = 'none'; });
+        }).catch(e => { console.error("Gagal pre-load data wilayah", e); mapLoading.style.display = 'none'; });
     }
 
     // INITIALIZE CLUSTER GROUPS BY CITY
@@ -890,7 +923,7 @@
       <div class="map-popup-card">
         <h4 style="color: #800000; margin-bottom: 5px;">Workshop Pusat ASeven</h4>
         <p style="margin-bottom: 12px; font-size: 13px;">Jl. Setia Asih, Tarumajaya, Bekasi</p>
-        <a href="https://wa.me/6281234567890?text=Halo%20ASeven%20Pile,%20saya%20ingin%20berkunjung%20ke%20workshop." class="btn" style="background: #800000; color: white;" target="_blank">Hubungi Kami</a>
+        <a href="https://wa.me/6285814173761?text=Halo%20ASeven%20Pile,%20saya%20ingin%20berkunjung%20ke%20workshop." class="btn" style="background: #800000; color: white;" target="_blank">Hubungi Kami</a>
       </div>
     `);
     
@@ -913,6 +946,21 @@
       alert("Tidak dapat menemukan lokasi Anda. Pastikan izin lokasi (GPS) diaktifkan.");
     });
 
+    // Reset View Button
+    const resetViewBtn = document.getElementById('reset-view-btn');
+    resetViewBtn.addEventListener('click', () => {
+      if (currentPolygon) {
+        map.removeLayer(currentPolygon);
+        currentPolygon = null;
+      }
+      map.flyTo([-6.2000, 106.8166], 10, { duration: 0.8 });
+      resetViewBtn.style.display = 'none';
+    });
+
+    // Show reset button when polygon is drawn
+    const origDrawPolygon = marker => {};
+    const showResetBtn = () => { resetViewBtn.style.display = 'flex'; };
+
     locations.forEach(loc => {
       const isMain = loc.type === "main";
       const icon = isMain ? primaryIcon : tertiaryIcon;
@@ -922,7 +970,7 @@
       });
       
       // Smart WhatsApp (Task 1)
-      const waNumber = "6281234567890";
+      const waNumber = "6285814173761";
       const waText = encodeURIComponent(`Halo ASeven Pile, saya ingin konsultasi mengenai jasa bore pile untuk proyek di wilayah ${loc.name}.`);
       
       let popupContent = `
@@ -955,13 +1003,14 @@
               style: {
                   color: '#06b6d4',
                   weight: 3,
-                  dashArray: '5, 8', // Efek Garis Putus-putus
+                  dashArray: '5, 8',
                   opacity: 1,
                   fillColor: '#06b6d4',
                   fillOpacity: 0.25
                 }
             }).addTo(map);
             map.flyToBounds(currentPolygon.getBounds(), { maxZoom: 13, padding: [50, 50] });
+            resetViewBtn.style.display = 'flex';
           } else {
             // Fallback: Lingkaran Radius 4KM (Jika data GeoJSON tidak tersedia)
             currentPolygon = L.circle(loc.coords, {
@@ -974,6 +1023,7 @@
                 fillOpacity: 0.25
             }).addTo(map);
             map.flyToBounds(currentPolygon.getBounds(), { maxZoom: 13, padding: [50, 50] });
+            resetViewBtn.style.display = 'flex';
           }
         }
       });
@@ -1011,34 +1061,28 @@
       map.invalidateSize();
     }, 100);
 
-    // Search Box Logic (Task 2)
+    // Search Box Logic with keyboard navigation
+    let selectedSearchIndex = -1;
+    
     searchInput.addEventListener('input', (e) => {
       const val = e.target.value.toLowerCase();
       searchResults.innerHTML = '';
+      selectedSearchIndex = -1;
       if (!val) {
         searchResults.style.display = 'none';
         return;
       }
-      const matches = locations.filter(l => l.name.toLowerCase().includes(val)).slice(0, 5);
+      const matches = locations.filter(l => 
+        l.name.toLowerCase().includes(val) || 
+        (l.city && l.city.toLowerCase().includes(val))
+      ).slice(0, 8);
       if (matches.length > 0) {
         searchResults.style.display = 'block';
-        matches.forEach(m => {
+        matches.forEach((m, idx) => {
           const li = document.createElement('li');
-          li.textContent = m.name;
-          li.onclick = () => {
-            searchInput.value = m.name;
-            searchResults.style.display = 'none';
-            const mData = markersMap[m.name];
-            if (mData) {
-               const cg = cityClusters[mData.cityKey];
-               if (cg) {
-                 cg.zoomToShowLayer(mData.marker, () => {
-                    mData.marker.openPopup();
-                    mData.marker.fire('click');
-                 });
-               }
-            }
-          };
+          li.textContent = m.name + (m.city ? ` (${m.city})` : '');
+          li.dataset.index = idx;
+          li.onclick = () => selectSearchResult(m);
           searchResults.appendChild(li);
         });
       } else {
@@ -1046,8 +1090,55 @@
       }
     });
 
+    searchInput.addEventListener('keydown', (e) => {
+      const items = searchResults.querySelectorAll('li');
+      if (!items.length) return;
+      
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedSearchIndex = Math.min(selectedSearchIndex + 1, items.length - 1);
+        updateSearchHighlight(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedSearchIndex = Math.max(selectedSearchIndex - 1, 0);
+        updateSearchHighlight(items);
+      } else if (e.key === 'Enter' && selectedSearchIndex >= 0) {
+        e.preventDefault();
+        items[selectedSearchIndex].click();
+      } else if (e.key === 'Escape') {
+        searchResults.style.display = 'none';
+        selectedSearchIndex = -1;
+      }
+    });
+
+    function updateSearchHighlight(items) {
+      items.forEach((li, i) => {
+        li.style.background = i === selectedSearchIndex ? '#f0fdf4' : '';
+        li.style.color = i === selectedSearchIndex ? '#800000' : '';
+      });
+    }
+
+    function selectSearchResult(m) {
+      searchInput.value = m.name;
+      searchResults.style.display = 'none';
+      const mData = markersMap[m.name];
+      if (mData) {
+        const cg = cityClusters[mData.cityKey];
+        if (cg) {
+          cg.zoomToShowLayer(mData.marker, () => {
+            mData.marker.openPopup();
+            mData.marker.fire('click');
+          });
+        }
+      }
+    }
+
   }
 
-  document.addEventListener('DOMContentLoaded', initCoverageMap);
   document.addEventListener('astro:page-load', initCoverageMap);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCoverageMap);
+  } else {
+    initCoverageMap();
+  }
 </script>
