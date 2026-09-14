@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+---
+
+<BaseLayout title="Spesifikasi Mesin Mini Crane | ASeven Pile" description="Spesifikasi lengkap alat berat Mini Crane untuk bore pile. Cocok untuk perumahan padat, bebas getaran, dan minim polusi suara.">
+  <div class="hero-service">
+    <div class="container text-center">
+      <span class="badge">Mesin Andalan</span>
+      <h1>Mesin Mini Crane</h1>
+      <p class="subtitle">Bermanuver sempurna di perumahan padat. Tanpa getaran, tanpa retak.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="spec-layout">
+        
+        <div class="spec-content">
+          <h2>Mengapa Memilih Mini Crane?</h2>
+          <p>Mesin Mini Crane adalah solusi paling revolusioner untuk proyek pondasi di area padat penduduk seperti Jakarta. Mesin ini beroperasi menggunakan metode <em>wash boring</em> (sirkulasi air) yang membuat proses pengeboran hampir 100% bebas dari getaran yang berisiko meretakkan dinding tetangga Anda.</p>
+          
+          <div class="features-list">
+            <div class="feature">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              <div>
+                <strong>Aman Untuk Tetangga</strong>
+                <p>Nol getaran ekstrem. Sangat direkomendasikan jika jarak proyek dengan rumah tetangga sangat mepet.</p>
+              </div>
+            </div>
+            <div class="feature">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              <div>
+                <strong>Manuver Ekstrem</strong>
+                <p>Sasis mesin ini didesain ringkas, mampu melewati akses jalan gang selebar 2 meter saja.</p>
+              </div>
+            </div>
+            <div class="feature">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              <div>
+                <strong>Tenaga Pengeboran Stabil</strong>
+                <p>Meskipun ukurannya kompak, mesin ini mampu menembus kedalaman keras berkat daya tekan hidroliknya.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spec-sidebar">
+          <div class="spec-card">
+            <h3>Spesifikasi Teknis</h3>
+            <ul class="spec-details">
+              <li>
+                <span>Kedalaman Maksimal</span>
+                <strong>~ 30 Meter</strong>
+              </li>
+              <li>
+                <span>Pilihan Diameter</span>
+                <strong>30 cm, 40 cm, 60 cm</strong>
+              </li>
+              <li>
+                <span>Metode Pengeboran</span>
+                <strong>Wash Boring (Air)</strong>
+              </li>
+              <li>
+                <span>Kebutuhan Akses Jalan</span>
+                <strong>Minimal 2 Meter</strong>
+              </li>
+              <li>
+                <span>Tingkat Kebisingan</span>
+                <strong>Rendah (Mesin Diesel Standar)</strong>
+              </li>
+            </ul>
+            <a href="https://wa.me/6281234567890" class="btn btn-primary" style="width: 100%; margin-top: var(--space-6);">Konsultasi & Pesan Alat</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-service {
+    padding: 160px 0 80px;
+    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(139, 0, 0, 0.1);
+    color: var(--color-primary);
+    border-radius: 20px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-service h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    margin-bottom: var(--space-4);
+  }
+
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .spec-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 992px) {
+    .spec-layout {
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-12);
+    }
+  }
+
+  .spec-content h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+  
+  .spec-content p {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: 1.8;
+    margin-bottom: var(--space-8);
+  }
+
+  .features-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .feature {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .feature svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .feature strong {
+    display: block;
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .feature p {
+    font-size: var(--text-md);
+    margin-bottom: 0;
+  }
+
+  .spec-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 100px;
+  }
+
+  .spec-card h3 {
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border-light);
+    padding-bottom: var(--space-4);
+  }
+
+  .spec-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .spec-details li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px dashed var(--color-border-light);
+  }
+
+  .spec-details li:last-child {
+    border-bottom: none;
+  }
+
+  .spec-details span {
+    color: var(--color-text-muted);
+  }
+
+  .spec-details strong {
+    color: var(--color-text);
+    text-align: right;
+  }
+</style>

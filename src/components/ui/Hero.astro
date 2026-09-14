@@ -1,0 +1,31 @@
+---
+import { siteConfig } from '../../data/site.config';
+---
+
+<section class="hero hero-fullscreen">
+  <!-- Background Image with Overlay for Text Readability -->
+  <img 
+    src="/imgs/header-beranda-bore-pile-aseven-2.webp" 
+    alt="Pengerjaan pondasi bore pile oleh ASeven Pile di Jabodetabek" 
+    class="hero-bg-img" 
+    fetchpriority="high"
+    decoding="async"
+  />
+  <div class="hero-bg-overlay"></div>
+  
+  <div class="container hero-container">
+    <div class="hero-content">
+      
+      <h1 class="text-white">Pondasi Kokoh Tanpa Risiko Retak.</h1>
+      <p class="hero-sub text-white-75 ">Layanan jasa bore pile mesin dan strauss pile manual untuk bangunan 2-3 lantai hingga gedung komersial. Dikerjakan dengan presisi tinggi, getaran minim, dan aman untuk area padat penduduk.</p>
+      <div class="hero-actions ">
+        <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent('Halo ASEVEN PILE, saya ingin konsultasi mengenai rencana pengeboran pondasi.')}`} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Konsultasi & Survei Gratis</a>
+        <a href="#layanan" class="btn btn-outline-light">Lihat Layanan Kami</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+

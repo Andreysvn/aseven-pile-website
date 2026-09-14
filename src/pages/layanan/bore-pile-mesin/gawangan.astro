@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+---
+
+<BaseLayout title="Spesifikasi Mesin Gawangan | ASeven Pile" description="Spesifikasi alat berat Mesin Gawangan untuk bore pile. Tenaga besar untuk lahan cadas dan tanah keras.">
+  <div class="hero-service">
+    <div class="container text-center">
+      <span class="badge">Mesin Tenaga Besar</span>
+      <h1>Mesin Gawangan</h1>
+      <p class="subtitle">Sistem tiang menara (tripod) bertenaga gahar. Solusi mutlak untuk tanah keras dan cadas.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="spec-layout">
+        
+        <div class="spec-content">
+          <h2>Mengapa Memilih Mesin Gawangan?</h2>
+          <p>Mesin Gawangan dirancang dengan konstruksi tiang menara (tripod) yang sangat stabil saat menahan beban putaran. Mesin ini didukung oleh winch bertenaga besar yang memungkinkannya mengikis dan menghancurkan lapisan tanah yang jauh lebih keras dibandingkan mesin standar.</p>
+          
+          <div class="features-list">
+            <div class="feature">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              <div>
+                <strong>Penakluk Tanah Cadas</strong>
+                <p>Dilengkapi mata bor khusus (rock auger/coring) yang sanggup menembus lapisan tanah berbatu atau cadas ringan.</p>
+              </div>
+            </div>
+            <div class="feature">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              <div>
+                <strong>Stabilitas di Lahan Miring</strong>
+                <p>Kaki-kaki tripod dapat disesuaikan tinggi rendahnya, sehingga alat ini tetap kokoh beroperasi di tanah berkontur miring (perbukitan).</p>
+              </div>
+            </div>
+            <div class="feature">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              <div>
+                <strong>Produktivitas Tinggi</strong>
+                <p>Proses pengeboran lebih cepat di kedalaman menengah karena tarikan winch yang lebih kuat saat mengangkat lumpur.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spec-sidebar">
+          <div class="spec-card">
+            <h3>Spesifikasi Teknis</h3>
+            <ul class="spec-details">
+              <li>
+                <span>Kedalaman Maksimal</span>
+                <strong>~ 40 Meter</strong>
+              </li>
+              <li>
+                <span>Pilihan Diameter</span>
+                <strong>30 cm, 40 cm, 60 cm, 80 cm</strong>
+              </li>
+              <li>
+                <span>Metode Pengeboran</span>
+                <strong>Wash Boring / Dry Drilling</strong>
+              </li>
+              <li>
+                <span>Kebutuhan Akses Jalan</span>
+                <strong>Minimal 2.5 Meter</strong>
+              </li>
+              <li>
+                <span>Cocok Untuk</span>
+                <strong>Lahan Terbuka / Lereng</strong>
+              </li>
+            </ul>
+            <a href="https://wa.me/6281234567890" class="btn btn-primary" style="width: 100%; margin-top: var(--space-6);">Konsultasi & Pesan Alat</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-service {
+    padding: 160px 0 80px;
+    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(139, 0, 0, 0.1);
+    color: var(--color-primary);
+    border-radius: 20px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-service h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    margin-bottom: var(--space-4);
+  }
+
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .spec-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 992px) {
+    .spec-layout {
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-12);
+    }
+  }
+
+  .spec-content h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+  
+  .spec-content p {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: 1.8;
+    margin-bottom: var(--space-8);
+  }
+
+  .features-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .feature {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .feature svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .feature strong {
+    display: block;
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .feature p {
+    font-size: var(--text-md);
+    margin-bottom: 0;
+  }
+
+  .spec-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 100px;
+  }
+
+  .spec-card h3 {
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border-light);
+    padding-bottom: var(--space-4);
+  }
+
+  .spec-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .spec-details li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px dashed var(--color-border-light);
+  }
+
+  .spec-details li:last-child {
+    border-bottom: none;
+  }
+
+  .spec-details span {
+    color: var(--color-text-muted);
+  }
+
+  .spec-details strong {
+    color: var(--color-text);
+    text-align: right;
+  }
+</style>

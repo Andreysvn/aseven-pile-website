@@ -1,0 +1,31 @@
+---
+// TrustBar.astro
+---
+<section class="trust-bar" style="background-color: var(--color-bg-alt); padding: var(--space-6) 0; border-bottom: 1px solid var(--color-border-light);">
+  <div class="container trust-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); text-align: center;">
+    <div class="trust-item">
+      <span class="trust-number" style="display: block; font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--color-primary);">10+</span>
+      <span class="trust-label" style="font-size: var(--text-sm); color: var(--color-text-muted); font-weight: 500;">Tahun Pengalaman</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-number" style="display: block; font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--color-primary);">1000+</span>
+      <span class="trust-label" style="font-size: var(--text-sm); color: var(--color-text-muted); font-weight: 500;">Titik Pengeboran</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-number" style="display: block; font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--color-primary);">100%</span>
+      <span class="trust-label" style="font-size: var(--text-sm); color: var(--color-text-muted); font-weight: 500;">Konstruksi Presisi</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-number" style="display: block; font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: var(--color-primary);">0</span>
+      <span class="trust-label" style="font-size: var(--text-sm); color: var(--color-text-muted); font-weight: 500;">Insiden Lahan</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (min-width: 768px) {
+    .trust-grid {
+      grid-template-columns: repeat(4, 1fr) !important;
+    }
+  }
+</style>

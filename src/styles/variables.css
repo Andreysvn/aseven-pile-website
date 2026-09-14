@@ -1,0 +1,78 @@
+:root {
+  /* =========================================
+     ASEVEN PILE - MAROON THEME DESIGN TOKENS
+     ========================================= */
+
+  /* Brand Colors - Maroon Theme */
+  --color-primary: #800000;         /* Merah Maroon utama - Tegas, kuat, profesional */
+  --color-primary-light: #A52A2A;   /* Maroon terang untuk hover/aksen lembut */
+  --color-primary-dark: #4A0000;    /* Maroon gelap untuk footer/text on dark */
+  
+  /* Accent Colors */
+  --color-accent: #FFC107;          /* Kuning Safety/Amber - untuk CTA, alert, dan kontras konstruksi */
+  --color-accent-hover: #E0A800;
+  
+  /* Functional Colors */
+  --color-success: #25D366;         /* Hijau WhatsApp */
+  --color-success-hover: #1EBE55;
+  --color-info: #0D6EFD;
+  --color-warning: #FFC107;
+  --color-error: #DC3545;
+
+  /* Neutral/Grayscale */
+  --color-bg: #FFFFFF;              /* Background utama putih bersih */
+  --color-bg-alt: #F8F9FA;          /* Background section abu-abu sangat muda */
+  --color-bg-dark: #1E1E24;         /* Charcoal sangat gelap untuk footer/dark section */
+  --color-bg-card: #FFFFFF;         /* Background card */
+  
+  --color-text: #212529;            /* Teks body utama - charcoal gelap (bukan hitam murni) */
+  --color-text-muted: #6C757D;      /* Teks sekunder/deskripsi */
+  --color-text-light: #F8F9FA;      /* Teks di atas background gelap */
+  
+  --color-border: #DEE2E6;          /* Border standard */
+  --color-border-light: #E9ECEF;    /* Border tipis */
+
+  /* Spacing System */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 1rem;      /* 16px */
+  --space-4: 1.5rem;    /* 24px */
+  --space-5: 2rem;      /* 32px */
+  --space-6: 3rem;      /* 48px */
+  --space-8: 4rem;      /* 64px */
+  --space-12: 6rem;     /* 96px */
+  --space-16: 8rem;     /* 128px */
+
+  /* Typography System */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', var(--font-sans); /* Font heading yang modern & tegas */
+  
+  --text-xs: 0.75rem;   /* 12px */
+  --text-sm: 0.875rem;  /* 14px */
+  --text-base: 1rem;    /* 16px */
+  --text-lg: 1.125rem;  /* 18px */
+  --text-xl: 1.25rem;   /* 20px */
+  --text-2xl: 1.5rem;   /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem;  /* 36px */
+  --text-5xl: 3rem;     /* 48px */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Border Radius */
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-md: 0.5rem;  /* 8px */
+  --radius-lg: 0.75rem; /* 12px */
+  --radius-xl: 1rem;    /* 16px */
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+}
+

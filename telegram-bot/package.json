@@ -1,0 +1,19 @@
+{
+  "name": "telegram-bot",
+  "version": "2.0.0",
+  "description": "ASEVEN PILE Telegram Bot - Full Remote Control",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node --watch bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "grammy": "^1.35.0",
+    "node-telegram-bot-api": "^2.1.0"
+  }
+}

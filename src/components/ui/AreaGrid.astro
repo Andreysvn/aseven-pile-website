@@ -1,0 +1,141 @@
+---
+// AreaGrid.astro
+---
+
+<section class="section section-bg-alt" id="area">
+  <div class="container">
+    <div class="section-title">
+      <h2>Jangkauan Mobilisasi Alat</h2>
+      <p>Mesin mini crane, mesin gawangan, dan kru strauss pile kami siap dimobilisasi ke seluruh proyek konstruksi Anda di Pulau Jawa.</p>
+    </div>
+    
+    <div class="region-grid">
+      
+      <!-- JABODETABEK -->
+      <div class="region-card">
+        <h3>Jabodetabek</h3>
+        <ul class="region-list">
+          <li>Jakarta</li>
+          <li>Bogor</li>
+          <li>Depok</li>
+          <li>Tangerang</li>
+          <li>Tangerang Selatan</li>
+          <li>Bekasi</li>
+        </ul>
+      </div>
+
+      <!-- BANTEN & JAWA BARAT -->
+      <div class="region-card">
+        <h3>Banten & Jawa Barat</h3>
+        <ul class="region-list">
+          <li>Serang</li>
+          <li>Cilegon</li>
+          <li>Bandung</li>
+          <li>Cimahi</li>
+          <li>Cirebon</li>
+          <li>Sukabumi</li>
+          <li>Tasikmalaya</li>
+          <li>Banjar</li>
+          <li>Karawang</li>
+          <li>Purwakarta</li>
+          <li>Subang</li>
+          <li>Garut</li>
+          <li>Cianjur</li>
+          <li>Indramayu</li>
+        </ul>
+      </div>
+
+      <!-- JAWA TENGAH & DIY -->
+      <div class="region-card">
+        <h3>Jawa Tengah & DIY</h3>
+        <ul class="region-list">
+          <li>Yogyakarta</li>
+          <li>Semarang</li>
+          <li>Surakarta (Solo)</li>
+          <li>Magelang</li>
+          <li>Salatiga</li>
+          <li>Tegal</li>
+          <li>Pekalongan</li>
+          <li>Purwokerto</li>
+          <li>Cilacap</li>
+          <li>Kudus</li>
+          <li>Jepara</li>
+          <li>Klaten</li>
+          <li>Boyolali</li>
+        </ul>
+      </div>
+
+      <!-- JAWA TIMUR -->
+      <div class="region-card">
+        <h3>Jawa Timur</h3>
+        <ul class="region-list">
+          <li>Surabaya</li>
+          <li>Sidoarjo</li>
+          <li>Gresik</li>
+          <li>Malang</li>
+          <li>Batu</li>
+          <li>Mojokerto</li>
+          <li>Pasuruan</li>
+          <li>Probolinggo</li>
+          <li>Kediri</li>
+          <li>Madiun</li>
+          <li>Blitar</li>
+          <li>Jember</li>
+          <li>Banyuwangi</li>
+          <li>Tuban</li>
+          <li>Bojonegoro</li>
+          <li>Madura</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .region-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .region-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .region-card {
+    background: var(--color-bg);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-light);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .region-card h3 {
+    color: var(--color-primary);
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px dashed var(--color-border-light);
+  }
+
+  .region-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .region-list li {
+    background: var(--color-bg-alt);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border-light);
+  }
+</style>

@@ -1,0 +1,136 @@
+---
+// ServicesGrid.astro
+---
+
+<section class="section section-bg-alt" id="layanan">
+  <div class="container">
+    <div class="section-title">
+      <h2>Alat yang Kami Gunakan</h2>
+      <p>Pemilihan alat disesuaikan dengan jenis tanah, akses masuk ke lokasi, dan beban struktur bangunan Anda.</p>
+    </div>
+    <div class="services-grid">
+      
+      <a href="/layanan/bore-pile-mesin/mini-crane" class="service-card">
+        <div class="service-icon">
+          <!-- GANTI IKON ANDA DI SINI -->
+          <img src="/assets/icons/icon-mini-crane.svg" alt="Ikon Mini Crane" class="user-custom-icon" />
+        </div>
+        <h3>Mesin Mini Crane</h3>
+        <p>Cocok untuk perumahan padat. Dirancang bermanuver di jalan selebar 2 meter dengan metode wash boring yang aman dan getaran sangat minim.</p>
+        <span class="service-link" aria-label="Pelajari Spesifikasi Mini Crane">Pelajari Spesifikasi &rarr;</span>
+      </a>
+
+      <a href="/layanan/bore-pile-mesin/gawangan" class="service-card">
+        <div class="service-icon">
+          <!-- GANTI IKON ANDA DI SINI -->
+          <img src="/assets/icons/icon-gawangan.svg" alt="Ikon Mesin Gawangan" class="user-custom-icon" />
+        </div>
+        <h3>Mesin Gawangan</h3>
+        <p>Sistem tiang menara (tripod) dengan mesin penggerak bertenaga besar. Pilihan tepat untuk tanah cadas dan lahan dengan kemiringan ekstrem.</p>
+        <span class="service-link" aria-label="Pelajari Spesifikasi Mesin Gawangan">Pelajari Spesifikasi &rarr;</span>
+      </a>
+
+      <a href="/layanan/strauss-pile" class="service-card">
+        <div class="service-icon">
+          <!-- GANTI IKON ANDA DI SINI -->
+          <img src="/assets/icons/icon-strauss.svg" alt="Ikon Strauss Pile" class="user-custom-icon" />
+        </div>
+        <h3>Strauss Pile Manual</h3>
+        <p>Metode putar manual bertenaga manusia. Paling ekonomis dan 100% tanpa polusi suara. Maksimal untuk bangunan 2 lantai dengan tanah lunak.</p>
+        <span class="service-link" aria-label="Pelajari Spesifikasi Strauss Pile">Pelajari Spesifikasi &rarr;</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .service-card {
+    background: var(--color-bg);
+    padding: var(--space-8) var(--space-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--color-border-light);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+  }
+
+  .service-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--color-bg-alt);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-5);
+    color: var(--color-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Styling khusus untuk ikon buatan Anda (SVG/PNG) */
+  .user-custom-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .service-card:hover .service-icon {
+    background: var(--color-primary);
+    color: var(--color-bg);
+  }
+
+  /* Jika ikon bawaannya berupa SVG eksternal tapi tidak bisa ganti warna otomatis lewat CSS text-color, kita bisa tambahkan filter CSS atau biarkan saja warna aslinya */
+  .service-card:hover .user-custom-icon {
+    /* filter: brightness(0) invert(1); */ /* Aktifkan baris ini nanti jika ingin ikon buatan Anda berubah jadi warna putih saat disentuh/di-hover */
+  }
+
+  .service-card h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-3);
+    color: var(--color-text);
+  }
+
+  .service-card p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+    flex-grow: 1;
+    line-height: 1.6;
+  }
+
+  .service-link {
+    color: var(--color-primary);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    transition: gap 0.3s ease;
+  }
+
+  .service-card:hover .service-link {
+    gap: var(--space-3);
+  }
+</style>

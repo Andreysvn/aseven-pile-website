@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import PriceCalculator from '../components/calculator/PriceCalculator.tsx';
+---
+
+<BaseLayout title="Kalkulator Harga Bore Pile & Strauss Pile">
+  <div class="page-header" style="background: var(--color-bg-alt); padding: var(--space-8) 0; border-bottom: 1px solid var(--color-border-light);">
+    <div class="container text-center">
+      <h1 style="font-size: var(--text-4xl); margin-bottom: var(--space-4); color: var(--color-text);">Estimasi Biaya Proyek</h1>
+      <p style="font-size: var(--text-lg); color: var(--color-text-muted); max-width: 600px; margin: 0 auto;">
+        Gunakan kalkulator pintar di bawah ini untuk mendapatkan gambaran awal biaya jasa pengeboran pondasi Anda. 
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <PriceCalculator client:load />
+    </div>
+  </section>
+</BaseLayout>

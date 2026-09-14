@@ -1,0 +1,1053 @@
+---
+// InteractiveCoverageMap.astro
+---
+<section class="section" id="coverage-map-section" style="padding-top: var(--space-8);">
+  <div class="container">
+    <div class="section-title text-center">
+      <h2>Peta Wilayah Jangkauan</h2>
+      <p>Lihat detail wilayah area jangkauan layanan kami, untuk mobilisasi alat dan tim ahli.</p>
+    </div>
+
+    <div class="map-wrapper">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 z-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+
+    <div class="map-container relative z-10 w-full  rounded-3xl overflow-hidden shadow-2xl border-4 border-white/25">
+      <div id="coverage-map" class="coverage-map w-full h-full" ></div>
+      
+      <!-- UI OVERLAYS -->
+      <div class="map-controls-overlay">
+        <div class="search-wrapper">
+          <input type="text" id="map-search-input" placeholder="Cari kecamatan Anda..." autocomplete="off" />
+          <ul id="map-search-results"></ul>
+        </div>
+        <button id="gps-btn" title="Lacak Lokasi Saya">&#128205;</button>
+      </div>
+
+      <!-- Floating Legend -->
+      <div class="map-legend">
+        <div class="legend-item">
+          <span class="legend-dot" style="background-color: #800000; box-shadow: 0 0 6px rgba(128,0,0,0.6);"></span> Lokasi Kami
+        </div>
+  
+        <div class="legend-item">
+          <span class="legend-dot secondary"></span> Wilayah Besar
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot tertiary"></span> Area Spesifik
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Leaflet CSS & MarkerCluster CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin=""/>
+
+<style>
+  .map-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .coverage-map {
+    width: 100%;
+    height: 600px;
+    z-index: 1;
+  }
+  @media (min-width: 768px) {
+    .coverage-map {
+      height: 700px;
+    }
+  }
+
+  .map-legend {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--color-border-light);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  
+  .legend-dot.primary { 
+    background-color: var(--color-primary); 
+    border: 2px solid white; 
+    box-shadow: 0 0 0 1px var(--color-primary); 
+  }
+  
+  .legend-dot.secondary { 
+    background-color: #FFA000; /* Yellow/Gold for City Clusters */
+    border: 2px solid white; 
+    box-shadow: 0 0 0 1px #FFA000; 
+  }
+  
+  .legend-dot.tertiary { 
+    background-color: #06b6d4; /* Emerald Cyan for specific areas */
+    border: 2px solid white; 
+    box-shadow: 0 0 0 1px #06b6d4; 
+  }
+
+  /* Custom Leaflet Popup overrides for premium look */
+  :global(.leaflet-popup-content-wrapper) {
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-lg) !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+  :global(.leaflet-popup-content) {
+    margin: 0 !important;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  }
+  
+  /* Popup Custom Card Design */
+  :global(.map-popup-card) {
+    padding: 16px 20px;
+    min-width: 220px;
+  }
+  :global(.map-popup-card h4) {
+    margin: 0 0 6px 0;
+    color: var(--color-primary);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  :global(.map-popup-card p) {
+    margin: 0 0 14px 0;
+    color: var(--color-text-muted);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  :global(.map-popup-card .btn) {
+    display: block;
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    background: #06b6d4; /* Cyan Button for specific area */
+    color: white;
+    transition: background 0.2s;
+  }
+  :global(.map-popup-card .btn:hover) {
+    background: #059669;
+  }
+  :global(.map-popup-card .btn.btn-accent) {
+    background: var(--color-primary);
+    color: white;
+  }
+  :global(.map-popup-card .btn.btn-accent:hover) {
+    background: var(--color-primary-dark);
+  }
+
+  :global(.leaflet-container a.leaflet-popup-close-button) {
+    color: #9ca3af !important;
+    padding: 8px 8px 0 0 !important;
+  }
+  
+  /* Reset button styles from global conflicting with leaflet */
+  :global(.leaflet-control-zoom a) {
+    text-decoration: none !important;
+  }
+  
+  /* Subtle Map Attribution (Win-Win Solution) */
+  :global(.leaflet-control-attribution) {
+    background: transparent !important;
+    color: rgba(0, 0, 0, 0.4) !important;
+    font-size: 10px !important;
+    box-shadow: none !important;
+  }
+  :global(.leaflet-control-attribution a) {
+    color: rgba(0, 0, 0, 0.4) !important;
+    text-decoration: none !important;
+  }
+  :global(.leaflet-control-attribution a:hover) {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* CUSTOM CLUSTER BADGE RESET */
+  :global(.custom-cluster-badge) {
+    background: transparent !important;
+    border: none !important;
+  }
+  
+  .map-controls-overlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+  }
+  .search-wrapper {
+    position: relative;
+    width: 250px;
+  }
+  #map-search-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    outline: none;
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+  #map-search-input:focus {
+    border-color: #06b6d4;
+  }
+  #map-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    margin-top: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+  }
+  #map-search-results li {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    transition: background 0.2s;
+  }
+  #map-search-results li:last-child {
+    border-bottom: none;
+  }
+  #map-search-results li:hover {
+    background: #f0fdf4;
+    color: #800000;
+  }
+  #gps-btn {
+    background: white;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  #gps-btn:hover {
+    background: #f0fdf4;
+    transform: scale(1.05);
+  }
+
+</style>
+
+<!-- Leaflet JS & MarkerCluster JS -->
+<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script is:inline src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin=""></script>
+
+<script is:inline>
+  function initCoverageMap() {
+    const mapContainer = document.getElementById('coverage-map');
+    if (!mapContainer || mapContainer._leaflet_id) return;
+
+    // Fokus utama ke area Jakarta (zoom level 10)
+    const map = L.map('coverage-map', {
+      scrollWheelZoom: false,
+      zoomControl: false
+    }).setView([-6.2000, 106.8166], 10);
+
+    // Zoom control on top right
+    L.control.zoom({ position: 'topleft' }).addTo(map);
+
+            // === MAP STYLE OPTIONS (LAYER CONTROL) ===
+    const googleStreets = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+      attribution: '&copy; Google Maps',
+      maxNativeZoom: 20, maxZoom: 20
+    });
+
+    const googleHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      attribution: '&copy; Google Maps',
+      maxNativeZoom: 20, maxZoom: 20
+    });
+    
+    const googleTerrain = L.tileLayer('https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+      attribution: '&copy; Google Maps',
+      maxNativeZoom: 20, maxZoom: 20
+    });
+
+    const esriStreet = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri',
+      maxNativeZoom: 18, maxZoom: 20
+    });
+
+    // Dark/Light Gray only go up to zoom 16 in many non-US areas. 
+    // maxNativeZoom ensures it stretches the tile instead of breaking/blanking out.
+    const esriLightGray = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri',
+      maxNativeZoom: 16, maxZoom: 20
+    });
+    
+    const esriDarkGray = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri',
+      maxNativeZoom: 16, maxZoom: 20
+    });
+    
+    const esriNatGeo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri',
+      maxNativeZoom: 12, maxZoom: 20
+    });
+
+    const openTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenTopoMap',
+      maxNativeZoom: 14, maxZoom: 20 // Di-lock di 14 agar warna hijau hutan tidak hilang memutih saat di-zoom
+    });
+
+    const osmOriginal = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap',
+      maxNativeZoom: 19, maxZoom: 20
+    });
+
+    // Default map to show
+    openTopoMap.addTo(map);
+
+    // Add UI toggle for user to select map style (Bottom Left)
+    const baseMaps = {
+      "Google Maps (Standar)": googleStreets,
+      "Google Hybrid (Satelit+Jalan)": googleHybrid,
+      "Google Terrain (Relief Fisik)": googleTerrain,
+      "Apple Maps Style (Esri)": esriStreet,
+      "Dark Mode (Mewah)": esriDarkGray,
+      "Minimalis Corporate (Abu-Abu)": esriLightGray,
+      "National Geographic (Klasik)": esriNatGeo,
+      "Topografi (Elevasi Tanah)": openTopoMap,
+      "OSM Klasik (Warna-Warni)": osmOriginal
+    };
+    L.control.layers(baseMaps, null, { position: 'bottomleft' }).addTo(map);
+
+    // SVG Icon Creator
+    const createPin = (fillColor, strokeColor) => {
+      return L.divIcon({
+        className: 'custom-pin-icon',
+        html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${fillColor}" width="36" height="36" stroke="${strokeColor}" stroke-width="1.5" style="filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.25));">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+               </svg>`,
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
+        popupAnchor: [0, -32]
+      });
+    };
+
+    const primaryIcon = createPin('#800000', '#ffffff'); // Maroon (HQ)
+    const secondaryIcon = createPin('#FFA000', '#ffffff'); // Yellow/Gold
+    const tertiaryIcon = createPin('#06b6d4', '#ffffff'); // Cyan (Specific Area)
+
+    
+    // INITIALIZE CLUSTER GROUP (Sistem Hierarki Alami)
+    
+      const markers = L.markerClusterGroup({
+        maxClusterRadius: 80, // slightly larger to group cities well
+        spiderfyOnMaxZoom: true, // enable smooth expanding when clicked
+        showCoverageOnHover: false,
+        zoomOutOfBoundsOnClick: true,
+        iconCreateFunction: function(cluster) {
+          const children = cluster.getAllChildMarkers();
+          
+          // Hitung dominasi kota di dalam cluster ini
+          const cityCounts = {};
+          let maxCity = 'Area';
+          let maxCount = 0;
+          
+          children.forEach(m => {
+            const city = m.options.city || 'Area';
+            cityCounts[city] = (cityCounts[city] || 0) + 1;
+            if (cityCounts[city] > maxCount) {
+              maxCount = cityCounts[city];
+              maxCity = city;
+            }
+          });
+
+          const html = `
+            <div style="background: #06b6d4; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 700; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.25); font-size: 14px; white-space: nowrap; text-align: center; position: absolute; transform: translate(-50%, -50%);">
+              ${maxCity} <span style="background: white; color: #06b6d4; padding: 2px 6px; border-radius: 12px; font-size: 11px; margin-left: 4px;">${children.length}</span>
+            </div>
+          `;
+
+          return L.divIcon({
+            html: html,
+            className: 'custom-cluster-badge',
+            iconSize: L.point(0, 0)
+          });
+        }
+      });
+
+      const locations = [
+  { name: "Menteng (Jakarta)", level: "district", queryName: "Menteng, Jakarta, Indonesia", type: "area", coords: [-6.19446, 106.83248], desc: "Layanan bore pile profesional untuk wilayah Menteng.", city: "Jakarta"  },
+  { name: "Senen (Jakarta)", level: "district", queryName: "Senen, Jakarta, Indonesia", type: "area", coords: [-6.19386, 106.8503], desc: "Layanan bore pile profesional untuk wilayah Senen.", city: "Jakarta"  },
+  { name: "Tanah Abang (Jakarta)", level: "district", queryName: "Tanah Abang, Jakarta, Indonesia", type: "area", coords: [-6.20889, 106.80781], desc: "Layanan bore pile profesional untuk wilayah Tanah Abang.", city: "Jakarta"  },
+  { name: "Gambir (Jakarta)", level: "district", queryName: "Gambir, Jakarta, Indonesia", type: "area", coords: [-6.17095, 106.8185], desc: "Layanan bore pile profesional untuk wilayah Gambir.", city: "Jakarta"  },
+  { name: "Kemayoran (Jakarta)", level: "district", queryName: "Kemayoran, Jakarta, Indonesia", type: "area", coords: [-6.16366, 106.85955], desc: "Layanan bore pile profesional untuk wilayah Kemayoran.", city: "Jakarta"  },
+  { name: "Cempaka Putih (Jakarta)", level: "district", queryName: "Cempaka Putih, Jakarta, Indonesia", type: "area", coords: [-6.17795, 106.86834], desc: "Layanan bore pile profesional untuk wilayah Cempaka Putih.", city: "Jakarta"  },
+  { name: "Johar Baru (Jakarta)", level: "district", queryName: "Johar Baru, Jakarta, Indonesia", type: "area", coords: [-6.18019, 106.85355], desc: "Layanan bore pile profesional untuk wilayah Johar Baru.", city: "Jakarta"  },
+  { name: "Sawah Besar (Jakarta)", level: "district", queryName: "Sawah Besar, Jakarta, Indonesia", type: "area", coords: [-6.15129, 106.83352], desc: "Layanan bore pile profesional untuk wilayah Sawah Besar.", city: "Jakarta"  },
+  { name: "Kebayoran Baru (Jakarta)", level: "district", queryName: "Kebayoran Baru, Jakarta, Indonesia", type: "area", coords: [-6.2413, 106.79987], desc: "Layanan bore pile profesional untuk wilayah Kebayoran Baru.", city: "Jakarta"  },
+  { name: "Kebayoran Lama (Jakarta)", level: "district", queryName: "Kebayoran Lama, Jakarta, Indonesia", type: "area", coords: [-6.27688, 106.78085], desc: "Layanan bore pile profesional untuk wilayah Kebayoran Lama.", city: "Jakarta"  },
+  { name: "Pesanggrahan (Jakarta)", level: "district", queryName: "Pesanggrahan, Jakarta, Indonesia", type: "area", coords: [-6.23282, 106.75507], desc: "Layanan bore pile profesional untuk wilayah Pesanggrahan.", city: "Jakarta"  },
+  { name: "Cilandak (Jakarta)", level: "district", queryName: "Cilandak, Jakarta, Indonesia", type: "area", coords: [-6.30172, 106.79246], desc: "Layanan bore pile profesional untuk wilayah Cilandak.", city: "Jakarta"  },
+  { name: "Pasar Minggu (Jakarta)", level: "district", queryName: "Pasar Minggu, Jakarta, Indonesia", type: "area", coords: [-6.29141, 106.82492], desc: "Layanan bore pile profesional untuk wilayah Pasar Minggu.", city: "Jakarta"  },
+  { name: "Jagakarsa (Jakarta)", level: "district", queryName: "Jagakarsa, Jakarta, Indonesia", type: "area", coords: [-6.33836, 106.8187], desc: "Layanan bore pile profesional untuk wilayah Jagakarsa.", city: "Jakarta"  },
+  { name: "Mampang Prapatan (Jakarta)", level: "district", queryName: "Mampang Prapatan, Jakarta, Indonesia", type: "area", coords: [-6.2447, 106.82399], desc: "Layanan bore pile profesional untuk wilayah Mampang Prapatan.", city: "Jakarta"  },
+  { name: "Pancoran (Jakarta)", level: "district", queryName: "Pancoran, Jakarta, Indonesia", type: "area", coords: [-6.25287, 106.84544], desc: "Layanan bore pile profesional untuk wilayah Pancoran.", city: "Jakarta"  },
+  { name: "Tebet (Jakarta)", level: "district", queryName: "Tebet, Jakarta, Indonesia", type: "area", coords: [-6.23126, 106.85166], desc: "Layanan bore pile profesional untuk wilayah Tebet.", city: "Jakarta"  },
+  { name: "Setiabudi (Jakarta)", level: "district", queryName: "Setiabudi, Jakarta, Indonesia", type: "area", coords: [-6.21489, 106.83051], desc: "Layanan bore pile profesional untuk wilayah Setiabudi.", city: "Jakarta"  },
+  { name: "Kebon Jeruk (Jakarta)", level: "district", queryName: "Kebon Jeruk, Jakarta, Indonesia", type: "area", coords: [-6.17382, 106.76696], desc: "Layanan bore pile profesional untuk wilayah Kebon Jeruk.", city: "Jakarta"  },
+  { name: "Kembangan (Jakarta)", level: "district", queryName: "Kembangan, Jakarta, Indonesia", type: "area", coords: [-6.20519, 106.74319], desc: "Layanan bore pile profesional untuk wilayah Kembangan.", city: "Jakarta"  },
+  { name: "Cengkareng (Jakarta)", level: "district", queryName: "Cengkareng, Jakarta, Indonesia", type: "area", coords: [-6.14528, 106.73595], desc: "Layanan bore pile profesional untuk wilayah Cengkareng.", city: "Jakarta"  },
+  { name: "Grogol Petamburan (Jakarta)", level: "district", queryName: "Grogol Petamburan, Jakarta, Indonesia", type: "area", coords: [-6.15458, 106.78302], desc: "Layanan bore pile profesional untuk wilayah Grogol Petamburan.", city: "Jakarta"  },
+  { name: "Palmerah (Jakarta)", level: "district", queryName: "Palmerah, Jakarta, Indonesia", type: "area", coords: [-6.19441, 106.7921], desc: "Layanan bore pile profesional untuk wilayah Palmerah.", city: "Jakarta"  },
+  { name: "Kalideres (Jakarta)", level: "district", queryName: "Kalideres, Jakarta, Indonesia", type: "area", coords: [-6.12743, 106.70157], desc: "Layanan bore pile profesional untuk wilayah Kalideres.", city: "Jakarta"  },
+  { name: "Taman Sari (Jakarta)", level: "district", queryName: "Taman Sari, Jakarta, Indonesia", type: "area", coords: [-6.152, 106.81958], desc: "Layanan bore pile profesional untuk wilayah Taman Sari.", city: "Jakarta"  },
+  { name: "Tambora (Jakarta)", level: "district", queryName: "Tambora, Jakarta, Indonesia", type: "area", coords: [-6.14949, 106.80365], desc: "Layanan bore pile profesional untuk wilayah Tambora.", city: "Jakarta"  },
+  { name: "Penjaringan (Jakarta)", level: "district", queryName: "Penjaringan, Jakarta, Indonesia", type: "area", coords: [-6.12612, 106.78501], desc: "Layanan bore pile profesional untuk wilayah Penjaringan.", city: "Jakarta"  },
+  { name: "Pademangan (Jakarta)", level: "district", queryName: "Pademangan, Jakarta, Indonesia", type: "area", coords: [-6.13282, 106.83952], desc: "Layanan bore pile profesional untuk wilayah Pademangan.", city: "Jakarta"  },
+  { name: "Tanjung Priok (Jakarta)", level: "district", queryName: "Tanjung Priok, Jakarta, Indonesia", type: "area", coords: [-6.13694, 106.87362], desc: "Layanan bore pile profesional untuk wilayah Tanjung Priok.", city: "Jakarta"  },
+  { name: "Koja (Jakarta)", level: "district", queryName: "Koja, Jakarta, Indonesia", type: "area", coords: [-6.12558, 106.90653], desc: "Layanan bore pile profesional untuk wilayah Koja.", city: "Jakarta"  },
+  { name: "Kelapa Gading (Jakarta)", level: "district", queryName: "Kelapa Gading, Jakarta, Indonesia", type: "area", coords: [-6.16065, 106.90288], desc: "Layanan bore pile profesional untuk wilayah Kelapa Gading.", city: "Jakarta"  },
+  { name: "Cilincing (Jakarta)", level: "district", queryName: "Cilincing, Jakarta, Indonesia", type: "area", coords: [-6.1279, 106.94536], desc: "Layanan bore pile profesional untuk wilayah Cilincing.", city: "Jakarta"  },
+  { name: "Matraman (Jakarta)", level: "district", queryName: "Matraman, Jakarta, Indonesia", type: "area", coords: [-6.20285, 106.8645], desc: "Layanan bore pile profesional untuk wilayah Matraman.", city: "Jakarta"  },
+  { name: "Pulo Gadung (Jakarta)", level: "district", queryName: "Pulo Gadung, Jakarta, Indonesia", type: "area", coords: [-6.19754, 106.8897], desc: "Layanan bore pile profesional untuk wilayah Pulo Gadung.", city: "Jakarta"  },
+  { name: "Jatinegara (Jakarta)", level: "district", queryName: "Jatinegara, Jakarta, Indonesia", type: "area", coords: [-6.22735, 106.87775], desc: "Layanan bore pile profesional untuk wilayah Jatinegara.", city: "Jakarta"  },
+  { name: "Duren Sawit (Jakarta)", level: "district", queryName: "Duren Sawit, Jakarta, Indonesia", type: "area", coords: [-6.23153, 106.91513], desc: "Layanan bore pile profesional untuk wilayah Duren Sawit.", city: "Jakarta"  },
+  { name: "Kramat Jati (Jakarta)", level: "district", queryName: "Kramat Jati, Jakarta, Indonesia", type: "area", coords: [-6.28203, 106.86153], desc: "Layanan bore pile profesional untuk wilayah Kramat Jati.", city: "Jakarta"  },
+  { name: "Makasar (Jakarta)", level: "district", queryName: "Makasar, Jakarta, Indonesia", type: "area", coords: [-6.25669, 106.8891], desc: "Layanan bore pile profesional untuk wilayah Makasar.", city: "Jakarta"  },
+  { name: "Pasar Rebo (Jakarta)", level: "district", queryName: "Pasar Rebo, Jakarta, Indonesia", type: "area", coords: [-6.32802, 106.8537], desc: "Layanan bore pile profesional untuk wilayah Pasar Rebo.", city: "Jakarta"  },
+  { name: "Ciracas (Jakarta)", level: "district", queryName: "Ciracas, Jakarta, Indonesia", type: "area", coords: [-6.32413, 106.87591], desc: "Layanan bore pile profesional untuk wilayah Ciracas.", city: "Jakarta"  },
+  { name: "Cipayung (Jakarta)", level: "district", queryName: "Cipayung, Jakarta, Indonesia", type: "area", coords: [-6.31623, 106.90377], desc: "Layanan bore pile profesional untuk wilayah Cipayung.", city: "Jakarta"  },
+  { name: "Cakung (Jakarta)", level: "district", queryName: "Cakung, Jakarta, Indonesia", type: "area", coords: [-6.18747, 106.94573], desc: "Layanan bore pile profesional untuk wilayah Cakung.", city: "Jakarta"  },
+  { name: "Kecamatan Babelan (Bekasi)", level: "district", queryName: "Kecamatan Babelan, Bekasi, Jawa Barat", type: "area", coords: [-6.166, 107.02898], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Babelan.", city: "Bekasi"  },
+  { name: "Kecamatan Cibitung (Bekasi)", level: "district", queryName: "Kecamatan Cibitung, Bekasi, Jawa Barat", type: "area", coords: [-6.23122, 107.10907], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cibitung.", city: "Bekasi"  },
+  { name: "Kecamatan Tarumajaya (Bekasi)", level: "district", queryName: "Kecamatan Tarumajaya, Bekasi, Jawa Barat", type: "area", coords: [-6.11359, 106.99651], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tarumajaya.", city: "Bekasi"  },
+  { name: "Kecamatan Cikarang Barat (Bekasi)", level: "district", queryName: "Kecamatan Cikarang Barat, Bekasi, Jawa Barat", type: "area", coords: [-6.30748, 107.09061], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cikarang Barat.", city: "Bekasi"  },
+  { name: "Kecamatan Cikarang Pusat (Bekasi)", level: "district", queryName: "Kecamatan Cikarang Pusat, Bekasi, Jawa Barat", type: "area", coords: [-6.37107, 107.18593], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cikarang Pusat.", city: "Bekasi"  },
+  { name: "Kecamatan Cikarang Selatan (Bekasi)", level: "district", queryName: "Kecamatan Cikarang Selatan, Bekasi, Jawa Barat", type: "area", coords: [-6.3301, 107.13319], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cikarang Selatan.", city: "Bekasi"  },
+  { name: "Kecamatan Cikarang Timur (Bekasi)", level: "district", queryName: "Kecamatan Cikarang Timur, Bekasi, Jawa Barat", type: "area", coords: [-6.28915, 107.20601], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cikarang Timur.", city: "Bekasi"  },
+  { name: "Kecamatan Cikarang Utara (Bekasi)", level: "district", queryName: "Kecamatan Cikarang Utara, Bekasi, Jawa Barat", type: "area", coords: [-6.26812, 107.16261], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cikarang Utara.", city: "Bekasi"  },
+  { name: "Kecamatan Tambun Selatan (Bekasi)", level: "district", queryName: "Kecamatan Tambun Selatan, Bekasi, Jawa Barat", type: "area", coords: [-6.26568, 107.04651], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tambun Selatan.", city: "Bekasi"  },
+  { name: "Kecamatan Bantar Gebang (Bekasi)", level: "district", queryName: "Kecamatan Bantar Gebang, Bekasi, Jawa Barat", type: "area", coords: [-6.34211, 106.98967], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Bantar Gebang.", city: "Bekasi"  },
+  { name: "Kecamatan Bekasi Barat (Bekasi)", level: "district", queryName: "Kecamatan Bekasi Barat, Bekasi, Jawa Barat", type: "area", coords: [-6.23444, 106.96287], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Bekasi Barat.", city: "Bekasi"  },
+  { name: "Kecamatan Bekasi Selatan (Bekasi)", level: "district", queryName: "Kecamatan Bekasi Selatan, Bekasi, Jawa Barat", type: "area", coords: [-6.26657, 106.96999], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Bekasi Selatan.", city: "Bekasi"  },
+  { name: "Kecamatan Bekasi Timur (Bekasi)", level: "district", queryName: "Kecamatan Bekasi Timur, Bekasi, Jawa Barat", type: "area", coords: [-6.23842, 107.02141], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Bekasi Timur.", city: "Bekasi"  },
+  { name: "Kecamatan Bekasi Utara (Bekasi)", level: "district", queryName: "Kecamatan Bekasi Utara, Bekasi, Jawa Barat", type: "area", coords: [-6.21083, 107.00525], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Bekasi Utara.", city: "Bekasi"  },
+  { name: "Kecamatan Jatiasih (Bekasi)", level: "district", queryName: "Kecamatan Jatiasih, Bekasi, Jawa Barat", type: "area", coords: [-6.29547, 106.95407], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Jatiasih.", city: "Bekasi"  },
+  { name: "Kecamatan Jatisampurna (Bekasi)", level: "district", queryName: "Kecamatan Jatisampurna, Bekasi, Jawa Barat", type: "area", coords: [-6.36298, 106.92867], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Jatisampurna.", city: "Bekasi"  },
+  { name: "Kecamatan Medan Satria (Bekasi)", level: "district", queryName: "Kecamatan Medan Satria, Bekasi, Jawa Barat", type: "area", coords: [-6.18364, 106.9828], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Medan Satria.", city: "Bekasi"  },
+  { name: "Kecamatan Mustika Jaya (Bekasi)", level: "district", queryName: "Kecamatan Mustika Jaya, Bekasi, Jawa Barat", type: "area", coords: [-6.30451, 107.01794], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Mustika Jaya.", city: "Bekasi"  },
+  { name: "Kecamatan Pondok Gede (Bekasi)", level: "district", queryName: "Kecamatan Pondok Gede, Bekasi, Jawa Barat", type: "area", coords: [-6.26994, 106.92392], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Pondok Gede.", city: "Bekasi"  },
+  { name: "Kecamatan Pondok Melati (Bekasi)", level: "district", queryName: "Kecamatan Pondok Melati, Bekasi, Jawa Barat", type: "area", coords: [-6.3208, 106.93144], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Pondok Melati.", city: "Bekasi"  },
+  { name: "Kecamatan Rawalumbu (Bekasi)", level: "district", queryName: "Kecamatan Rawalumbu, Bekasi, Jawa Barat", type: "area", coords: [-6.2713, 107.00201], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Rawalumbu.", city: "Bekasi"  },
+  { name: "Kecamatan Beji (Depok)", level: "district", queryName: "Kecamatan Beji, Depok, Jawa Barat", type: "area", coords: [-6.37546, 106.81911], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Beji.", city: "Depok"  },
+  { name: "Kecamatan Bojongsari (Depok)", level: "district", queryName: "Kecamatan Bojongsari, Depok, Jawa Barat", type: "area", coords: [-6.37207, 106.73423], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Bojongsari.", city: "Depok"  },
+  { name: "Kecamatan Cilodong (Depok)", level: "district", queryName: "Kecamatan Cilodong, Depok, Jawa Barat", type: "area", coords: [-6.43526, 106.83161], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cilodong.", city: "Depok"  },
+  { name: "Kecamatan Cimanggis (Depok)", level: "district", queryName: "Kecamatan Cimanggis, Depok, Jawa Barat", type: "area", coords: [-6.36175, 106.85042], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cimanggis.", city: "Depok"  },
+  { name: "Kecamatan Cinere (Depok)", level: "district", queryName: "Kecamatan Cinere, Depok, Jawa Barat", type: "area", coords: [-6.33448, 106.7879], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cinere.", city: "Depok"  },
+  { name: "Kecamatan Cipayung (Depok)", level: "district", queryName: "Kecamatan Cipayung, Depok, Jawa Barat", type: "area", coords: [-6.42691, 106.80146], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cipayung.", city: "Depok"  },
+  { name: "Kecamatan Limo (Depok)", level: "district", queryName: "Kecamatan Limo, Depok, Jawa Barat", type: "area", coords: [-6.37158, 106.78278], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Limo.", city: "Depok"  },
+  { name: "Kecamatan Pancoran Mas (Depok)", level: "district", queryName: "Kecamatan Pancoran Mas, Depok, Jawa Barat", type: "area", coords: [-6.39829, 106.79182], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Pancoran Mas.", city: "Depok"  },
+  { name: "Kecamatan Sawangan (Depok)", level: "district", queryName: "Kecamatan Sawangan, Depok, Jawa Barat", type: "area", coords: [-6.41761, 106.76554], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sawangan.", city: "Depok"  },
+  { name: "Kecamatan Sukmajaya (Depok)", level: "district", queryName: "Kecamatan Sukmajaya, Depok, Jawa Barat", type: "area", coords: [-6.38478, 106.85034], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sukmajaya.", city: "Depok"  },
+  { name: "Kecamatan Tapos (Depok)", level: "district", queryName: "Kecamatan Tapos, Depok, Jawa Barat", type: "area", coords: [-6.41392, 106.87957], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tapos.", city: "Depok"  },
+  { name: "Kecamatan Babakan Madang (Bogor)", level: "district", queryName: "Kecamatan Babakan Madang, Bogor, Jawa Barat", type: "area", coords: [-6.60283, 106.91123], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Babakan Madang.", city: "Bogor" },
+  { name: "Kecamatan Bojong Gede (Bogor)", level: "district", queryName: "Kecamatan Bojong Gede, Bogor, Jawa Barat", type: "area", coords: [-6.46673, 106.79966], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Bojong Gede.", city: "Bogor" },
+  { name: "Kecamatan Caringin (Bogor)", level: "district", queryName: "Kecamatan Caringin, Bogor, Jawa Barat", type: "area", coords: [-6.73459, 106.8515], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Caringin.", city: "Bogor" },
+  { name: "Kecamatan Cariu (Bogor)", level: "district", queryName: "Kecamatan Cariu, Bogor, Jawa Barat", type: "area", coords: [-6.52954, 107.13648], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cariu.", city: "Bogor" },
+  { name: "Kecamatan Ciampea (Bogor)", level: "district", queryName: "Kecamatan Ciampea, Bogor, Jawa Barat", type: "area", coords: [-6.5713, 106.70349], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Ciampea.", city: "Bogor" },
+  { name: "Kecamatan Ciawi (Bogor)", level: "district", queryName: "Kecamatan Ciawi, Bogor, Jawa Barat", type: "area", coords: [-6.71286, 106.89413], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Ciawi.", city: "Bogor" },
+  { name: "Kecamatan Cibinong (Bogor)", level: "district", queryName: "Kecamatan Cibinong, Bogor, Jawa Barat", type: "area", coords: [-6.48009, 106.83864], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cibinong.", city: "Bogor" },
+  { name: "Kecamatan Cibungbulang (Bogor)", level: "district", queryName: "Kecamatan Cibungbulang, Bogor, Jawa Barat", type: "area", coords: [-6.56597, 106.65861], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cibungbulang.", city: "Bogor" },
+  { name: "Kecamatan Cigombong (Bogor)", level: "district", queryName: "Kecamatan Cigombong, Bogor, Jawa Barat", type: "area", coords: [-6.73315, 106.79437], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cigombong.", city: "Bogor" },
+  { name: "Kecamatan Cigudeg (Bogor)", level: "district", queryName: "Kecamatan Cigudeg, Bogor, Jawa Barat", type: "area", coords: [-6.48528, 106.55348], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cigudeg.", city: "Bogor" },
+  { name: "Kecamatan Cijeruk (Bogor)", level: "district", queryName: "Kecamatan Cijeruk, Bogor, Jawa Barat", type: "area", coords: [-6.68647, 106.7814], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cijeruk.", city: "Bogor" },
+  { name: "Kecamatan Cileungsi (Bogor)", level: "district", queryName: "Kecamatan Cileungsi, Bogor, Jawa Barat", type: "area", coords: [-6.41086, 106.98316], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cileungsi.", city: "Bogor" },
+  { name: "Kecamatan Ciomas (Bogor)", level: "district", queryName: "Kecamatan Ciomas, Bogor, Jawa Barat", type: "area", coords: [-6.60307, 106.75779], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Ciomas.", city: "Bogor" },
+  { name: "Kecamatan Cisarua (Bogor)", level: "district", queryName: "Kecamatan Cisarua, Bogor, Jawa Barat", type: "area", coords: [-6.70372, 106.96402], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cisarua.", city: "Bogor" },
+  { name: "Kecamatan Ciseeng (Bogor)", level: "district", queryName: "Kecamatan Ciseeng, Bogor, Jawa Barat", type: "area", coords: [-6.4526, 106.67984], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Ciseeng.", city: "Bogor" },
+  { name: "Kecamatan Citeureup (Bogor)", level: "district", queryName: "Kecamatan Citeureup, Bogor, Jawa Barat", type: "area", coords: [-6.53197, 106.8885], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Citeureup.", city: "Bogor" },
+  { name: "Kecamatan Dramaga (Bogor)", level: "district", queryName: "Kecamatan Dramaga, Bogor, Jawa Barat", type: "area", coords: [-6.61394, 106.72488], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Dramaga.", city: "Bogor" },
+  { name: "Kecamatan Gunung Putri (Bogor)", level: "district", queryName: "Kecamatan Gunung Putri, Bogor, Jawa Barat", type: "area", coords: [-6.43319, 106.91583], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Gunung Putri.", city: "Bogor" },
+  { name: "Kecamatan Gunung Sindur (Bogor)", level: "district", queryName: "Kecamatan Gunung Sindur, Bogor, Jawa Barat", type: "area", coords: [-6.38541, 106.68355], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Gunung Sindur.", city: "Bogor" },
+  { name: "Kecamatan Jasinga (Bogor)", level: "district", queryName: "Kecamatan Jasinga, Bogor, Jawa Barat", type: "area", coords: [-6.50389, 106.45338], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Jasinga.", city: "Bogor" },
+  { name: "Kecamatan Jonggol (Bogor)", level: "district", queryName: "Kecamatan Jonggol, Bogor, Jawa Barat", type: "area", coords: [-6.48151, 107.03879], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Jonggol.", city: "Bogor" },
+  { name: "Kecamatan Kelapa Nunggal (Bogor)", level: "district", queryName: "Kecamatan Kelapa Nunggal, Bogor, Jawa Barat", type: "area", coords: [-6.48841, 106.95082], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Kelapa Nunggal.", city: "Bogor" },
+  { name: "Kecamatan Kemang (Bogor)", level: "district", queryName: "Kecamatan Kemang, Bogor, Jawa Barat", type: "area", coords: [-6.49123, 106.72518], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Kemang.", city: "Bogor" },
+  { name: "Kecamatan Leuwiliang (Bogor)", level: "district", queryName: "Kecamatan Leuwiliang, Bogor, Jawa Barat", type: "area", coords: [-6.63396, 106.60761], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Leuwiliang.", city: "Bogor" },
+  { name: "Kecamatan Leuwisadeng (Bogor)", level: "district", queryName: "Kecamatan Leuwisadeng, Bogor, Jawa Barat", type: "area", coords: [-6.56595, 106.59399], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Leuwisadeng.", city: "Bogor" },
+  { name: "Kecamatan Megamendung (Bogor)", level: "district", queryName: "Kecamatan Megamendung, Bogor, Jawa Barat", type: "area", coords: [-6.65124, 106.9609], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Megamendung.", city: "Bogor" },
+  { name: "Kecamatan Nanggung (Bogor)", level: "district", queryName: "Kecamatan Nanggung, Bogor, Jawa Barat", type: "area", coords: [-6.65713, 106.54954], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Nanggung.", city: "Bogor" },
+  { name: "Kecamatan Pamijahan (Bogor)", level: "district", queryName: "Kecamatan Pamijahan, Bogor, Jawa Barat", type: "area", coords: [-6.69318, 106.65781], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Pamijahan.", city: "Bogor" },
+  { name: "Kecamatan Parung (Bogor)", level: "district", queryName: "Kecamatan Parung, Bogor, Jawa Barat", type: "area", coords: [-6.43044, 106.71512], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Parung.", city: "Bogor" },
+  { name: "Kecamatan Parung Panjang (Bogor)", level: "district", queryName: "Kecamatan Parung Panjang, Bogor, Jawa Barat", type: "area", coords: [-6.37756, 106.55427], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Parung Panjang.", city: "Bogor" },
+  { name: "Kecamatan Ranca Bungur (Bogor)", level: "district", queryName: "Kecamatan Ranca Bungur, Bogor, Jawa Barat", type: "area", coords: [-6.52915, 106.71541], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Ranca Bungur.", city: "Bogor" },
+  { name: "Kecamatan Rumpin (Bogor)", level: "district", queryName: "Kecamatan Rumpin, Bogor, Jawa Barat", type: "area", coords: [-6.50455, 106.63895], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Rumpin.", city: "Bogor" },
+  { name: "Kecamatan Sukajaya (Bogor)", level: "district", queryName: "Kecamatan Sukajaya, Bogor, Jawa Barat", type: "area", coords: [-6.60056, 106.47235], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sukajaya.", city: "Bogor" },
+  { name: "Kecamatan Sukamakmur (Bogor)", level: "district", queryName: "Kecamatan Sukamakmur, Bogor, Jawa Barat", type: "area", coords: [-6.62231, 107.01725], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sukamakmur.", city: "Bogor" },
+  { name: "Kecamatan Sukaraja (Bogor)", level: "district", queryName: "Kecamatan Sukaraja, Bogor, Jawa Barat", type: "area", coords: [-6.53254, 106.83111], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sukaraja.", city: "Bogor" },
+  { name: "Kecamatan Tajur Halang (Bogor)", level: "district", queryName: "Kecamatan Tajur Halang, Bogor, Jawa Barat", type: "area", coords: [-6.46896, 106.75904], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tajur Halang.", city: "Bogor" },
+  { name: "Kecamatan Tamansari (Bogor)", level: "district", queryName: "Kecamatan Tamansari, Bogor, Jawa Barat", type: "area", coords: [-6.65192, 106.7424], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tamansari.", city: "Bogor" },
+  { name: "Kecamatan Tanjungsari (Bogor)", level: "district", queryName: "Kecamatan Tanjungsari, Bogor, Jawa Barat", type: "area", coords: [-6.61154, 107.12822], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tanjungsari.", city: "Bogor" },
+  { name: "Kecamatan Tenjo (Bogor)", level: "district", queryName: "Kecamatan Tenjo, Bogor, Jawa Barat", type: "area", coords: [-6.35549, 106.4537], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tenjo.", city: "Bogor" },
+  { name: "Kecamatan Tenjolaya (Bogor)", level: "district", queryName: "Kecamatan Tenjolaya, Bogor, Jawa Barat", type: "area", coords: [-6.67787, 106.71201], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tenjolaya.", city: "Bogor" },
+  { name: "Kecamatan Balaraja (Tangerang)", level: "district", queryName: "Kecamatan Balaraja, Tangerang, Banten", type: "area", coords: [-6.20707, 106.44098], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Balaraja.", city: "Tangerang" },
+  { name: "Kecamatan Cikupa (Tangerang)", level: "district", queryName: "Kecamatan Cikupa, Tangerang, Banten", type: "area", coords: [-6.22183, 106.5173], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cikupa.", city: "Tangerang" },
+  { name: "Kecamatan Cisauk (Tangerang)", level: "district", queryName: "Kecamatan Cisauk, Tangerang, Banten", type: "area", coords: [-6.34375, 106.62962], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cisauk.", city: "Tangerang" },
+  { name: "Kecamatan Cisoka (Tangerang)", level: "district", queryName: "Kecamatan Cisoka, Tangerang, Banten", type: "area", coords: [-6.25824, 106.41895], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Cisoka.", city: "Tangerang" },
+  { name: "Kecamatan Curug (Tangerang)", level: "district", queryName: "Kecamatan Curug, Tangerang, Banten", type: "area", coords: [-6.24984, 106.5644], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Curug.", city: "Tangerang" },
+  { name: "Kecamatan Gunung Kaler (Tangerang)", level: "district", queryName: "Kecamatan Gunung Kaler, Tangerang, Banten", type: "area", coords: [-6.0889, 106.37079], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Gunung Kaler.", city: "Tangerang" },
+  { name: "Kecamatan Jambe (Tangerang)", level: "district", queryName: "Kecamatan Jambe, Tangerang, Banten", type: "area", coords: [-6.30987, 106.49296], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Jambe.", city: "Tangerang" },
+  { name: "Kecamatan Jayanti (Tangerang)", level: "district", queryName: "Kecamatan Jayanti, Tangerang, Banten", type: "area", coords: [-6.20374, 106.39671], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Jayanti.", city: "Tangerang" },
+  { name: "Kecamatan Kelapa Dua (Tangerang)", level: "district", queryName: "Kecamatan Kelapa Dua, Tangerang, Banten", type: "area", coords: [-6.24009, 106.619], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Kelapa Dua.", city: "Tangerang" },
+  { name: "Kecamatan Kemiri (Tangerang)", level: "district", queryName: "Kecamatan Kemiri, Tangerang, Banten", type: "area", coords: [-6.0736, 106.46556], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Kemiri.", city: "Tangerang" },
+  { name: "Kecamatan Kosambi (Tangerang)", level: "district", queryName: "Kecamatan Kosambi, Tangerang, Banten", type: "area", coords: [-6.07529, 106.69194], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Kosambi.", city: "Tangerang" },
+  { name: "Kecamatan Kresek (Tangerang)", level: "district", queryName: "Kecamatan Kresek, Tangerang, Banten", type: "area", coords: [-6.14031, 106.40318], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Kresek.", city: "Tangerang" },
+  { name: "Kecamatan Kronjo (Tangerang)", level: "district", queryName: "Kecamatan Kronjo, Tangerang, Banten", type: "area", coords: [-6.05267, 106.42862], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Kronjo.", city: "Tangerang" },
+  { name: "Kecamatan Legok (Tangerang)", level: "district", queryName: "Kecamatan Legok, Tangerang, Banten", type: "area", coords: [-6.29184, 106.57297], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Legok.", city: "Tangerang" },
+  { name: "Kecamatan Mauk (Tangerang)", level: "district", queryName: "Kecamatan Mauk, Tangerang, Banten", type: "area", coords: [-6.06066, 106.51831], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Mauk.", city: "Tangerang" },
+  { name: "Kecamatan Mekarbaru (Tangerang)", level: "district", queryName: "Kecamatan Mekarbaru, Tangerang, Banten", type: "area", coords: [-6.05287, 106.38411], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Mekarbaru.", city: "Tangerang" },
+  { name: "Kecamatan Pagedangan (Tangerang)", level: "district", queryName: "Kecamatan Pagedangan, Tangerang, Banten", type: "area", coords: [-6.28701, 106.62415], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Pagedangan.", city: "Tangerang" },
+  { name: "Kecamatan Pakuhaji (Tangerang)", level: "district", queryName: "Kecamatan Pakuhaji, Tangerang, Banten", type: "area", coords: [-6.06395, 106.60518], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Pakuhaji.", city: "Tangerang" },
+  { name: "Kecamatan Panongan (Tangerang)", level: "district", queryName: "Kecamatan Panongan, Tangerang, Banten", type: "area", coords: [-6.28496, 106.53148], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Panongan.", city: "Tangerang" },
+  { name: "Kecamatan Pasar Kemis (Tangerang)", level: "district", queryName: "Kecamatan Pasar Kemis, Tangerang, Banten", type: "area", coords: [-6.15593, 106.55526], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Pasar Kemis.", city: "Tangerang" },
+  { name: "Kecamatan Rajeg (Tangerang)", level: "district", queryName: "Kecamatan Rajeg, Tangerang, Banten", type: "area", coords: [-6.11536, 106.51443], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Rajeg.", city: "Tangerang" },
+  { name: "Kecamatan Sepatan (Tangerang)", level: "district", queryName: "Kecamatan Sepatan, Tangerang, Banten", type: "area", coords: [-6.12846, 106.5783], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sepatan.", city: "Tangerang" },
+  { name: "Kecamatan Sepatan Timur (Tangerang)", level: "district", queryName: "Kecamatan Sepatan Timur, Tangerang, Banten", type: "area", coords: [-6.11259, 106.60834], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sepatan Timur.", city: "Tangerang" },
+  { name: "Kecamatan Sindang Jaya (Tangerang)", level: "district", queryName: "Kecamatan Sindang Jaya, Tangerang, Banten", type: "area", coords: [-6.17319, 106.50529], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sindang Jaya.", city: "Tangerang" },
+  { name: "Kecamatan Solear (Tangerang)", level: "district", queryName: "Kecamatan Solear, Tangerang, Banten", type: "area", coords: [-6.30949, 106.414], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Solear.", city: "Tangerang" },
+  { name: "Kecamatan Sukadiri (Tangerang)", level: "district", queryName: "Kecamatan Sukadiri, Tangerang, Banten", type: "area", coords: [-6.08409, 106.5608], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sukadiri.", city: "Tangerang" },
+  { name: "Kecamatan Sukamulya (Tangerang)", level: "district", queryName: "Kecamatan Sukamulya, Tangerang, Banten", type: "area", coords: [-6.16952, 106.42922], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Sukamulya.", city: "Tangerang" },
+  { name: "Kecamatan Teluknaga (Tangerang)", level: "district", queryName: "Kecamatan Teluknaga, Tangerang, Banten", type: "area", coords: [-6.04434, 106.65597], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Teluknaga.", city: "Tangerang" },
+  { name: "Kecamatan Tigaraksa (Tangerang)", level: "district", queryName: "Kecamatan Tigaraksa, Tangerang, Banten", type: "area", coords: [-6.24245, 106.4626], desc: "Layanan bore pile profesional untuk wilayah Kecamatan Tigaraksa.", city: "Tangerang" },
+  // KARAWANG
+  {"name":"Kecamatan Banyusari (Karawang)","level":"district","queryName":"Kecamatan Banyusari, Karawang, Jawa Barat","type":"area","coords":[-6.2917,107.5681],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Banyusari.","city":"Karawang"},
+  {"name":"Kecamatan Batujaya (Karawang)","level":"district","queryName":"Kecamatan Batujaya, Karawang, Jawa Barat","type":"area","coords":[-6.0594,107.1894],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Batujaya.","city":"Karawang"},
+  {"name":"Kecamatan Ciampel (Karawang)","level":"district","queryName":"Kecamatan Ciampel, Karawang, Jawa Barat","type":"area","coords":[-6.4172,107.3197],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ciampel.","city":"Karawang"},
+  {"name":"Kecamatan Cibuaya (Karawang)","level":"district","queryName":"Kecamatan Cibuaya, Karawang, Jawa Barat","type":"area","coords":[-6.0306,107.2911],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cibuaya.","city":"Karawang"},
+  {"name":"Kecamatan Cikampek (Karawang)","level":"district","queryName":"Kecamatan Cikampek, Karawang, Jawa Barat","type":"area","coords":[-6.4022,107.4561],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cikampek.","city":"Karawang"},
+  {"name":"Kecamatan Cilamaya Kulon (Karawang)","level":"district","queryName":"Kecamatan Cilamaya Kulon, Karawang, Jawa Barat","type":"area","coords":[-6.23,107.53],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cilamaya Kulon.","city":"Karawang"},
+  {"name":"Kecamatan Cilamaya Wetan (Karawang)","level":"district","queryName":"Kecamatan Cilamaya Wetan, Karawang, Jawa Barat","type":"area","coords":[-6.25,107.56],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cilamaya Wetan.","city":"Karawang"},
+  {"name":"Kecamatan Cilebar (Karawang)","level":"district","queryName":"Kecamatan Cilebar, Karawang, Jawa Barat","type":"area","coords":[-6.1822,107.3694],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cilebar.","city":"Karawang"},
+  {"name":"Kecamatan Jatisari (Karawang)","level":"district","queryName":"Kecamatan Jatisari, Karawang, Jawa Barat","type":"area","coords":[-6.3778,107.5133],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Jatisari.","city":"Karawang"},
+  {"name":"Kecamatan Jayakerta (Karawang)","level":"district","queryName":"Kecamatan Jayakerta, Karawang, Jawa Barat","type":"area","coords":[-6.1283,107.2417],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Jayakerta.","city":"Karawang"},
+  {"name":"Kecamatan Karawang Barat (Karawang)","level":"district","queryName":"Kecamatan Karawang Barat, Karawang, Jawa Barat","type":"area","coords":[-6.3055,107.2796],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Karawang Barat.","city":"Karawang"},
+  {"name":"Kecamatan Karawang Timur (Karawang)","level":"district","queryName":"Kecamatan Karawang Timur, Karawang, Jawa Barat","type":"area","coords":[-6.3211,107.3375],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Karawang Timur.","city":"Karawang"},
+  {"name":"Kecamatan Klari (Karawang)","level":"district","queryName":"Kecamatan Klari, Karawang, Jawa Barat","type":"area","coords":[-6.3533,107.3683],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Klari.","city":"Karawang"},
+  {"name":"Kecamatan Kotabaru (Karawang)","level":"district","queryName":"Kecamatan Kotabaru, Karawang, Jawa Barat","type":"area","coords":[-6.3861,107.4478],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kotabaru.","city":"Karawang"},
+  {"name":"Kecamatan Kutawaluya (Karawang)","level":"district","queryName":"Kecamatan Kutawaluya, Karawang, Jawa Barat","type":"area","coords":[-6.1436,107.3061],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kutawaluya.","city":"Karawang"},
+  {"name":"Kecamatan Lemahabang (Karawang)","level":"district","queryName":"Kecamatan Lemahabang, Karawang, Jawa Barat","type":"area","coords":[-6.2872,107.4428],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Lemahabang.","city":"Karawang"},
+  {"name":"Kecamatan Majalaya (Karawang)","level":"district","queryName":"Kecamatan Majalaya, Karawang, Jawa Barat","type":"area","coords":[-6.3283,107.3789],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Majalaya.","city":"Karawang"},
+  {"name":"Kecamatan Pakisjaya (Karawang)","level":"district","queryName":"Kecamatan Pakisjaya, Karawang, Jawa Barat","type":"area","coords":[-6.0125,107.1511],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pakisjaya.","city":"Karawang"},
+  {"name":"Kecamatan Pangkalan (Karawang)","level":"district","queryName":"Kecamatan Pangkalan, Karawang, Jawa Barat","type":"area","coords":[-6.495,107.2289],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pangkalan.","city":"Karawang"},
+  {"name":"Kecamatan Pedes (Karawang)","level":"district","queryName":"Kecamatan Pedes, Karawang, Jawa Barat","type":"area","coords":[-6.0792,107.3653],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pedes.","city":"Karawang"},
+  {"name":"Kecamatan Purwasari (Karawang)","level":"district","queryName":"Kecamatan Purwasari, Karawang, Jawa Barat","type":"area","coords":[-6.3717,107.4083],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Purwasari.","city":"Karawang"},
+  {"name":"Kecamatan Rawamerta (Karawang)","level":"district","queryName":"Kecamatan Rawamerta, Karawang, Jawa Barat","type":"area","coords":[-6.2369,107.3236],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Rawamerta.","city":"Karawang"},
+  {"name":"Kecamatan Rengasdengklok (Karawang)","level":"district","queryName":"Kecamatan Rengasdengklok, Karawang, Jawa Barat","type":"area","coords":[-6.1558,107.2842],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Rengasdengklok.","city":"Karawang"},
+  {"name":"Kecamatan Tegalwaru (Karawang)","level":"district","queryName":"Kecamatan Tegalwaru, Karawang, Jawa Barat","type":"area","coords":[-6.5511,107.2344],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tegalwaru.","city":"Karawang"},
+  {"name":"Kecamatan Telagasari (Karawang)","level":"district","queryName":"Kecamatan Telagasari, Karawang, Jawa Barat","type":"area","coords":[-6.2736,107.3917],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Telagasari.","city":"Karawang"},
+  {"name":"Kecamatan Telukjambe Barat (Karawang)","level":"district","queryName":"Kecamatan Telukjambe Barat, Karawang, Jawa Barat","type":"area","coords":[-6.3531,107.2386],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Telukjambe Barat.","city":"Karawang"},
+  {"name":"Kecamatan Telukjambe Timur (Karawang)","level":"district","queryName":"Kecamatan Telukjambe Timur, Karawang, Jawa Barat","type":"area","coords":[-6.3369,107.2917],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Telukjambe Timur.","city":"Karawang"},
+  {"name":"Kecamatan Tempuran (Karawang)","level":"district","queryName":"Kecamatan Tempuran, Karawang, Jawa Barat","type":"area","coords":[-6.1969,107.4481],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tempuran.","city":"Karawang"},
+  {"name":"Kecamatan Tirtajaya (Karawang)","level":"district","queryName":"Kecamatan Tirtajaya, Karawang, Jawa Barat","type":"area","coords":[-6.0592,107.2478],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tirtajaya.","city":"Karawang"},
+  {"name":"Kecamatan Tirtamulya (Karawang)","level":"district","queryName":"Kecamatan Tirtamulya, Karawang, Jawa Barat","type":"area","coords":[-6.3667,107.4811],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tirtamulya.","city":"Karawang"}
+,
+  // PURWAKARTA
+  {"name":"Kecamatan Babakancikao (Purwakarta)","level":"district","queryName":"Kecamatan Babakancikao, Purwakarta, Jawa Barat","type":"area","coords":[-6.5167,107.4167],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Babakancikao.","city":"Purwakarta"},
+  {"name":"Kecamatan Bojong (Purwakarta)","level":"district","queryName":"Kecamatan Bojong, Purwakarta, Jawa Barat","type":"area","coords":[-6.6917,107.5167],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bojong.","city":"Purwakarta"},
+  {"name":"Kecamatan Bungursari (Purwakarta)","level":"district","queryName":"Kecamatan Bungursari, Purwakarta, Jawa Barat","type":"area","coords":[-6.4833,107.4667],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bungursari.","city":"Purwakarta"},
+  {"name":"Kecamatan Campaka (Purwakarta)","level":"district","queryName":"Kecamatan Campaka, Purwakarta, Jawa Barat","type":"area","coords":[-6.4917,107.5167],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Campaka.","city":"Purwakarta"},
+  {"name":"Kecamatan Cibatu (Purwakarta)","level":"district","queryName":"Kecamatan Cibatu, Purwakarta, Jawa Barat","type":"area","coords":[-6.4917,107.5667],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cibatu.","city":"Purwakarta"},
+  {"name":"Kecamatan Darangdan (Purwakarta)","level":"district","queryName":"Kecamatan Darangdan, Purwakarta, Jawa Barat","type":"area","coords":[-6.7167,107.45],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Darangdan.","city":"Purwakarta"},
+  {"name":"Kecamatan Jatiluhur (Purwakarta)","level":"district","queryName":"Kecamatan Jatiluhur, Purwakarta, Jawa Barat","type":"area","coords":[-6.55,107.3833],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Jatiluhur.","city":"Purwakarta"},
+  {"name":"Kecamatan Kiarapedes (Purwakarta)","level":"district","queryName":"Kecamatan Kiarapedes, Purwakarta, Jawa Barat","type":"area","coords":[-6.6667,107.5667],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kiarapedes.","city":"Purwakarta"},
+  {"name":"Kecamatan Maniis (Purwakarta)","level":"district","queryName":"Kecamatan Maniis, Purwakarta, Jawa Barat","type":"area","coords":[-6.6833,107.3167],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Maniis.","city":"Purwakarta"},
+  {"name":"Kecamatan Pasawahan (Purwakarta)","level":"district","queryName":"Kecamatan Pasawahan, Purwakarta, Jawa Barat","type":"area","coords":[-6.5833,107.4833],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pasawahan.","city":"Purwakarta"},
+  {"name":"Kecamatan Plered (Purwakarta)","level":"district","queryName":"Kecamatan Plered, Purwakarta, Jawa Barat","type":"area","coords":[-6.65,107.4],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Plered.","city":"Purwakarta"},
+  {"name":"Kecamatan Pondoksalam (Purwakarta)","level":"district","queryName":"Kecamatan Pondoksalam, Purwakarta, Jawa Barat","type":"area","coords":[-6.6167,107.5],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pondoksalam.","city":"Purwakarta"},
+  {"name":"Kecamatan Purwakarta (Purwakarta)","level":"district","queryName":"Kecamatan Purwakarta, Purwakarta, Jawa Barat","type":"area","coords":[-6.55,107.4333],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Purwakarta.","city":"Purwakarta"},
+  {"name":"Kecamatan Sukasari (Purwakarta)","level":"district","queryName":"Kecamatan Sukasari, Purwakarta, Jawa Barat","type":"area","coords":[-6.55,107.2833],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sukasari.","city":"Purwakarta"},
+  {"name":"Kecamatan Sukatani (Purwakarta)","level":"district","queryName":"Kecamatan Sukatani, Purwakarta, Jawa Barat","type":"area","coords":[-6.6167,107.4167],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sukatani.","city":"Purwakarta"},
+  {"name":"Kecamatan Tegalwaru (Purwakarta)","level":"district","queryName":"Kecamatan Tegalwaru, Purwakarta, Jawa Barat","type":"area","coords":[-6.6667,107.3667],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tegalwaru.","city":"Purwakarta"},
+  {"name":"Kecamatan Wanayasa (Purwakarta)","level":"district","queryName":"Kecamatan Wanayasa, Purwakarta, Jawa Barat","type":"area","coords":[-6.6667,107.5333],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Wanayasa.","city":"Purwakarta"}
+,
+  // BANTEN (Cilegon, Serang, Lebak, Pandeglang)
+  {"name":"Kecamatan Cibeber (Banten)","level":"district","queryName":"Kecamatan Cibeber, Banten, Indonesia","type":"area","coords":[-6.04,106.058],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cibeber, Banten.","city":"Banten"},
+  {"name":"Kecamatan Cilegon (Banten)","level":"district","queryName":"Kecamatan Cilegon, Banten, Indonesia","type":"area","coords":[-6.017,106.053],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cilegon, Banten.","city":"Banten"},
+  {"name":"Kecamatan Citangkil (Banten)","level":"district","queryName":"Kecamatan Citangkil, Banten, Indonesia","type":"area","coords":[-6.027,106.013],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Citangkil, Banten.","city":"Banten"},
+  {"name":"Kecamatan Ciwandan (Banten)","level":"district","queryName":"Kecamatan Ciwandan, Banten, Indonesia","type":"area","coords":[-6.061,105.952],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ciwandan, Banten.","city":"Banten"},
+  {"name":"Kecamatan Gerogol (Banten)","level":"district","queryName":"Kecamatan Gerogol, Banten, Indonesia","type":"area","coords":[-5.983,106.022],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gerogol, Banten.","city":"Banten"},
+  {"name":"Kecamatan Jombang (Banten)","level":"district","queryName":"Kecamatan Jombang, Banten, Indonesia","type":"area","coords":[-6.011,106.041],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Jombang, Banten.","city":"Banten"},
+  {"name":"Kecamatan Pulo Merak (Banten)","level":"district","queryName":"Kecamatan Pulo Merak, Banten, Indonesia","type":"area","coords":[-5.933,105.998],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pulo Merak, Banten.","city":"Banten"},
+  {"name":"Kecamatan Purwakarta (Cilegon)","level":"district","queryName":"Kecamatan Purwakarta (Cilegon), Banten, Indonesia","type":"area","coords":[-5.996,106.024],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Purwakarta (Cilegon), Banten.","city":"Banten"},
+  {"name":"Kecamatan Cipocok Jaya (Banten)","level":"district","queryName":"Kecamatan Cipocok Jaya, Banten, Indonesia","type":"area","coords":[-6.136,106.177],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cipocok Jaya, Banten.","city":"Banten"},
+  {"name":"Kecamatan Curug (Banten)","level":"district","queryName":"Kecamatan Curug, Banten, Indonesia","type":"area","coords":[-6.166,106.148],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Curug, Banten.","city":"Banten"},
+  {"name":"Kecamatan Kasemen (Banten)","level":"district","queryName":"Kecamatan Kasemen, Banten, Indonesia","type":"area","coords":[-6.05,106.157],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kasemen, Banten.","city":"Banten"},
+  {"name":"Kecamatan Serang (Banten)","level":"district","queryName":"Kecamatan Serang, Banten, Indonesia","type":"area","coords":[-6.12,106.15],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Serang, Banten.","city":"Banten"},
+  {"name":"Kecamatan Taktakan (Banten)","level":"district","queryName":"Kecamatan Taktakan, Banten, Indonesia","type":"area","coords":[-6.115,106.116],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Taktakan, Banten.","city":"Banten"},
+  {"name":"Kecamatan Walantaka (Banten)","level":"district","queryName":"Kecamatan Walantaka, Banten, Indonesia","type":"area","coords":[-6.121,106.216],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Walantaka, Banten.","city":"Banten"},
+  {"name":"Kecamatan Anyar (Banten)","level":"district","queryName":"Kecamatan Anyar, Banten, Indonesia","type":"area","coords":[-6.057,105.932],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Anyar, Banten.","city":"Banten"},
+  {"name":"Kecamatan Bojonegara (Banten)","level":"district","queryName":"Kecamatan Bojonegara, Banten, Indonesia","type":"area","coords":[-5.966,106.096],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bojonegara, Banten.","city":"Banten"},
+  {"name":"Kecamatan Cikande (Banten)","level":"district","queryName":"Kecamatan Cikande, Banten, Indonesia","type":"area","coords":[-6.141,106.331],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cikande, Banten.","city":"Banten"},
+  {"name":"Kecamatan Ciruas (Banten)","level":"district","queryName":"Kecamatan Ciruas, Banten, Indonesia","type":"area","coords":[-6.107,106.223],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ciruas, Banten.","city":"Banten"},
+  {"name":"Kecamatan Jawilan (Banten)","level":"district","queryName":"Kecamatan Jawilan, Banten, Indonesia","type":"area","coords":[-6.208,106.304],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Jawilan, Banten.","city":"Banten"},
+  {"name":"Kecamatan Kibin (Banten)","level":"district","queryName":"Kecamatan Kibin, Banten, Indonesia","type":"area","coords":[-6.122,106.291],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kibin, Banten.","city":"Banten"},
+  {"name":"Kecamatan Kragilan (Banten)","level":"district","queryName":"Kecamatan Kragilan, Banten, Indonesia","type":"area","coords":[-6.107,106.257],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kragilan, Banten.","city":"Banten"},
+  {"name":"Kecamatan Kramatwatu (Banten)","level":"district","queryName":"Kecamatan Kramatwatu, Banten, Indonesia","type":"area","coords":[-6.059,106.116],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kramatwatu, Banten.","city":"Banten"},
+  {"name":"Kecamatan Pulo Ampel (Banten)","level":"district","queryName":"Kecamatan Pulo Ampel, Banten, Indonesia","type":"area","coords":[-5.918,106.071],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pulo Ampel, Banten.","city":"Banten"},
+  {"name":"Kecamatan Rangkasbitung (Banten)","level":"district","queryName":"Kecamatan Rangkasbitung, Banten, Indonesia","type":"area","coords":[-6.357,106.25],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Rangkasbitung, Banten.","city":"Banten"},
+  {"name":"Kecamatan Pandeglang (Banten)","level":"district","queryName":"Kecamatan Pandeglang, Banten, Indonesia","type":"area","coords":[-6.308,106.106],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pandeglang, Banten.","city":"Banten"}
+,
+  // BANDUNG RAYA
+  {"name":"Kecamatan Andir","level":"district","queryName":"Kecamatan Andir, Bandung, Jawa Barat","type":"area","coords":[-6.914,107.579],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Andir.","city":"Bandung"},
+  {"name":"Kecamatan Antapani","level":"district","queryName":"Kecamatan Antapani, Bandung, Jawa Barat","type":"area","coords":[-6.914,107.656],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Antapani.","city":"Bandung"},
+  {"name":"Kecamatan Arcamanik","level":"district","queryName":"Kecamatan Arcamanik, Bandung, Jawa Barat","type":"area","coords":[-6.916,107.674],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Arcamanik.","city":"Bandung"},
+  {"name":"Kecamatan Astanaanyar","level":"district","queryName":"Kecamatan Astanaanyar, Bandung, Jawa Barat","type":"area","coords":[-6.935,107.596],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Astanaanyar.","city":"Bandung"},
+  {"name":"Kecamatan Babakanciparay","level":"district","queryName":"Kecamatan Babakanciparay, Bandung, Jawa Barat","type":"area","coords":[-6.937,107.576],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Babakanciparay.","city":"Bandung"},
+  {"name":"Kecamatan Bandung Kidul","level":"district","queryName":"Kecamatan Bandung Kidul, Bandung, Jawa Barat","type":"area","coords":[-6.958,107.625],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bandung Kidul.","city":"Bandung"},
+  {"name":"Kecamatan Bandung Kulon","level":"district","queryName":"Kecamatan Bandung Kulon, Bandung, Jawa Barat","type":"area","coords":[-6.924,107.56],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bandung Kulon.","city":"Bandung"},
+  {"name":"Kecamatan Bandung Wetan","level":"district","queryName":"Kecamatan Bandung Wetan, Bandung, Jawa Barat","type":"area","coords":[-6.904,107.616],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bandung Wetan.","city":"Bandung"},
+  {"name":"Kecamatan Batununggal","level":"district","queryName":"Kecamatan Batununggal, Bandung, Jawa Barat","type":"area","coords":[-6.932,107.631],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Batununggal.","city":"Bandung"},
+  {"name":"Kecamatan Bojongloa Kaler","level":"district","queryName":"Kecamatan Bojongloa Kaler, Bandung, Jawa Barat","type":"area","coords":[-6.937,107.589],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bojongloa Kaler.","city":"Bandung"},
+  {"name":"Kecamatan Bojongloa Kidul","level":"district","queryName":"Kecamatan Bojongloa Kidul, Bandung, Jawa Barat","type":"area","coords":[-6.953,107.595],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bojongloa Kidul.","city":"Bandung"},
+  {"name":"Kecamatan Buahbatu","level":"district","queryName":"Kecamatan Buahbatu, Bandung, Jawa Barat","type":"area","coords":[-6.951,107.653],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Buahbatu.","city":"Bandung"},
+  {"name":"Kecamatan Cibeunying Kaler","level":"district","queryName":"Kecamatan Cibeunying Kaler, Bandung, Jawa Barat","type":"area","coords":[-6.891,107.625],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cibeunying Kaler.","city":"Bandung"},
+  {"name":"Kecamatan Cibeunying Kidul","level":"district","queryName":"Kecamatan Cibeunying Kidul, Bandung, Jawa Barat","type":"area","coords":[-6.902,107.64],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cibeunying Kidul.","city":"Bandung"},
+  {"name":"Kecamatan Cibiru","level":"district","queryName":"Kecamatan Cibiru, Bandung, Jawa Barat","type":"area","coords":[-6.935,107.72],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cibiru.","city":"Bandung"},
+  {"name":"Kecamatan Cicendo","level":"district","queryName":"Kecamatan Cicendo, Bandung, Jawa Barat","type":"area","coords":[-6.903,107.591],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cicendo.","city":"Bandung"},
+  {"name":"Kecamatan Cidadap","level":"district","queryName":"Kecamatan Cidadap, Bandung, Jawa Barat","type":"area","coords":[-6.867,107.604],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cidadap.","city":"Bandung"},
+  {"name":"Kecamatan Cinambo","level":"district","queryName":"Kecamatan Cinambo, Bandung, Jawa Barat","type":"area","coords":[-6.935,107.69],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cinambo.","city":"Bandung"},
+  {"name":"Kecamatan Coblong","level":"district","queryName":"Kecamatan Coblong, Bandung, Jawa Barat","type":"area","coords":[-6.883,107.61],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Coblong.","city":"Bandung"},
+  {"name":"Kecamatan Gedebage","level":"district","queryName":"Kecamatan Gedebage, Bandung, Jawa Barat","type":"area","coords":[-6.947,107.69],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gedebage.","city":"Bandung"},
+  {"name":"Kecamatan Kiaracondong","level":"district","queryName":"Kecamatan Kiaracondong, Bandung, Jawa Barat","type":"area","coords":[-6.925,107.646],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kiaracondong.","city":"Bandung"},
+  {"name":"Kecamatan Lengkong","level":"district","queryName":"Kecamatan Lengkong, Bandung, Jawa Barat","type":"area","coords":[-6.931,107.616],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Lengkong.","city":"Bandung"},
+  {"name":"Kecamatan Mandalajati","level":"district","queryName":"Kecamatan Mandalajati, Bandung, Jawa Barat","type":"area","coords":[-6.903,107.671],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Mandalajati.","city":"Bandung"},
+  {"name":"Kecamatan Panyileukan","level":"district","queryName":"Kecamatan Panyileukan, Bandung, Jawa Barat","type":"area","coords":[-6.933,107.708],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Panyileukan.","city":"Bandung"},
+  {"name":"Kecamatan Rancasari","level":"district","queryName":"Kecamatan Rancasari, Bandung, Jawa Barat","type":"area","coords":[-6.946,107.67],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Rancasari.","city":"Bandung"},
+  {"name":"Kecamatan Regol","level":"district","queryName":"Kecamatan Regol, Bandung, Jawa Barat","type":"area","coords":[-6.935,107.608],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Regol.","city":"Bandung"},
+  {"name":"Kecamatan Sukajadi","level":"district","queryName":"Kecamatan Sukajadi, Bandung, Jawa Barat","type":"area","coords":[-6.884,107.592],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sukajadi.","city":"Bandung"},
+  {"name":"Kecamatan Sukasari (Bandung)","level":"district","queryName":"Kecamatan Sukasari (Bandung), Bandung, Jawa Barat","type":"area","coords":[-6.865,107.585],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sukasari (Bandung).","city":"Bandung"},
+  {"name":"Kecamatan Sumurbandung","level":"district","queryName":"Kecamatan Sumurbandung, Bandung, Jawa Barat","type":"area","coords":[-6.917,107.615],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sumurbandung.","city":"Bandung"},
+  {"name":"Kecamatan Ujungberung","level":"district","queryName":"Kecamatan Ujungberung, Bandung, Jawa Barat","type":"area","coords":[-6.915,107.697],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ujungberung.","city":"Bandung"},
+  {"name":"Kecamatan Cimahi Selatan","level":"district","queryName":"Kecamatan Cimahi Selatan, Bandung, Jawa Barat","type":"area","coords":[-6.897,107.534],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cimahi Selatan.","city":"Bandung"},
+  {"name":"Kecamatan Cimahi Tengah","level":"district","queryName":"Kecamatan Cimahi Tengah, Bandung, Jawa Barat","type":"area","coords":[-6.873,107.545],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cimahi Tengah.","city":"Bandung"},
+  {"name":"Kecamatan Cimahi Utara","level":"district","queryName":"Kecamatan Cimahi Utara, Bandung, Jawa Barat","type":"area","coords":[-6.852,107.551],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cimahi Utara.","city":"Bandung"},
+  {"name":"Kecamatan Baleendah","level":"district","queryName":"Kecamatan Baleendah, Bandung, Jawa Barat","type":"area","coords":[-6.994,107.632],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Baleendah.","city":"Bandung"},
+  {"name":"Kecamatan Banjaran","level":"district","queryName":"Kecamatan Banjaran, Bandung, Jawa Barat","type":"area","coords":[-7.042,107.587],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Banjaran.","city":"Bandung"},
+  {"name":"Kecamatan Bojongsoang","level":"district","queryName":"Kecamatan Bojongsoang, Bandung, Jawa Barat","type":"area","coords":[-6.981,107.643],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bojongsoang.","city":"Bandung"},
+  {"name":"Kecamatan Cicalengka","level":"district","queryName":"Kecamatan Cicalengka, Bandung, Jawa Barat","type":"area","coords":[-6.981,107.839],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cicalengka.","city":"Bandung"},
+  {"name":"Kecamatan Cileunyi","level":"district","queryName":"Kecamatan Cileunyi, Bandung, Jawa Barat","type":"area","coords":[-6.934,107.753],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cileunyi.","city":"Bandung"},
+  {"name":"Kecamatan Cimenyan","level":"district","queryName":"Kecamatan Cimenyan, Bandung, Jawa Barat","type":"area","coords":[-6.856,107.666],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cimenyan.","city":"Bandung"},
+  {"name":"Kecamatan Ciparay","level":"district","queryName":"Kecamatan Ciparay, Bandung, Jawa Barat","type":"area","coords":[-7.033,107.708],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ciparay.","city":"Bandung"},
+  {"name":"Kecamatan Ciwidey","level":"district","queryName":"Kecamatan Ciwidey, Bandung, Jawa Barat","type":"area","coords":[-7.098,107.458],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ciwidey.","city":"Bandung"},
+  {"name":"Kecamatan Dayeuhkolot","level":"district","queryName":"Kecamatan Dayeuhkolot, Bandung, Jawa Barat","type":"area","coords":[-6.982,107.619],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Dayeuhkolot.","city":"Bandung"},
+  {"name":"Kecamatan Katapang","level":"district","queryName":"Kecamatan Katapang, Bandung, Jawa Barat","type":"area","coords":[-6.991,107.555],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Katapang.","city":"Bandung"},
+  {"name":"Kecamatan Kutawaringin","level":"district","queryName":"Kecamatan Kutawaringin, Bandung, Jawa Barat","type":"area","coords":[-7,107.519],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kutawaringin.","city":"Bandung"},
+  {"name":"Kecamatan Majalaya (Bandung)","level":"district","queryName":"Kecamatan Majalaya (Bandung), Bandung, Jawa Barat","type":"area","coords":[-7.041,107.759],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Majalaya (Bandung).","city":"Bandung"},
+  {"name":"Kecamatan Margaasih","level":"district","queryName":"Kecamatan Margaasih, Bandung, Jawa Barat","type":"area","coords":[-6.953,107.545],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Margaasih.","city":"Bandung"},
+  {"name":"Kecamatan Margahayu","level":"district","queryName":"Kecamatan Margahayu, Bandung, Jawa Barat","type":"area","coords":[-6.965,107.573],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Margahayu.","city":"Bandung"},
+  {"name":"Kecamatan Pameungpeuk","level":"district","queryName":"Kecamatan Pameungpeuk, Bandung, Jawa Barat","type":"area","coords":[-7.027,107.606],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pameungpeuk.","city":"Bandung"},
+  {"name":"Kecamatan Pangalengan","level":"district","queryName":"Kecamatan Pangalengan, Bandung, Jawa Barat","type":"area","coords":[-7.199,107.559],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pangalengan.","city":"Bandung"},
+  {"name":"Kecamatan Rancaekek","level":"district","queryName":"Kecamatan Rancaekek, Bandung, Jawa Barat","type":"area","coords":[-6.966,107.765],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Rancaekek.","city":"Bandung"},
+  {"name":"Kecamatan Solokanjeruk","level":"district","queryName":"Kecamatan Solokanjeruk, Bandung, Jawa Barat","type":"area","coords":[-7.031,107.751],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Solokanjeruk.","city":"Bandung"},
+  {"name":"Kecamatan Soreang","level":"district","queryName":"Kecamatan Soreang, Bandung, Jawa Barat","type":"area","coords":[-7.028,107.518],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Soreang.","city":"Bandung"},
+  {"name":"Kecamatan Batujajar","level":"district","queryName":"Kecamatan Batujajar, Bandung, Jawa Barat","type":"area","coords":[-6.911,107.487],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Batujajar.","city":"Bandung"},
+  {"name":"Kecamatan Cikalongwetan","level":"district","queryName":"Kecamatan Cikalongwetan, Bandung, Jawa Barat","type":"area","coords":[-6.757,107.423],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cikalongwetan.","city":"Bandung"},
+  {"name":"Kecamatan Cililin","level":"district","queryName":"Kecamatan Cililin, Bandung, Jawa Barat","type":"area","coords":[-6.952,107.464],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cililin.","city":"Bandung"},
+  {"name":"Kecamatan Cipatat","level":"district","queryName":"Kecamatan Cipatat, Bandung, Jawa Barat","type":"area","coords":[-6.829,107.391],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Cipatat.","city":"Bandung"},
+  {"name":"Kecamatan Lembang","level":"district","queryName":"Kecamatan Lembang, Bandung, Jawa Barat","type":"area","coords":[-6.815,107.618],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Lembang.","city":"Bandung"},
+  {"name":"Kecamatan Ngamprah","level":"district","queryName":"Kecamatan Ngamprah, Bandung, Jawa Barat","type":"area","coords":[-6.84,107.509],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ngamprah.","city":"Bandung"},
+  {"name":"Kecamatan Padalarang","level":"district","queryName":"Kecamatan Padalarang, Bandung, Jawa Barat","type":"area","coords":[-6.845,107.472],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Padalarang.","city":"Bandung"},
+  {"name":"Kecamatan Parongpong","level":"district","queryName":"Kecamatan Parongpong, Bandung, Jawa Barat","type":"area","coords":[-6.793,107.568],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Parongpong.","city":"Bandung"}
+,
+  // SURABAYA
+  {"name":"Kecamatan Asemrowo (Surabaya)","level":"district","queryName":"Kecamatan Asemrowo, Surabaya, Jawa Timur","type":"area","coords":[-7.247,112.711],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Asemrowo, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Benowo (Surabaya)","level":"district","queryName":"Kecamatan Benowo, Surabaya, Jawa Timur","type":"area","coords":[-7.234,112.65],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Benowo, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Bubutan (Surabaya)","level":"district","queryName":"Kecamatan Bubutan, Surabaya, Jawa Timur","type":"area","coords":[-7.248,112.73],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bubutan, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Bulak (Surabaya)","level":"district","queryName":"Kecamatan Bulak, Surabaya, Jawa Timur","type":"area","coords":[-7.239,112.793],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Bulak, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Dukuh Pakis (Surabaya)","level":"district","queryName":"Kecamatan Dukuh Pakis, Surabaya, Jawa Timur","type":"area","coords":[-7.289,112.7],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Dukuh Pakis, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Gayungan (Surabaya)","level":"district","queryName":"Kecamatan Gayungan, Surabaya, Jawa Timur","type":"area","coords":[-7.332,112.721],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gayungan, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Genteng (Surabaya)","level":"district","queryName":"Kecamatan Genteng (Surabaya), Surabaya, Jawa Timur","type":"area","coords":[-7.259,112.744],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Genteng (Surabaya), Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Gubeng (Surabaya)","level":"district","queryName":"Kecamatan Gubeng, Surabaya, Jawa Timur","type":"area","coords":[-7.275,112.756],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gubeng, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Gunung Anyar (Surabaya)","level":"district","queryName":"Kecamatan Gunung Anyar, Surabaya, Jawa Timur","type":"area","coords":[-7.331,112.794],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gunung Anyar, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Jambangan (Surabaya)","level":"district","queryName":"Kecamatan Jambangan, Surabaya, Jawa Timur","type":"area","coords":[-7.318,112.712],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Jambangan, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Karang Pilang (Surabaya)","level":"district","queryName":"Kecamatan Karang Pilang, Surabaya, Jawa Timur","type":"area","coords":[-7.335,112.684],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Karang Pilang, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Kenjeran (Surabaya)","level":"district","queryName":"Kecamatan Kenjeran, Surabaya, Jawa Timur","type":"area","coords":[-7.221,112.775],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kenjeran, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Krembangan (Surabaya)","level":"district","queryName":"Kecamatan Krembangan, Surabaya, Jawa Timur","type":"area","coords":[-7.231,112.727],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Krembangan, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Lakarsantri (Surabaya)","level":"district","queryName":"Kecamatan Lakarsantri, Surabaya, Jawa Timur","type":"area","coords":[-7.316,112.656],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Lakarsantri, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Mulyorejo (Surabaya)","level":"district","queryName":"Kecamatan Mulyorejo, Surabaya, Jawa Timur","type":"area","coords":[-7.273,112.791],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Mulyorejo, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Pabean Cantikan (Surabaya)","level":"district","queryName":"Kecamatan Pabean Cantikan, Surabaya, Jawa Timur","type":"area","coords":[-7.228,112.738],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pabean Cantikan, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Pakal (Surabaya)","level":"district","queryName":"Kecamatan Pakal, Surabaya, Jawa Timur","type":"area","coords":[-7.234,112.607],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pakal, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Rungkut (Surabaya)","level":"district","queryName":"Kecamatan Rungkut, Surabaya, Jawa Timur","type":"area","coords":[-7.32,112.775],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Rungkut, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Sambikerep (Surabaya)","level":"district","queryName":"Kecamatan Sambikerep, Surabaya, Jawa Timur","type":"area","coords":[-7.278,112.657],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sambikerep, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Sawahan (Surabaya)","level":"district","queryName":"Kecamatan Sawahan (Surabaya), Surabaya, Jawa Timur","type":"area","coords":[-7.273,112.72],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sawahan (Surabaya), Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Semampir (Surabaya)","level":"district","queryName":"Kecamatan Semampir, Surabaya, Jawa Timur","type":"area","coords":[-7.218,112.755],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Semampir, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Simokerto (Surabaya)","level":"district","queryName":"Kecamatan Simokerto, Surabaya, Jawa Timur","type":"area","coords":[-7.243,112.756],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Simokerto, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Sukolilo (Surabaya)","level":"district","queryName":"Kecamatan Sukolilo (Surabaya), Surabaya, Jawa Timur","type":"area","coords":[-7.291,112.784],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sukolilo (Surabaya), Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Sukomanunggal (Surabaya)","level":"district","queryName":"Kecamatan Sukomanunggal, Surabaya, Jawa Timur","type":"area","coords":[-7.266,112.697],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sukomanunggal, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Tambaksari (Surabaya)","level":"district","queryName":"Kecamatan Tambaksari, Surabaya, Jawa Timur","type":"area","coords":[-7.251,112.766],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tambaksari, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Tandes (Surabaya)","level":"district","queryName":"Kecamatan Tandes, Surabaya, Jawa Timur","type":"area","coords":[-7.26,112.673],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tandes, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Tegalsari (Surabaya)","level":"district","queryName":"Kecamatan Tegalsari (Surabaya), Surabaya, Jawa Timur","type":"area","coords":[-7.271,112.739],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tegalsari (Surabaya), Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Tenggilis Mejoyo (Surabaya)","level":"district","queryName":"Kecamatan Tenggilis Mejoyo, Surabaya, Jawa Timur","type":"area","coords":[-7.323,112.752],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tenggilis Mejoyo, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Wiyung (Surabaya)","level":"district","queryName":"Kecamatan Wiyung, Surabaya, Jawa Timur","type":"area","coords":[-7.306,112.688],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Wiyung, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Wonocolo (Surabaya)","level":"district","queryName":"Kecamatan Wonocolo, Surabaya, Jawa Timur","type":"area","coords":[-7.315,112.739],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Wonocolo, Surabaya.","city":"Surabaya"},
+  {"name":"Kecamatan Wonokromo (Surabaya)","level":"district","queryName":"Kecamatan Wonokromo, Surabaya, Jawa Timur","type":"area","coords":[-7.296,112.735],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Wonokromo, Surabaya.","city":"Surabaya"}
+,
+  // SEMARANG
+  {"name":"Kecamatan Banyumanik (Semarang)","level":"district","queryName":"Kecamatan Banyumanik, Semarang, Jawa Tengah","type":"area","coords":[-7.067,110.419],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Banyumanik, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Candisari (Semarang)","level":"district","queryName":"Kecamatan Candisari, Semarang, Jawa Tengah","type":"area","coords":[-7.025,110.432],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Candisari, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Gajahmungkur (Semarang)","level":"district","queryName":"Kecamatan Gajahmungkur, Semarang, Jawa Tengah","type":"area","coords":[-7.014,110.407],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gajahmungkur, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Gayamsari (Semarang)","level":"district","queryName":"Kecamatan Gayamsari, Semarang, Jawa Tengah","type":"area","coords":[-6.983,110.443],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gayamsari, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Genuk (Semarang)","level":"district","queryName":"Kecamatan Genuk, Semarang, Jawa Tengah","type":"area","coords":[-6.953,110.468],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Genuk, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Gunungpati (Semarang)","level":"district","queryName":"Kecamatan Gunungpati, Semarang, Jawa Tengah","type":"area","coords":[-7.068,110.38],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gunungpati, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Mijen (Semarang)","level":"district","queryName":"Kecamatan Mijen, Semarang, Jawa Tengah","type":"area","coords":[-7.05,110.316],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Mijen, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Ngaliyan (Semarang)","level":"district","queryName":"Kecamatan Ngaliyan, Semarang, Jawa Tengah","type":"area","coords":[-6.992,110.354],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ngaliyan, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Pedurungan (Semarang)","level":"district","queryName":"Kecamatan Pedurungan, Semarang, Jawa Tengah","type":"area","coords":[-7.004,110.461],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pedurungan, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Semarang Barat (Semarang)","level":"district","queryName":"Kecamatan Semarang Barat, Semarang, Jawa Tengah","type":"area","coords":[-6.982,110.392],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Semarang Barat, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Semarang Selatan (Semarang)","level":"district","queryName":"Kecamatan Semarang Selatan, Semarang, Jawa Tengah","type":"area","coords":[-6.997,110.423],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Semarang Selatan, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Semarang Tengah (Semarang)","level":"district","queryName":"Kecamatan Semarang Tengah, Semarang, Jawa Tengah","type":"area","coords":[-6.982,110.419],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Semarang Tengah, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Semarang Timur (Semarang)","level":"district","queryName":"Kecamatan Semarang Timur, Semarang, Jawa Tengah","type":"area","coords":[-6.974,110.438],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Semarang Timur, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Semarang Utara (Semarang)","level":"district","queryName":"Kecamatan Semarang Utara, Semarang, Jawa Tengah","type":"area","coords":[-6.964,110.414],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Semarang Utara, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Tembalang (Semarang)","level":"district","queryName":"Kecamatan Tembalang, Semarang, Jawa Tengah","type":"area","coords":[-7.043,110.457],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tembalang, Semarang.","city":"Semarang"},
+  {"name":"Kecamatan Tugu (Semarang)","level":"district","queryName":"Kecamatan Tugu, Semarang, Jawa Tengah","type":"area","coords":[-6.972,110.324],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tugu, Semarang.","city":"Semarang"}
+,
+  // JATENG & DIY (Salatiga, Solo, Magelang, Yogyakarta)
+  {"name":"Kecamatan Argomulyo (Salatiga)","level":"district","queryName":"Kecamatan Argomulyo, Salatiga, Indonesia","type":"area","coords":[-7.35,110.505],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Argomulyo, Salatiga.","city":"Salatiga"},
+  {"name":"Kecamatan Sidomukti (Salatiga)","level":"district","queryName":"Kecamatan Sidomukti, Salatiga, Indonesia","type":"area","coords":[-7.332,110.495],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sidomukti, Salatiga.","city":"Salatiga"},
+  {"name":"Kecamatan Sidorejo (Salatiga)","level":"district","queryName":"Kecamatan Sidorejo, Salatiga, Indonesia","type":"area","coords":[-7.311,110.505],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Sidorejo, Salatiga.","city":"Salatiga"},
+  {"name":"Kecamatan Tingkir (Salatiga)","level":"district","queryName":"Kecamatan Tingkir, Salatiga, Indonesia","type":"area","coords":[-7.35,110.53],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tingkir, Salatiga.","city":"Salatiga"},
+  {"name":"Kecamatan Banjarsari (Solo)","level":"district","queryName":"Kecamatan Banjarsari, Solo, Indonesia","type":"area","coords":[-7.545,110.821],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Banjarsari, Solo.","city":"Solo"},
+  {"name":"Kecamatan Jebres (Solo)","level":"district","queryName":"Kecamatan Jebres, Solo, Indonesia","type":"area","coords":[-7.556,110.845],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Jebres, Solo.","city":"Solo"},
+  {"name":"Kecamatan Laweyan (Solo)","level":"district","queryName":"Kecamatan Laweyan, Solo, Indonesia","type":"area","coords":[-7.567,110.799],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Laweyan, Solo.","city":"Solo"},
+  {"name":"Kecamatan Pasar Kliwon (Solo)","level":"district","queryName":"Kecamatan Pasar Kliwon, Solo, Indonesia","type":"area","coords":[-7.583,110.829],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pasar Kliwon, Solo.","city":"Solo"},
+  {"name":"Kecamatan Serengan (Solo)","level":"district","queryName":"Kecamatan Serengan, Solo, Indonesia","type":"area","coords":[-7.579,110.814],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Serengan, Solo.","city":"Solo"},
+  {"name":"Kecamatan Magelang Selatan (Magelang)","level":"district","queryName":"Kecamatan Magelang Selatan, Magelang, Indonesia","type":"area","coords":[-7.502,110.222],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Magelang Selatan, Magelang.","city":"Magelang"},
+  {"name":"Kecamatan Magelang Tengah (Magelang)","level":"district","queryName":"Kecamatan Magelang Tengah, Magelang, Indonesia","type":"area","coords":[-7.479,110.218],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Magelang Tengah, Magelang.","city":"Magelang"},
+  {"name":"Kecamatan Magelang Utara (Magelang)","level":"district","queryName":"Kecamatan Magelang Utara, Magelang, Indonesia","type":"area","coords":[-7.46,110.224],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Magelang Utara, Magelang.","city":"Magelang"},
+  {"name":"Kecamatan Danurejan (Yogyakarta)","level":"district","queryName":"Kecamatan Danurejan, Yogyakarta, Indonesia","type":"area","coords":[-7.794,110.369],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Danurejan, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Gedongtengen (Yogyakarta)","level":"district","queryName":"Kecamatan Gedongtengen, Yogyakarta, Indonesia","type":"area","coords":[-7.793,110.36],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gedongtengen, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Gondokusuman (Yogyakarta)","level":"district","queryName":"Kecamatan Gondokusuman, Yogyakarta, Indonesia","type":"area","coords":[-7.784,110.38],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gondokusuman, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Gondomanan (Yogyakarta)","level":"district","queryName":"Kecamatan Gondomanan, Yogyakarta, Indonesia","type":"area","coords":[-7.802,110.367],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Gondomanan, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Jetis (Yogyakarta)","level":"district","queryName":"Kecamatan Jetis (Yogyakarta), Yogyakarta, Indonesia","type":"area","coords":[-7.778,110.364],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Jetis (Yogyakarta), Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Kotagede (Yogyakarta)","level":"district","queryName":"Kecamatan Kotagede, Yogyakarta, Indonesia","type":"area","coords":[-7.828,110.395],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kotagede, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Kraton (Yogyakarta)","level":"district","queryName":"Kecamatan Kraton, Yogyakarta, Indonesia","type":"area","coords":[-7.81,110.358],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Kraton, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Mantrijeron (Yogyakarta)","level":"district","queryName":"Kecamatan Mantrijeron, Yogyakarta, Indonesia","type":"area","coords":[-7.818,110.357],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Mantrijeron, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Mergangsan (Yogyakarta)","level":"district","queryName":"Kecamatan Mergangsan, Yogyakarta, Indonesia","type":"area","coords":[-7.817,110.373],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Mergangsan, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Ngampilan (Yogyakarta)","level":"district","queryName":"Kecamatan Ngampilan, Yogyakarta, Indonesia","type":"area","coords":[-7.799,110.355],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Ngampilan, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Pakualaman (Yogyakarta)","level":"district","queryName":"Kecamatan Pakualaman, Yogyakarta, Indonesia","type":"area","coords":[-7.801,110.376],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Pakualaman, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Tegalrejo (Yogyakarta)","level":"district","queryName":"Kecamatan Tegalrejo, Yogyakarta, Indonesia","type":"area","coords":[-7.784,110.354],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Tegalrejo, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Umbulharjo (Yogyakarta)","level":"district","queryName":"Kecamatan Umbulharjo, Yogyakarta, Indonesia","type":"area","coords":[-7.817,110.389],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Umbulharjo, Yogyakarta.","city":"Yogyakarta"},
+  {"name":"Kecamatan Wirobrajan (Yogyakarta)","level":"district","queryName":"Kecamatan Wirobrajan, Yogyakarta, Indonesia","type":"area","coords":[-7.802,110.347],"desc":"Layanan bore pile profesional untuk wilayah Kecamatan Wirobrajan, Yogyakarta.","city":"Yogyakarta"}
+,
+  // SISA SELURUH JAWA (Level Kabupaten/Kota)
+  {"name":"Kabupaten Subang","level":"city","queryName":"Kabupaten Subang, Jawa Barat, Indonesia","type":"area","coords":[-6.561,107.762],"desc":"Layanan bore pile profesional untuk area Kabupaten Subang.","city":"Jawa Barat"},
+  {"name":"Kabupaten Indramayu","level":"city","queryName":"Kabupaten Indramayu, Jawa Barat, Indonesia","type":"area","coords":[-6.327,108.324],"desc":"Layanan bore pile profesional untuk area Kabupaten Indramayu.","city":"Jawa Barat"},
+  {"name":"Kota Cirebon","level":"city","queryName":"Kota Cirebon, Jawa Barat, Indonesia","type":"area","coords":[-6.732,108.552],"desc":"Layanan bore pile profesional untuk area Kota Cirebon.","city":"Jawa Barat"},
+  {"name":"Kabupaten Majalengka","level":"city","queryName":"Kabupaten Majalengka, Jawa Barat, Indonesia","type":"area","coords":[-6.836,108.227],"desc":"Layanan bore pile profesional untuk area Kabupaten Majalengka.","city":"Jawa Barat"},
+  {"name":"Kabupaten Kuningan","level":"city","queryName":"Kabupaten Kuningan, Jawa Barat, Indonesia","type":"area","coords":[-6.975,108.477],"desc":"Layanan bore pile profesional untuk area Kabupaten Kuningan.","city":"Jawa Barat"},
+  {"name":"Kabupaten Sumedang","level":"city","queryName":"Kabupaten Sumedang, Jawa Barat, Indonesia","type":"area","coords":[-6.861,107.92],"desc":"Layanan bore pile profesional untuk area Kabupaten Sumedang.","city":"Jawa Barat"},
+  {"name":"Kabupaten Garut","level":"city","queryName":"Kabupaten Garut, Jawa Barat, Indonesia","type":"area","coords":[-7.227,107.908],"desc":"Layanan bore pile profesional untuk area Kabupaten Garut.","city":"Jawa Barat"},
+  {"name":"Kota Tasikmalaya","level":"city","queryName":"Kota Tasikmalaya, Jawa Barat, Indonesia","type":"area","coords":[-7.319,108.204],"desc":"Layanan bore pile profesional untuk area Kota Tasikmalaya.","city":"Jawa Barat"},
+  {"name":"Kabupaten Ciamis","level":"city","queryName":"Kabupaten Ciamis, Jawa Barat, Indonesia","type":"area","coords":[-7.327,108.352],"desc":"Layanan bore pile profesional untuk area Kabupaten Ciamis.","city":"Jawa Barat"},
+  {"name":"Kabupaten Pangandaran","level":"city","queryName":"Kabupaten Pangandaran, Jawa Barat, Indonesia","type":"area","coords":[-7.677,108.653],"desc":"Layanan bore pile profesional untuk area Kabupaten Pangandaran.","city":"Jawa Barat"},
+  {"name":"Kota Sukabumi","level":"city","queryName":"Kota Sukabumi, Jawa Barat, Indonesia","type":"area","coords":[-6.927,106.93],"desc":"Layanan bore pile profesional untuk area Kota Sukabumi.","city":"Jawa Barat"},
+  {"name":"Kabupaten Cianjur","level":"city","queryName":"Kabupaten Cianjur, Jawa Barat, Indonesia","type":"area","coords":[-6.822,107.142],"desc":"Layanan bore pile profesional untuk area Kabupaten Cianjur.","city":"Jawa Barat"},
+  {"name":"Kabupaten Brebes","level":"city","queryName":"Kabupaten Brebes, Jawa Tengah, Indonesia","type":"area","coords":[-6.87,109.043],"desc":"Layanan bore pile profesional untuk area Kabupaten Brebes.","city":"Jawa Tengah"},
+  {"name":"Kota Tegal","level":"city","queryName":"Kota Tegal, Jawa Tengah, Indonesia","type":"area","coords":[-6.869,109.14],"desc":"Layanan bore pile profesional untuk area Kota Tegal.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Pemalang","level":"city","queryName":"Kabupaten Pemalang, Jawa Tengah, Indonesia","type":"area","coords":[-6.889,109.379],"desc":"Layanan bore pile profesional untuk area Kabupaten Pemalang.","city":"Jawa Tengah"},
+  {"name":"Kota Pekalongan","level":"city","queryName":"Kota Pekalongan, Jawa Tengah, Indonesia","type":"area","coords":[-6.889,109.675],"desc":"Layanan bore pile profesional untuk area Kota Pekalongan.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Batang","level":"city","queryName":"Kabupaten Batang, Jawa Tengah, Indonesia","type":"area","coords":[-6.914,109.73],"desc":"Layanan bore pile profesional untuk area Kabupaten Batang.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Kendal","level":"city","queryName":"Kabupaten Kendal, Jawa Tengah, Indonesia","type":"area","coords":[-6.92,110.201],"desc":"Layanan bore pile profesional untuk area Kabupaten Kendal.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Demak","level":"city","queryName":"Kabupaten Demak, Jawa Tengah, Indonesia","type":"area","coords":[-6.894,110.639],"desc":"Layanan bore pile profesional untuk area Kabupaten Demak.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Jepara","level":"city","queryName":"Kabupaten Jepara, Jawa Tengah, Indonesia","type":"area","coords":[-6.588,110.667],"desc":"Layanan bore pile profesional untuk area Kabupaten Jepara.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Kudus","level":"city","queryName":"Kabupaten Kudus, Jawa Tengah, Indonesia","type":"area","coords":[-6.808,110.841],"desc":"Layanan bore pile profesional untuk area Kabupaten Kudus.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Pati","level":"city","queryName":"Kabupaten Pati, Jawa Tengah, Indonesia","type":"area","coords":[-6.755,111.037],"desc":"Layanan bore pile profesional untuk area Kabupaten Pati.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Rembang","level":"city","queryName":"Kabupaten Rembang, Jawa Tengah, Indonesia","type":"area","coords":[-6.709,111.341],"desc":"Layanan bore pile profesional untuk area Kabupaten Rembang.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Blora","level":"city","queryName":"Kabupaten Blora, Jawa Tengah, Indonesia","type":"area","coords":[-6.969,111.413],"desc":"Layanan bore pile profesional untuk area Kabupaten Blora.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Grobogan","level":"city","queryName":"Kabupaten Grobogan, Jawa Tengah, Indonesia","type":"area","coords":[-7.087,110.916],"desc":"Layanan bore pile profesional untuk area Kabupaten Grobogan.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Sragen","level":"city","queryName":"Kabupaten Sragen, Jawa Tengah, Indonesia","type":"area","coords":[-7.427,111.022],"desc":"Layanan bore pile profesional untuk area Kabupaten Sragen.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Karanganyar","level":"city","queryName":"Kabupaten Karanganyar, Jawa Tengah, Indonesia","type":"area","coords":[-7.595,110.951],"desc":"Layanan bore pile profesional untuk area Kabupaten Karanganyar.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Wonogiri","level":"city","queryName":"Kabupaten Wonogiri, Jawa Tengah, Indonesia","type":"area","coords":[-7.809,110.925],"desc":"Layanan bore pile profesional untuk area Kabupaten Wonogiri.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Sukoharjo","level":"city","queryName":"Kabupaten Sukoharjo, Jawa Tengah, Indonesia","type":"area","coords":[-7.678,110.83],"desc":"Layanan bore pile profesional untuk area Kabupaten Sukoharjo.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Klaten","level":"city","queryName":"Kabupaten Klaten, Jawa Tengah, Indonesia","type":"area","coords":[-7.705,110.603],"desc":"Layanan bore pile profesional untuk area Kabupaten Klaten.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Boyolali","level":"city","queryName":"Kabupaten Boyolali, Jawa Tengah, Indonesia","type":"area","coords":[-7.532,110.596],"desc":"Layanan bore pile profesional untuk area Kabupaten Boyolali.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Purworejo","level":"city","queryName":"Kabupaten Purworejo, Jawa Tengah, Indonesia","type":"area","coords":[-7.712,110.009],"desc":"Layanan bore pile profesional untuk area Kabupaten Purworejo.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Wonosobo","level":"city","queryName":"Kabupaten Wonosobo, Jawa Tengah, Indonesia","type":"area","coords":[-7.361,109.9],"desc":"Layanan bore pile profesional untuk area Kabupaten Wonosobo.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Temanggung","level":"city","queryName":"Kabupaten Temanggung, Jawa Tengah, Indonesia","type":"area","coords":[-7.316,110.171],"desc":"Layanan bore pile profesional untuk area Kabupaten Temanggung.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Banjarnegara","level":"city","queryName":"Kabupaten Banjarnegara, Jawa Tengah, Indonesia","type":"area","coords":[-7.398,109.696],"desc":"Layanan bore pile profesional untuk area Kabupaten Banjarnegara.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Purbalingga","level":"city","queryName":"Kabupaten Purbalingga, Jawa Tengah, Indonesia","type":"area","coords":[-7.387,109.363],"desc":"Layanan bore pile profesional untuk area Kabupaten Purbalingga.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Banyumas (Purwokerto)","level":"city","queryName":"Kabupaten Banyumas (Purwokerto), Jawa Tengah, Indonesia","type":"area","coords":[-7.424,109.23],"desc":"Layanan bore pile profesional untuk area Kabupaten Banyumas (Purwokerto).","city":"Jawa Tengah"},
+  {"name":"Kabupaten Cilacap","level":"city","queryName":"Kabupaten Cilacap, Jawa Tengah, Indonesia","type":"area","coords":[-7.727,109.006],"desc":"Layanan bore pile profesional untuk area Kabupaten Cilacap.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Kebumen","level":"city","queryName":"Kabupaten Kebumen, Jawa Tengah, Indonesia","type":"area","coords":[-7.669,109.651],"desc":"Layanan bore pile profesional untuk area Kabupaten Kebumen.","city":"Jawa Tengah"},
+  {"name":"Kabupaten Sleman","level":"city","queryName":"Kabupaten Sleman, Yogyakarta (DIY), Indonesia","type":"area","coords":[-7.685,110.344],"desc":"Layanan bore pile profesional untuk area Kabupaten Sleman.","city":"Yogyakarta (DIY)"},
+  {"name":"Kabupaten Bantul","level":"city","queryName":"Kabupaten Bantul, Yogyakarta (DIY), Indonesia","type":"area","coords":[-7.887,110.328],"desc":"Layanan bore pile profesional untuk area Kabupaten Bantul.","city":"Yogyakarta (DIY)"},
+  {"name":"Kabupaten Gunungkidul","level":"city","queryName":"Kabupaten Gunungkidul, Yogyakarta (DIY), Indonesia","type":"area","coords":[-7.968,110.603],"desc":"Layanan bore pile profesional untuk area Kabupaten Gunungkidul.","city":"Yogyakarta (DIY)"},
+  {"name":"Kabupaten Kulon Progo","level":"city","queryName":"Kabupaten Kulon Progo, Yogyakarta (DIY), Indonesia","type":"area","coords":[-7.785,110.16],"desc":"Layanan bore pile profesional untuk area Kabupaten Kulon Progo.","city":"Yogyakarta (DIY)"},
+  {"name":"Kabupaten Sidoarjo","level":"city","queryName":"Kabupaten Sidoarjo, Jawa Timur, Indonesia","type":"area","coords":[-7.447,112.718],"desc":"Layanan bore pile profesional untuk area Kabupaten Sidoarjo.","city":"Jawa Timur"},
+  {"name":"Kabupaten Gresik","level":"city","queryName":"Kabupaten Gresik, Jawa Timur, Indonesia","type":"area","coords":[-7.159,112.651],"desc":"Layanan bore pile profesional untuk area Kabupaten Gresik.","city":"Jawa Timur"},
+  {"name":"Kabupaten Lamongan","level":"city","queryName":"Kabupaten Lamongan, Jawa Timur, Indonesia","type":"area","coords":[-7.118,112.415],"desc":"Layanan bore pile profesional untuk area Kabupaten Lamongan.","city":"Jawa Timur"},
+  {"name":"Kabupaten Tuban","level":"city","queryName":"Kabupaten Tuban, Jawa Timur, Indonesia","type":"area","coords":[-6.895,112.065],"desc":"Layanan bore pile profesional untuk area Kabupaten Tuban.","city":"Jawa Timur"},
+  {"name":"Kabupaten Bojonegoro","level":"city","queryName":"Kabupaten Bojonegoro, Jawa Timur, Indonesia","type":"area","coords":[-7.15,111.881],"desc":"Layanan bore pile profesional untuk area Kabupaten Bojonegoro.","city":"Jawa Timur"},
+  {"name":"Kabupaten Ngawi","level":"city","queryName":"Kabupaten Ngawi, Jawa Timur, Indonesia","type":"area","coords":[-7.404,111.442],"desc":"Layanan bore pile profesional untuk area Kabupaten Ngawi.","city":"Jawa Timur"},
+  {"name":"Kabupaten Magetan","level":"city","queryName":"Kabupaten Magetan, Jawa Timur, Indonesia","type":"area","coords":[-7.653,111.328],"desc":"Layanan bore pile profesional untuk area Kabupaten Magetan.","city":"Jawa Timur"},
+  {"name":"Kota Madiun","level":"city","queryName":"Kota Madiun, Jawa Timur, Indonesia","type":"area","coords":[-7.629,111.523],"desc":"Layanan bore pile profesional untuk area Kota Madiun.","city":"Jawa Timur"},
+  {"name":"Kabupaten Ponorogo","level":"city","queryName":"Kabupaten Ponorogo, Jawa Timur, Indonesia","type":"area","coords":[-7.865,111.462],"desc":"Layanan bore pile profesional untuk area Kabupaten Ponorogo.","city":"Jawa Timur"},
+  {"name":"Kabupaten Pacitan","level":"city","queryName":"Kabupaten Pacitan, Jawa Timur, Indonesia","type":"area","coords":[-8.196,111.108],"desc":"Layanan bore pile profesional untuk area Kabupaten Pacitan.","city":"Jawa Timur"},
+  {"name":"Kabupaten Trenggalek","level":"city","queryName":"Kabupaten Trenggalek, Jawa Timur, Indonesia","type":"area","coords":[-8.049,111.711],"desc":"Layanan bore pile profesional untuk area Kabupaten Trenggalek.","city":"Jawa Timur"},
+  {"name":"Kabupaten Tulungagung","level":"city","queryName":"Kabupaten Tulungagung, Jawa Timur, Indonesia","type":"area","coords":[-8.064,111.902],"desc":"Layanan bore pile profesional untuk area Kabupaten Tulungagung.","city":"Jawa Timur"},
+  {"name":"Kota Blitar","level":"city","queryName":"Kota Blitar, Jawa Timur, Indonesia","type":"area","coords":[-8.095,112.161],"desc":"Layanan bore pile profesional untuk area Kota Blitar.","city":"Jawa Timur"},
+  {"name":"Kota Kediri","level":"city","queryName":"Kota Kediri, Jawa Timur, Indonesia","type":"area","coords":[-7.822,112.011],"desc":"Layanan bore pile profesional untuk area Kota Kediri.","city":"Jawa Timur"},
+  {"name":"Kabupaten Nganjuk","level":"city","queryName":"Kabupaten Nganjuk, Jawa Timur, Indonesia","type":"area","coords":[-7.604,111.9],"desc":"Layanan bore pile profesional untuk area Kabupaten Nganjuk.","city":"Jawa Timur"},
+  {"name":"Kabupaten Jombang","level":"city","queryName":"Kabupaten Jombang, Jawa Timur, Indonesia","type":"area","coords":[-7.545,112.233],"desc":"Layanan bore pile profesional untuk area Kabupaten Jombang.","city":"Jawa Timur"},
+  {"name":"Kota Mojokerto","level":"city","queryName":"Kota Mojokerto, Jawa Timur, Indonesia","type":"area","coords":[-7.472,112.433],"desc":"Layanan bore pile profesional untuk area Kota Mojokerto.","city":"Jawa Timur"},
+  {"name":"Kota Pasuruan","level":"city","queryName":"Kota Pasuruan, Jawa Timur, Indonesia","type":"area","coords":[-7.645,112.907],"desc":"Layanan bore pile profesional untuk area Kota Pasuruan.","city":"Jawa Timur"},
+  {"name":"Kota Probolinggo","level":"city","queryName":"Kota Probolinggo, Jawa Timur, Indonesia","type":"area","coords":[-7.756,113.215],"desc":"Layanan bore pile profesional untuk area Kota Probolinggo.","city":"Jawa Timur"},
+  {"name":"Kabupaten Lumajang","level":"city","queryName":"Kabupaten Lumajang, Jawa Timur, Indonesia","type":"area","coords":[-8.133,113.223],"desc":"Layanan bore pile profesional untuk area Kabupaten Lumajang.","city":"Jawa Timur"},
+  {"name":"Kabupaten Jember","level":"city","queryName":"Kabupaten Jember, Jawa Timur, Indonesia","type":"area","coords":[-8.172,113.699],"desc":"Layanan bore pile profesional untuk area Kabupaten Jember.","city":"Jawa Timur"},
+  {"name":"Kabupaten Banyuwangi","level":"city","queryName":"Kabupaten Banyuwangi, Jawa Timur, Indonesia","type":"area","coords":[-8.219,114.369],"desc":"Layanan bore pile profesional untuk area Kabupaten Banyuwangi.","city":"Jawa Timur"},
+  {"name":"Kabupaten Bondowoso","level":"city","queryName":"Kabupaten Bondowoso, Jawa Timur, Indonesia","type":"area","coords":[-7.915,113.821],"desc":"Layanan bore pile profesional untuk area Kabupaten Bondowoso.","city":"Jawa Timur"},
+  {"name":"Kabupaten Situbondo","level":"city","queryName":"Kabupaten Situbondo, Jawa Timur, Indonesia","type":"area","coords":[-7.706,114.004],"desc":"Layanan bore pile profesional untuk area Kabupaten Situbondo.","city":"Jawa Timur"},
+  {"name":"Kota Malang","level":"city","queryName":"Kota Malang, Jawa Timur, Indonesia","type":"area","coords":[-7.979,112.63],"desc":"Layanan bore pile profesional untuk area Kota Malang.","city":"Jawa Timur"},
+  {"name":"Kota Batu","level":"city","queryName":"Kota Batu, Jawa Timur, Indonesia","type":"area","coords":[-7.867,112.523],"desc":"Layanan bore pile profesional untuk area Kota Batu.","city":"Jawa Timur"}
+];
+
+    // Cache untuk menyimpan data batas wilayah agar tidak delay
+    if (!window.geoCache) window.geoCache = {};
+    
+    // Lakukan pre-load seluruh batas wilayah Jakarta di background secara rahasia
+    if (!window.geoDataPromise) {
+      window.geoDataPromise = fetch('/data/jakarta-boundaries.json')
+        .then(res => res.json())
+        .then(data => {
+          Object.assign(window.geoCache, data);
+          // Fetch the extra boundaries generated by the bot with cache-busting
+          return fetch('/data/extra-boundaries.json?v=' + new Date().getTime())
+            .then(res2 => res2.ok ? res2.json() : {})
+            .then(data2 => {
+              Object.assign(window.geoCache, data2);
+            }).catch(e => console.warn("Extra boundaries missing or failed"));
+        }).catch(e => console.error("Gagal pre-load data wilayah", e));
+    }
+
+    // INITIALIZE CLUSTER GROUPS BY CITY
+    const cityClusters = {};
+    let currentPolygon = null;
+
+    
+    const markersMap = {};
+    const searchInput = document.getElementById('map-search-input');
+    const searchResults = document.getElementById('map-search-results');
+    const gpsBtn = document.getElementById('gps-btn');
+
+    // WORKSHOP MARKER (Task 4)
+    const workshopCoords = [-6.1818, 107.0099]; // Koordinat area Setia Asih Bekasi
+    const workshopIcon = L.divIcon({
+      html: '<div style="background: #800000; width: 22px; height: 22px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 12px rgba(128,0,0,0.7);"></div>',
+      className: '',
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
+    });
+    const workshopMarker = L.marker(workshopCoords, { icon: workshopIcon, zIndexOffset: 1000 }).addTo(map);
+    workshopMarker.bindPopup(`
+      <div class="map-popup-card">
+        <h4 style="color: #800000; margin-bottom: 5px;">Workshop Pusat ASeven</h4>
+        <p style="margin-bottom: 12px; font-size: 13px;">Jl. Setia Asih, Tarumajaya, Bekasi</p>
+        <a href="https://wa.me/6281234567890?text=Halo%20ASeven%20Pile,%20saya%20ingin%20berkunjung%20ke%20workshop." class="btn" style="background: #800000; color: white;" target="_blank">Hubungi Kami</a>
+      </div>
+    `);
+    
+    // GPS BUTTON (Task 3)
+    let userLocationMarker = null;
+    gpsBtn.addEventListener('click', () => {
+      gpsBtn.innerHTML = "&#9203;";
+      map.locate({setView: true, maxZoom: 14});
+    });
+    map.on('locationfound', (e) => {
+      gpsBtn.innerHTML = "&#128205;";
+      if(userLocationMarker) map.removeLayer(userLocationMarker);
+      userLocationMarker = L.circleMarker(e.latlng, {
+        radius: 8, fillColor: "#3b82f6", color: "#ffffff", weight: 2, opacity: 1, fillOpacity: 0.8
+      }).addTo(map);
+      userLocationMarker.bindPopup("Lokasi Anda").openPopup();
+    });
+    map.on('locationerror', (e) => {
+      gpsBtn.innerHTML = "&#128205;";
+      alert("Tidak dapat menemukan lokasi Anda. Pastikan izin lokasi (GPS) diaktifkan.");
+    });
+
+    locations.forEach(loc => {
+      const isMain = loc.type === "main";
+      const icon = isMain ? primaryIcon : tertiaryIcon;
+      const marker = L.marker(loc.coords, { 
+         icon: icon,
+         city: loc.city // pass custom property to marker
+      });
+      
+      // Smart WhatsApp (Task 1)
+      const waNumber = "6281234567890";
+      const waText = encodeURIComponent(`Halo ASeven Pile, saya ingin konsultasi mengenai jasa bore pile untuk proyek di wilayah ${loc.name}.`);
+      
+      let popupContent = `
+        <div class="map-popup-card">
+          <h4>${loc.name}</h4>
+          <p>${loc.desc}</p>
+          <a href="https://wa.me/${waNumber}?text=${waText}" class="btn btn-accent" target="_blank" rel="noopener noreferrer">Konsultasi via WA</a>
+        </div>
+      `;
+      
+      marker.bindPopup(popupContent, {
+        className: 'custom-popup',
+        closeButton: true,
+        minWidth: 200
+      });
+
+      // Draw polygon on click
+      marker.on('click', async function() {
+        if (!isMain) {
+          if (currentPolygon) {
+            map.removeLayer(currentPolygon);
+          }
+          
+          if (window.geoDataPromise) {
+            await window.geoDataPromise;
+          }
+
+          if (window.geoCache && window.geoCache[loc.queryName]) {
+            currentPolygon = L.geoJSON(window.geoCache[loc.queryName], {
+              style: {
+                  color: '#06b6d4',
+                  weight: 3,
+                  dashArray: '5, 8', // Efek Garis Putus-putus
+                  opacity: 1,
+                  fillColor: '#06b6d4',
+                  fillOpacity: 0.25
+                }
+            }).addTo(map);
+            map.flyToBounds(currentPolygon.getBounds(), { maxZoom: 13, padding: [50, 50] });
+          } else {
+            // Fallback: Lingkaran Radius 4KM (Jika data GeoJSON tidak tersedia)
+            currentPolygon = L.circle(loc.coords, {
+              radius: 4000,
+                color: '#06b6d4',
+                weight: 3,
+                dashArray: '5, 8', // Efek Garis Putus-putus
+                opacity: 1,
+                fillColor: '#06b6d4',
+                fillOpacity: 0.25
+            }).addTo(map);
+            map.flyToBounds(currentPolygon.getBounds(), { maxZoom: 13, padding: [50, 50] });
+          }
+        }
+      });
+      
+      // Ensure city group exists
+      const cityKey = loc.city || 'Area';
+      if (!cityClusters[cityKey]) {
+        cityClusters[cityKey] = L.markerClusterGroup({
+          maxClusterRadius: 180, // Group aggressively within the same city so far edges like Kalideres aren't left out
+          spiderfyOnMaxZoom: true,
+          showCoverageOnHover: false,
+          zoomOutOfBoundsOnClick: true,
+          iconCreateFunction: function(cluster) {
+            const count = cluster.getChildCount();
+            const html = `
+              <div style="background: #06b6d4; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 700; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.25); font-size: 14px; white-space: nowrap; text-align: center; position: absolute; transform: translate(-50%, -50%);">
+                ${cityKey === 'Area' ? 'Lainnya' : cityKey} <span style="background: white; color: #06b6d4; padding: 2px 6px; border-radius: 12px; font-size: 11px; margin-left: 4px;">${count}</span>
+              </div>
+            `;
+            return L.divIcon({
+              html: html,
+              className: 'custom-cluster-badge',
+              iconSize: null
+            });
+          }
+        });
+        map.addLayer(cityClusters[cityKey]);
+      }
+
+      cityClusters[cityKey].addLayer(marker);
+      markersMap[loc.name] = { marker: marker, cityKey: cityKey };
+    });
+
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+
+    // Search Box Logic (Task 2)
+    searchInput.addEventListener('input', (e) => {
+      const val = e.target.value.toLowerCase();
+      searchResults.innerHTML = '';
+      if (!val) {
+        searchResults.style.display = 'none';
+        return;
+      }
+      const matches = locations.filter(l => l.name.toLowerCase().includes(val)).slice(0, 5);
+      if (matches.length > 0) {
+        searchResults.style.display = 'block';
+        matches.forEach(m => {
+          const li = document.createElement('li');
+          li.textContent = m.name;
+          li.onclick = () => {
+            searchInput.value = m.name;
+            searchResults.style.display = 'none';
+            const mData = markersMap[m.name];
+            if (mData) {
+               const cg = cityClusters[mData.cityKey];
+               if (cg) {
+                 cg.zoomToShowLayer(mData.marker, () => {
+                    mData.marker.openPopup();
+                    mData.marker.fire('click');
+                 });
+               }
+            }
+          };
+          searchResults.appendChild(li);
+        });
+      } else {
+        searchResults.style.display = 'none';
+      }
+    });
+
+  }
+
+  document.addEventListener('DOMContentLoaded', initCoverageMap);
+  document.addEventListener('astro:page-load', initCoverageMap);
+</script>

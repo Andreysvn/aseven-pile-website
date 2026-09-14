@@ -1,0 +1,69 @@
+---
+import { pricingTiers, straussTiers, pricingConfig } from '../../data/pricing';
+---
+
+<section class="section" id="harga">
+  <div class="container">
+    <div class="section-title">
+      <h2>Daftar Harga Jasa Pengeboran</h2>
+      <p>Harga jasa per meter lari. Update terakhir: {new Date(pricingConfig.lastUpdated).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
+    </div>
+
+    <div class="pricing-tables">
+      <!-- Bore Pile Mesin -->
+      <div class="pricing-block">
+        <h3>Bore Pile (Mesin)</h3>
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>Diameter</th>
+              <th>Jasa / Meter</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {pricingTiers.map((tier) => (
+              <tr>
+                <td><strong>{tier.diameter} cm</strong></td>
+                <td>
+                  {tier.pricePerMeter.min === tier.pricePerMeter.max
+                    ? `Rp ${tier.pricePerMeter.min.toLocaleString('id-ID')}`
+                    : `Rp ${tier.pricePerMeter.min.toLocaleString('id-ID')} – ${tier.pricePerMeter.max.toLocaleString('id-ID')}`}
+                  {tier.isEstimate && <span class="badge-est">est.</span>}
+                </td>
+                <td><a href={`/harga/bore-pile-${tier.diameter}cm`}>Detail →</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Strauss Pile -->
+      <div class="pricing-block">
+        <h3>Strauss Pile (Manual)</h3>
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>Diameter</th>
+              <th>Jasa / Meter</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {straussTiers.map((tier) => (
+              <tr>
+                <td><strong>{tier.diameter} cm</strong></td>
+                <td>Rp {tier.pricePerMeter.min.toLocaleString('id-ID')}</td>
+                <td><a href="/harga/strauss-pile">Detail →</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="pricing-note">*Tarif di atas murni untuk jasa pengeboran. Belum termasuk material (besi tulangan & beton) dan biaya mobilisasi alat. <br/> <a href="/harga" style="font-weight:600; color:var(--color-primary);">Gunakan Kalkulator di Halaman Harga untuk total biaya →</a></p>
+  </div>
+</section>
+
+
