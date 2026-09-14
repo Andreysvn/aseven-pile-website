@@ -44,11 +44,11 @@ bot.use(async (ctx, next) => {
 // ============ BASIC COMMANDS ============
 bot.command(["start", "menu"], async (ctx) => {
   const keyboard = new InlineKeyboard()
-    .text("🤖 Asisten AI (Agent CMS)", "action_agent_info").row()
-    .text("⚙️ Git & Server Control", "action_server_menu").row()
-    .text("🧠 Setting AI (Model & Pikiran)", "action_ai_settings").row()
-    .text("📊 Cek Status Server (Health)", "action_cek_status").row()
-    .text("❓ Bantuan Perintah Manual", "action_bantuan");
+    .text("🤖 Info Mode Chat", "action_agent_info")
+    .text("🧠 Setting AI", "action_ai_settings").row()
+    .text("⚙️ Git & Server", "action_server_menu")
+    .text("📊 Cek Status", "action_cek_status").row()
+    .text("❓ Bantuan Manual", "action_bantuan");
     
   await ctx.reply("🚀 *MAIN MENU ASEVEN PILE*\n\nSelamat datang bos! Semua kendali ada di tangan Anda. Pilih menu di bawah ini:", {
     reply_markup: keyboard,
@@ -68,9 +68,9 @@ bot.on("callback_query:data", async (ctx, next) => {
   if (data === "action_ai_settings") {
     const status = ai.getStatus();
     const keyboard = new InlineKeyboard()
-      .text("🔧 Ganti Model AI", "action_ganti_model").row()
-      .text("⚙️ Ganti Mode Berpikir (Thinking)", "action_ganti_thinking").row()
-      .text("⬅️ Kembali", "action_back_main");
+      .text("🔧 Ganti Model", "action_ganti_model")
+      .text("⚙️ Ganti Thinking", "action_ganti_thinking").row()
+      .text("⬅️ Menu Utama", "action_back_main");
 
     await ctx.editMessageText(`🧠 *Pengaturan AI Saat Ini:*\n\nModel: *${status.model}*\nThinking: *${status.thinking}*\n\nSilakan pilih yang mau diubah:`, {
       reply_markup: keyboard,
@@ -81,11 +81,11 @@ bot.on("callback_query:data", async (ctx, next) => {
 
   if (data === "action_back_main") {
     const keyboard = new InlineKeyboard()
-      .text("🤖 Asisten AI (Agent CMS)", "action_agent_info").row()
-      .text("⚙️ Git & Server Control", "action_server_menu").row()
-      .text("🧠 Setting AI (Model & Pikiran)", "action_ai_settings").row()
-      .text("📊 Cek Status Server (Health)", "action_cek_status").row()
-      .text("❓ Bantuan Perintah Manual", "action_bantuan");
+      .text("🤖 Info Mode Chat", "action_agent_info")
+      .text("🧠 Setting AI", "action_ai_settings").row()
+      .text("⚙️ Git & Server", "action_server_menu")
+      .text("📊 Cek Status", "action_cek_status").row()
+      .text("❓ Bantuan Manual", "action_bantuan");
     
     await ctx.editMessageText("🚀 *MAIN MENU ASEVEN PILE*\n\nSelamat datang bos! Semua kendali ada di tangan Anda. Pilih menu di bawah ini:", {
       reply_markup: keyboard,
@@ -96,14 +96,14 @@ bot.on("callback_query:data", async (ctx, next) => {
   
   if (data === "action_server_menu") {
     const keyboard = new InlineKeyboard()
-      .text("🚀 npm run build (Deploy Web)", "server_deploy").row()
-      .text("⬇️ git pull (Tarik Update Github)", "server_update").row()
-      .text("⬆️ git push (Backup ke Github)", "server_backup").row()
-      .text("🔄 Restart Server (Astro)", "server_restart").row()
-      .text("🛑 Kill Process (Stop Semua)", "server_stop").row()
-      .text("⬅️ Kembali", "action_back_main");
+      .text("🚀 Deploy (npm build)", "server_deploy").row()
+      .text("⬇️ Git Pull", "server_update")
+      .text("⬆️ Git Push", "server_backup").row()
+      .text("🔄 Restart", "server_restart")
+      .text("🛑 Stop Semua", "server_stop").row()
+      .text("⬅️ Menu Utama", "action_back_main");
 
-    await ctx.editMessageText(`⚙️ *Menu Git & Server Control*\n\nTombol-tombol di bawah ini akan mengeksekusi *raw command* langsung ke terminal laptop Anda. Gunakan dengan bijak:`, {
+    await ctx.editMessageText(`⚙️ *Menu Git & Server Control*\n\nTombol-tombol di bawah mengeksekusi *raw command* langsung ke terminal laptop Anda:`, {
       reply_markup: keyboard,
       parse_mode: "Markdown"
     });
@@ -113,11 +113,10 @@ bot.on("callback_query:data", async (ctx, next) => {
   if (data === "action_ganti_model") {
     const status = ai.getStatus();
     const keyboard = new InlineKeyboard()
-      .text("🏆 3.1 Pro High (Kasta Tertinggi)", "model_gemini-3.1-pro-preview").row()
-      .text("👑 Pro Latest (Stabil)", "model_gemini-pro-latest").row()
-      .text("⚡ 3.5 Flash (Paling Gesit)", "model_gemini-3.5-flash").row()
-      .text("💨 Flash Latest (Stabil)", "model_gemini-flash-latest").row()
-      .text("⚙️ 2.5 Flash (Lama)", "model_gemini-2.5-flash");
+      .text("🧠 1.5 Pro (Paling Pintar)", "model_gemini-1.5-pro").row()
+      .text("⚡ 1.5 Flash (Sangat Cepat)", "model_gemini-1.5-flash").row()
+      .text("🌟 2.0 Flash Exp (Terbaru)", "model_gemini-2.0-flash-exp").row()
+      .text("⬅️ Kembali", "action_ai_settings");
       
     await ctx.editMessageText(`🤖 *Model AI saat ini:* \`${status.model}\`\n\nSilakan klik tombol di bawah untuk mengganti model:`, {
       reply_markup: keyboard,
@@ -879,6 +878,9 @@ bot.catch((error) => {
   logActivity("system", "error", error.message, "error");
 });
 
+// Global chat memory (Menyimpan 10 chat terakhir agar bisa ngobrol natural tanpa harus di-reply)
+const globalChatMemory = [];
+
 // ============ AUTONOMOUS AGENT (NATURAL LANGUAGE) ============
 bot.on("message:text", async (ctx) => {
   // Hanya proses jika private chat ATAU user me-reply pesan dari bot ini
@@ -890,29 +892,33 @@ bot.on("message:text", async (ctx) => {
   const userText = ctx.message.text;
   if (userText.startsWith("/")) return; // Abaikan command
   
-  const replyContext = ctx.message.reply_to_message ? ctx.message.reply_to_message.text : "";
-  
   const loadingMsg = await ctx.reply("🧠 *Agent berpikir...*", { parse_mode: "Markdown" });
   
+  // Format history obrolan sebelumnya
+  let historyText = globalChatMemory.map(msg => `${msg.role === 'user' ? 'Bos' : 'Kamu'}: ${msg.text}`).join('\n\n');
+  
+  // Jika user me-reply pesan spesifik, tambahkan sebagai konteks prioritas
+  const replyContext = ctx.message.reply_to_message ? `\n[Pesan yang di-reply Bos secara spesifik]:\n"${ctx.message.reply_to_message.text}"` : "";
+  
   try {
-    const agentPrompt = `Kamu adalah Autonomous Agent ASeven Pile, asisten cerdas yang bertugas mengelola website perusahaan jasa bore pile. Kamu punya memori dan bisa mengeksekusi tindakan.
+    const agentPrompt = `Kamu adalah Autonomous Agent ASeven Pile. Selain bisa mengatur website (CMS), kamu juga adalah Asisten AI yang SUPER PINTAR dan LUWES. Kamu bisa diajak ngobrol tentang apapun, merencanakan strategi marketing, koding, atau sekadar bercanda.
 
-Konteks obrolan sebelumnya (JIKA ADA):
-"""
+--- RIWAYAT OBROLAN TERAKHIR ---
+${historyText}
 ${replyContext}
-"""
+---------------------------------
 
-Pesan/Perintah baru dari bos:
+Pesan baru dari bos:
 """
 ${userText}
 """
 
 TUGASMU:
-1. Pahami maksud bos berdasarkan pesan baru dan konteks sebelumnya.
-2. Jika bos ingin MEMASUKKAN DATA / REVISI / MENGHAPUS kota ke database, atau MEN-DEPLOY website, kamu HARUS merespons HANYA dengan blok JSON Action agar sistem bisa otomatis mengeksekusinya.
-3. Jika bos HANYA minta dibuatkan Draf untuk dibaca dulu, atau sekadar ngobrol, balaslah dengan bahasa manusia (santai tapi profesional, gunakan sapaan "bos").
+1. Jadilah asisten yang asyik dan nyambung! Baca Riwayat Obrolan di atas agar kamu tahu konteks pembicaraannya.
+2. Jika bos HANYA ngobrol biasa, tanya-jawab, atau curhat, balaslah selayaknya AI pintar yang asyik (Gunakan sapaan "bos"). JANGAN KELUARKAN JSON!
+3. JIKA DAN HANYA JIKA bos memberikan instruksi jelas untuk MENGUBAH/MENAMBAH/MENGHAPUS data kota SEO atau MEN-DEPLOY website, barulah sertakan format JSON Action di balasanmu.
 
-DAFTAR ACTION (Gunakan salah satu format ini DI DALAM teks balasanmu jika butuh eksekusi):
+DAFTAR ACTION (Gunakan HANYA jika disuruh eksekusi):
 
 ACTION UPDATE/TAMBAH KOTA:
 \`\`\`json_action
@@ -941,7 +947,10 @@ ACTION DEPLOY WEBSITE:
 { "action": "DEPLOY" }
 \`\`\`
 
-ATURAN REVISI KETAT:
+ATURAN REVISI:
+Jika bos meminta revisi, BACA konteks obrolan sebelumnya, temukan teks yang salah, lalu hasilkan \`json_action\` "UPDATE_CITY" dengan isi teks yang sudah diperbaiki.`;
+
+ATURAN REVISI:
 Jika bos meminta revisi dari teks sebelumnya, BACA konteks sebelumnya, temukan teks yang salah, dan hasilkan \`json_action\` "UPDATE_CITY" dengan data keseluruhan yang sudah diperbaiki kalimatnya sesuai permintaan bos.`;
 
     const result = await ai.sendPrompt(agentPrompt);
@@ -952,6 +961,11 @@ Jika bos meminta revisi dari teks sebelumnya, BACA konteks sebelumnya, temukan t
     }
 
     const aiResponse = result.text;
+    
+    // Simpan ke memori global
+    globalChatMemory.push({ role: 'user', text: userText });
+    globalChatMemory.push({ role: 'assistant', text: aiResponse.replace(/```json_action\n[\s\S]*?```/, '[Mengeksekusi Tindakan JSON]').trim() });
+    if (globalChatMemory.length > 20) globalChatMemory.splice(0, globalChatMemory.length - 20); // Simpan 10 pasang terakhir
     
     // Deteksi apakah AI mengeluarkan JSON Action
     const actionMatch = aiResponse.match(/```json_action\n([\s\S]*?)```/);
@@ -981,10 +995,24 @@ Jika bos meminta revisi dari teks sebelumnya, BACA konteks sebelumnya, temukan t
         replyMsg = `🗑️ *Tindakan Agen:* Data kota *${actionJson.slug}* berhasil dihapus dari database!`;
       }
       else if (actionJson.action === "DEPLOY") {
-        replyMsg = `🚀 *Tindakan Agen:* Mengeksekusi Deploy Website...`;
-        await ctx.api.editMessageText(ctx.chat.id, loadingMsg.message_id, replyMsg, { parse_mode: "Markdown" });
-        runCommand("npm", ["run", "build"]);
-        await ctx.reply(`🎉 *Deploy Selesai!* Website sudah live dengan data terbaru.`);
+        await ctx.api.editMessageText(ctx.chat.id, loadingMsg.message_id, `🚀 *Tindakan Agen:* Menyimpan ke GitHub & Deploy...`, { parse_mode: "Markdown" });
+        
+        runCommand("git", ["add", "."]);
+        runCommand("git", ["commit", "-m", "feat: Auto-update from Agent CMS"]);
+        runCommand("git", ["push"]);
+
+        await ctx.reply("⏳ Membangun ulang website (Build)...");
+        const buildResult = await runCommandAsync("npm", ["run", "build"]);
+        
+        if (!buildResult.success) {
+          await ctx.reply(`❌ Build gagal:\n\`\`\`\n${buildResult.output.substring(buildResult.output.length - 800)}\n\`\`\``, { parse_mode: "Markdown" });
+          return;
+        }
+
+        await ctx.reply("🔄 Merestart server preview...");
+        runCommandAsync("powershell", ["-Command", `Set-Location '${PROJECT_ROOT}'; .\\start-all.ps1`]);
+
+        await ctx.reply(`🎉 *Deploy Selesai Sempurna!*\n\n✅ Data aman di GitHub\n✅ Website Astro berhasil di-build\n✅ Server sukses direstart.`);
         return;
       }
       
