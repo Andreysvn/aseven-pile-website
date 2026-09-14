@@ -1,0 +1,21 @@
+---
+// Komponen ini mengambil waktu AKTUAL (Real Fact) saat server melakukan build/deploy dari Telegram.
+// Ini 100% SEO-Safe (Whitehat) karena Googlebot melihat tanggal yang valid sesuai waktu update konten/server.
+const buildDate = new Date();
+
+// Format tanggal ke gaya Indonesia (contoh: 14 September 2026)
+const formattedDate = new Intl.DateTimeFormat('id-ID', { 
+  day: 'numeric', 
+  month: 'long', 
+  year: 'numeric' 
+}).format(buildDate);
+
+const { prefix = "Data Tervalidasi" } = Astro.props;
+---
+
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 border border-green-200 rounded-full text-xs font-medium shadow-sm mb-4" title="Tanggal ini otomatis diperbarui saat Anda menekan tombol Deploy di Telegram">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+  </svg>
+  <span>{prefix}: <strong>{formattedDate}</strong></span>
+</div>

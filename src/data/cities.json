@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "jakarta-selatan",
+    "name": "Jakarta Selatan",
+    "province": "DKI Jakarta",
+    "description": "Layanan jasa bore pile dan strauss pile profesional di Jakarta Selatan. Solusi pondasi kokoh untuk gedung dan perumahan di area padat penduduk.",
+    "localFaqs": [
+      {
+        "question": "Apakah bisa mengerjakan di area perumahan padat Jakarta Selatan?",
+        "answer": "Tentu. Kami memiliki mesin mini crane yang didesain khusus untuk masuk ke gang sempit dan area perumahan padat di Jakarta Selatan tanpa menimbulkan getaran yang merusak rumah tetangga."
+      }
+    ]
+  },
+  {
+    "slug": "bekasi",
+    "name": "Bekasi",
+    "province": "Jawa Barat",
+    "description": "Kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya di Bekasi. Harga transparan dan survei gratis.",
+    "localFaqs": [
+      {
+        "question": "Bagaimana penanganan lumpur bor di daerah rawa/tanah liat Bekasi?",
+        "answer": "Kami menggunakan cairan polimer dan sistem sirkulasi lumpur (mud circulation) yang aman untuk menahan dinding lubang bor agar tidak longsor, sangat efektif untuk kontur tanah Bekasi."
+      }
+    ]
+  }
+]

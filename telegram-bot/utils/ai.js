@@ -22,8 +22,9 @@ class AIController {
     ];
     
     this.currentAccountIndex = 0;
-    this.defaultModel = process.env.AI_DEFAULT_MODEL || "gemini-1.5-pro";
+    this.defaultModel = process.env.AI_DEFAULT_MODEL || "gemini-3.5-flash";
     this.autoSwitch = process.env.AI_AUTO_SWITCH === "true";
+    this.thinkingLevel = "none";
     
     // Limit per hari (Gemini free tier: 1500 requests/day)
     this.dailyLimit = 1500;
@@ -34,6 +35,11 @@ class AIController {
    */
   getCurrentAccount() {
     return this.accounts[this.currentAccountIndex];
+  }
+
+  setThinkingLevel(level) {
+    this.thinkingLevel = level;
+    return { success: true, message: `Thinking Mode diubah ke: ${level.toUpperCase()}` };
   }
 
   /**
@@ -86,10 +92,12 @@ class AIController {
    */
   setModel(model) {
     const validModels = [
-      "gemini-1.5-pro",
-      "gemini-1.5-flash", 
-      "gemini-2.0-flash",
-      "gemini-2.5-pro"
+      "gemini-2.5-pro",
+      "gemini-2.5-flash", 
+      "gemini-3.1-pro-preview",
+      "gemini-3.5-flash",
+      "gemini-flash-latest",
+      "gemini-pro-latest"
     ];
     
     if (!validModels.includes(model)) {
@@ -134,14 +142,23 @@ class AIController {
     
     // Kirim ke Gemini API
     return new Promise((resolve) => {
+      let finalPrompt = prompt;
+      if (this.thinkingLevel === 'low') {
+        finalPrompt = 'Berpikirlah secara singkat dan langsung ke intinya:\n\n' + prompt;
+      } else if (this.thinkingLevel === 'medium') {
+        finalPrompt = 'Berpikirlah selangkah demi selangkah (step-by-step) dengan logika yang terstruktur sebelum menjawab:\n\n' + prompt;
+      } else if (this.thinkingLevel === 'high') {
+        finalPrompt = 'Anda sedang dalam MODE HIGH THINKING. Lakukan penalaran logika yang sangat mendalam, berlapis, dan ekstensif. Pikirkan berbagai sudut pandang dan probabilitas. Gunakan tag <thought> untuk menjabarkan proses berpikir Anda sebelum memberikan jawaban akhir:\n\n' + prompt;
+      }
+      
       const requestBody = JSON.stringify({
         contents: [{
           parts: [{
-            text: prompt
+            text: finalPrompt
           }]
         }],
         generationConfig: {
-          temperature: 0.7,
+          temperature: (this.thinkingLevel === 'high' || this.thinkingLevel === 'medium') ? 0.3 : 0.7,
           maxOutputTokens: 8192
         }
       });

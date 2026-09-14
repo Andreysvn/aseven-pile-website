@@ -1,0 +1,62 @@
+---
+import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
+import PriceCalculator from '../../components/calculator/PriceCalculator.tsx';
+import { SERVICE_CITIES, GLOBAL_FAQS } from '../../data/seo-data';
+
+// Fungsi wajib Astro untuk Dynamic Routing (Membangun halaman sesuai data JSON)
+export async function getStaticPaths() {
+  return SERVICE_CITIES.map((cityData) => {
+    return {
+      params: { kota: cityData.slug },
+      props: { cityData },
+    };
+  });
+}
+
+// Ambil data kota yang sedang di-generate
+const { cityData } = Astro.props;
+
+// Gabungkan FAQ Global + FAQ Lokal khusus kota ini
+const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
+---
+
+<LocalSEOLayout 
+  title={`Jasa Bore Pile & Strauss Pile ${cityData.name}`} 
+  description={cityData.description}
+  city={cityData.name}
+  serviceName="Jasa Bore Pile"
+>
+  
+  <h2>Solusi Pondasi Terbaik di {cityData.name}</h2>
+  <p>
+    ASeven Pile hadir sebagai solusi kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya untuk wilayah {cityData.name} dan sekitarnya. 
+    Dengan pengalaman bertahun-tahun, kami menjamin kualitas konstruksi yang kokoh, aman, dan berstandar nasional.
+  </p>
+
+  <!-- Fitur Kalkulator (Sama di semua halaman, tapi selalu ada) -->
+  <div class="my-12">
+    <h3 class="text-2xl font-bold mb-4 text-center">Hitung Estimasi Biaya Proyek Anda di {cityData.name}</h3>
+    <div class="p-6 bg-white rounded-xl shadow-lg border border-gray-100">
+      <PriceCalculator client:load />
+    </div>
+  </div>
+
+  <!-- Fitur FAQ Gabungan (Global + Lokal) -->
+  <div class="my-12">
+    <h3 class="text-2xl font-bold mb-6">Pertanyaan Seputar Proyek di {cityData.name}</h3>
+    <div class="space-y-4">
+      {combinedFaqs.map((faq) => (
+        <details class="group border border-gray-200 rounded-lg p-4 bg-white cursor-pointer hover:bg-gray-50">
+          <summary class="font-semibold text-gray-800 list-none flex justify-between items-center">
+            {faq.question}
+            <span class="text-blue-500 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="mt-4 text-gray-600 leading-relaxed border-t pt-4">
+            {faq.answer}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+
+</LocalSEOLayout>
