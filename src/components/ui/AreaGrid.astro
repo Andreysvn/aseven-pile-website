@@ -22,8 +22,22 @@ const jawaTimur = ["Surabaya", "Sidoarjo", "Gresik", "Malang", "Batu", "Mojokert
       <h2>Jangkauan Mobilisasi Alat</h2>
       <p>Mesin mini crane, mesin gawangan, dan kru strauss pile kami siap dimobilisasi ke seluruh proyek konstruksi Anda di Pulau Jawa.</p>
     </div>
+
+    <!-- Smart Search Bar -->
+    <div style="max-width: 500px; margin: 0 auto var(--space-8) auto; position: relative;">
+      <input 
+        type="text" 
+        id="citySearch" 
+        placeholder="Cari nama kota Anda... (misal: Bogor, Surabaya)" 
+        style="width: 100%; padding: 14px 20px 14px 44px; border-radius: 30px; border: 2px solid var(--color-border-light); font-size: 1rem; outline: none; transition: border-color 0.2s;"
+      >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" style="position: absolute; left: 16px; top: 15px;">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
     
-    <div class="region-grid">
+    <div class="region-grid" id="regionGridContainer">
       
       <!-- JABODETABEK -->
       <div class="region-card">
@@ -151,3 +165,46 @@ const jawaTimur = ["Surabaya", "Sidoarjo", "Gresik", "Malang", "Batu", "Mojokert
     box-shadow: 0 4px 8px rgba(128, 0, 0, 0.2);
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('citySearch');
+    const regionCards = document.querySelectorAll('.region-card');
+    
+    if (!searchInput) return;
+
+    // Optional: Add focus style logic
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.borderColor = 'var(--color-primary)';
+    });
+    searchInput.addEventListener('blur', () => {
+      searchInput.style.borderColor = 'var(--color-border-light)';
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      regionCards.forEach(card => {
+        let hasVisibleCity = false;
+        const cities = card.querySelectorAll('li');
+        
+        cities.forEach(city => {
+          const cityName = city.textContent.toLowerCase();
+          if (cityName.includes(searchTerm)) {
+            city.style.display = '';
+            hasVisibleCity = true;
+          } else {
+            city.style.display = 'none';
+          }
+        });
+        
+        // Hide the entire region card if no cities match
+        if (hasVisibleCity) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
