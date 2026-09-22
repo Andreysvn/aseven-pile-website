@@ -70,45 +70,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     </div>
   </section>
 
-  <!-- LOCAL VALUE PROPOSITION -->
-  <section class="local-advantages">
-    <div class="advantage-image">
-      <img src="/imgs/header-beranda-bore-pile-aseven.webp" alt={`Pekerjaan Pondasi di ${cityData.name}`} loading="lazy" />
-    </div>
-    
-    <div class="advantage-content">
-      <h2>Mengapa Memilih Kami?</h2>
-      <ul class="benefit-list">
-        <li>
-          <div class="icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div>
-            <h4>Peralatan Milik Sendiri</h4>
-            <p>Alat bor dan peralatan pendukung adalah milik ASeven Pile sendiri, bukan sewaan pihak ketiga. Proses pengiriman alat ke {cityData.name} jadi lebih cepat dan pasti.</p>
-          </div>
-        </li>
-        <li>
-          <div class="icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div>
-            <h4>Tim Berpengalaman</h4>
-            <p>Tenaga kerja kami sudah terbiasa menangani berbagai kondisi tanah, sehingga bisa mengantisipasi kendala lapangan dan menyelesaikan pekerjaan dengan rapi.</p>
-          </div>
-        </li>
-        <li>
-          <div class="icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          </div>
-          <div>
-            <h4>Harga Transparan</h4>
-            <p>Kami memberikan rincian perhitungan biaya yang jelas di awal. Anda bisa mengecek estimasi biayanya langsung di website kami tanpa biaya tersembunyi.</p>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </section>
+  
 
   <!-- OTHER CITIES LINKS -->
   <section class="other-cities">
@@ -260,78 +222,6 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   }
   .dir-card:hover .action-link {
     background: #6a0000;
-  }
-
-  /* LOCAL ADVANTAGES */
-  .local-advantages {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-    background: #f8f9fa;
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    margin-bottom: var(--space-16);
-    border: 1px solid var(--color-border-light);
-  }
-  @media (min-width: 768px) {
-    .local-advantages {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  .advantage-image {
-    position: relative;
-    min-height: 300px;
-  }
-  .advantage-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .advantage-content {
-    padding: var(--space-8);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .advantage-content h2 {
-    font-size: 1.75rem;
-    margin-bottom: var(--space-6);
-    line-height: 1.3;
-  }
-  .benefit-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-  .benefit-list li {
-    display: flex;
-    align-items: flex-start;
-  }
-  .icon-wrap {
-    color: var(--color-primary);
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: var(--space-4);
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .benefit-list h4 {
-    margin: 0 0 4px 0;
-    font-size: 1.1rem;
-    color: var(--color-text);
-  }
-  .benefit-list p {
-    margin: 0;
-    font-size: 0.95rem;
-    color: var(--color-text-muted);
-    line-height: 1.6;
   }
 
   /* OTHER CITIES */
