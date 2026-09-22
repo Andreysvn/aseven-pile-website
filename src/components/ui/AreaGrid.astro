@@ -1,11 +1,17 @@
 ---
-// AreaGrid.astro
+export interface Props {
+  hideTitle?: boolean;
+  noPaddingTop?: boolean;
+}
+
+const { hideTitle = false, noPaddingTop = false } = Astro.props;
+
 import citiesData from '../../data/cities.json';
 
 // Create a Set of available slugs for fast lookup
 const availableCitySlugs = new Set(citiesData.filter((c: any) => !c.draft).map(c => c.slug));
 
-const getCityState = (name) => {
+const getCityState = (name: string) => {
   const slug = name.toLowerCase().replace(/\s+/g, '-');
   return { name, slug, active: availableCitySlugs.has(slug) };
 };
@@ -16,12 +22,14 @@ const jawaTengah = ["Yogyakarta", "Semarang", "Surakarta (Solo)", "Magelang", "S
 const jawaTimur = ["Surabaya", "Sidoarjo", "Gresik", "Malang", "Batu", "Mojokerto", "Pasuruan", "Probolinggo", "Kediri", "Madiun", "Blitar", "Jember", "Banyuwangi", "Tuban", "Bojonegoro", "Madura"].map(getCityState);
 ---
 
-<section class="section section-bg-alt" id="area">
+<section class={`section section-bg-alt ${noPaddingTop ? 'pt-0' : ''}`} id="area" style={noPaddingTop ? "padding-top: 0;" : ""}>
   <div class="container">
-    <div class="section-title">
-      <h2>Jangkauan Mobilisasi Alat</h2>
-      <p>Mesin mini crane, mesin gawangan, dan kru strauss pile kami siap dimobilisasi ke seluruh proyek konstruksi Anda di Pulau Jawa.</p>
-    </div>
+    {!hideTitle && (
+      <div class="section-title">
+        <h2>Jangkauan Mobilisasi Alat</h2>
+        <p>Mesin mini crane, mesin gawangan, dan kru strauss pile kami siap dimobilisasi ke seluruh proyek konstruksi Anda di Pulau Jawa.</p>
+      </div>
+    )}
 
     <!-- Smart Search Bar -->
     <div style="max-width: 500px; margin: 0 auto var(--space-8) auto; position: relative;">
