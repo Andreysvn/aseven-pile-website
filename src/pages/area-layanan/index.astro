@@ -3,6 +3,8 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
 import AreaGrid from '../../components/ui/AreaGrid.astro';
 import InteractiveCoverageMap from '../../components/ui/InteractiveCoverageMap.astro';
 import PremiumCTA from '../../components/ui/PremiumCTA.astro';
+import ProcessSteps from '../../components/ui/ProcessSteps.astro';
+import MiniGallery from '../../components/ui/MiniGallery.astro';
 import { siteConfig } from '../../data/site.config';
 
 const title = "Area Layanan Bore Pile & Strauss Pile";
@@ -50,6 +52,10 @@ const description = `Jangkauan layanan kontraktor pondasi ${siteConfig.brand} me
       </div>
     </div>
   </section>
+
+    <ProcessSteps />
+  
+  <MiniGallery />
 
   <!-- MAP SECTION (Moved to Bottom) -->
   <InteractiveCoverageMap />
