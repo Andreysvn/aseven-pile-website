@@ -1,5 +1,7 @@
 ---
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
+import ProcessSteps from '../../components/ui/ProcessSteps.astro';
+import MiniGallery from '../../components/ui/MiniGallery.astro';
 import { SERVICE_CITIES } from '../../data/seo-data';
 import { siteConfig } from '../../data/site.config';
 
@@ -152,4 +154,25 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     }
   </style>
 
+  <Fragment slot="bottom-content">
+    <ProcessSteps 
+      title={`Prosedur Jasa Pengeboran di ${cityData.name}`} 
+      subtitle={`Cara mudah menjadwalkan survei dan pengerjaan pondasi (bore pile / strauss pile) untuk area ${cityData.name} sekitarnya.`}
+      steps={[
+        { number: 1, title: `Konsultasi Proyek ${cityData.name}`, desc: `Diskusikan kondisi lahan dan spesifikasi struktur bangunan Anda di ${cityData.name} dengan tim ahli kami.` },
+        { number: 2, title: `Cek Akses ${cityData.name}`, desc: `Tim survei akan memastikan akses jalan masuk ke lokasi memadai untuk manuver rig bore pile.` },
+        { number: 3, title: "Negosiasi & SPK", desc: "Perhitungan RAB transparan tanpa biaya tersembunyi, dilanjutkan penandatanganan SPK resmi." },
+        { number: 4, title: "Eksekusi Tepat Waktu", desc: `Pengerjaan pondasi di ${cityData.name} dilakukan sesuai jadwal dengan laporan progres lapangan harian.` }
+      ]}
+    />
+    <MiniGallery 
+      title={`Galeri Pekerjaan Pondasi di ${cityData.name}`} 
+      subtitle={`Kumpulan foto asli hasil eksekusi bore pile dan strauss pile dari tim ASeven Pile.`}
+      images={[
+        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Rig Mini Crane Bore Pile di ${cityData.name}`, fallback: `Mini+Crane+${cityData.name}` },
+        { src: "/imgs/wa-gallery-1.webp", alt: `Pengerjaan Strauss Pile Manual ${cityData.name}`, fallback: `Strauss+Pile+${cityData.name}` },
+        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Hasil Pondasi Kokoh di ${cityData.name}`, fallback: `Pondasi+Kokoh+${cityData.name}` }
+      ]}
+    />
+  </Fragment>
 </LocalSEOLayout>

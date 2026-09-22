@@ -132,5 +132,26 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     </div>
   </section>
 
+  <Fragment slot="bottom-content">
+    <ProcessSteps 
+      title={`SOP Bore Pile Mesin di ${cityData.name}`} 
+      subtitle={`Standar kerja ASeven Pile untuk menjamin kualitas pengeboran mesin di lokasi proyek area ${cityData.name}.`}
+      steps={[
+        { number: 1, title: `Survei Akses ${cityData.name}`, desc: `Tim meninjau kondisi jalan di ${cityData.name} untuk memastikan manuver alat berat mini crane aman.` },
+        { number: 2, title: "Setting Mesin", desc: "Perakitan rig bore pile mesin di titik pengeboran pertama sesuai dengan denah pondasi." },
+        { number: 3, title: "Pengeboran Bore Pile", desc: `Proses pengeboran tanah area ${cityData.name} hingga mencapai kedalaman tanah keras yang direncanakan.` },
+        { number: 4, title: "Pengecoran Tremi", desc: "Instalasi besi beton SNI dan pengecoran menggunakan pipa tremi agar beton tidak tercampur lumpur." }
+      ]}
+    />
+    <MiniGallery 
+      title={`Portofolio Pengeboran Bore Pile ${cityData.name}`} 
+      subtitle={`Bukti pengerjaan lapangan pondasi bore pile mesin yang dikerjakan langsung oleh tim spesialis kami.`}
+      images={[
+        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Proses Pengeboran Bore Pile di ${cityData.name}`, fallback: `Rig+Bore+Pile+${cityData.name}` },
+        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Pemasangan Pipa Tremi Bore Pile ${cityData.name}`, fallback: `Pipa+Tremi+${cityData.name}` },
+        { src: "/imgs/wa-gallery-1.webp", alt: `Hasil Pengecoran Pondasi Bore Pile ${cityData.name}`, fallback: `Cor+Beton+${cityData.name}` }
+      ]}
+    />
+  </Fragment>
 </LocalSEOLayout>
 

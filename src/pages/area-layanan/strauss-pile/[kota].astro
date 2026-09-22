@@ -2,6 +2,8 @@
 import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
 import CalculatorUI from '../../../components/interactive/CalculatorUI';
 import PricingTable from '../../../components/ui/PricingTable.astro';
+import ProcessSteps from '../../../components/ui/ProcessSteps.astro';
+import MiniGallery from '../../../components/ui/MiniGallery.astro';
 import '../../../styles/calculator.css';
 import { SERVICE_CITIES, GLOBAL_FAQS } from '../../../data/seo-data';
 import { siteConfig } from '../../../data/site.config';
@@ -130,5 +132,26 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     </div>
   </section>
 
+  <Fragment slot="bottom-content">
+    <ProcessSteps 
+      title={`Standar Kerja Strauss Pile Manual di ${cityData.name}`} 
+      subtitle={`Langkah-langkah profesional tim ASeven Pile dalam mengerjakan pondasi strauss pile di wilayah ${cityData.name}.`}
+      steps={[
+        { number: 1, title: `Cek Kontur Tanah ${cityData.name}`, desc: `Pengecekan area lahan di ${cityData.name} untuk memastikan kondisi tanah ideal untuk bor manual.` },
+        { number: 2, title: "Pengeboran Manual", desc: "Pemutaran mata bor strauss pile oleh dua orang tenaga ahli tanpa bantuan alat berat mesin." },
+        { number: 3, title: "Perakitan Besi", desc: `Perakitan besi tulangan spiral standar SNI langsung di lokasi proyek ${cityData.name}.` },
+        { number: 4, title: "Pengecoran & Pemadatan", desc: "Penuangan beton segar secara bertahap sambil dipadatkan agar bebas dari keropos." }
+      ]}
+    />
+    <MiniGallery 
+      title={`Dokumentasi Strauss Pile di ${cityData.name}`} 
+      subtitle={`Galeri pekerjaan lapangan strauss pile manual tanpa getaran oleh tenaga spesialis kami.`}
+      images={[
+        { src: "/imgs/wa-gallery-1.webp", alt: `Tim Strauss Pile Bekerja di ${cityData.name}`, fallback: `Bor+Manual+${cityData.name}` },
+        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Mata Bor Strauss Pile ${cityData.name}`, fallback: `Alat+Strauss+Pile+${cityData.name}` },
+        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Tulangan Spiral Strauss Pile ${cityData.name}`, fallback: `Besi+Strauss+Pile+${cityData.name}` }
+      ]}
+    />
+  </Fragment>
 </LocalSEOLayout>
 

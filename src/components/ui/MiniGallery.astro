@@ -2,11 +2,21 @@
 export interface Props {
   title?: string;
   subtitle?: string;
+  images?: { src: string; alt: string; fallback: string }[];
 }
 const { 
-  title = "Dokumentasi Lapangan", 
-  subtitle = "Kami memegang kendali penuh pada alat berat dan kru kami. Bukan makelar proyek." 
+  title = "Galeri Pekerjaan Lapangan", 
+  subtitle = "Dokumentasi proyek dari berbagai area layanan kami di seluruh wilayah operasional.",
+  images
 } = Astro.props;
+
+const defaultImages = [
+  { src: "/imgs/wa-gallery-1.webp", alt: "Dokumentasi proyek lapangan ASeven Pile", fallback: "Rig+Bore+Pile" },
+  { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: "Proses pengeboran bore pile", fallback: "Besi+Tulangan" },
+  { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: "Persiapan alat bore pile", fallback: "Pengecoran+Tremi" }
+];
+
+const activeImages = images || defaultImages;
 ---
 <section class="section section-bg-alt" id="galeri">
   <div class="container">
@@ -15,56 +25,24 @@ const {
       <p style="color: var(--color-text-muted);">{subtitle}</p>
     </div>
     
-    <image-lightbox>
+        <image-lightbox>
       <div class="gallery-grid">
-        
-        <!-- FOTO 1 (WA) -->
-        <button class="gallery-item" data-src="/imgs/wa-gallery-1.webp" aria-label="Lihat gambar lebih besar">
-          <div class="image-wrapper">
-            <img 
-              src="/imgs/wa-gallery-1.webp" 
-              alt="Dokumentasi proyek lapangan ASeven Pile" 
-              loading="lazy" decoding="async"
-              onerror="this.onerror=null; this.src='https://placehold.co/800x600/e2e8f0/64748b?text=Rig+Bore+Pile';"
-            />
-            <div class="zoom-indicator">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        {activeImages.map((img, i) => (
+          <button class="gallery-item" data-src={img.src} aria-label="Lihat gambar lebih besar">
+            <div class="image-wrapper">
+              <img 
+                src={img.src} 
+                alt={img.alt} 
+                loading="lazy" decoding="async"
+                onerror={`this.onerror=null; this.src='https://placehold.co/800x600/e2e8f0/64748b?text=${img.fallback}';`}
+              />
+              <div class="zoom-indicator">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              </div>
             </div>
-          </div>
-        </button>
-
-        <!-- FOTO 2 -->
-        <button class="gallery-item" data-src="/imgs/header-beranda-bore-pile-aseven.webp" aria-label="Lihat gambar lebih besar">
-          <div class="image-wrapper">
-            <img 
-              src="/imgs/header-beranda-bore-pile-aseven.webp" 
-              alt="Proses pengeboran bore pile" 
-              loading="lazy" decoding="async"
-              onerror="this.onerror=null; this.src='https://placehold.co/800x600/e2e8f0/64748b?text=Besi+Tulangan';"
-            />
-            <div class="zoom-indicator">
-               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-            </div>
-          </div>
-        </button>
-
-        <!-- FOTO 3 -->
-        <button class="gallery-item" data-src="/imgs/header-beranda-bore-pile-aseven-2.webp" aria-label="Lihat gambar lebih besar">
-          <div class="image-wrapper">
-            <img 
-              src="/imgs/header-beranda-bore-pile-aseven-2.webp" 
-              alt="Persiapan alat bore pile" 
-              loading="lazy" decoding="async"
-              onerror="this.onerror=null; this.src='https://placehold.co/800x600/e2e8f0/64748b?text=Pengecoran+Tremi';"
-            />
-            <div class="zoom-indicator">
-               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-            </div>
-          </div>
-        </button>
-
+          </button>
+        ))}
       </div>
-      
       <!-- NATIVE LIGHTBOX DIALOG -->
       <dialog class="lightbox">
         <div class="lightbox-wrapper">

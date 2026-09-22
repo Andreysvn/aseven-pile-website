@@ -2,11 +2,22 @@
 export interface Props {
   title?: string;
   subtitle?: string;
+  steps?: { number: number; title: string; desc: string }[];
 }
 const { 
   title = "Cara Mulai Bekerja Sama", 
-  subtitle = "Proses transparan tanpa kerumitan. Dari chat pertama hingga alat tiba di lokasi Anda." 
+  subtitle = "Proses transparan tanpa kerumitan. Dari chat pertama hingga alat tiba di lokasi Anda.",
+  steps
 } = Astro.props;
+
+const defaultSteps = [
+  { number: 1, title: "Konsultasi Awal", desc: "Hubungi via WA. Informasikan lokasi, jenis bangunan, dan kirimkan data Sondir/SPT (jika ada) atau gambar denah." },
+  { number: 2, title: "Survei Lahan", desc: "Tim kami akan meninjau lokasi untuk mengecek akses jalan masuk alat berat, ketersediaan air, dan manuver rig." },
+  { number: 3, title: "SPK & Mobilisasi", desc: "Kesepakatan harga total dan penandatanganan SPK. Alat berat dan kru akan dimobilisasi ke lokasi proyek Anda." },
+  { number: 4, title: "Eksekusi & Laporan", desc: "Pengeboran dimulai. Anda menerima laporan harian kedalaman, jenis tanah yang ditembus, serta volume pengecoran." }
+];
+
+const activeSteps = steps || defaultSteps;
 ---
 <section class="section" id="proses">
   <div class="container">
@@ -15,29 +26,15 @@ const {
       <p style="color: var(--color-text-muted);">{subtitle}</p>
     </div>
     
-    <div class="process-grid">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <h3>Konsultasi Awal</h3>
-        <p>Hubungi via WA. Informasikan lokasi, jenis bangunan, dan kirimkan data Sondir/SPT (jika ada) atau gambar denah.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <h3>Survei Lahan</h3>
-        <p>Tim kami akan meninjau lokasi untuk mengecek akses jalan masuk alat berat, ketersediaan air, dan manuver rig.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <h3>SPK & Mobilisasi</h3>
-        <p>Kesepakatan harga total dan penandatanganan SPK. Alat berat dan kru akan dimobilisasi ke lokasi proyek Anda.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">4</div>
-        <h3>Eksekusi & Laporan</h3>
-        <p>Pengeboran dimulai. Anda menerima laporan harian kedalaman, jenis tanah yang ditembus, serta volume pengecoran.</p>
-      </div>
+        <div class="process-grid">
+      {activeSteps.map(step => (
+        <div class="step-card">
+          <div class="step-number">{step.number}</div>
+          <h3>{step.title}</h3>
+          <p>{step.desc}</p>
+        </div>
+      ))}
     </div>
-    
     <div class="text-center" style="margin-top: var(--space-6);">
       <a href="/proses-kerja" class="btn btn-outline">Lihat Detail SOP Kami &rarr;</a>
     </div>
