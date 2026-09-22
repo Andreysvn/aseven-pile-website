@@ -1,8 +1,6 @@
 ---
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
-import CalculatorUI from '../../components/interactive/CalculatorUI';
-import '../../styles/calculator.css';
-import { SERVICE_CITIES, GLOBAL_FAQS } from '../../data/seo-data';
+import { SERVICE_CITIES } from '../../data/seo-data';
 import { siteConfig } from '../../data/site.config';
 
 export async function getStaticPaths() {
@@ -15,75 +13,65 @@ export async function getStaticPaths() {
 }
 
 const { cityData } = Astro.props;
-const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
-
-// Internal linking: other cities
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
-
-const getCalculatorLocation = (slug: string, province: string) => {
-  const jabodetabek = ['jakarta', 'jakarta-selatan', 'jakarta-timur', 'jakarta-barat', 'jakarta-pusat', 'jakarta-utara', 'bogor', 'depok', 'tangerang', 'tangerang-selatan', 'bekasi'];
-  
-  if (jabodetabek.includes(slug)) return 'jabodetabek';
-  if (province.toLowerCase().includes('banten')) return 'banten';
-  if (slug.includes('bandung')) return 'bandung';
-  if (province.toLowerCase().includes('jawa tengah') || province.toLowerCase().includes('yogyakarta')) return 'jawatengah';
-  if (province.toLowerCase().includes('jawa timur')) return 'jawatimur';
-  return 'other';
-};
-const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 ---
 
 <LocalSEOLayout 
-  title={`Jasa & Harga Bore Pile ${cityData.name} Termurah`} 
-  description={cityData.description}
+  title={`Jasa Pengeboran Pondasi di ${cityData.name}`} 
+  description={`Pusat informasi layanan jasa bore pile mesin dan strauss pile manual di wilayah ${cityData.name}. Silakan pilih layanan yang Anda butuhkan.`}
   city={cityData.name}
-  serviceName="Jasa Bore Pile"
+  serviceName="Jasa Pengeboran"
+  pathContext="general"
 >
-  
-  <h2 style="color: var(--color-primary); margin-bottom: var(--space-4);">Solusi Pondasi & Daftar Harga Bore Pile di {cityData.name}</h2>
-  <p style="margin-bottom: var(--space-8);">
-    ASeven Pile hadir sebagai solusi kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya untuk wilayah {cityData.name} dan sekitarnya. 
-    Dengan pengalaman bertahun-tahun, kami menjamin kualitas konstruksi yang kokoh, aman, dan berstandar nasional dengan <strong style="color: var(--color-primary);">harga kompetitif</strong>.
-  </p>
-
-  <div slot="calculator" style="margin-bottom: var(--space-12);">
-    <div style="padding: 0 var(--space-4);">
-      <h3 style="margin-bottom: var(--space-6); text-align: center;">Kalkulator Estimasi Biaya Proyek {cityData.name}</h3>
-      <p style="text-align: center; color: var(--color-text-light); margin-bottom: var(--space-8);">Gunakan kalkulator pintar di bawah ini untuk menghitung estimasi transparan RAB Bore Pile atau Strauss Pile khusus untuk lokasi Anda.</p>
-    </div>
-    <div class="calculator-edge-to-edge">
-      <CalculatorUI client:load defaults={{ location: calcLoc }} />
-    </div>
+  <div style="text-align: center; margin-bottom: var(--space-8);">
+    <h2 style="margin-bottom: var(--space-4);">Pilih Layanan Kami di {cityData.name}</h2>
+    <p style="color: var(--color-text-muted); font-size: 1.125rem;">Kami menyediakan dua metode pengeboran pondasi yang bisa disesuaikan dengan kebutuhan proyek Anda.</p>
   </div>
 
-  <div style="margin-bottom: var(--space-12);">
-    <h3 style="margin-bottom: var(--space-6);">Pertanyaan Seputar Proyek di {cityData.name}</h3>
-    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
-      {combinedFaqs.map((faq) => (
-        <details style="border: 1px solid var(--color-border-light); border-radius: var(--radius-md); padding: var(--space-4); background: white; cursor: pointer;">
-          <summary style="font-weight: 600; color: var(--color-text); list-style: none; display: flex; justify-content: space-between; align-items: center;">
-            {faq.question}
-            <span style="color: var(--color-primary); font-size: 1.5rem; line-height: 1;">+</span>
-          </summary>
-          <p style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border-light); color: var(--color-text-light);">
-            {faq.answer}
-          </p>
-        </details>
-      ))}
-    </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6); margin-bottom: var(--space-12);">
+    
+    <!-- Bore Pile Card -->
+    <a href={`/area-layanan/bore-pile/${cityData.slug}`} style="display: block; text-decoration: none; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; background: white; transition: transform 0.2s, box-shadow 0.2s;" class="hub-card">
+      <div style="background: var(--color-bg-alt); padding: var(--space-6); text-align: center; border-bottom: 1px solid var(--color-border-light);">
+        <h3 style="color: var(--color-primary); margin: 0;">Bore Pile Mesin</h3>
+      </div>
+      <div style="padding: var(--space-6);">
+        <ul style="list-style: none; padding: 0; margin-bottom: var(--space-6); color: var(--color-text); line-height: 1.8;">
+          <li>✓ Alat Mini Crane / Gawangan</li>
+          <li>✓ Diameter 30cm - 80cm</li>
+          <li>✓ Kedalaman s/d 30 meter</li>
+          <li>✓ Untuk ruko, gedung, pabrik</li>
+        </ul>
+        <span class="btn" style="display: block; text-align: center; width: 100%;">Lihat Harga & Detail →</span>
+      </div>
+    </a>
+
+    <!-- Strauss Pile Card -->
+    <a href={`/area-layanan/strauss-pile/${cityData.slug}`} style="display: block; text-decoration: none; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; background: white; transition: transform 0.2s, box-shadow 0.2s;" class="hub-card">
+      <div style="background: #f0fdf4; padding: var(--space-6); text-align: center; border-bottom: 1px solid #bbf7d0;">
+        <h3 style="color: #166534; margin: 0;">Strauss Pile Manual</h3>
+      </div>
+      <div style="padding: var(--space-6);">
+        <ul style="list-style: none; padding: 0; margin-bottom: var(--space-6); color: var(--color-text); line-height: 1.8;">
+          <li>✓ 100% Tenaga Manusia</li>
+          <li>✓ Diameter 20cm - 40cm</li>
+          <li>✓ Kedalaman s/d 6 meter</li>
+          <li>✓ Tanpa polusi suara / getaran</li>
+        </ul>
+        <span class="btn btn-outline" style="display: block; text-align: center; width: 100%;">Lihat Harga & Detail →</span>
+      </div>
+    </a>
+
   </div>
 
   <!-- Internal Linking: Area Lainnya -->
   <div style="margin-bottom: var(--space-12); background-color: var(--color-bg-alt); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center;">
-    <h3 style="margin-bottom: var(--space-4);">Area Layanan Lainnya</h3>
-    <p style="color: var(--color-text-light); margin-bottom: var(--space-6);">Kami juga melayani jasa bore pile dan strauss pile di area berikut:</p>
+    <h3 style="margin-bottom: var(--space-4);">Cari di Kota Lain</h3>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-4);">
       {otherCities.map((city) => (
         <a 
           href={`/area-layanan/${city.slug}`} 
           style="display: block; padding: var(--space-4); background: white; border-radius: var(--radius-md); border: 1px solid var(--color-border-light); text-decoration: none; transition: all 0.2s;"
-          onmouseover="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='var(--shadow-sm)';"
-          onmouseout="this.style.borderColor='var(--color-border-light)'; this.style.boxShadow='none';"
         >
           <span style="display: block; font-weight: 600; color: var(--color-text);">{city.name}</span>
           <span style="display: block; font-size: 0.875rem; color: var(--color-text-muted); margin-top: 4px;">{city.province}</span>
@@ -91,5 +79,25 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
       ))}
     </div>
   </div>
+
+  <style>
+    .hub-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-primary);
+    }
+    .hub-card li {
+      position: relative;
+      padding-left: 24px;
+    }
+    .hub-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 16px;
+      height: 16px;
+    }
+  </style>
 
 </LocalSEOLayout>

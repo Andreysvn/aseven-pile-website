@@ -32,6 +32,8 @@ export interface CalculatorDefaults {
   method?: 'borepile' | 'strauss';
   diameter?: number;
   location?: string;
+  depth?: number;
+  points?: number;
 }
 
 export function useCalculator(config: CalculatorConfig, defaults?: CalculatorDefaults) {
@@ -40,11 +42,13 @@ export function useCalculator(config: CalculatorConfig, defaults?: CalculatorDef
   const initialDiameter = defaults?.diameter || initialTiers[0].diameter;
   const initialLocation = defaults?.location || config.locations[0].value;
   const initialTool = initialTab === 'borepile' ? 'mini-crane' : 'strauss';
+  const initialDepth = defaults?.depth ?? (initialTab === 'borepile' ? 12 : 6);
+  const initialPoints = defaults?.points ?? 30;
 
   const [activeTab, setActiveTab] = useState<'borepile' | 'strauss'>(initialTab);
   const [diameter, setDiameter] = useState<number>(initialDiameter);
-  const [depth, setDepth] = useState<number | ''>(12);
-  const [points, setPoints] = useState<number | ''>(43);
+  const [depth, setDepth] = useState<number | ''>(initialDepth);
+  const [points, setPoints] = useState<number | ''>(initialPoints);
   const [packageType, setPackageType] = useState<'jasa' | 'allin'>('jasa');
   const [tool, setTool] = useState(initialTool);
   const [location, setLocation] = useState(initialLocation);

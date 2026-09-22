@@ -28,11 +28,16 @@ export default function CalculatorUI({ config = asevenCalculatorConfig, title, d
     ? "Mini crane dan Gawangan adalah alat berat."
     : "Pengeboran manual tenaga manusia, cocok untuk pondasi dangkal";
 
+  const serviceName = calc.activeTab === 'borepile' ? 'Bore Pile' : 'Strauss Pile';
+  const displayTitle = title 
+    ? title.replace('{service}', serviceName)
+    : `Kalkulator Estimasi Biaya ${serviceName}`;
+
   return (
     <div className="calc-wrapper">
       <div className="calc-header">
-        <h3 className="calc-title">{title || "Estimasi Harga Pengeboran"}</h3>
-        <p className="calc-desc">{description || "Simulasi cepat, transparan, dan akurat."}</p>
+        <h3 className="calc-title">{displayTitle}</h3>
+        <p className="calc-desc">{description || "Hitung cepat, harga transparan, dan akurat."}</p>
       </div>
 
       <TabSelector activeTab={calc.activeTab} onChange={calc.handleTabChange} />

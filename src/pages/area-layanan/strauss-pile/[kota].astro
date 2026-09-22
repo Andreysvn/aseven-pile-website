@@ -1,0 +1,134 @@
+---
+import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
+import CalculatorUI from '../../../components/interactive/CalculatorUI';
+import PricingTable from '../../../components/ui/PricingTable.astro';
+import '../../../styles/calculator.css';
+import { SERVICE_CITIES, GLOBAL_FAQS } from '../../../data/seo-data';
+import { siteConfig } from '../../../data/site.config';
+
+export async function getStaticPaths() {
+  return SERVICE_CITIES.map((cityData) => {
+    return {
+      params: { kota: cityData.slug },
+      props: { cityData },
+    };
+  });
+}
+
+const { cityData } = Astro.props;
+const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
+const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
+
+const getCalculatorLocation = (slug: string, province: string) => {
+  const jabodetabek = ['jakarta', 'jakarta-selatan', 'jakarta-timur', 'jakarta-barat', 'jakarta-pusat', 'jakarta-utara', 'bogor', 'depok', 'tangerang', 'tangerang-selatan', 'bekasi'];
+  if (jabodetabek.includes(slug)) return 'jabodetabek';
+  if (province.toLowerCase().includes('banten')) return 'banten';
+  if (slug.includes('bandung')) return 'bandung';
+  if (province.toLowerCase().includes('jawa tengah') || province.toLowerCase().includes('yogyakarta')) return 'jawatengah';
+  if (province.toLowerCase().includes('jawa timur')) return 'jawatimur';
+  return 'other';
+};
+const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
+---
+
+<LocalSEOLayout 
+  title={`Jasa Strauss Pile ${cityData.name} Paling Ekonomis`} 
+  description={`Jasa strauss pile manual di ${cityData.name} 100% tanpa polusi suara. Paling cocok untuk proyek perumahan padat atau gang sempit. Cek harga per meternya di sini!`}
+  city={cityData.name}
+  serviceName="Strauss Pile"
+  pathContext="strauss-pile"
+  faqs={combinedFaqs}
+>
+  <span slot="header-badge" style="display:inline-block; padding: 4px 12px; background: rgba(22, 163, 74, 0.1); color: #16a34a; border-radius: 20px; font-weight:600; font-size: 0.875rem; margin-bottom: var(--space-4);">Strauss Pile Manual</span>
+
+  <!-- 1. Intro E-E-A-T -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Alternatif Pondasi Sunyi di {cityData.name}</h2>
+    <p>Punya proyek bangunan 1-3 lantai di perumahan padat {cityData.name} dan tidak boleh berisik? <strong>Strauss Pile</strong> (bor manual tenaga manusia) adalah solusi paling tepat. Karena dikerjakan murni tanpa mesin diesel, metode ini 100% bebas polusi suara.</p>
+    <p>Tim spesialis strauss pile dari <strong>{siteConfig.brand}</strong> siap meluncur ke area sesempit apapun di {cityData.name}. Sangat cocok untuk renovasi dalam rumah, pembuatan ruko kecil, maupun pondasi pagar.</p>
+  </section>
+
+  <!-- 2. Tabel Harga -->
+  <PricingTable method="strauss" city={cityData.name} />
+
+  <!-- 3. Kalkulator -->
+  <div slot="calculator" style="margin-bottom: var(--space-12);">
+    <div class="calculator-edge-to-edge">
+      <CalculatorUI 
+        client:load 
+        title={`Kalkulator Estimasi Biaya Strauss Pile ${cityData.name}`}
+        description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
+        defaults={{ method: 'strauss', location: calcLoc, depth: 4, points: 30 }} 
+      />
+    </div>
+  </div>
+
+  <!-- 4. Keunggulan Kami -->
+  <section style="margin-bottom: var(--space-12); padding: var(--space-6); background: var(--color-bg-alt); border-radius: var(--radius-lg);">
+    <h2 style="text-align: center; margin-bottom: var(--space-6);">Kenapa Memilih Kami di {cityData.name}?</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
+      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
+        <h3 style="color: #16a34a; font-size: 1.125rem;">Bisa Masuk Gang Sempit</h3>
+        <p style="font-size: 0.95rem;">Alat strauss pile kami sangat ringkas. Bisa dipanggul masuk gang kecil atau bahkan ke dalam rumah yang sedang direnovasi di {cityData.name}.</p>
+      </div>
+      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
+        <h3 style="color: #16a34a; font-size: 1.125rem;">Nol Polusi Suara</h3>
+        <p style="font-size: 0.95rem;">Pengerjaan 100% sunyi. Dijamin tidak akan ada komplain dari tetangga sebelah proyek.</p>
+      </div>
+      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
+        <h3 style="color: #16a34a; font-size: 1.125rem;">Harga Sangat Ekonomis</h3>
+        <p style="font-size: 0.95rem;">Tanpa bahan bakar mesin, harga jasa per meter strauss pile jauh lebih murah dibanding bore pile mesin.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Portofolio (Placeholder) -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Proyek Strauss Pile Kami di {cityData.name}</h2>
+    <p style="color: var(--color-text-muted);">Dokumentasi hasil pengeboran tanah secara manual oleh tim lapangan kami.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-top: var(--space-4);">
+      <!-- PLACEHOLDER IMAGES -->
+      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 1</div>
+      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 2</div>
+      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 3</div>
+    </div>
+  </section>
+
+  <!-- 6. FAQ (Schema otomatis ter-generate via layout) -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2 style="margin-bottom: var(--space-6);">Pertanyaan Seputar Strauss Pile di {cityData.name}</h2>
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      {combinedFaqs.map((faq) => (
+        <details style="border: 1px solid var(--color-border-light); border-radius: var(--radius-md); padding: var(--space-4); background: white; cursor: pointer;">
+          <summary style="font-weight: 600; color: var(--color-text); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+            {faq.question}
+            <span style="color: #16a34a; font-size: 1.5rem; line-height: 1;">+</span>
+          </summary>
+          <p style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border-light); color: var(--color-text-light);">
+            {faq.answer}
+          </p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- 7. Cross Link & Area -->
+  <section style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-bottom: var(--space-12);">
+    <div style="background: white; border: 1px solid var(--color-border-light); padding: var(--space-6); border-radius: var(--radius-lg);">
+      <h3 style="font-size: 1.125rem; margin-bottom: var(--space-2);">Butuh Bore Pile Mesin?</h3>
+      <p style="font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: var(--space-4);">Jika kontur tanah di {cityData.name} terlalu keras atau Anda butuh diameter di atas 40cm, metode mesin (Bore Pile) adalah pilihannya.</p>
+      <a href={`/area-layanan/bore-pile/${cityData.slug}`} style="color: var(--color-primary); font-weight: 600; text-decoration: none;">Cek Bore Pile Mesin {cityData.name} →</a>
+    </div>
+    
+    <div style="background: white; border: 1px solid var(--color-border-light); padding: var(--space-6); border-radius: var(--radius-lg);">
+      <h3 style="font-size: 1.125rem; margin-bottom: var(--space-2);">Strauss Pile Kota Lain</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        {otherCities.map(c => (
+          <a href={`/area-layanan/strauss-pile/${c.slug}`} style="font-size: 0.875rem; color: #475569; text-decoration: underline;">{c.name}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</LocalSEOLayout>
+

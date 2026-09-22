@@ -1,0 +1,134 @@
+---
+import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
+import CalculatorUI from '../../../components/interactive/CalculatorUI';
+import PricingTable from '../../../components/ui/PricingTable.astro';
+import '../../../styles/calculator.css';
+import { SERVICE_CITIES, GLOBAL_FAQS } from '../../../data/seo-data';
+import { siteConfig } from '../../../data/site.config';
+
+export async function getStaticPaths() {
+  return SERVICE_CITIES.map((cityData) => {
+    return {
+      params: { kota: cityData.slug },
+      props: { cityData },
+    };
+  });
+}
+
+const { cityData } = Astro.props;
+const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
+const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
+
+const getCalculatorLocation = (slug: string, province: string) => {
+  const jabodetabek = ['jakarta', 'jakarta-selatan', 'jakarta-timur', 'jakarta-barat', 'jakarta-pusat', 'jakarta-utara', 'bogor', 'depok', 'tangerang', 'tangerang-selatan', 'bekasi'];
+  if (jabodetabek.includes(slug)) return 'jabodetabek';
+  if (province.toLowerCase().includes('banten')) return 'banten';
+  if (slug.includes('bandung')) return 'bandung';
+  if (province.toLowerCase().includes('jawa tengah') || province.toLowerCase().includes('yogyakarta')) return 'jawatengah';
+  if (province.toLowerCase().includes('jawa timur')) return 'jawatimur';
+  return 'other';
+};
+const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
+---
+
+<LocalSEOLayout 
+  title={`Jasa Bore Pile ${cityData.name} Terbaik & Termurah`} 
+  description={`Cari jasa bore pile mesin di ${cityData.name}? Kami ahlinya! Harga transparan, pengerjaan cepat, aman untuk lingkungan padat. Cek daftar harga bore pile ${cityData.name} di sini.`}
+  city={cityData.name}
+  serviceName="Bore Pile"
+  pathContext="bore-pile"
+  faqs={combinedFaqs}
+>
+  <span slot="header-badge" style="display:inline-block; padding: 4px 12px; background: rgba(139,0,0,0.1); color: var(--color-primary); border-radius: 20px; font-weight:600; font-size: 0.875rem; margin-bottom: var(--space-4);">Bore Pile Mesin (Mini Crane)</span>
+
+  <!-- 1. Intro E-E-A-T -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Kontraktor Bore Pile Andal di {cityData.name}</h2>
+    <p>Pembangunan gedung, pabrik, atau ruko 2-3 lantai di wilayah {cityData.name} membutuhkan pondasi yang ekstra kuat. Kami menyediakan jasa bore pile mesin (mini crane) yang dirancang khusus untuk menembus kontur tanah {cityData.name} hingga kedalaman 30 meter.</p>
+    <p>Berpengalaman sejak {siteConfig.foundingYear}, tim <strong>{siteConfig.brand}</strong> menjamin proses pengeboran yang minim getaran, presisi, dan sesuai standar SNI. Keamanan bangunan sekitar adalah prioritas utama kami.</p>
+  </section>
+
+  <!-- 2. Tabel Harga -->
+  <PricingTable method="borepile" city={cityData.name} />
+
+  <!-- 3. Kalkulator -->
+  <div slot="calculator" style="margin-bottom: var(--space-12);">
+    <div class="calculator-edge-to-edge">
+      <CalculatorUI 
+        client:load 
+        title={`Kalkulator Estimasi Biaya Bore Pile ${cityData.name}`}
+        description="Gunakan kalkulator ini untuk menghitung total RAB pondasi bore pile proyek Anda."
+        defaults={{ method: 'borepile', location: calcLoc, depth: 12, points: 30 }} 
+      />
+    </div>
+  </div>
+
+  <!-- 4. Keunggulan Kami -->
+  <section style="margin-bottom: var(--space-12); padding: var(--space-6); background: var(--color-bg-alt); border-radius: var(--radius-lg);">
+    <h2 style="text-align: center; margin-bottom: var(--space-6);">Kenapa Memilih Kami di {cityData.name}?</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
+      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
+        <h3 style="color: var(--color-primary); font-size: 1.125rem;">Tanpa Retak & Getaran</h3>
+        <p style="font-size: 0.95rem;">Metode bore pile mesin kami sangat aman meski proyek bersebelahan langsung dengan rumah warga. Nol risiko tembok tetangga retak.</p>
+      </div>
+      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
+        <h3 style="color: var(--color-primary); font-size: 1.125rem;">Alat Mini Crane Canggih</h3>
+        <p style="font-size: 0.95rem;">Kondisi lahan {cityData.name} yang padat bukan masalah. Mesin mini crane kami bisa masuk area sempit dengan mudah.</p>
+      </div>
+      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
+        <h3 style="color: var(--color-primary); font-size: 1.125rem;">Tukang Bor Berpengalaman</h3>
+        <p style="font-size: 0.95rem;">Tim operator dan kenek kami sudah hapal dengan karakteristik tanah di berbagai wilayah {cityData.name}.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Portofolio (Placeholder) -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2>Proyek Bore Pile Kami di {cityData.name}</h2>
+    <p style="color: var(--color-text-muted);">Berikut adalah beberapa dokumentasi hasil kerja tim {siteConfig.brand} di lapangan.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-top: var(--space-4);">
+      <!-- PLACEHOLDER IMAGES -->
+      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 1</div>
+      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 2</div>
+      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 3</div>
+    </div>
+  </section>
+
+  <!-- 6. FAQ (Schema otomatis ter-generate via layout) -->
+  <section style="margin-bottom: var(--space-12);">
+    <h2 style="margin-bottom: var(--space-6);">Pertanyaan Seputar Bore Pile di {cityData.name}</h2>
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      {combinedFaqs.map((faq) => (
+        <details style="border: 1px solid var(--color-border-light); border-radius: var(--radius-md); padding: var(--space-4); background: white; cursor: pointer;">
+          <summary style="font-weight: 600; color: var(--color-text); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+            {faq.question}
+            <span style="color: var(--color-primary); font-size: 1.5rem; line-height: 1;">+</span>
+          </summary>
+          <p style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border-light); color: var(--color-text-light);">
+            {faq.answer}
+          </p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- 7. Cross Link & Area -->
+  <section style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-bottom: var(--space-12);">
+    <div style="background: white; border: 1px solid var(--color-border-light); padding: var(--space-6); border-radius: var(--radius-lg);">
+      <h3 style="font-size: 1.125rem; margin-bottom: var(--space-2);">Butuh Strauss Pile?</h3>
+      <p style="font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: var(--space-4);">Jika akses ke proyek di {cityData.name} sama sekali tidak bisa dilewati mesin, atau Anda mencari opsi yang lebih ekonomis, gunakan Strauss Pile.</p>
+      <a href={`/area-layanan/strauss-pile/${cityData.slug}`} style="color: var(--color-primary); font-weight: 600; text-decoration: none;">Cek Strauss Pile {cityData.name} →</a>
+    </div>
+    
+    <div style="background: white; border: 1px solid var(--color-border-light); padding: var(--space-6); border-radius: var(--radius-lg);">
+      <h3 style="font-size: 1.125rem; margin-bottom: var(--space-2);">Bore Pile Kota Lain</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        {otherCities.map(c => (
+          <a href={`/area-layanan/bore-pile/${c.slug}`} style="font-size: 0.875rem; color: #475569; text-decoration: underline;">{c.name}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</LocalSEOLayout>
+

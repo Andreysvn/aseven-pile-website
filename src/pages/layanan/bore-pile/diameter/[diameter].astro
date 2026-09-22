@@ -56,13 +56,12 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
       </div>
 
       <div style="margin-bottom: var(--space-12);">
-        <h3 style="margin-bottom: var(--space-6); text-align: center;">Kalkulator Estimasi Biaya Bore Pile {tier.diameter}cm</h3>
-        <p style="text-align: center; color: var(--color-text-light); margin-bottom: var(--space-8);">Gunakan kalkulator pintar di bawah ini untuk menghitung estimasi transparan RAB Bore Pile diameter {tier.diameter}cm.</p>
+        
         <CalculatorUI
           client:load
-          title={`Kalkulator Harga Bore Pile ${tier.diameter}cm`}
+          title={`Kalkulator Harga {service} ${tier.diameter}cm`}
           description={`Hitung estimasi biaya bore pile diameter ${tier.diameter}cm. Masukkan kedalaman dan jumlah titik bor.`}
-          defaults={{ method: 'borepile', diameter: tier.diameter }}
+          defaults={{ method: 'borepile', diameter: tier.diameter, depth: 12, points: 30 }}
         />
       </div>
 
