@@ -19,7 +19,6 @@
     "slug": "jakarta-selatan",
     "name": "Jakarta Selatan",
     "province": "DKI Jakarta",
-    "draft": true,
     "description": "Layanan jasa bore pile dan strauss pile profesional di Jakarta Selatan. Solusi pondasi kokoh untuk gedung dan perumahan di area padat penduduk.",
     "localFaqs": [
       {
@@ -32,12 +31,59 @@
     "slug": "bekasi",
     "name": "Bekasi",
     "province": "Jawa Barat",
-    "draft": true,
     "description": "Kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya di Bekasi. Harga transparan dan survei gratis.",
     "localFaqs": [
       {
         "question": "Bagaimana penanganan lumpur bor di daerah rawa/tanah liat Bekasi?",
         "answer": "Kami menggunakan cairan polimer dan sistem sirkulasi lumpur (mud circulation) yang aman untuk menahan dinding lubang bor agar tidak longsor, sangat efektif untuk kontur tanah Bekasi."
+      }
+    ]
+  },
+  {
+    "slug": "bogor",
+    "name": "Bogor",
+    "province": "Jawa Barat",
+    "description": "Jasa bore pile dan strauss pile berpengalaman di wilayah Bogor. Siap menangani berbagai kondisi tanah mulai dari tanah liat hingga bebatuan.",
+    "localFaqs": [
+      {
+        "question": "Apakah mesin bore pile bisa mengebor tanah berbatu di wilayah Bogor?",
+        "answer": "Ya, mesin bore pile mini crane kami dilengkapi dengan mata bor khusus (rock auger/core barrel) yang dirancang untuk menembus lapisan tanah keras atau bebatuan yang sering ditemui di kontur tanah Bogor."
+      }
+    ]
+  },
+  {
+    "slug": "depok",
+    "name": "Depok",
+    "province": "Jawa Barat",
+    "description": "Layanan spesialis jasa pengeboran pondasi bore pile mesin dan strauss pile manual di Depok. Harga murah, kualitas terjamin.",
+    "localFaqs": [
+      {
+        "question": "Berapa lama proses pengerjaan bore pile untuk satu rumah di Depok?",
+        "answer": "Rata-rata untuk rumah tinggal standar di Depok (sekitar 30 titik), pengerjaan bore pile mesin memakan waktu sekitar 3-5 hari kerja tergantung cuaca dan kondisi tanah."
+      }
+    ]
+  },
+  {
+    "slug": "tangerang",
+    "name": "Tangerang",
+    "province": "Banten",
+    "description": "Kontraktor bore pile dan strauss pile terdekat di Tangerang. Solusi pondasi dalam untuk ruko, pabrik, dan perumahan.",
+    "localFaqs": [
+      {
+        "question": "Apakah melayani jasa bore pile untuk area industri di Tangerang?",
+        "answer": "Tentu, kami sering melayani pengeboran pondasi bore pile untuk pembangunan gudang dan pabrik di kawasan industri Tangerang dengan standar K3 yang ketat."
+      }
+    ]
+  },
+  {
+    "slug": "tangerang-selatan",
+    "name": "Tangerang Selatan",
+    "province": "Banten",
+    "description": "Jasa bore pile dan strauss pile manual area Tangerang Selatan (Tangsel). Bebas polusi suara, aman untuk lingkungan padat.",
+    "localFaqs": [
+      {
+        "question": "Pilih bore pile atau strauss pile untuk renovasi rumah di Tangsel?",
+        "answer": "Jika akses jalan masuk ke perumahan Anda di Tangsel sangat sempit (kurang dari 2 meter) dan Anda ingin menghindari kebisingan, strauss pile (manual) adalah pilihan terbaik. Namun jika butuh pondasi lebih dalam dari 6 meter, kami sarankan bore pile mesin."
       }
     ]
   }

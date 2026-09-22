@@ -982,7 +982,7 @@ const validCitySlugs = citiesData.filter((c: any) => !c.draft).map(c => c.slug).
       const hasSeoPage = validCities.includes(citySlug);
       
       const detailLink = hasSeoPage 
-        ? `<a href="/area-layanan/${citySlug}" class="btn btn-outline" style="margin-top: 8px; width: 100%; text-align: center; display: block; border: 1px solid var(--color-primary); color: var(--color-primary); padding: 8px; border-radius: 4px; font-weight: 600; font-size: 14px; transition: all 0.2s;">Lihat Harga & Detail ${loc.city}</a>` 
+        ? `<a href="/area-layanan/bore-pile/${citySlug}" class="btn btn-outline" style="margin-top: 8px; width: 100%; text-align: center; display: block; border: 1px solid var(--color-primary); color: var(--color-primary); padding: 8px; border-radius: 4px; font-weight: 600; font-size: 14px; transition: all 0.2s;">Lihat Harga & Detail ${loc.city}</a>` 
         : '';
 
       let popupContent = `
