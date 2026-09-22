@@ -10,7 +10,7 @@ const getCityState = (name) => {
   return { name, slug, active: availableCitySlugs.has(slug) };
 };
 
-const jabodetabek = ["Jakarta", "Jakarta Selatan", "Bogor", "Depok", "Tangerang", "Tangerang Selatan", "Bekasi"].map(getCityState);
+const jabodetabek = ["Jakarta", "Bogor", "Depok", "Tangerang", "Tangerang Selatan", "Bekasi"].map(getCityState);
 const jawaBarat = ["Serang", "Cilegon", "Bandung", "Cimahi", "Cirebon", "Sukabumi", "Tasikmalaya", "Banjar", "Karawang", "Purwakarta", "Subang", "Garut", "Cianjur", "Indramayu"].map(getCityState);
 const jawaTengah = ["Yogyakarta", "Semarang", "Surakarta (Solo)", "Magelang", "Salatiga", "Tegal", "Pekalongan", "Purwokerto", "Cilacap", "Kudus", "Jepara", "Klaten", "Boyolali"].map(getCityState);
 const jawaTimur = ["Surabaya", "Sidoarjo", "Gresik", "Malang", "Batu", "Mojokerto", "Pasuruan", "Probolinggo", "Kediri", "Madiun", "Blitar", "Jember", "Banyuwangi", "Tuban", "Bojonegoro", "Madura"].map(getCityState);

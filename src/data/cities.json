@@ -16,18 +16,6 @@
     ]
   },
   {
-    "slug": "jakarta-selatan",
-    "name": "Jakarta Selatan",
-    "province": "DKI Jakarta",
-    "description": "Layanan jasa bore pile dan strauss pile profesional di Jakarta Selatan. Solusi pondasi kokoh untuk gedung dan perumahan di area padat penduduk.",
-    "localFaqs": [
-      {
-        "question": "Apakah bisa mengerjakan di area perumahan padat Jakarta Selatan?",
-        "answer": "Tentu. Kami memiliki mesin mini crane yang didesain khusus untuk masuk ke gang sempit dan area perumahan padat di Jakarta Selatan tanpa menimbulkan getaran yang merusak rumah tetangga."
-      }
-    ]
-  },
-  {
     "slug": "bekasi",
     "name": "Bekasi",
     "province": "Jawa Barat",
