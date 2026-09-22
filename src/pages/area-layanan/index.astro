@@ -19,24 +19,9 @@ const description = `Jangkauan layanan kontraktor pondasi ${siteConfig.brand} me
     </div>
   </header>
 
-  <!-- MAP SECTION -->
-  <section class="section">
-    <div class="container">
-      <div style="text-align: center; margin-bottom: var(--space-8);">
-        <h2 style="font-size: var(--text-2xl); color: var(--color-text);">Peta Jangkauan Interaktif</h2>
-        <p style="color: var(--color-text-muted);">Cari area proyek Anda di peta dan lihat estimasi mob-demob</p>
-      </div>
-      <InteractiveCoverageMap />
-    </div>
-  </section>
-
   <!-- GRID SECTION -->
   <section class="section section-bg-alt" style="padding-top: var(--space-12); padding-bottom: var(--space-12);">
     <div class="container">
-      <div style="text-align: center; margin-bottom: var(--space-8);">
-        <h2 style="font-size: var(--text-2xl); color: var(--color-text);">Daftar Wilayah Operasional</h2>
-        <p style="color: var(--color-text-muted);">Pilih kota untuk menghitung estimasi biaya otomatis via kalkulator</p>
-      </div>
       <AreaGrid />
     </div>
   </section>
@@ -68,6 +53,9 @@ const description = `Jangkauan layanan kontraktor pondasi ${siteConfig.brand} me
       </div>
     </div>
   </section>
+
+  <!-- MAP SECTION (Moved to Bottom) -->
+  <InteractiveCoverageMap />
 
   <!-- CTA -->
   <section class="section" style="background-color: var(--color-primary); color: white; text-align: center;">
