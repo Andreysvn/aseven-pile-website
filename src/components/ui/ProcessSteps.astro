@@ -1,11 +1,18 @@
 ---
-// ProcessSteps.astro
+export interface Props {
+  title?: string;
+  subtitle?: string;
+}
+const { 
+  title = "Cara Mulai Bekerja Sama", 
+  subtitle = "Proses transparan tanpa kerumitan. Dari chat pertama hingga alat tiba di lokasi Anda." 
+} = Astro.props;
 ---
 <section class="section" id="proses">
   <div class="container">
-    <div class="section-title">
-      <h2>Cara Mulai Bekerja Sama</h2>
-      <p>Proses transparan tanpa kerumitan. Dari chat pertama hingga alat tiba di lokasi Anda.</p>
+    <div class="section-title text-center" style="margin-bottom: var(--space-8);">
+      <h2 style="font-size: var(--text-3xl); margin-bottom: var(--space-3);">{title}</h2>
+      <p style="color: var(--color-text-muted);">{subtitle}</p>
     </div>
     
     <div class="process-grid">

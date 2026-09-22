@@ -1,11 +1,18 @@
 ---
-// MiniGallery.astro
+export interface Props {
+  title?: string;
+  subtitle?: string;
+}
+const { 
+  title = "Dokumentasi Lapangan", 
+  subtitle = "Kami memegang kendali penuh pada alat berat dan kru kami. Bukan makelar proyek." 
+} = Astro.props;
 ---
 <section class="section section-bg-alt" id="galeri">
   <div class="container">
     <div class="section-title text-center" style="margin-bottom: var(--space-8);">
-      <h2 style="font-size: var(--text-3xl); margin-bottom: var(--space-3);">Dokumentasi Lapangan</h2>
-      <p style="color: var(--color-text-muted);">Kami memegang kendali penuh pada alat berat dan kru kami. Bukan makelar proyek.</p>
+      <h2 style="font-size: var(--text-3xl); margin-bottom: var(--space-3);">{title}</h2>
+      <p style="color: var(--color-text-muted);">{subtitle}</p>
     </div>
     
     <image-lightbox>
