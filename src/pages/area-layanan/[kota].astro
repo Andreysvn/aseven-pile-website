@@ -1,0 +1,110 @@
+---
+import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
+import { SERVICE_CITIES } from '../../data/seo-data';
+import { siteConfig } from '../../data/site.config';
+
+export async function getStaticPaths() {
+  const activeCities = SERVICE_CITIES.filter(c => !c.draft);
+  return activeCities.map((cityData) => {
+    return {
+      params: { kota: cityData.slug },
+      props: { cityData },
+    };
+  });
+}
+
+const { cityData } = Astro.props;
+const activeCities = SERVICE_CITIES.filter(c => !c.draft);
+const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 6);
+---
+
+<LocalSEOLayout 
+  title={`Layanan Spesialis Pengeboran Pondasi di ${cityData.name}`} 
+  description={`Pusat informasi layanan spesialis kontraktor pondasi di wilayah ${cityData.name}. Pilih layanan yang Anda butuhkan: Bore Pile, Strauss Pile, dsb.`}
+  city={cityData.name}
+  serviceName="Jasa Pengeboran Pondasi"
+  pathContext="general"
+>
+  <div style="text-align: center; margin-bottom: var(--space-8);">
+    <h2 style="margin-bottom: var(--space-4);">Pilih Layanan Kami di {cityData.name}</h2>
+    <p style="color: var(--color-text-muted); font-size: 1.125rem;">Klik salah satu layanan di bawah ini untuk melihat detail harga, kalkulator biaya, dan informasi spesifik untuk area {cityData.name}.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6); margin-bottom: var(--space-12);">
+    
+    <!-- Bore Pile Card -->
+    <a href={`/area-layanan/bore-pile/${cityData.slug}`} style="display: flex; flex-direction: column; text-decoration: none; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; background: white; transition: transform 0.2s, box-shadow 0.2s;" class="hub-card">
+      <div style="background: var(--color-bg-alt); padding: var(--space-6); text-align: center; border-bottom: 1px solid var(--color-border-light);">
+        <h3 style="color: var(--color-primary); margin: 0; font-size: 1.25rem;">Bore Pile Mesin</h3>
+      </div>
+      <div style="padding: var(--space-6); flex-grow: 1; display: flex; flex-direction: column;">
+        <ul style="list-style: none; padding: 0; margin-bottom: var(--space-6); color: var(--color-text); line-height: 1.8; flex-grow: 1;">
+          <li>✓ Alat Mini Crane / Gawangan</li>
+          <li>✓ Diameter 30cm - 80cm</li>
+          <li>✓ Tembus batuan & tanah keras</li>
+        </ul>
+        <span class="btn" style="display: block; text-align: center; width: 100%;">Cek Harga {cityData.name} →</span>
+      </div>
+    </a>
+
+    <!-- Strauss Pile Card -->
+    <a href={`/area-layanan/strauss-pile/${cityData.slug}`} style="display: flex; flex-direction: column; text-decoration: none; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; background: white; transition: transform 0.2s, box-shadow 0.2s;" class="hub-card">
+      <div style="background: #f0fdf4; padding: var(--space-6); text-align: center; border-bottom: 1px solid #bbf7d0;">
+        <h3 style="color: #166534; margin: 0; font-size: 1.25rem;">Strauss Pile Manual</h3>
+      </div>
+      <div style="padding: var(--space-6); flex-grow: 1; display: flex; flex-direction: column;">
+        <ul style="list-style: none; padding: 0; margin-bottom: var(--space-6); color: var(--color-text); line-height: 1.8; flex-grow: 1;">
+          <li>✓ 100% Tenaga Manusia</li>
+          <li>✓ Diameter 20cm - 40cm</li>
+          <li>✓ Bebas polusi suara & getaran</li>
+        </ul>
+        <span class="btn btn-outline" style="display: block; text-align: center; width: 100%; border-color: #166534; color: #166534;">Cek Harga {cityData.name} →</span>
+      </div>
+    </a>
+
+    <!-- PLACEHOLDER FOR FUTURE SERVICES (e.g. Tiang Pancang) -->
+    <!-- 
+    <a href={`/area-layanan/tiang-pancang/${cityData.slug}`} class="hub-card">...</a> 
+    -->
+  </div>
+
+  <!-- Internal Linking: Area Lainnya -->
+  <div style="margin-bottom: var(--space-12); background-color: var(--color-bg-alt); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center;">
+    <h3 style="margin-bottom: var(--space-4);">Cari Jasa di Kota Lain</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-4);">
+      {otherCities.map((city) => (
+        <a 
+          href={`/area-layanan/${city.slug}`} 
+          style="display: block; padding: var(--space-4); background: white; border-radius: var(--radius-md); border: 1px solid var(--color-border-light); text-decoration: none; transition: all 0.2s;"
+          class="other-city-link"
+        >
+          <span style="display: block; font-weight: 600; color: var(--color-text);">{city.name}</span>
+          <span style="display: block; font-size: 0.875rem; color: var(--color-text-muted); margin-top: 4px;">{city.province}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .hub-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-primary);
+    }
+    .hub-card li {
+      position: relative;
+      padding-left: 24px;
+    }
+    .hub-card li::before {
+      content: "•";
+      color: var(--color-primary);
+      position: absolute;
+      left: 8px;
+      font-weight: bold;
+    }
+    .other-city-link:hover {
+      border-color: var(--color-primary);
+    }
+  </style>
+
+</LocalSEOLayout>
