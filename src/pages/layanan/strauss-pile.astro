@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
+import { SERVICE_CITIES } from '../../data/seo-data';
+
+const activeCities = SERVICE_CITIES.filter(city => !city.draft);
 ---
 
 <BaseLayout title="Spesifikasi Strauss Pile Manual | ASeven Pile" description="Layanan pengeboran Strauss Pile manual. Paling ekonomis, 100% tanpa polusi suara, cocok untuk bangunan 1-3 lantai.">
@@ -112,7 +115,13 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-8);
-    margin-top: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+
+  .city-btn:hover {
+    border-color: #16a34a !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.1);
   }
 
   @media (min-width: 992px) {

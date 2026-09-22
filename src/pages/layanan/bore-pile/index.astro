@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import { SERVICE_CITIES } from '../../../data/seo-data';
+
+const title = "Jasa Bore Pile Mesin (Mini Crane) | ASeven Pile";
+const description = "Layanan pengeboran pondasi bore pile mesin menggunakan mini crane. Solusi pondasi dalam yang kokoh, cepat, dan aman untuk area padat penduduk.";
+
+// Filter out draft cities (if any exist in the array)
+const activeCities = SERVICE_CITIES.filter(city => !city.draft);
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- HERO -->
+  <div class="hero-service" style="background: linear-gradient(135deg, var(--color-bg-alt) 0%, #fff 100%); padding: var(--space-12) 0; border-bottom: 1px solid var(--color-border-light);">
+    <div class="container text-center" style="max-width: 800px;">
+      <span class="badge" style="display:inline-block; padding: 4px 12px; background: rgba(139,0,0,0.1); color: var(--color-primary); border-radius: 20px; font-weight:600; font-size: 0.875rem; margin-bottom: var(--space-4);">Pondasi Dalam Tahan Gempa</span>
+      <h1 style="color: var(--color-primary); margin-bottom: var(--space-4); font-size: clamp(32px, 5vw, 48px); line-height: 1.2;">Bore Pile Mesin (Mini Crane)</h1>
+      <p class="subtitle" style="font-size: 1.125rem; color: var(--color-text-light); line-height: 1.7;">
+        Metode pengeboran tanah menggunakan mesin <em>mini crane</em> atau gawangan. Pilihan utama untuk struktur bangunan tingkat tinggi, pabrik, dan ruko di area dengan kontur tanah padat.
+      </p>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      
+      <div style="display: grid; grid-template-columns: 1fr; gap: var(--space-8); margin-bottom: var(--space-12);">
+        <div>
+          <h2 style="margin-bottom: var(--space-4); font-size: 1.75rem;">Apa itu Bore Pile Mesin?</h2>
+          <p style="margin-bottom: var(--space-4); font-size: 1.05rem; line-height: 1.8;">
+            Bore pile adalah jenis pondasi dalam yang berbentuk tabung memanjang ke dalam tanah. Pengeboran dilakukan menggunakan mesin bore pile hidrolik tipe <em>mini crane</em> atau gawangan hingga mencapai kedalaman tanah keras (bisa mencapai 30 meter).
+          </p>
+          <p style="font-size: 1.05rem; line-height: 1.8;">
+            Setelah lubang selesai dibor, kerangka besi tulangan dimasukkan ke dalamnya, lalu dicor menggunakan beton <em>ready mix</em>. Pondasi ini sangat kuat menahan beban vertikal maupun lateral.
+          </p>
+        </div>
+      </div>
+
+      <!-- SPECS & ADVANTAGES -->
+      <div style="background: var(--color-bg-alt); padding: var(--space-8); border-radius: var(--radius-lg); margin-bottom: var(--space-12);">
+        <h2 style="text-align: center; margin-bottom: var(--space-8);">Kelebihan Metode Bore Pile</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6);">
+          
+          <div style="background: white; padding: var(--space-6); border-radius: var(--radius-md); border: 1px solid var(--color-border-light);">
+            <h3 style="color: var(--color-primary); font-size: 1.25rem; margin-bottom: var(--space-2);">Minim Getaran</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.6;">Tidak ada efek getaran seperti pada sistem paku bumi (pancang), sehingga 100% aman untuk dinding bangunan tetangga.</p>
+          </div>
+
+          <div style="background: white; padding: var(--space-6); border-radius: var(--radius-md); border: 1px solid var(--color-border-light);">
+            <h3 style="color: var(--color-primary); font-size: 1.25rem; margin-bottom: var(--space-2);">Diameter Fleksibel</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.6;">Tersedia pilihan diameter bervariasi mulai dari 30cm, 40cm, 50cm, 60cm, hingga 80cm menyesuaikan beban struktur.</p>
+          </div>
+
+          <div style="background: white; padding: var(--space-6); border-radius: var(--radius-md); border: 1px solid var(--color-border-light);">
+            <h3 style="color: var(--color-primary); font-size: 1.25rem; margin-bottom: var(--space-2);">Cocok untuk Area Padat</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.6;">Mesin mini crane dirancang kompak sehingga bisa bermanuver di lahan proyek yang tidak terlalu luas.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- INTERNAL LINKING: LOCAL SEO HUBS -->
+      <div style="border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center; margin-bottom: var(--space-12);">
+        <h2 style="margin-bottom: var(--space-2); font-size: 1.75rem;">Area Layanan Bore Pile Kami</h2>
+        <p style="color: var(--color-text-muted); margin-bottom: var(--space-8); max-width: 600px; margin-left: auto; margin-right: auto;">
+          Pilih lokasi proyek Anda di bawah ini untuk melihat rincian harga per meter, simulasi biaya via kalkulator, dan promo khusus di kota Anda.
+        </p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-4);">
+          {activeCities.map((city) => (
+            <a 
+              href={`/area-layanan/bore-pile/${city.slug}`} 
+              style="display: block; padding: var(--space-4); background: white; border-radius: var(--radius-md); border: 1px solid var(--color-border-light); text-decoration: none; transition: all 0.2s;"
+              class="city-btn"
+            >
+              <span style="display: block; font-weight: 600; color: var(--color-text);">{city.name}</span>
+              <span style="display: block; font-size: 0.8rem; color: var(--color-primary); margin-top: 4px;">Lihat Harga →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <style>
+    .city-btn:hover {
+      border-color: var(--color-primary) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(128, 0, 0, 0.1);
+    }
+  </style>
+</BaseLayout>
