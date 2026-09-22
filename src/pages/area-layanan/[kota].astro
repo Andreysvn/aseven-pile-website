@@ -1,7 +1,7 @@
 ---
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
-import ProcessSteps from '../../components/ui/ProcessSteps.astro';
-import MiniGallery from '../../components/ui/MiniGallery.astro';
+
+
 import { SERVICE_CITIES } from '../../data/seo-data';
 
 export async function getStaticPaths() {
@@ -88,27 +88,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     </div>
   </section>
 
-  <Fragment slot="bottom-content">
-    <ProcessSteps 
-      title={`Proses Kerja Kami`} 
-      subtitle={`Langkah mudah untuk mulai bekerja sama dengan ASeven Pile di ${cityData.name}.`}
-      steps={[
-        { number: 1, title: `Konsultasi & Tanya Jawab`, desc: `Hubungi kami via WhatsApp. Ceritakan jenis bangunan dan rencana pondasi yang ingin Anda buat di ${cityData.name}.` },
-        { number: 2, title: `Pengecekan Akses`, desc: `Kami akan mensurvei atau meminta foto jalan masuk lokasi proyek untuk memastikan alat berat bisa masuk dengan aman.` },
-        { number: 3, title: "Kesepakatan Biaya", desc: "Kami memberikan penawaran harga. Jika setuju, alat dan pekerja kami akan segera diberangkatkan ke lokasi." },
-        { number: 4, title: "Pengerjaan Pondasi", desc: `Proses pengeboran dan pengecoran dilakukan sesuai target dengan laporan pekerjaan harian.` }
-      ]}
-    />
-    <MiniGallery 
-      title={`Galeri Pekerjaan Kami di ${cityData.name}`} 
-      subtitle={`Beberapa foto hasil pekerjaan pondasi yang dilakukan oleh tim lapangan ASeven Pile.`}
-      images={[
-        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Rig Mesin Bore Pile Bekerja di ${cityData.name}`, fallback: `Pengerjaan+Pondasi+${cityData.name}` },
-        { src: "/imgs/wa-gallery-1.webp", alt: `Tim Sedang Memasang Pipa di ${cityData.name}`, fallback: `Pekerja+${cityData.name}` },
-        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Besi Pondasi yang Telah Terpasang di ${cityData.name}`, fallback: `Besi+Pondasi+${cityData.name}` }
-      ]}
-    />
-  </Fragment>
+  
 </LocalSEOLayout>
 
 <style>
