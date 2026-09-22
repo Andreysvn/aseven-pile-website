@@ -3,7 +3,6 @@ import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
 import ProcessSteps from '../../components/ui/ProcessSteps.astro';
 import MiniGallery from '../../components/ui/MiniGallery.astro';
 import { SERVICE_CITIES } from '../../data/seo-data';
-import { siteConfig } from '../../data/site.config';
 
 export async function getStaticPaths() {
   const activeCities = SERVICE_CITIES.filter(c => !c.draft);
@@ -21,158 +20,451 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
 ---
 
 <LocalSEOLayout 
-  title={`Kontraktor Pondasi & Spesialis Pengeboran di ${cityData.name}`} 
-  description={`Pusat layanan kontraktor pondasi dalam (Bore Pile & Strauss Pile) profesional di wilayah ${cityData.name}. Armada lengkap, tukang ahli, dan harga transparan.`}
+  title={`Layanan ASeven Pile di Wilayah ${cityData.name}`} 
+  description={`Pusat informasi dan pemesanan seluruh layanan ASeven Pile untuk area ${cityData.name} dan sekitarnya. Temukan solusi pondasi, pengeboran, dan konstruksi terbaik untuk proyek Anda.`}
   city={cityData.name}
-  serviceName="Kontraktor Pondasi"
+  serviceName="Semua Layanan"
   pathContext="general"
 >
-  <!-- 1. HERO HUB -->
-  <div style="text-align: center; margin-bottom: var(--space-12); padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-border-light);">
-    <span style="display:inline-block; padding: 4px 12px; background: rgba(139,0,0,0.1); color: var(--color-primary); border-radius: 20px; font-weight:600; font-size: 0.875rem; margin-bottom: var(--space-4);">Layanan Tersedia di {cityData.name}</span>
-    <h2 style="margin-bottom: var(--space-4); font-size: 2.25rem;">Spesialis Pondasi Dalam {cityData.name}</h2>
-    <p style="color: var(--color-text-muted); font-size: 1.125rem; max-width: 700px; margin: 0 auto; line-height: 1.7;">
-      Setiap wilayah memiliki karakteristik tanah yang berbeda. Sebagai spesialis pengeboran pondasi yang melayani area <strong>{cityData.name} dan sekitarnya</strong>, {siteConfig.brand} menyediakan dua metode unggulan yang bisa disesuaikan dengan kebutuhan struktur dan kondisi lahan proyek Anda.
+
+  <!-- HUB INTRODUCTION -->
+  <div class="hub-intro">
+    <p class="lead-text">
+      Selamat datang di pusat layanan <strong>ASeven Pile cabang {cityData.name}</strong>. Kami berkomitmen mendukung pembangunan infrastruktur, komersial, dan residensial di {cityData.name} dengan menyediakan berbagai layanan konstruksi spesialis yang dikerjakan langsung oleh tenaga ahli berpengalaman.
     </p>
   </div>
 
-  <!-- 2. PILIHAN METODE (THE ROUTING CARDS) -->
-  <div style="margin-bottom: var(--space-12);">
-    <h3 style="text-align: center; margin-bottom: var(--space-8);">Pilih Metode Pengeboran Anda</h3>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-6);">
+  <!-- SERVICE DIRECTORY -->
+  <section class="services-directory">
+    <div class="section-header">
+      <h2>Direktori Layanan di {cityData.name}</h2>
+      <p>Pilih kategori layanan yang Anda butuhkan untuk melihat detail harga, metode, dan portofolio proyek kami di {cityData.name}.</p>
+    </div>
+
+    <div class="directory-grid">
       
-      <!-- Bore Pile Card -->
-      <a href={`/area-layanan/bore-pile/${cityData.slug}`} style="display: flex; flex-direction: column; text-decoration: none; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; background: white; transition: all 0.3s;" class="hub-card">
-        <div style="background: var(--color-bg-alt); padding: var(--space-6); text-align: center; border-bottom: 2px solid var(--color-primary);">
-          <h3 style="color: var(--color-primary); margin: 0; font-size: 1.5rem;">Bore Pile Mesin</h3>
-          <p style="margin: 8px 0 0 0; font-size: 0.9rem; color: var(--color-text-muted);">Pondasi Tahan Gempa Kapasitas Besar</p>
+      <!-- SERVICE 1: BORE PILE -->
+      <a href={`/area-layanan/bore-pile/${cityData.slug}`} class="dir-card primary-service">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         </div>
-        <div style="padding: var(--space-8); flex-grow: 1; display: flex; flex-direction: column;">
-          <p style="color: var(--color-text); margin-bottom: var(--space-6); line-height: 1.6;">
-            Menggunakan mesin <em>mini crane</em>. Sangat cocok untuk struktur berat seperti pabrik, ruko 3 lantai, dan menara, serta sanggup menembus lapisan tanah keras di {cityData.name}.
-          </p>
-          <ul style="list-style: none; padding: 0; margin-bottom: var(--space-8); color: var(--color-text-muted); line-height: 1.8; flex-grow: 1;">
-            <li>✓ Diameter 30cm, 40cm, 50cm, 60cm, 80cm</li>
-            <li>✓ Kedalaman hingga 30 meter</li>
-            <li>✓ Cocok untuk tanah padat / berbatu</li>
-          </ul>
-          <span class="btn" style="display: block; text-align: center; width: 100%; font-size: 1.1rem; padding: 12px;">Cek Estimasi Harga {cityData.name} →</span>
+        <div class="card-content">
+          <span class="badge">Layanan Utama</span>
+          <h3>Bore Pile Mesin</h3>
+          <p>Pengeboran pondasi dalam menggunakan mesin mini crane. Solusi tahan gempa berkapasitas besar untuk gedung, pabrik, & ruko di {cityData.name}.</p>
+          <span class="action-link">Lihat Harga & Detail &rarr;</span>
         </div>
       </a>
 
-      <!-- Strauss Pile Card -->
-      <a href={`/area-layanan/strauss-pile/${cityData.slug}`} style="display: flex; flex-direction: column; text-decoration: none; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; background: white; transition: all 0.3s;" class="hub-card">
-        <div style="background: #f0fdf4; padding: var(--space-6); text-align: center; border-bottom: 2px solid #166534;">
-          <h3 style="color: #166534; margin: 0; font-size: 1.5rem;">Strauss Pile Manual</h3>
-          <p style="margin: 8px 0 0 0; font-size: 0.9rem; color: var(--color-text-muted);">Solusi Praktis untuk Bangunan Ringan</p>
+      <!-- SERVICE 2: STRAUSS PILE -->
+      <a href={`/area-layanan/strauss-pile/${cityData.slug}`} class="dir-card alt-service">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 16 16 12 12 8"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         </div>
-        <div style="padding: var(--space-8); flex-grow: 1; display: flex; flex-direction: column;">
-          <p style="color: var(--color-text); margin-bottom: var(--space-6); line-height: 1.6;">
-            Dikerjakan 100% menggunakan tenaga manusia. Bebas getaran dan polusi suara, menjadi pilihan ideal untuk pembangunan rumah tinggal di kawasan padat penduduk {cityData.name}.
-          </p>
-          <ul style="list-style: none; padding: 0; margin-bottom: var(--space-8); color: var(--color-text-muted); line-height: 1.8; flex-grow: 1;">
-            <li>✓ Diameter 20cm, 25cm, 30cm, 40cm</li>
-            <li>✓ Kedalaman 6 - 8 meter (tanah lunak)</li>
-            <li>✓ Sangat ekonomis & minim alat berat</li>
-          </ul>
-          <span class="btn btn-outline" style="display: block; text-align: center; width: 100%; font-size: 1.1rem; padding: 12px; border-color: #166534; color: #166534;">Cek Estimasi Harga {cityData.name} →</span>
+        <div class="card-content">
+          <span class="badge badge-alt">Populer Perumahan</span>
+          <h3>Strauss Pile Manual</h3>
+          <p>Pengeboran manual tanpa suara dan getaran. Sangat ekonomis dan ideal untuk pembangunan rumah tinggal di kawasan padat penduduk {cityData.name}.</p>
+          <span class="action-link">Lihat Harga & Detail &rarr;</span>
         </div>
       </a>
 
-      <!-- Placeholder untuk Jasa Baru (Tiang Pancang dll) -->
-    </div>
-  </div>
+      <!-- SERVICE 3: SOIL TEST (COMING SOON) -->
+      <div class="dir-card disabled">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+        </div>
+        <div class="card-content">
+          <span class="badge badge-gray">Segera Hadir</span>
+          <h3>Uji Sondir (Soil Test)</h3>
+          <p>Layanan pengujian daya dukung tanah untuk menentukan kedalaman pondasi yang aman sebelum memulai konstruksi bangunan di {cityData.name}.</p>
+          <span class="action-link text-muted">Belum Tersedia</span>
+        </div>
+      </div>
+      
+      <!-- SERVICE 4: RENTAL ALAT (COMING SOON) -->
+      <div class="dir-card disabled">
+        <div class="card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+        </div>
+        <div class="card-content">
+          <span class="badge badge-gray">Segera Hadir</span>
+          <h3>Sewa Rig & Alat Berat</h3>
+          <p>Penyewaan harian/bulanan mesin bore pile mini crane, gawangan, dan peralatan pendukung konstruksi lainnya untuk area {cityData.name}.</p>
+          <span class="action-link text-muted">Belum Tersedia</span>
+        </div>
+      </div>
 
-  <!-- 3. MENGAPA MEMILIH KAMI DI KOTA INI -->
-  <div style="background: var(--color-bg-alt); padding: var(--space-8); border-radius: var(--radius-lg); margin-bottom: var(--space-12);">
-    <h3 style="text-align: center; margin-bottom: var(--space-8);">Kenapa Memilih {siteConfig.brand} di {cityData.name}?</h3>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6);">
-      <div>
-        <h4 style="color: var(--color-primary); margin-bottom: 8px;">1. Penjadwalan Cepat</h4>
-        <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.6;">Armada kami dikelola secara mandiri (bukan *broker*), memungkinkan proses mobilisasi ke proyek Anda di {cityData.name} sesuai jadwal yang disepakati.</p>
-      </div>
-      <div>
-        <h4 style="color: var(--color-primary); margin-bottom: 8px;">2. Harga Transparan</h4>
-        <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.6;">Kami memiliki kalkulator terintegrasi di setiap layanan agar Anda dapat menghitung estimasi RAB bore pile atau strauss pile sebelum menghubungi kami.</p>
-      </div>
-      <div>
-        <h4 style="color: var(--color-primary); margin-bottom: 8px;">3. Standar Kualitas (SNI)</h4>
-        <p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.6;">Mulai dari proses pengeboran hidrolik hingga pembesian tulangan, seluruh prosedur mengikuti standar SNI demi ketahanan struktur jangka panjang.</p>
+    </div>
+  </section>
+
+  <!-- LOCAL VALUE PROPOSITION -->
+  <section class="local-advantages">
+    <div class="advantage-image">
+      <img src="/imgs/header-beranda-bore-pile-aseven.webp" alt={`Layanan Konstruksi ASeven Pile di ${cityData.name}`} loading="lazy" />
+      <div class="overlay-stats">
+        <div class="stat-box">
+          <span class="num">100+</span>
+          <span class="label">Proyek Selesai</span>
+        </div>
       </div>
     </div>
-  </div>
+    
+    <div class="advantage-content">
+      <h2>Mengapa Percayakan Proyek {cityData.name} Anda Kepada Kami?</h2>
+      <ul class="benefit-list">
+        <li>
+          <div class="icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div>
+            <h4>Armada Milik Sendiri (Bukan Broker)</h4>
+            <p>Kami memiliki garasi dan armada rig mini crane sendiri. Penjadwalan mobilisasi alat ke {cityData.name} jauh lebih cepat dan pasti tanpa oper tangan pihak ketiga.</p>
+          </div>
+        </li>
+        <li>
+          <div class="icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div>
+            <h4>Paham Karakteristik Lahan {cityData.name}</h4>
+            <p>Pengalaman panjang mengerjakan proyek di berbagai sudut {cityData.name} membuat tim kami paham strategi menghadapi kontur tanah lempung, berpasir, maupun padas.</p>
+          </div>
+        </li>
+        <li>
+          <div class="icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div>
+            <h4>Material Standar SNI</h4>
+            <p>Semua spesifikasi besi tulangan dan campuran beton yang digunakan mengikuti pedoman SNI untuk memastikan durabilitas struktur bangunan bertingkat Anda.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-  <!-- 4. LINK AREA LAIN -->
-  <div style="border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center;">
-    <h3 style="margin-bottom: var(--space-4);">Proyek di Luar {cityData.name}?</h3>
-    <p style="margin-bottom: var(--space-6); color: var(--color-text-muted);">Kami juga melayani wilayah tetangga dengan jangkauan seluas Jabodetabek dan sekitarnya.</p>
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-4);">
+  <!-- OTHER CITIES LINKS -->
+  <section class="other-cities">
+    <h3>Proyek Anda di Luar Wilayah {cityData.name}?</h3>
+    <p>Tenang, armada kami menjangkau seluruh area Jabodetabek dan kota-kota besar di sekitarnya. Temukan cabang layanan kami di kota Anda:</p>
+    <div class="city-chips">
       {otherCities.map((city) => (
-        <a 
-          href={`/area-layanan/${city.slug}`} 
-          style="padding: 8px 16px; background: white; border-radius: 30px; border: 1px solid var(--color-border-light); text-decoration: none; font-size: 0.9rem; color: var(--color-text); transition: all 0.2s;"
-          class="other-city-link"
-        >
+        <a href={`/area-layanan/${city.slug}`} class="city-chip">
           {city.name}
         </a>
       ))}
+      <a href="/area-layanan" class="city-chip chip-all">
+        Lihat Semua Kota &rarr;
+      </a>
     </div>
-  </div>
-
-  <style>
-    .hub-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-lg);
-    }
-    .hub-card:hover h3 {
-      text-decoration: underline;
-    }
-    .hub-card li {
-      position: relative;
-      padding-left: 28px;
-    }
-    .hub-card li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 5px;
-      width: 16px;
-      height: 16px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23800000'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7'%3E%3C/path%3E%3C/svg%3E");
-      background-size: cover;
-    }
-    /* Khusus centang hijau untuk strauss pile */
-    a[href*="strauss-pile"] li::before {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23166534'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7'%3E%3C/path%3E%3C/svg%3E");
-    }
-    
-    .other-city-link:hover {
-      border-color: var(--color-primary);
-      color: var(--color-primary) !important;
-      background-color: rgba(139,0,0,0.05) !important;
-    }
-  </style>
+  </section>
 
   <Fragment slot="bottom-content">
     <ProcessSteps 
-      title={`Prosedur Jasa Pengeboran di ${cityData.name}`} 
-      subtitle={`Cara mudah menjadwalkan survei dan pengerjaan pondasi (bore pile / strauss pile) untuk area ${cityData.name} sekitarnya.`}
+      title={`SOP Layanan Kami di ${cityData.name}`} 
+      subtitle={`Cara mudah menjadwalkan survei dan pengerjaan konstruksi untuk area ${cityData.name} sekitarnya.`}
       steps={[
         { number: 1, title: `Konsultasi Proyek ${cityData.name}`, desc: `Diskusikan kondisi lahan dan spesifikasi struktur bangunan Anda di ${cityData.name} dengan tim ahli kami.` },
-        { number: 2, title: `Cek Akses ${cityData.name}`, desc: `Tim survei akan memastikan akses jalan masuk ke lokasi memadai untuk manuver rig bore pile.` },
-        { number: 3, title: "Negosiasi & SPK", desc: "Perhitungan RAB transparan tanpa biaya tersembunyi, dilanjutkan penandatanganan SPK resmi." },
-        { number: 4, title: "Eksekusi Tepat Waktu", desc: `Pengerjaan pondasi di ${cityData.name} dilakukan sesuai jadwal dengan laporan progres lapangan harian.` }
+        { number: 2, title: `Cek Akses Lahan`, desc: `Tim survei akan memastikan akses jalan masuk ke lokasi memadai untuk manuver peralatan kerja.` },
+        { number: 3, title: "RAB & SPK Transparan", desc: "Perhitungan RAB dibuat detail dan transparan tanpa biaya tersembunyi, dilanjutkan penandatanganan SPK resmi." },
+        { number: 4, title: "Eksekusi Profesional", desc: `Pengerjaan di ${cityData.name} dilakukan sesuai jadwal yang disepakati dengan laporan progres lapangan harian kepada Anda.` }
       ]}
     />
     <MiniGallery 
-      title={`Galeri Pekerjaan Pondasi di ${cityData.name}`} 
-      subtitle={`Kumpulan foto asli hasil eksekusi bore pile dan strauss pile dari tim ASeven Pile.`}
+      title={`Galeri Proyek di Wilayah ${cityData.name}`} 
+      subtitle={`Kumpulan foto asli hasil eksekusi lapangan dari tim konstruksi ASeven Pile.`}
       images={[
-        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Rig Mini Crane Bore Pile di ${cityData.name}`, fallback: `Mini+Crane+${cityData.name}` },
-        { src: "/imgs/wa-gallery-1.webp", alt: `Pengerjaan Strauss Pile Manual ${cityData.name}`, fallback: `Strauss+Pile+${cityData.name}` },
-        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Hasil Pondasi Kokoh di ${cityData.name}`, fallback: `Pondasi+Kokoh+${cityData.name}` }
+        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Rig Mini Crane Beroperasi di ${cityData.name}`, fallback: `Alat+Berat+${cityData.name}` },
+        { src: "/imgs/wa-gallery-1.webp", alt: `Tim ASeven Pile Bekerja di ${cityData.name}`, fallback: `Pekerja+${cityData.name}` },
+        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Hasil Pengerjaan Kokoh di ${cityData.name}`, fallback: `Struktur+Kokoh+${cityData.name}` }
       ]}
     />
   </Fragment>
 </LocalSEOLayout>
+
+<style>
+  /* HUB INTRO */
+  .hub-intro {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+  .lead-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-text);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* DIRECTORY GRID */
+  .services-directory {
+    margin-bottom: var(--space-16);
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+  .section-header h2 {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+    color: var(--color-primary);
+  }
+  .section-header p {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .directory-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  @media (min-width: 768px) {
+    .directory-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* DIR CARDS */
+  .dir-card {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--space-6);
+    background: #ffffff;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  .dir-card:hover:not(.disabled) {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-primary);
+  }
+  .dir-card.disabled {
+    background: #f8f9fa;
+    opacity: 0.8;
+    cursor: not-allowed;
+  }
+  
+  .card-icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    margin-right: var(--space-5);
+  }
+  .primary-service .card-icon {
+    background: rgba(139,0,0,0.1);
+    color: var(--color-primary);
+  }
+  .alt-service .card-icon {
+    background: #f0fdf4;
+    color: #166534;
+  }
+  .disabled .card-icon {
+    background: #e2e8f0;
+    color: #64748b;
+  }
+
+  .card-content {
+    flex-grow: 1;
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 20px;
+    margin-bottom: var(--space-3);
+  }
+  .primary-service .badge {
+    background: var(--color-primary);
+    color: white;
+  }
+  .badge-alt {
+    background: #166534;
+    color: white;
+  }
+  .badge-gray {
+    background: #64748b;
+    color: white;
+  }
+  
+  .card-content h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.35rem;
+    color: var(--color-text);
+  }
+  .card-content p {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0 0 16px 0;
+  }
+  .action-link {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .primary-service .action-link { color: var(--color-primary); }
+  .alt-service .action-link { color: #166534; }
+  .text-muted { color: #94a3b8 !important; }
+
+  /* LOCAL ADVANTAGES */
+  .local-advantages {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    margin-bottom: var(--space-16);
+    border: 1px solid var(--color-border-light);
+  }
+  @media (min-width: 768px) {
+    .local-advantages {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .advantage-image {
+    position: relative;
+    min-height: 300px;
+  }
+  .advantage-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .overlay-stats {
+    position: absolute;
+    bottom: var(--space-6);
+    left: var(--space-6);
+    background: white;
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  }
+  .stat-box {
+    display: flex;
+    flex-direction: column;
+  }
+  .stat-box .num {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    line-height: 1;
+  }
+  .stat-box .label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  
+  .advantage-content {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .advantage-content h2 {
+    font-size: 1.75rem;
+    margin-bottom: var(--space-6);
+    line-height: 1.3;
+  }
+  .benefit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .benefit-list li {
+    display: flex;
+    align-items: flex-start;
+  }
+  .icon-wrap {
+    color: var(--color-primary);
+    background: rgba(139,0,0,0.1);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: var(--space-4);
+    flex-shrink: 0;
+  }
+  .benefit-list h4 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    color: var(--color-text);
+  }
+  .benefit-list p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* OTHER CITIES */
+  .other-cities {
+    text-align: center;
+    padding: var(--space-8);
+    border: 1px dashed var(--color-border-light);
+    border-radius: var(--radius-lg);
+    background: #ffffff;
+    margin-bottom: var(--space-12);
+  }
+  .other-cities h3 {
+    margin-bottom: var(--space-3);
+  }
+  .other-cities p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .city-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .city-chip {
+    padding: 8px 16px;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border-light);
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .city-chip:hover {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+  .chip-all {
+    background: transparent;
+    border-style: dashed;
+    color: var(--color-primary);
+  }
+  .chip-all:hover {
+    background: rgba(139,0,0,0.05);
+    color: var(--color-primary);
+  }
+</style>
