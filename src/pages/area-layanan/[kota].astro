@@ -20,80 +20,52 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
 ---
 
 <LocalSEOLayout 
-  title={`Layanan ASeven Pile di Wilayah ${cityData.name}`} 
-  description={`Pusat informasi dan pemesanan seluruh layanan ASeven Pile untuk area ${cityData.name} dan sekitarnya. Temukan solusi pondasi, pengeboran, dan konstruksi terbaik untuk proyek Anda.`}
+  title={`Layanan ASeven Pile di ${cityData.name}`} 
+  description={`Jasa pengeboran pondasi (Bore Pile & Strauss Pile) profesional untuk area ${cityData.name}. Pengerjaan cepat, rapi, dan harga transparan.`}
   city={cityData.name}
-  serviceName="Semua Layanan"
+  serviceName="Bore Pile & Strauss Pile"
   pathContext="general"
 >
 
   <!-- HUB INTRODUCTION -->
   <div class="hub-intro">
     <p class="lead-text">
-      Selamat datang di pusat layanan <strong>ASeven Pile cabang {cityData.name}</strong>. Kami berkomitmen mendukung pembangunan infrastruktur, komersial, dan residensial di {cityData.name} dengan menyediakan berbagai layanan konstruksi spesialis yang dikerjakan langsung oleh tenaga ahli berpengalaman.
+      Sedang merencanakan pembangunan di <strong>{cityData.name}</strong>? ASeven Pile siap membantu mengerjakan pondasi bangunan Anda. Kami melayani jasa pengeboran pondasi untuk berbagai kebutuhan, mulai dari rumah tinggal, ruko, hingga gedung.
     </p>
   </div>
 
   <!-- SERVICE DIRECTORY -->
   <section class="services-directory">
     <div class="section-header">
-      <h2>Direktori Layanan di {cityData.name}</h2>
-      <p>Pilih kategori layanan yang Anda butuhkan untuk melihat detail harga, metode, dan portofolio proyek kami di {cityData.name}.</p>
+      <h2>Pilihan Layanan</h2>
+      <p>Pilih metode yang paling sesuai dengan kebutuhan bangunan dan lokasi proyek Anda di {cityData.name}.</p>
     </div>
 
     <div class="directory-grid">
       
       <!-- SERVICE 1: BORE PILE -->
-      <a href={`/area-layanan/bore-pile/${cityData.slug}`} class="dir-card primary-service">
+      <a href={`/area-layanan/bore-pile/${cityData.slug}`} class="dir-card">
         <div class="card-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         </div>
         <div class="card-content">
-          <span class="badge">Layanan Utama</span>
           <h3>Bore Pile Mesin</h3>
-          <p>Pengeboran pondasi dalam menggunakan mesin mini crane. Solusi tahan gempa berkapasitas besar untuk gedung, pabrik, & ruko di {cityData.name}.</p>
+          <p>Pengeboran menggunakan alat mesin (mini crane). Sangat cocok untuk bangunan skala menengah ke atas yang membutuhkan pondasi kokoh dan dalam.</p>
           <span class="action-link">Lihat Harga & Detail &rarr;</span>
         </div>
       </a>
 
       <!-- SERVICE 2: STRAUSS PILE -->
-      <a href={`/area-layanan/strauss-pile/${cityData.slug}`} class="dir-card alt-service">
+      <a href={`/area-layanan/strauss-pile/${cityData.slug}`} class="dir-card">
         <div class="card-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 16 16 12 12 8"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         </div>
         <div class="card-content">
-          <span class="badge badge-alt">Populer Perumahan</span>
           <h3>Strauss Pile Manual</h3>
-          <p>Pengeboran manual tanpa suara dan getaran. Sangat ekonomis dan ideal untuk pembangunan rumah tinggal di kawasan padat penduduk {cityData.name}.</p>
+          <p>Pengeboran dengan tenaga manusia. Tanpa getaran dan suara bising, sehingga sangat aman untuk perumahan atau proyek di area padat penduduk.</p>
           <span class="action-link">Lihat Harga & Detail &rarr;</span>
         </div>
       </a>
-
-      <!-- SERVICE 3: SOIL TEST (COMING SOON) -->
-      <div class="dir-card disabled">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
-        </div>
-        <div class="card-content">
-          <span class="badge badge-gray">Segera Hadir</span>
-          <h3>Uji Sondir (Soil Test)</h3>
-          <p>Layanan pengujian daya dukung tanah untuk menentukan kedalaman pondasi yang aman sebelum memulai konstruksi bangunan di {cityData.name}.</p>
-          <span class="action-link text-muted">Belum Tersedia</span>
-        </div>
-      </div>
-      
-      <!-- SERVICE 4: RENTAL ALAT (COMING SOON) -->
-      <div class="dir-card disabled">
-        <div class="card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg>
-        </div>
-        <div class="card-content">
-          <span class="badge badge-gray">Segera Hadir</span>
-          <h3>Sewa Rig & Alat Berat</h3>
-          <p>Penyewaan harian/bulanan mesin bore pile mini crane, gawangan, dan peralatan pendukung konstruksi lainnya untuk area {cityData.name}.</p>
-          <span class="action-link text-muted">Belum Tersedia</span>
-        </div>
-      </div>
 
     </div>
   </section>
@@ -101,25 +73,19 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   <!-- LOCAL VALUE PROPOSITION -->
   <section class="local-advantages">
     <div class="advantage-image">
-      <img src="/imgs/header-beranda-bore-pile-aseven.webp" alt={`Layanan Konstruksi ASeven Pile di ${cityData.name}`} loading="lazy" />
-      <div class="overlay-stats">
-        <div class="stat-box">
-          <span class="num">100+</span>
-          <span class="label">Proyek Selesai</span>
-        </div>
-      </div>
+      <img src="/imgs/header-beranda-bore-pile-aseven.webp" alt={`Pekerjaan Pondasi di ${cityData.name}`} loading="lazy" />
     </div>
     
     <div class="advantage-content">
-      <h2>Mengapa Percayakan Proyek {cityData.name} Anda Kepada Kami?</h2>
+      <h2>Mengapa Memilih Kami?</h2>
       <ul class="benefit-list">
         <li>
           <div class="icon-wrap">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
           <div>
-            <h4>Armada Milik Sendiri (Bukan Broker)</h4>
-            <p>Kami memiliki garasi dan armada rig mini crane sendiri. Penjadwalan mobilisasi alat ke {cityData.name} jauh lebih cepat dan pasti tanpa oper tangan pihak ketiga.</p>
+            <h4>Peralatan Milik Sendiri</h4>
+            <p>Alat bor dan peralatan pendukung adalah milik ASeven Pile sendiri, bukan sewaan pihak ketiga. Proses pengiriman alat ke {cityData.name} jadi lebih cepat dan pasti.</p>
           </div>
         </li>
         <li>
@@ -127,8 +93,8 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
           <div>
-            <h4>Paham Karakteristik Lahan {cityData.name}</h4>
-            <p>Pengalaman panjang mengerjakan proyek di berbagai sudut {cityData.name} membuat tim kami paham strategi menghadapi kontur tanah lempung, berpasir, maupun padas.</p>
+            <h4>Tim Berpengalaman</h4>
+            <p>Tenaga kerja kami sudah terbiasa menangani berbagai kondisi tanah, sehingga bisa mengantisipasi kendala lapangan dan menyelesaikan pekerjaan dengan rapi.</p>
           </div>
         </li>
         <li>
@@ -136,8 +102,8 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
           <div>
-            <h4>Material Standar SNI</h4>
-            <p>Semua spesifikasi besi tulangan dan campuran beton yang digunakan mengikuti pedoman SNI untuk memastikan durabilitas struktur bangunan bertingkat Anda.</p>
+            <h4>Harga Transparan</h4>
+            <p>Kami memberikan rincian perhitungan biaya yang jelas di awal. Anda bisa mengecek estimasi biayanya langsung di website kami tanpa biaya tersembunyi.</p>
           </div>
         </li>
       </ul>
@@ -146,8 +112,8 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
 
   <!-- OTHER CITIES LINKS -->
   <section class="other-cities">
-    <h3>Proyek Anda di Luar Wilayah {cityData.name}?</h3>
-    <p>Tenang, armada kami menjangkau seluruh area Jabodetabek dan kota-kota besar di sekitarnya. Temukan cabang layanan kami di kota Anda:</p>
+    <h3>Cari Area Layanan Lain?</h3>
+    <p>Selain {cityData.name}, kami juga melayani pekerjaan pondasi di kota-kota berikut:</p>
     <div class="city-chips">
       {otherCities.map((city) => (
         <a href={`/area-layanan/${city.slug}`} class="city-chip">
@@ -162,22 +128,22 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
 
   <Fragment slot="bottom-content">
     <ProcessSteps 
-      title={`SOP Layanan Kami di ${cityData.name}`} 
-      subtitle={`Cara mudah menjadwalkan survei dan pengerjaan konstruksi untuk area ${cityData.name} sekitarnya.`}
+      title={`Proses Kerja Kami`} 
+      subtitle={`Langkah mudah untuk mulai bekerja sama dengan ASeven Pile di ${cityData.name}.`}
       steps={[
-        { number: 1, title: `Konsultasi Proyek ${cityData.name}`, desc: `Diskusikan kondisi lahan dan spesifikasi struktur bangunan Anda di ${cityData.name} dengan tim ahli kami.` },
-        { number: 2, title: `Cek Akses Lahan`, desc: `Tim survei akan memastikan akses jalan masuk ke lokasi memadai untuk manuver peralatan kerja.` },
-        { number: 3, title: "RAB & SPK Transparan", desc: "Perhitungan RAB dibuat detail dan transparan tanpa biaya tersembunyi, dilanjutkan penandatanganan SPK resmi." },
-        { number: 4, title: "Eksekusi Profesional", desc: `Pengerjaan di ${cityData.name} dilakukan sesuai jadwal yang disepakati dengan laporan progres lapangan harian kepada Anda.` }
+        { number: 1, title: `Konsultasi & Tanya Jawab`, desc: `Hubungi kami via WhatsApp. Ceritakan jenis bangunan dan rencana pondasi yang ingin Anda buat di ${cityData.name}.` },
+        { number: 2, title: `Pengecekan Akses`, desc: `Kami akan mensurvei atau meminta foto jalan masuk lokasi proyek untuk memastikan alat berat bisa masuk dengan aman.` },
+        { number: 3, title: "Kesepakatan Biaya", desc: "Kami memberikan penawaran harga. Jika setuju, alat dan pekerja kami akan segera diberangkatkan ke lokasi." },
+        { number: 4, title: "Pengerjaan Pondasi", desc: `Proses pengeboran dan pengecoran dilakukan sesuai target dengan laporan pekerjaan harian.` }
       ]}
     />
     <MiniGallery 
-      title={`Galeri Proyek di Wilayah ${cityData.name}`} 
-      subtitle={`Kumpulan foto asli hasil eksekusi lapangan dari tim konstruksi ASeven Pile.`}
+      title={`Galeri Pekerjaan Kami di ${cityData.name}`} 
+      subtitle={`Beberapa foto hasil pekerjaan pondasi yang dilakukan oleh tim lapangan ASeven Pile.`}
       images={[
-        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Rig Mini Crane Beroperasi di ${cityData.name}`, fallback: `Alat+Berat+${cityData.name}` },
-        { src: "/imgs/wa-gallery-1.webp", alt: `Tim ASeven Pile Bekerja di ${cityData.name}`, fallback: `Pekerja+${cityData.name}` },
-        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Hasil Pengerjaan Kokoh di ${cityData.name}`, fallback: `Struktur+Kokoh+${cityData.name}` }
+        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Rig Mesin Bore Pile Bekerja di ${cityData.name}`, fallback: `Pengerjaan+Pondasi+${cityData.name}` },
+        { src: "/imgs/wa-gallery-1.webp", alt: `Tim Sedang Memasang Pipa di ${cityData.name}`, fallback: `Pekerja+${cityData.name}` },
+        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Besi Pondasi yang Telah Terpasang di ${cityData.name}`, fallback: `Besi+Pondasi+${cityData.name}` }
       ]}
     />
   </Fragment>
@@ -208,7 +174,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   .section-header h2 {
     font-size: 2rem;
     margin-bottom: var(--space-3);
-    color: var(--color-primary);
+    color: var(--color-text);
   }
   .section-header p {
     color: var(--color-text-muted);
@@ -220,6 +186,8 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-6);
+    max-width: 900px;
+    margin: 0 auto;
   }
   @media (min-width: 768px) {
     .directory-grid {
@@ -237,72 +205,31 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     border-radius: var(--radius-lg);
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
   }
-  .dir-card:hover:not(.disabled) {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  .dir-card:hover {
     border-color: var(--color-primary);
-  }
-  .dir-card.disabled {
-    background: #f8f9fa;
-    opacity: 0.8;
-    cursor: not-allowed;
   }
   
   .card-icon {
     flex-shrink: 0;
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 14px;
+    border-radius: 12px;
     margin-right: var(--space-5);
-  }
-  .primary-service .card-icon {
-    background: rgba(139,0,0,0.1);
+    background: rgba(139,0,0,0.05);
     color: var(--color-primary);
-  }
-  .alt-service .card-icon {
-    background: #f0fdf4;
-    color: #166534;
-  }
-  .disabled .card-icon {
-    background: #e2e8f0;
-    color: #64748b;
   }
 
   .card-content {
     flex-grow: 1;
   }
-  .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    border-radius: 20px;
-    margin-bottom: var(--space-3);
-  }
-  .primary-service .badge {
-    background: var(--color-primary);
-    color: white;
-  }
-  .badge-alt {
-    background: #166534;
-    color: white;
-  }
-  .badge-gray {
-    background: #64748b;
-    color: white;
-  }
   
   .card-content h3 {
     margin: 0 0 8px 0;
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     color: var(--color-text);
   }
   .card-content p {
@@ -314,17 +241,15 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   .action-link {
     font-weight: 600;
     font-size: 0.95rem;
+    color: var(--color-primary);
   }
-  .primary-service .action-link { color: var(--color-primary); }
-  .alt-service .action-link { color: #166534; }
-  .text-muted { color: #94a3b8 !important; }
 
   /* LOCAL ADVANTAGES */
   .local-advantages {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-8);
-    background: var(--color-bg-alt);
+    background: #f8f9fa;
     border-radius: var(--radius-xl);
     overflow: hidden;
     margin-bottom: var(--space-16);
@@ -344,31 +269,6 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     height: 100%;
     object-fit: cover;
   }
-  .overlay-stats {
-    position: absolute;
-    bottom: var(--space-6);
-    left: var(--space-6);
-    background: white;
-    padding: var(--space-4) var(--space-6);
-    border-radius: var(--radius-md);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-  }
-  .stat-box {
-    display: flex;
-    flex-direction: column;
-  }
-  .stat-box .num {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--color-primary);
-    line-height: 1;
-  }
-  .stat-box .label {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    font-weight: 600;
-    margin-top: 4px;
-  }
   
   .advantage-content {
     padding: var(--space-8);
@@ -387,7 +287,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    gap: var(--space-6);
   }
   .benefit-list li {
     display: flex;
@@ -395,15 +295,14 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   }
   .icon-wrap {
     color: var(--color-primary);
-    background: rgba(139,0,0,0.1);
-    width: 36px;
-    height: 36px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
     margin-right: var(--space-4);
     flex-shrink: 0;
+    margin-top: 2px;
   }
   .benefit-list h4 {
     margin: 0 0 4px 0;
@@ -421,9 +320,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   .other-cities {
     text-align: center;
     padding: var(--space-8);
-    border: 1px dashed var(--color-border-light);
-    border-radius: var(--radius-lg);
-    background: #ffffff;
+    border-top: 1px solid var(--color-border-light);
     margin-bottom: var(--space-12);
   }
   .other-cities h3 {
@@ -444,7 +341,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   }
   .city-chip {
     padding: 8px 16px;
-    background: var(--color-bg-alt);
+    background: #f8f9fa;
     border: 1px solid var(--color-border-light);
     border-radius: 20px;
     text-decoration: none;
@@ -460,11 +357,11 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   }
   .chip-all {
     background: transparent;
-    border-style: dashed;
     color: var(--color-primary);
+    border-color: var(--color-primary);
   }
   .chip-all:hover {
-    background: rgba(139,0,0,0.05);
-    color: var(--color-primary);
+    background: var(--color-primary);
+    color: white;
   }
 </style>
