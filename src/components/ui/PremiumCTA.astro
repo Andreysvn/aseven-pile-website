@@ -15,7 +15,7 @@ const {
   waMessage = "Halo ASEVEN PILE, saya ingin konsultasi mengenai jasa pondasi bore pile."
 } = Astro.props;
 
-const waLink = \https://wa.me/\?text=\\;
+const waLink = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(waMessage)}`;
 ---
 
 <section class="section" style="padding-top: var(--space-8); padding-bottom: var(--space-12);">
