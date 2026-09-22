@@ -15,4 +15,4 @@ export const GLOBAL_FAQS = [
   }
 ];
 
-export const SERVICE_CITIES = citiesData;
+export const SERVICE_CITIES = citiesData.filter((city: any) => !city.draft);

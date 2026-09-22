@@ -1,8 +1,25 @@
 [
   {
+    "slug": "jakarta",
+    "name": "Jakarta",
+    "province": "DKI Jakarta",
+    "description": "Layanan spesialis jasa & harga bore pile mesin dan strauss pile terpercaya di seluruh wilayah Jakarta. Solusi pondasi aman, cepat, dan berstandar SNI untuk gedung dan rumah tinggal.",
+    "localFaqs": [
+      {
+        "question": "Apakah ASeven Pile melayani seluruh wilayah kota Jakarta?",
+        "answer": "Ya, kami melayani proyek pengeboran pondasi di seluruh wilayah DKI Jakarta meliputi Jakarta Pusat, Jakarta Selatan, Jakarta Barat, Jakarta Timur, hingga Jakarta Utara."
+      },
+      {
+        "question": "Bagaimana izin kerja malam untuk proyek di Jakarta?",
+        "answer": "Untuk proyek di jalan protokol atau area komersial Jakarta yang mengharuskan kerja malam, mesin bor kami dilengkapi dengan peredam suara (low noise) sehingga minim gangguan dan aman dari keluhan warga."
+      }
+    ]
+  },
+  {
     "slug": "jakarta-selatan",
     "name": "Jakarta Selatan",
     "province": "DKI Jakarta",
+    "draft": true,
     "description": "Layanan jasa bore pile dan strauss pile profesional di Jakarta Selatan. Solusi pondasi kokoh untuk gedung dan perumahan di area padat penduduk.",
     "localFaqs": [
       {
@@ -15,6 +32,7 @@
     "slug": "bekasi",
     "name": "Bekasi",
     "province": "Jawa Barat",
+    "draft": true,
     "description": "Kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya di Bekasi. Harga transparan dan survei gratis.",
     "localFaqs": [
       {

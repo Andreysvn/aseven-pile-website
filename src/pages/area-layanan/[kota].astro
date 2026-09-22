@@ -1,6 +1,7 @@
 ---
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
-import PriceCalculator from '../../components/calculator/PriceCalculator.tsx';
+import CalculatorUI from '../../components/interactive/CalculatorUI';
+import '../../styles/calculator.css';
 import { SERVICE_CITIES, GLOBAL_FAQS } from '../../data/seo-data';
 import { siteConfig } from '../../data/site.config';
 
@@ -18,38 +19,53 @@ const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
 
 // Internal linking: other cities
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
+
+const getCalculatorLocation = (slug: string, province: string) => {
+  const jabodetabek = ['jakarta', 'jakarta-selatan', 'jakarta-timur', 'jakarta-barat', 'jakarta-pusat', 'jakarta-utara', 'bogor', 'depok', 'tangerang', 'tangerang-selatan', 'bekasi'];
+  
+  if (jabodetabek.includes(slug)) return 'jabodetabek';
+  if (province.toLowerCase().includes('banten')) return 'banten';
+  if (slug.includes('bandung')) return 'bandung';
+  if (province.toLowerCase().includes('jawa tengah') || province.toLowerCase().includes('yogyakarta')) return 'jawatengah';
+  if (province.toLowerCase().includes('jawa timur')) return 'jawatimur';
+  return 'other';
+};
+const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 ---
 
 <LocalSEOLayout 
-  title={`Jasa Bore Pile & Strauss Pile ${cityData.name}`} 
+  title={`Jasa & Harga Bore Pile ${cityData.name} Termurah`} 
   description={cityData.description}
   city={cityData.name}
   serviceName="Jasa Bore Pile"
 >
   
-  <h2>Solusi Pondasi Terbaik di {cityData.name}</h2>
-  <p>
+  <h2 style="color: var(--color-primary); margin-bottom: var(--space-4);">Solusi Pondasi & Daftar Harga Bore Pile di {cityData.name}</h2>
+  <p style="margin-bottom: var(--space-8);">
     ASeven Pile hadir sebagai solusi kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya untuk wilayah {cityData.name} dan sekitarnya. 
-    Dengan pengalaman bertahun-tahun, kami menjamin kualitas konstruksi yang kokoh, aman, dan berstandar nasional.
+    Dengan pengalaman bertahun-tahun, kami menjamin kualitas konstruksi yang kokoh, aman, dan berstandar nasional dengan <strong style="color: var(--color-primary);">harga kompetitif</strong>.
   </p>
 
-  <div class="my-12">
-    <h3 class="text-2xl font-bold mb-4 text-center">Hitung Estimasi Biaya Proyek Anda di {cityData.name}</h3>
-    <div class="p-6 bg-white rounded-xl shadow-lg border border-gray-100">
-      <PriceCalculator client:load />
+  <div slot="calculator" style="margin-bottom: var(--space-12);">
+    <div style="padding: 0 var(--space-4);">
+      <h3 style="margin-bottom: var(--space-6); text-align: center;">Kalkulator Estimasi Biaya Proyek {cityData.name}</h3>
+      <p style="text-align: center; color: var(--color-text-light); margin-bottom: var(--space-8);">Gunakan kalkulator pintar di bawah ini untuk menghitung estimasi transparan RAB Bore Pile atau Strauss Pile khusus untuk lokasi Anda.</p>
+    </div>
+    <div class="calculator-edge-to-edge">
+      <CalculatorUI client:load defaults={{ location: calcLoc }} />
     </div>
   </div>
 
-  <div class="my-12">
-    <h3 class="text-2xl font-bold mb-6">Pertanyaan Seputar Proyek di {cityData.name}</h3>
-    <div class="space-y-4">
+  <div style="margin-bottom: var(--space-12);">
+    <h3 style="margin-bottom: var(--space-6);">Pertanyaan Seputar Proyek di {cityData.name}</h3>
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
       {combinedFaqs.map((faq) => (
-        <details class="group border border-gray-200 rounded-lg p-4 bg-white cursor-pointer hover:bg-gray-50">
-          <summary class="font-semibold text-gray-800 list-none flex justify-between items-center">
+        <details style="border: 1px solid var(--color-border-light); border-radius: var(--radius-md); padding: var(--space-4); background: white; cursor: pointer;">
+          <summary style="font-weight: 600; color: var(--color-text); list-style: none; display: flex; justify-content: space-between; align-items: center;">
             {faq.question}
-            <span class="text-blue-500 group-open:rotate-180 transition-transform">▼</span>
+            <span style="color: var(--color-primary); font-size: 1.5rem; line-height: 1;">+</span>
           </summary>
-          <p class="mt-4 text-gray-600 leading-relaxed border-t pt-4">
+          <p style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border-light); color: var(--color-text-light);">
             {faq.answer}
           </p>
         </details>
@@ -58,17 +74,19 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0
   </div>
 
   <!-- Internal Linking: Area Lainnya -->
-  <div class="my-12 bg-gray-50 rounded-xl p-8">
-    <h3 class="text-2xl font-bold mb-6 text-center">Area Layanan Lainnya</h3>
-    <p class="text-gray-600 text-center mb-6">Kami juga melayani jasa bore pile dan strauss pile di area berikut:</p>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+  <div style="margin-bottom: var(--space-12); background-color: var(--color-bg-alt); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center;">
+    <h3 style="margin-bottom: var(--space-4);">Area Layanan Lainnya</h3>
+    <p style="color: var(--color-text-light); margin-bottom: var(--space-6);">Kami juga melayani jasa bore pile dan strauss pile di area berikut:</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-4);">
       {otherCities.map((city) => (
         <a 
-          href={`/area/${city.slug}`} 
-          class="block p-4 bg-white rounded-lg border border-gray-200 hover:border-blue-400 hover:shadow-md transition-all text-center"
+          href={`/area-layanan/${city.slug}`} 
+          style="display: block; padding: var(--space-4); background: white; border-radius: var(--radius-md); border: 1px solid var(--color-border-light); text-decoration: none; transition: all 0.2s;"
+          onmouseover="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='var(--shadow-sm)';"
+          onmouseout="this.style.borderColor='var(--color-border-light)'; this.style.boxShadow='none';"
         >
-          <span class="font-semibold text-gray-800">{city.name}</span>
-          <span class="block text-sm text-gray-500 mt-1">{city.province}</span>
+          <span style="display: block; font-weight: 600; color: var(--color-text);">{city.name}</span>
+          <span style="display: block; font-size: 0.875rem; color: var(--color-text-muted); margin-top: 4px;">{city.province}</span>
         </a>
       ))}
     </div>

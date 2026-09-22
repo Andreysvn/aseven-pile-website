@@ -1,0 +1,280 @@
+---
+import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
+import CalculatorUI from '../../../components/interactive/CalculatorUI';
+import '../../../styles/calculator.css';
+import { SERVICE_CITIES, GLOBAL_FAQS } from '../../../data/seo-data';
+import { siteConfig } from '../../../data/site.config';
+
+export async function getStaticPaths() {
+  return SERVICE_CITIES.map((city) => ({
+    params: { kota: city.slug },
+    props: { city },
+  }));
+}
+
+const { city } = Astro.props;
+const combinedFaqs = [...GLOBAL_FAQS, ...(city.localFaqs || [])];
+
+const otherCities = SERVICE_CITIES.filter(c => c.slug !== city.slug).slice(0, 5);
+
+// Map city slug ke location value di calculator
+const cityToLocation: Record<string, string> = {
+  jakarta: 'jabodetabek',
+  bekasi: 'jabodetabek',
+  depok: 'jabodetabek',
+  bogor: 'jabodetabek',
+  tangerang: 'jabodetabek',
+};
+const locationValue = cityToLocation[city.slug] || 'jabodetabek';
+---
+
+<LocalSEOLayout
+  title={`Jasa Bore Pile ${city.name} | Harga & Konsultasi ${siteConfig.brand}`}
+  description={`Jasa bore pile mesin di ${city.name}. Harga kompetitif, survei gratis, tim berpengalaman. Hubungi ${siteConfig.brand} sekarang.`}
+  city={city.name}
+  serviceName="Bore Pile"
+>
+
+  <div class="hero-service">
+    <div class="container text-center">
+      <span class="badge">Bore Pile Mesin</span>
+      <h1>Jasa Bore Pile {city.name}</h1>
+      <p class="subtitle">Pondasi kuat dengan mesin bor hidrolik. Cocok untuk rumah tinggal, ruko, hingga gedung bertingkat di {city.name}.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="content-block">
+        <h2>Kenapa Pilih Bore Pile di {city.name}?</h2>
+        <p>Bore pile menggunakan mesin bor hidrolik untuk membuat lubang pondasi dalam dengan diameter besar. Metode ini ideal untuk kondisi tanah di {city.name} yang membutuhkan daya dukung tinggi.</p>
+        <ul>
+          <li>Kedalaman hingga 30 meter</li>
+          <li>Diameter 30cm - 80cm</li>
+          <li>Tanpa getaran berlebih (aman untuk bangunan sekitar)</li>
+          <li>Pengerjaan cepat dan efisien</li>
+        </ul>
+      </div>
+
+      <div style="margin-bottom: var(--space-12);">
+        <h3 style="margin-bottom: var(--space-6); text-align: center;">Kalkulator Estimasi Biaya Bore Pile {city.name}</h3>
+        <p style="text-align: center; color: var(--color-text-light); margin-bottom: var(--space-8);">Gunakan kalkulator pintar di bawah ini untuk menghitung estimasi transparan RAB Bore Pile khusus untuk lokasi {city.name}.</p>
+        <CalculatorUI
+          client:load
+          title={`Kalkulator Harga Bore Pile ${city.name}`}
+          description={`Hitung estimasi biaya bore pile mesin di ${city.name}. Masukkan diameter, kedalaman, dan jumlah titik.`}
+          defaults={{ method: 'borepile', location: locationValue }}
+        />
+      </div>
+
+      <div class="internal-link-box">
+        <h3>Mau Strauss Pile?</h3>
+        <p>Strauss pile menggunakan tenaga manual, lebih ekonomis untuk bangunan 1-2 lantai dan area sempit di {city.name}.</p>
+        <a href={`/layanan/strauss-pile/${city.slug}`} class="internal-link">Lihat Jasa Strauss Pile {city.name} →</a>
+      </div>
+
+      <div class="content-block">
+        <h3>Pertanyaan Seputar Bore Pile di {city.name}</h3>
+        <div class="faq-list">
+          {combinedFaqs.map((faq) => (
+            <details class="faq-item">
+              <summary class="faq-question">
+                {faq.question}
+                <span class="faq-icon">+</span>
+              </summary>
+              <p class="faq-answer">{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      {otherCities.length > 0 && (
+        <div class="internal-link-box">
+          <h3>Layanan Bore Pile di Kota Lain</h3>
+          <div class="city-links">
+            {otherCities.map((c) => (
+              <a href={`/layanan/bore-pile/${c.slug}`} class="city-link">{c.name}</a>
+            ))}
+          </div>
+        </div>
+      )}
+
+    </div>
+  </section>
+</LocalSEOLayout>
+
+<style>
+  .hero-service {
+    padding: 160px 0 80px;
+    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(139, 0, 0, 0.1);
+    color: var(--color-primary);
+    border-radius: 20px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-service h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    margin-bottom: var(--space-4);
+  }
+
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .content-block {
+    margin-bottom: var(--space-12);
+  }
+
+  .content-block h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .content-block h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
+    text-align: center;
+  }
+
+  .content-block p {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: 1.8;
+    margin-bottom: var(--space-4);
+  }
+
+  .content-block ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .content-block li {
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--color-text-muted);
+    font-size: var(--text-md);
+  }
+
+  .content-block li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: bold;
+  }
+
+  .internal-link-box {
+    margin: var(--space-8) 0;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .internal-link-box h3 {
+    margin-bottom: var(--space-2);
+  }
+
+  .internal-link-box p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .internal-link {
+    display: inline-block;
+    padding: 10px 24px;
+    background: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .internal-link:hover {
+    opacity: 0.9;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    background: white;
+    cursor: pointer;
+  }
+
+  .faq-question {
+    font-weight: 600;
+    color: var(--color-text);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .faq-answer {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-light);
+    color: var(--color-text-muted);
+  }
+
+  .city-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+    margin-top: var(--space-4);
+  }
+
+  .city-link {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .city-link:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+  }
+</style>

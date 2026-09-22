@@ -1,5 +1,7 @@
 ---
 // InteractiveCoverageMap.astro
+import citiesData from '../../data/cities.json';
+const validCitySlugs = citiesData.filter((c: any) => !c.draft).map(c => c.slug).join(',');
 ---
 <section class="section" id="coverage-map-section" style="padding-top: var(--space-8);">
   <div class="container">
@@ -12,7 +14,7 @@
     <!-- Background Pattern -->
     <div class="absolute inset-0 z-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
 
-    <div class="map-container relative z-10 w-full  rounded-3xl overflow-hidden shadow-2xl border-4 border-white/25">
+    <div class="map-container relative z-10 w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white/25" data-valid-cities={validCitySlugs}>
       <div id="coverage-map" class="coverage-map w-full h-full" ></div>
       
       <!-- UI OVERLAYS -->
@@ -973,11 +975,22 @@
       const waNumber = "6285814173761";
       const waText = encodeURIComponent(`Halo ASeven Pile, saya ingin konsultasi mengenai jasa bore pile untuk proyek di wilayah ${loc.name}.`);
       
+      // Check if we have an internal SEO page for this city
+      const mapWrapper = document.querySelector('.map-container');
+      const validCities = mapWrapper ? mapWrapper.getAttribute('data-valid-cities').split(',') : [];
+      const citySlug = loc.city ? loc.city.toLowerCase().replace(/\s+/g, '-') : '';
+      const hasSeoPage = validCities.includes(citySlug);
+      
+      const detailLink = hasSeoPage 
+        ? `<a href="/area-layanan/${citySlug}" class="btn btn-outline" style="margin-top: 8px; width: 100%; text-align: center; display: block; border: 1px solid var(--color-primary); color: var(--color-primary); padding: 8px; border-radius: 4px; font-weight: 600; font-size: 14px; transition: all 0.2s;">Lihat Harga & Detail ${loc.city}</a>` 
+        : '';
+
       let popupContent = `
         <div class="map-popup-card">
           <h4>${loc.name}</h4>
           <p>${loc.desc}</p>
           <a href="https://wa.me/${waNumber}?text=${waText}" class="btn btn-accent" target="_blank" rel="noopener noreferrer">Konsultasi via WA</a>
+          ${detailLink}
         </div>
       `;
       

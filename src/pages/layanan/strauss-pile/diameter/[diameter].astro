@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../../../../components/layout/BaseLayout.astro';
+import CalculatorUI from '../../../../components/interactive/CalculatorUI';
+import '../../../../styles/calculator.css';
+import { straussTiers } from '../../../../data/pricing';
+import { siteConfig } from '../../../../data/site.config';
+
+export async function getStaticPaths() {
+  return straussTiers.map((tier) => ({
+    params: { diameter: tier.diameter.toString() },
+    props: { tier },
+  }));
+}
+
+const { tier } = Astro.props;
+
+const otherDiameters = straussTiers.filter(t => t.diameter !== tier.diameter);
+
+const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
+  ? `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")}`
+  : `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")} - Rp ${tier.pricePerMeter.max.toLocaleString("id-ID")}`;
+---
+
+<BaseLayout
+  title={`Jasa Strauss Pile Diameter ${tier.diameter}cm | Harga & Konsultasi ${siteConfig.brand}`}
+  description={`Jasa strauss pile manual diameter ${tier.diameter}cm per meter. ${tier.notes} Hubungi ${siteConfig.brand} untuk survei gratis.`}
+>
+
+  <div class="hero-service hero-strauss">
+    <div class="container text-center">
+      <span class="badge">Strauss Pile Manual</span>
+      <h1>Jasa Strauss Pile Diameter {tier.diameter}cm</h1>
+      <p class="subtitle">{tier.notes}</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="price-highlight price-strauss">
+        <p class="price-label">Harga per meter</p>
+        <p class="price-value">{priceFormatted}</p>
+        {tier.isEstimate && (
+          <p class="price-note">⚠️ Harga estimasi (tergantung kondisi lapangan)</p>
+        )}
+      </div>
+
+      <div class="content-block">
+        <h2>Spesifikasi Strauss Pile {tier.diameter}cm</h2>
+        <ul>
+          <li><strong>Diameter:</strong> {tier.diameter}cm</li>
+          <li><strong>Metode:</strong> Manual (Strauss Pile)</li>
+          <li><strong>Maksimal Kedalaman:</strong> Hingga 12m</li>
+          <li><strong>Cocok untuk:</strong> {tier.notes}</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h2>Bore Pile vs Strauss Pile?</h2>
+        <p>
+          <strong>Strauss Pile</strong> menggunakan tenaga manual manusia, cocok untuk area sempit dan perumahan padat.
+          Tidak menimbulkan getaran berlebih yang bisa merusak bangunan tetangga.
+        </p>
+        <p>
+          Jika proyek Anda membutuhkan diameter lebih besar dari {tier.diameter}cm atau kedalaman lebih dari 12m,
+          pertimbangkan menggunakan <a href={`/layanan/bore-pile/diameter/${Math.max(30, tier.diameter + 10)}`} class="text-blue-600 underline">Bore Pile Mesin</a>.
+        </p>
+      </div>
+
+      <div style="margin-bottom: var(--space-12);">
+        <h3 style="margin-bottom: var(--space-6); text-align: center;">Kalkulator Estimasi Biaya Strauss Pile {tier.diameter}cm</h3>
+        <p style="text-align: center; color: var(--color-text-light); margin-bottom: var(--space-8);">Gunakan kalkulator pintar di bawah ini untuk menghitung estimasi transparan RAB Strauss Pile diameter {tier.diameter}cm.</p>
+        <CalculatorUI
+          client:load
+          title={`Kalkulator Harga Strauss Pile ${tier.diameter}cm`}
+          description={`Hitung estimasi biaya strauss pile diameter ${tier.diameter}cm. Masukkan kedalaman dan jumlah titik bor.`}
+          defaults={{ method: 'strauss', diameter: tier.diameter }}
+        />
+      </div>
+
+      <div class="internal-link-box">
+        <h3>Butuh Bore Pile?</h3>
+        <p>Bore pile mesin untuk diameter lebih besar dan kedalaman lebih dari 12m.</p>
+        <a href={`/layanan/bore-pile/diameter/${Math.max(30, tier.diameter + 10)}`} class="internal-link link-bore">Lihat Jasa Bore Pile {Math.max(30, tier.diameter + 10)}cm →</a>
+      </div>
+
+      <div class="diameter-links">
+        <h3>Diameter Lainnya</h3>
+        <div class="link-grid">
+          {otherDiameters.map((t) => (
+            <a href={`/layanan/strauss-pile/diameter/${t.diameter}`} class="diameter-link">
+              <span class="diameter-value">{t.diameter}cm</span>
+              <span class="diameter-price">Rp {t.pricePerMeter.min.toLocaleString("id-ID")}/m</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-service {
+    padding: 160px 0 80px;
+    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .hero-strauss {
+    background: linear-gradient(135deg, #f0fdf4 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid #bbf7d0;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(139, 0, 0, 0.1);
+    color: var(--color-primary);
+    border-radius: 20px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-service h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    margin-bottom: var(--space-4);
+  }
+
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .price-highlight {
+    text-align: center;
+    padding: var(--space-8);
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-12);
+  }
+
+  .price-strauss {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+  }
+
+  .price-label {
+    font-size: var(--text-sm);
+    color: #64748b;
+    margin-bottom: var(--space-2);
+  }
+
+  .price-value {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    color: #16a34a;
+    margin-bottom: var(--space-2);
+  }
+
+  .price-note {
+    font-size: var(--text-sm);
+    color: #ea580c;
+  }
+
+  .content-block {
+    margin-bottom: var(--space-12);
+  }
+
+  .content-block h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .content-block p {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: 1.8;
+    margin-bottom: var(--space-4);
+  }
+
+  .content-block ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .content-block li {
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--color-text-muted);
+    font-size: var(--text-md);
+  }
+
+  .content-block li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: bold;
+  }
+
+  .internal-link-box {
+    margin: var(--space-8) 0;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .internal-link-box h3 {
+    margin-bottom: var(--space-2);
+  }
+
+  .internal-link-box p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .internal-link {
+    display: inline-block;
+    padding: 10px 24px;
+    background: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .internal-link:hover {
+    opacity: 0.9;
+  }
+
+  .link-bore {
+    background: #1d4ed8;
+  }
+
+  .diameter-links {
+    margin-top: var(--space-12);
+  }
+
+  .diameter-links h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-6);
+    text-align: center;
+  }
+
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .diameter-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4);
+    background: white;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .diameter-link:hover {
+    border-color: #22c55e;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .diameter-value {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .diameter-price {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
+  }
+</style>

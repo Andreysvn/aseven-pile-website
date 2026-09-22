@@ -1,5 +1,19 @@
 ---
 // AreaGrid.astro
+import citiesData from '../../data/cities.json';
+
+// Create a Set of available slugs for fast lookup
+const availableCitySlugs = new Set(citiesData.filter((c: any) => !c.draft).map(c => c.slug));
+
+const getCityState = (name) => {
+  const slug = name.toLowerCase().replace(/\s+/g, '-');
+  return { name, slug, active: availableCitySlugs.has(slug) };
+};
+
+const jabodetabek = ["Jakarta", "Jakarta Selatan", "Bogor", "Depok", "Tangerang", "Tangerang Selatan", "Bekasi"].map(getCityState);
+const jawaBarat = ["Serang", "Cilegon", "Bandung", "Cimahi", "Cirebon", "Sukabumi", "Tasikmalaya", "Banjar", "Karawang", "Purwakarta", "Subang", "Garut", "Cianjur", "Indramayu"].map(getCityState);
+const jawaTengah = ["Yogyakarta", "Semarang", "Surakarta (Solo)", "Magelang", "Salatiga", "Tegal", "Pekalongan", "Purwokerto", "Cilacap", "Kudus", "Jepara", "Klaten", "Boyolali"].map(getCityState);
+const jawaTimur = ["Surabaya", "Sidoarjo", "Gresik", "Malang", "Batu", "Mojokerto", "Pasuruan", "Probolinggo", "Kediri", "Madiun", "Blitar", "Jember", "Banyuwangi", "Tuban", "Bojonegoro", "Madura"].map(getCityState);
 ---
 
 <section class="section section-bg-alt" id="area">
@@ -15,12 +29,11 @@
       <div class="region-card">
         <h3>Jabodetabek</h3>
         <ul class="region-list">
-          <li>Jakarta</li>
-          <li>Bogor</li>
-          <li>Depok</li>
-          <li>Tangerang</li>
-          <li>Tangerang Selatan</li>
-          <li>Bekasi</li>
+          {jabodetabek.map(city => (
+            city.active 
+              ? <li><a href={`/area-layanan/${city.slug}`} class="city-link">{city.name}</a></li> 
+              : <li>{city.name}</li>
+          ))}
         </ul>
       </div>
 
@@ -28,20 +41,11 @@
       <div class="region-card">
         <h3>Banten & Jawa Barat</h3>
         <ul class="region-list">
-          <li>Serang</li>
-          <li>Cilegon</li>
-          <li>Bandung</li>
-          <li>Cimahi</li>
-          <li>Cirebon</li>
-          <li>Sukabumi</li>
-          <li>Tasikmalaya</li>
-          <li>Banjar</li>
-          <li>Karawang</li>
-          <li>Purwakarta</li>
-          <li>Subang</li>
-          <li>Garut</li>
-          <li>Cianjur</li>
-          <li>Indramayu</li>
+          {jawaBarat.map(city => (
+            city.active 
+              ? <li><a href={`/area-layanan/${city.slug}`} class="city-link">{city.name}</a></li> 
+              : <li>{city.name}</li>
+          ))}
         </ul>
       </div>
 
@@ -49,19 +53,11 @@
       <div class="region-card">
         <h3>Jawa Tengah & DIY</h3>
         <ul class="region-list">
-          <li>Yogyakarta</li>
-          <li>Semarang</li>
-          <li>Surakarta (Solo)</li>
-          <li>Magelang</li>
-          <li>Salatiga</li>
-          <li>Tegal</li>
-          <li>Pekalongan</li>
-          <li>Purwokerto</li>
-          <li>Cilacap</li>
-          <li>Kudus</li>
-          <li>Jepara</li>
-          <li>Klaten</li>
-          <li>Boyolali</li>
+          {jawaTengah.map(city => (
+            city.active 
+              ? <li><a href={`/area-layanan/${city.slug}`} class="city-link">{city.name}</a></li> 
+              : <li>{city.name}</li>
+          ))}
         </ul>
       </div>
 
@@ -69,22 +65,11 @@
       <div class="region-card">
         <h3>Jawa Timur</h3>
         <ul class="region-list">
-          <li>Surabaya</li>
-          <li>Sidoarjo</li>
-          <li>Gresik</li>
-          <li>Malang</li>
-          <li>Batu</li>
-          <li>Mojokerto</li>
-          <li>Pasuruan</li>
-          <li>Probolinggo</li>
-          <li>Kediri</li>
-          <li>Madiun</li>
-          <li>Blitar</li>
-          <li>Jember</li>
-          <li>Banyuwangi</li>
-          <li>Tuban</li>
-          <li>Bojonegoro</li>
-          <li>Madura</li>
+          {jawaTimur.map(city => (
+            city.active 
+              ? <li><a href={`/area-layanan/${city.slug}`} class="city-link">{city.name}</a></li> 
+              : <li>{city.name}</li>
+          ))}
         </ul>
       </div>
 
@@ -137,5 +122,32 @@
     font-size: 0.85rem;
     color: var(--color-text-muted);
     border: 1px solid var(--color-border-light);
+  }
+
+  /* Hilangkan style default li jika didalamnya ada link aktif */
+  .region-list li:has(.city-link) {
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .city-link {
+    display: block;
+    background: #fff1f2;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #800000;
+    border: 1px solid #fecdd3;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .city-link:hover {
+    background: #800000;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(128, 0, 0, 0.2);
   }
 </style>

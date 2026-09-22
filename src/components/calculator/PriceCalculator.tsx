@@ -105,8 +105,8 @@ export default function PriceCalculator() {
 
         <button 
           onClick={() => {
-            const text = `Halo ASEVEN PILE, saya sudah cek kalkulator harga:\n- Metode: ${method === 'strauss' ? 'Strauss Pile Manual' : 'Bore Pile Mesin'}\n- Diameter: ${diameter} cm\n- Kedalaman: ${depth} m\n- Jumlah: ${points} titik\n(Total ${totalMeter} meter)\n\nMohon info detail harganya.`;
-            window.open(`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(text)}`);
+            const text = "Halo ASEVEN PILE, saya sudah cek kalkulator harga:\n- Metode: " + (method === 'strauss' ? 'Strauss Pile Manual' : 'Bore Pile Mesin') + "\n- Diameter: " + diameter + " cm\n- Kedalaman: " + depth + " m\n- Jumlah: " + points + " titik\n(Total " + totalMeter + " meter)\n\nMohon info detail harganya.";
+            window.open('https://wa.me/' + siteConfig.whatsapp + '?text=' + encodeURIComponent(text));
           }}
           style={{ width: '100%', padding: '14px', background: '#25D366', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '1rem', marginTop: '24px', cursor: 'pointer' }}
         >

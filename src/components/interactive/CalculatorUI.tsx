@@ -1,406 +1,109 @@
-import React, { useState, useMemo } from 'react';
-import { pricingTiers, straussTiers, pricingConfig } from '../../data/pricing';
+import "../../styles/calculator.css";
+import React from 'react';
+import { useCalculator } from './useCalculator';
+import type { CalculatorDefaults } from './useCalculator';
+import { asevenCalculatorConfig } from './calculator.config';
+import TabSelector from './parts/TabSelector';
+import LocationSelect from './parts/LocationSelect';
+import RoadAccessInput from './parts/RoadAccessInput';
+import ToolSelector from './parts/ToolSelector';
+import DiameterSelector from './parts/DiameterSelector';
+import DepthPointInputs from './parts/DepthPointInputs';
+import PileVisualizer from './parts/PileVisualizer';
+import PackageSelect from './parts/PackageSelect';
+import ResultDisplay from './parts/ResultDisplay';
+import MaterialEstimate from './parts/MaterialEstimate';
 
-export default function CalculatorUI() {
-  const [activeTab, setActiveTab] = useState('borepile');
-  const [diameter, setDiameter] = useState<number>(30);
-  const [depth, setDepth] = useState<number | ''>('');
-  const [points, setPoints] = useState<number | ''>('');
-  const [packageType, setPackageType] = useState('jasa');
-  const [tool, setTool] = useState('mini-crane');
+interface CalculatorUIProps {
+  config?: typeof asevenCalculatorConfig;
+  title?: string;
+  description?: string;
+  defaults?: { location?: string; tab?: 'borepile' | 'strauss'; diameter?: number };
+}
 
-  // Pilih data harga berdasarkan tab aktif
-  const activeTiers = activeTab === 'borepile' ? pricingTiers : straussTiers;
-  const availableDiameters = activeTiers.map(t => t.diameter);
+export default function CalculatorUI({ config = asevenCalculatorConfig, title, description, defaults }: CalculatorUIProps) {
+  const calc = useCalculator(config, defaults);
 
-  // Opsi alat berdasarkan metode
-  const toolOptions = activeTab === 'borepile'
-    ? [
-        { value: 'mini-crane', label: 'Mini Crane' },
-        { value: 'gawangan', label: 'Gawangan' },
-        { value: 'mini-pile', label: 'Mini Pile' },
-      ]
-    : [{ value: 'strauss', label: 'Strauss Pile (Manual)' }];
-
-  // Reset diameter & alat saat ganti tab
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    const newTiers = tab === 'borepile' ? pricingTiers : straussTiers;
-    setDiameter(newTiers[0].diameter);
-    setTool(tab === 'borepile' ? 'mini-crane' : 'strauss');
-  };
-
-  const calculation = useMemo(() => {
-    const dNum = Number(depth) || 0;
-    const pNum = Number(points) || 0;
-    const totalMeters = dNum * pNum;
-    const tier = activeTiers.find(t => t.diameter === diameter) || activeTiers[0];
-    const isLumpsum = totalMeters > 0 && totalMeters < pricingConfig.minimumDepthLumpsum;
-    const effectiveMeters = isLumpsum ? pricingConfig.minimumDepthLumpsum : totalMeters;
-    const minTotal = effectiveMeters * tier.pricePerMeter.min;
-    const maxTotal = effectiveMeters * tier.pricePerMeter.max;
-    return { totalMeters, effectiveMeters, isLumpsum, minTotal, maxTotal, isEstimate: tier.isEstimate };
-  }, [diameter, depth, points, activeTiers]);
-
-  const formatRupiah = (num: number) =>
-    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(num);
-
-  const toolLabel = toolOptions.find(t => t.value === tool)?.label || tool;
-
-  const generateWaUrl = () => {
-    const phone = '6285814173761';
-    const text = `Halo ASEVEN PILE, saya ingin konsultasi proyek pondasi.\n\n*Estimasi Kalkulator:*\n- Metode: ${activeTab === 'borepile' ? 'Bore Pile Mesin' : 'Strauss Pile Manual'}\n- Alat: ${toolLabel}\n- Diameter: ${diameter} cm\n- Kedalaman: ${depth || 0} meter/titik\n- Jumlah: ${points || 0} titik\n- Total Pengeboran: ${calculation.totalMeters} meter\n- Paket: ${packageType === 'jasa' ? 'Hanya Jasa Pengeboran' : 'All-In'}\n\nMohon info lebih detail. Terima kasih.`;
-    return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
-  };
+  const tooltip = calc.activeTab === 'borepile'
+    ? "Mini crane dan Gawangan adalah alat berat."
+    : "Pengeboran manual tenaga manusia, cocok untuk pondasi dangkal";
 
   return (
     <div className="calc-wrapper">
-      {/* Header */}
       <div className="calc-header">
-        <h3>Kalkulator Estimasi Biaya</h3>
-        <p>Pilih metode dan masukkan spesifikasi proyek Anda.</p>
+        <h3 className="calc-title">{title || "Estimasi Harga Pengeboran"}</h3>
+        <p className="calc-desc">{description || "Simulasi cepat, transparan, dan akurat."}</p>
       </div>
 
-      {/* Tabs */}
-      <div className="calc-tabs">
-        <button className={`tab-btn ${activeTab === 'borepile' ? 'active' : ''}`} onClick={() => handleTabChange('borepile')}>
-          Bore Pile (Mesin)
-        </button>
-        <button className={`tab-btn ${activeTab === 'strauss' ? 'active' : ''}`} onClick={() => handleTabChange('strauss')}>
-          Strauss Pile (Manual)
-        </button>
-      </div>
+      <TabSelector activeTab={calc.activeTab} onChange={calc.handleTabChange} />
 
-      {/* Body */}
       <div className="calc-body">
-        {/* Pilihan Alat */}
-        <div className="input-group">
-          <label>Jenis Alat</label>
-          {toolOptions.length > 1 ? (
-            <div className="radio-group">
-              {toolOptions.map((t) => (
-                <label key={t.value} className="radio-card">
-                  <input type="radio" name="tool" value={t.value} checked={tool === t.value} onChange={() => setTool(t.value)} />
-                  <span>{t.label}</span>
-                </label>
-              ))}
-            </div>
-          ) : (
-            <div className="tool-static">{toolOptions[0].label}</div>
-          )}
-        </div>
+        <LocationSelect 
+          locations={config.locations} 
+          value={calc.location} 
+          onChange={calc.setLocation} 
+        />
 
-        {/* Diameter */}
-        <div className="input-group">
-          <label>Diameter Pengeboran</label>
-          <div className="radio-group">
-            {availableDiameters.map((d) => (
-              <label key={d} className="radio-card">
-                <input type="radio" name="diameter" value={d} checked={diameter === d} onChange={() => setDiameter(d)} />
-                <span>{d} cm</span>
-              </label>
-            ))}
-          </div>
-        </div>
+        {calc.activeTab === 'borepile' && (
+          <RoadAccessInput 
+            value={calc.roadAccess} 
+            onChange={calc.setRoadAccess} 
+            tool={calc.tool} 
+            showWarning={calc.tool === 'gawangan' && calc.roadAccess === 'narrow'} 
+          />
+        )}
 
-        {/* Depth + Points */}
-        <div className="input-row">
-          <div className="input-group">
-            <label>Kedalaman per Titik (m)</label>
-            <input type="number" placeholder="cth: 12" className="text-input" value={depth} onChange={(e) => setDepth(e.target.value === '' ? '' : Number(e.target.value))} min="1" />
-          </div>
-          <div className="input-group">
-            <label>Jumlah Titik Bor</label>
-            <input type="number" placeholder="cth: 45" className="text-input" value={points} onChange={(e) => setPoints(e.target.value === '' ? '' : Number(e.target.value))} min="1" />
-          </div>
-        </div>
+        <ToolSelector options={calc.toolOptions} value={calc.tool} onChange={calc.setTool} tooltip={tooltip} />
 
-        {/* Package */}
-        <div className="input-group">
-          <label>Paket Layanan</label>
-          <select className="select-input" value={packageType} onChange={(e) => setPackageType(e.target.value)}>
-            <option value="jasa">Hanya Jasa Pengeboran</option>
-            <option value="allin">All-In (Jasa + Beton + Besi)</option>
-          </select>
-          {packageType === 'allin' && (
-            <small className="allin-note">*Kalkulator hanya menghitung jasa dasar. Biaya material dihitung terpisah menyesuaikan harga pasar.</small>
-          )}
-        </div>
+        <DiameterSelector diameters={calc.availableDiameters} value={calc.diameter} onChange={calc.setDiameter} />
+
+        <DepthPointInputs
+          depth={calc.depth}
+          points={calc.points}
+          onDepthChange={calc.setDepth}
+          onPointsChange={calc.setPoints}
+          maxDepth={calc.activeTab === 'strauss' ? 6 : 30}
+        />
+
+        <PackageSelect value={calc.packageType} onChange={calc.setPackageType} />
+
+        <PileVisualizer 
+          tool={calc.tool} 
+          depth={calc.depth} 
+          diameter={calc.diameter} 
+          packageType={calc.packageType} 
+        />
+
+        {calc.packageType === 'allin' && (
+          <small className="allin-note" style={{ display: 'block', textAlign: 'center', marginTop: '-12px', marginBottom: '16px', color: '#c2410c' }}>
+            *Estimasi material menggunakan besi SNI & beton K-250 - K-300.
+          </small>
+        )}
       </div>
 
-      {/* Footer / Result */}
       <div className="calc-footer">
-        <div className="result-box">
-          <span className="result-label">Estimasi Biaya Jasa Dasar</span>
-          <span className="result-value">
-            {calculation.totalMeters === 0
-              ? 'Rp 0'
-              : calculation.minTotal === calculation.maxTotal
-                ? formatRupiah(calculation.minTotal)
-                : `${formatRupiah(calculation.minTotal)} – ${formatRupiah(calculation.maxTotal)}`}
-          </span>
-          <small className="result-note">
-            {calculation.isLumpsum && (
-              <strong className="lumpsum-warning">
-                *Total bor di bawah {pricingConfig.minimumDepthLumpsum}m → berlaku tarif Lumpsum.
-              </strong>
-            )}
-            {calculation.isEstimate ? '*Harga masih berupa range estimasi. ' : ''}
-            *Belum termasuk mobilisasi alat {formatRupiah(pricingConfig.mobilizationFee)}.
-          </small>
-        </div>
-        <a href={generateWaUrl()} target="_blank" rel="noopener noreferrer" className="calc-cta-btn">
-          Kirim Rincian ke WhatsApp
+        <ResultDisplay
+          calculation={calc.calculation}
+          packageType={calc.packageType}
+          activeTab={calc.activeTab}
+          includeMob={calc.includeMob}
+          onToggleMob={calc.setIncludeMob}
+          formatRupiah={calc.formatRupiah}
+          lumpsumMinimum={config.lumpsumMinimum[calc.activeTab]}
+          waUrl={calc.generateWaUrl()}
+        />
+
+        {calc.calculation.totalMeters > 0 && calc.packageType === 'jasa' && (
+          <MaterialEstimate materials={calc.materials} />
+        )}
+
+        <a href={calc.generateWaUrl()} target="_blank" rel="noopener noreferrer" className="calc-cta-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Konsultasi via WhatsApp
         </a>
       </div>
-
-      <style>{`
-        /* ===== WRAPPER ===== */
-        .calc-wrapper {
-          background: #fff;
-          border: 1px solid #dee2e6;
-          border-radius: 12px;
-          box-shadow: 0 20px 25px -5px rgba(0,0,0,.08), 0 8px 10px -6px rgba(0,0,0,.06);
-          overflow: hidden;
-          max-width: 560px;
-          margin: 0 auto;
-          font-family: 'Inter', system-ui, sans-serif;
-        }
-
-        /* ===== HEADER ===== */
-        .calc-header {
-          background: #f8f9fa;
-          padding: 20px 16px;
-          border-bottom: 1px solid #e9ecef;
-          text-align: center;
-        }
-        .calc-header h3 {
-          margin: 0 0 4px;
-          color: #800000;
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: 18px;
-          font-weight: 700;
-        }
-        .calc-header p {
-          margin: 0;
-          font-size: 13px;
-          color: #6c757d;
-        }
-
-        /* ===== TABS ===== */
-        .calc-tabs {
-          display: flex;
-          border-bottom: 1px solid #dee2e6;
-          background: #f8f9fa;
-        }
-        .tab-btn {
-          flex: 1;
-          padding: 12px 8px;
-          border: none;
-          background: transparent;
-          font-size: 13px;
-          font-weight: 600;
-          color: #6c757d;
-          cursor: pointer;
-          border-bottom: 2px solid transparent;
-          transition: all 150ms;
-        }
-        .tab-btn:hover { color: #a52a2a; }
-        .tab-btn.active {
-          color: #800000;
-          border-bottom-color: #800000;
-          background: #fff;
-        }
-
-        /* ===== BODY ===== */
-        .calc-body {
-          padding: 20px 16px;
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-        .input-group {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-        .input-group > label {
-          font-size: 13px;
-          font-weight: 600;
-          color: #212529;
-        }
-
-        /* ===== RADIO CARDS ===== */
-        .radio-group {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
-        }
-        .radio-card {
-          position: relative;
-          display: block;
-          cursor: pointer;
-        }
-        .radio-card input {
-          position: absolute;
-          opacity: 0;
-          width: 0;
-          height: 0;
-        }
-        .radio-card span {
-          display: block;
-          text-align: center;
-          padding: 10px 4px;
-          border: 1px solid #dee2e6;
-          border-radius: 8px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #212529;
-          transition: all 150ms;
-        }
-        .radio-card span:hover {
-          border-color: #a52a2a;
-        }
-        .radio-card input:checked + span {
-          background: #800000;
-          color: #fff;
-          border-color: #800000;
-        }
-
-        /* ===== INPUT ROW ===== */
-        .input-row {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 16px;
-        }
-
-        /* ===== TEXT & SELECT INPUTS ===== */
-        .text-input, .select-input {
-          width: 100%;
-          padding: 12px;
-          border: 1px solid #dee2e6;
-          border-radius: 8px;
-          font-family: inherit;
-          font-size: 16px;
-          color: #212529;
-          background: #fff;
-          transition: border-color 150ms;
-          -webkit-appearance: none;
-          box-sizing: border-box;
-        }
-        .text-input:focus, .select-input:focus {
-          outline: none;
-          border-color: #800000;
-          box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
-        }
-
-        .allin-note {
-          color: #e0a800;
-          font-size: 12px;
-          line-height: 1.4;
-        }
-
-        .tool-static {
-          padding: 10px 16px;
-          background: #f8f9fa;
-          border: 1px solid #e9ecef;
-          border-radius: 8px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #6c757d;
-        }
-
-        /* ===== FOOTER / RESULT ===== */
-        .calc-footer {
-          padding: 20px 16px;
-          background: #f8f9fa;
-          border-top: 1px solid #e9ecef;
-        }
-        .result-box {
-          text-align: center;
-          margin-bottom: 16px;
-          padding: 16px 12px;
-          background: #fff;
-          border-radius: 8px;
-          border: 1px dashed #dee2e6;
-        }
-        .result-label {
-          display: block;
-          font-size: 11px;
-          color: #6c757d;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          margin-bottom: 4px;
-        }
-        .result-value {
-          display: block;
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: 22px;
-          font-weight: 800;
-          color: #212529;
-          margin-bottom: 8px;
-          word-break: break-word;
-        }
-        .result-note {
-          display: block;
-          font-size: 11px;
-          color: #6c757d;
-          line-height: 1.5;
-        }
-        .lumpsum-warning {
-          display: block;
-          color: #800000;
-          margin-bottom: 4px;
-        }
-
-        /* ===== CTA BUTTON ===== */
-        .calc-cta-btn {
-          display: block;
-          width: 100%;
-          padding: 14px;
-          background: #800000;
-          color: #fff;
-          text-align: center;
-          text-decoration: none;
-          font-family: 'Plus Jakarta Sans', sans-serif;
-          font-weight: 600;
-          font-size: 15px;
-          border-radius: 8px;
-          border: none;
-          cursor: pointer;
-          transition: background 150ms;
-          box-sizing: border-box;
-        }
-        .calc-cta-btn:hover {
-          background: #4a0000;
-        }
-
-        /* ===== TABLET (640px+) ===== */
-        @media (min-width: 640px) {
-          .calc-wrapper {
-            max-width: 560px;
-          }
-          .calc-header {
-            padding: 24px;
-          }
-          .calc-body {
-            padding: 24px;
-          }
-          .calc-footer {
-            padding: 24px;
-          }
-          .radio-group {
-            grid-template-columns: repeat(5, 1fr);
-          }
-          .input-row {
-            grid-template-columns: 1fr 1fr;
-          }
-          .result-value {
-            font-size: 28px;
-          }
-        }
-      `}</style>
     </div>
   );
 }

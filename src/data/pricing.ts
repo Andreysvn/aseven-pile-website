@@ -4,6 +4,7 @@ export interface PricingData {
     min: number;
     max: number;
   };
+  materialCostEstimate?: number; // Estimasi biaya material (besi + beton) per meter
   isEstimate: boolean;
   notes?: string;
 }
