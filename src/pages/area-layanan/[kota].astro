@@ -1,4 +1,4 @@
-﻿---
+---
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
 
 
@@ -27,14 +27,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   pathContext="general"
 >
 
-    <!-- HUB INTRODUCTION -->
-  <div class="hub-intro">
-    <p class="lead-text">
-      Sedang merencanakan pembangunan di <strong>{cityData.name}</strong>? ASeven Pile siap membantu kelancaran proyek Anda. Kami adalah kontraktor spesialis yang melayani pekerjaan pondasi serta berbagai layanan konstruksi lainnya untuk rumah tinggal, ruko, hingga gedung bertingkat.
-    </p>
-  </div>
-
-  <!-- SERVICE DIRECTORY -->
+    <!-- SERVICE DIRECTORY -->
   <section class="services-directory">
     <div class="section-header">
       <h2>Pilihan Layanan</h2>
@@ -92,19 +85,6 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
 </LocalSEOLayout>
 
 <style>
-  /* HUB INTRO */
-  .hub-intro {
-    text-align: center;
-    margin-bottom: var(--space-12);
-  }
-  .lead-text {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: var(--color-text);
-    max-width: 760px;
-    margin: 0 auto;
-  }
-
   /* DIRECTORY GRID */
   .services-directory {
     margin-bottom: var(--space-16);

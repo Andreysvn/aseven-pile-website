@@ -143,13 +143,17 @@ const serviceSchema = {
 
       <h1 style="color: var(--color-primary); margin-bottom: var(--space-6); font-size: clamp(28px, 4vw, 42px); line-height: 1.3;">{title}</h1>
       
-      <div style="display: flex; justify-content: center; margin-bottom: var(--space-6);">
-        <LastUpdated prefix={`Info ${city} Update`} />
-      </div>
-      
-      <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.7; max-width: 650px; margin: 0 auto;">
-        {description}
-      </p>
+            {pathContext !== 'general' && (
+        <>
+          <div style="display: flex; justify-content: center; margin-bottom: var(--space-6);">
+            <LastUpdated prefix={`Info ${city} Update`} />
+          </div>
+          
+          <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.7; max-width: 650px; margin: 0 auto;">
+            {description}
+          </p>
+        </>
+      )}
     </div>
   </header>
 
