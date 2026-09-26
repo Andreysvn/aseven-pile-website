@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import PremiumCTA from '../../components/ui/PremiumCTA.astro';
+import { CITY_SERVICES } from '../../data/services';
+import { siteConfig } from '../../data/site.config';
+
+const title = "Layanan Jasa Konstruksi | ASeven Pile";
+const description = `${siteConfig.brand} menyediakan berbagai layanan konstruksi spesialis. Temukan jasa yang sesuai kebutuhan proyek Anda, mulai dari pekerjaan pondasi hingga layanan pendukung lainnya.`;
+
+const activeServices = CITY_SERVICES.filter(s => s.available);
+---
+
+<BaseLayout title={title} description={description}>
+
+  <header class="section section-bg-alt" style="padding-top: var(--space-12); padding-bottom: var(--space-10); text-align: center; border-bottom: 1px solid var(--color-border-light);">
+    <div class="container" style="max-width: 700px;">
+      <h1 style="color: var(--color-primary); margin-bottom: var(--space-4); font-size: clamp(28px, 4vw, 44px); line-height: 1.3;">Layanan Kami</h1>
+      <p style="font-size: 1.05rem; color: var(--color-text-muted); line-height: 1.7; max-width: 560px; margin: 0 auto;">
+        Pilih jenis layanan yang sesuai dengan kebutuhan proyek Anda. Setiap layanan tersedia di berbagai kota di Pulau Jawa.
+      </p>
+    </div>
+  </header>
+
+  <!-- SERVICE GRID -->
+  <section class="section">
+    <div class="container" style="max-width: 960px;">
+      <div class="service-grid">
+        {activeServices.map((service, index) => (
+          <a href={`/${service.serviceUrl}`} class="service-card">
+            <div class="card-image">
+              <img
+                src={service.image}
+                alt={service.imageAlt}
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+            </div>
+            <div class="card-body">
+              <h2>{service.name}</h2>
+              <p>{service.description}</p>
+              <span class="card-cta">Pelajari Layanan &rarr;</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AREA LAYANAN LINK -->
+  <section style="text-align: center; padding-bottom: var(--space-12);">
+    <p style="color: var(--color-text-muted); font-size: 1rem; margin-bottom: var(--space-4);">Ingin melihat ketersediaan layanan per kota?</p>
+    <a href="/area-layanan" style="display: inline-block; padding: 11px 26px; background: white; color: var(--color-primary); border: 2px solid var(--color-primary); border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-primary)'; this.style.color='white';" onmouseout="this.style.background='white'; this.style.color='var(--color-primary)';">
+      Pilih Kota Layanan &rarr;
+    </a>
+  </section>
+
+  <PremiumCTA
+    title="Belum Yakin Butuh Layanan Apa?"
+    subtitle="Konsultasikan kebutuhan proyek Anda dengan tim kami. Kami bantu tentukan solusi yang paling tepat dan efisien."
+    waMessage="Halo ASEVEN PILE, saya ingin konsultasi mengenai layanan konstruksi yang sesuai untuk proyek saya"
+  />
+
+</BaseLayout>
+
+<style>
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .service-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .service-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .service-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 24px -6px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+  }
+
+  .service-card:hover .card-image img {
+    transform: scale(1.05);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #f1f5f9;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .card-body {
+    padding: var(--space-5) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-body h2 {
+    font-size: 1.3rem;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin: 0 0 10px 0;
+  }
+
+  .card-body p {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    flex-grow: 1;
+  }
+
+  .card-cta {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    background: var(--color-primary);
+    padding: 10px 18px;
+    border-radius: 7px;
+    text-align: center;
+    display: block;
+    transition: background 0.3s;
+  }
+
+  .service-card:hover .card-cta {
+    background: #6a0000;
+  }
+</style>

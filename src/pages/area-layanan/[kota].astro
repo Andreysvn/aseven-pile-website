@@ -33,7 +33,7 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
 
     <div class="directory-grid">
       {activeServices.map((service, index) => {
-        const url = service.urlPattern.replace('{city}', cityData.slug);
+        const url = service.cityUrlPattern.replace('{city}', cityData.slug);
         return (
           <a href={`/${url}`} class="dir-card">
             <div class="card-image">
@@ -207,3 +207,4 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     color: white;
   }
 </style>
+

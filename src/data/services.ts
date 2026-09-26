@@ -1,16 +1,19 @@
 ﻿export interface CityService {
-  slug: string;       // URL slug, e.g. "bore-pile"
-  name: string;       // Nama jasa, e.g. "Bore Pile Mesin"
-  description: string; // 1-2 kalimat ringkas
-  image: string;      // path foto
-  imageAlt: string;   // alt text foto
-  urlPattern: string; // pattern URL: "area-layanan/{service}/{city}" atau "layanan/{service}"
-  available: boolean; // apakah jasa ini aktif ditampilkan
+  slug: string;
+  name: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  cityUrlPattern: string;  // URL untuk city hub: "area-layanan/{service}/{city}"
+  serviceUrl: string;      // URL halaman layanan nasional: "layanan/{service}"
+  available: boolean;
 }
 
 // ============================================================
 // DAFTAR JASA AKTIF ASEVEN PILE
-// Tambah jasa baru di sini, otomatis muncul di semua kota hub.
+// Tambah jasa baru di sini — otomatis muncul di:
+// 1. Hub layanan (/layanan)
+// 2. Semua city hub (/area-layanan/{kota})
 // ============================================================
 export const CITY_SERVICES: CityService[] = [
   {
@@ -19,7 +22,8 @@ export const CITY_SERVICES: CityService[] = [
     description: "Pengeboran pakai mesin mini crane. Cocok untuk bangunan skala menengah ke atas yang butuh pondasi dalam dan kokoh.",
     image: "/imgs/header-beranda-bore-pile-aseven-2.webp",
     imageAlt: "Pekerjaan Bore Pile Mesin",
-    urlPattern: "area-layanan/bore-pile/{city}",
+    cityUrlPattern: "area-layanan/bore-pile/{city}",
+    serviceUrl: "layanan/bore-pile",
     available: true,
   },
   {
@@ -28,17 +32,19 @@ export const CITY_SERVICES: CityService[] = [
     description: "Pengeboran dengan tenaga manusia. Tanpa getaran dan suara bising — aman untuk perumahan padat penduduk.",
     image: "/imgs/wa-gallery-1.webp",
     imageAlt: "Pekerjaan Strauss Pile Manual",
-    urlPattern: "area-layanan/strauss-pile/{city}",
+    cityUrlPattern: "area-layanan/strauss-pile/{city}",
+    serviceUrl: "layanan/strauss-pile",
     available: true,
   },
-  // Contoh jasa berikutnya (set available: true kalau siap ditampilkan):
+  // Tambah jasa baru di sini:
   // {
   //   slug: "soil-test",
   //   name: "Uji Tanah (Sondir)",
   //   description: "...",
   //   image: "/imgs/...",
   //   imageAlt: "...",
-  //   urlPattern: "layanan/soil-test",
+  //   cityUrlPattern: "area-layanan/soil-test/{city}",
+  //   serviceUrl: "layanan/soil-test",
   //   available: false,
   // },
 ];
