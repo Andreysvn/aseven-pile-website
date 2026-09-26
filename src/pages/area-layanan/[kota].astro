@@ -1,5 +1,6 @@
 ﻿---
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
+import ServiceCard from '../../components/ui/ServiceCard.astro';
 import { SERVICE_CITIES } from '../../data/seo-data';
 import { CITY_SERVICES } from '../../data/services';
 
@@ -22,7 +23,7 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
 <LocalSEOLayout 
   title={`Layanan Konstruksi di ${cityData.name} | ASeven Pile`}
   h1={`Layanan di ${cityData.name}`} 
-  description={`Jasa kontraktor spesialis di ${cityData.name}. ASeven Pile melayani berbagai kebutuhan konstruksi — dari pekerjaan pondasi hingga layanan pendukung proyek lainnya. Survei gratis, harga transparan.`}
+  description={`Jasa kontraktor spesialis di ${cityData.name}. ASeven Pile melayani berbagai kebutuhan konstruksi - dari pekerjaan pondasi hingga layanan pendukung proyek lainnya. Survei gratis, harga transparan.`}
   city={cityData.name}
   serviceName="Layanan Konstruksi"
   pathContext="general"
@@ -36,20 +37,12 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
       {activeServices.map((service, index) => {
         const url = service.cityUrlPattern.replace('{city}', cityData.slug);
         return (
-          <a href={`/${url}`} class="dir-card">
-            <div class="card-image">
-              <img 
-                src={service.image} 
-                alt={`${service.imageAlt} di ${cityData.name}`} 
-                loading={index === 0 ? "eager" : "lazy"} 
-              />
-            </div>
-            <div class="card-content">
-              <h2>{service.name}</h2>
-              <p>{service.description}</p>
-              <span class="action-link">Lihat Harga &amp; Detail &rarr;</span>
-            </div>
-          </a>
+          <ServiceCard 
+            service={service} 
+            url={url} 
+            imageAltSuffix={` di ${cityData.name}`} 
+            isLcp={index === 0} 
+          />
         );
       })}
     </div>
@@ -85,6 +78,7 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
   .services-directory {
     margin-bottom: var(--space-12);
   }
+
   .directory-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -92,76 +86,11 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     max-width: 900px;
     margin: 0 auto;
   }
+  
   @media (min-width: 768px) {
     .directory-grid {
       grid-template-columns: repeat(2, 1fr);
     }
-  }
-
-  .dir-card {
-    display: flex;
-    flex-direction: column;
-    background: #ffffff;
-    border: 1px solid var(--color-border-light);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    overflow: hidden;
-  }
-  .dir-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
-    transform: translateY(-3px);
-  }
-  .dir-card:hover .card-image img {
-    transform: scale(1.05);
-  }
-  
-  .card-image {
-    width: 100%;
-    aspect-ratio: 16/9; height: auto;
-    overflow: hidden;
-    background: #f1f5f9;
-  }
-  .card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  .card-content {
-    padding: var(--space-4) var(--space-5);
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-  .card-content h2 {
-    margin: 0 0 6px 0;
-    font-size: 1.15rem;
-    color: var(--color-primary);
-    font-weight: 700;
-  }
-  .card-content p {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    margin: 0 0 14px 0;
-    flex-grow: 1;
-  }
-  .action-link {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: white;
-    background: var(--color-primary);
-    padding: 8px 16px;
-    border-radius: 8px;
-    text-align: center;
-    display: block;
-    transition: background 0.3s;
-  }
-  .dir-card:hover .action-link {
-    background: #6a0000;
   }
 
   .other-cities {
@@ -170,17 +99,20 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     border-top: 1px solid var(--color-border-light);
     margin-bottom: var(--space-12);
   }
+
   .other-label {
     color: var(--color-text-muted);
     font-size: 0.9rem;
     margin-bottom: var(--space-4);
   }
+
   .city-chips {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
   }
+
   .city-chip {
     padding: 6px 14px;
     background: #f8f9fa;
@@ -192,22 +124,21 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     font-weight: 500;
     transition: all 0.2s;
   }
+
   .city-chip:hover {
     background: var(--color-primary);
     color: white;
     border-color: var(--color-primary);
   }
+
   .chip-all {
-    background: transparent;
+    background: white;
+    border: 1px dashed var(--color-primary);
     color: var(--color-primary);
-    border-color: var(--color-primary);
-    font-weight: 600;
   }
   .chip-all:hover {
-    background: var(--color-primary);
-    color: white;
+    background: rgba(139, 0, 0, 0.05);
+    color: var(--color-primary);
+    border-style: solid;
   }
 </style>
-
-
-
