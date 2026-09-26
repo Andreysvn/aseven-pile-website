@@ -4,7 +4,6 @@ import path from 'node:path';
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import PremiumCTA from '../../components/ui/PremiumCTA.astro';
 import ServiceCard from '../../components/ui/ServiceCard.astro';
-import AreaGrid from '../../components/ui/AreaGrid.astro';
 import { CITY_SERVICES } from '../../data/services';
 import { siteConfig } from '../../data/site.config';
 
@@ -64,14 +63,6 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     waMessage="Halo ASEVEN PILE, saya ingin konsultasi mengenai layanan konstruksi yang sesuai untuk proyek saya"
   />
 
-  <!-- OTHER CITIES LINKS -->
-  <div class="section" style="background: var(--color-bg-alt);">
-    <div class="container">
-      <h2 style="text-align: center; margin-bottom: var(--space-6); font-size: 2rem;">Cakupan Area Layanan</h2>
-      <AreaGrid hideTitle={true} noPaddingTop={true} />
-    </div>
-  </div>
-
 </BaseLayout>
 
 <style>
@@ -93,5 +84,3 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     }
   }
 </style>
-
-
