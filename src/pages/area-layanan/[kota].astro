@@ -1,6 +1,7 @@
 ﻿---
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
 import { SERVICE_CITIES } from '../../data/seo-data';
+import { CITY_SERVICES } from '../../data/services';
 
 export async function getStaticPaths() {
   const activeCities = SERVICE_CITIES.filter(c => !c.draft);
@@ -15,46 +16,41 @@ export async function getStaticPaths() {
 const { cityData } = Astro.props;
 const activeCities = SERVICE_CITIES.filter(c => !c.draft);
 const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 6);
+const activeServices = CITY_SERVICES.filter(s => s.available);
 ---
 
 <LocalSEOLayout 
-  title={`Jasa Bore Pile & Strauss Pile di ${cityData.name}`} 
-  description={`Jasa bore pile dan strauss pile di ${cityData.name}. Tim ASeven Pile siap menangani proyek pondasi rumah, ruko, hingga gedung bertingkat. Harga transparan, survei gratis.`}
+  title={`Layanan Konstruksi di ${cityData.name} | ASeven Pile`} 
+  description={`Jasa kontraktor spesialis di ${cityData.name}. ASeven Pile melayani berbagai kebutuhan konstruksi — dari pekerjaan pondasi hingga layanan pendukung proyek lainnya. Survei gratis, harga transparan.`}
   city={cityData.name}
-  serviceName="Bore Pile & Strauss Pile"
+  serviceName="Layanan Konstruksi"
   pathContext="general"
 >
 
   <!-- SERVICE DIRECTORY -->
   <section class="services-directory">
-    <p class="hub-intro">Pilih jenis pekerjaan pondasi yang sesuai dengan kondisi lahan dan kebutuhan proyek Anda di {cityData.name}.</p>
+    <p class="hub-intro">Pilih jenis layanan yang sesuai dengan kebutuhan proyek Anda di {cityData.name}.</p>
 
     <div class="directory-grid">
-      
-      <!-- SERVICE 1: BORE PILE -->
-      <a href={`/area-layanan/bore-pile/${cityData.slug}`} class="dir-card">
-        <div class="card-image">
-          <img src="/imgs/header-beranda-bore-pile-aseven-2.webp" alt={`Pekerjaan Bore Pile Mesin di ${cityData.name}`} loading="eager" />
-        </div>
-        <div class="card-content">
-          <h2>Bore Pile Mesin</h2>
-          <p>Pengeboran pakai mesin mini crane. Cocok untuk bangunan skala menengah ke atas yang butuh pondasi dalam dan kokoh.</p>
-          <span class="action-link">Lihat Harga &amp; Detail &rarr;</span>
-        </div>
-      </a>
-
-      <!-- SERVICE 2: STRAUSS PILE -->
-      <a href={`/area-layanan/strauss-pile/${cityData.slug}`} class="dir-card">
-        <div class="card-image">
-          <img src="/imgs/wa-gallery-1.webp" alt={`Pekerjaan Strauss Pile Manual di ${cityData.name}`} loading="lazy" />
-        </div>
-        <div class="card-content">
-          <h2>Strauss Pile Manual</h2>
-          <p>Pengeboran dengan tenaga manusia. Tanpa getaran dan suara bising — aman untuk perumahan padat penduduk.</p>
-          <span class="action-link">Lihat Harga &amp; Detail &rarr;</span>
-        </div>
-      </a>
-
+      {activeServices.map((service, index) => {
+        const url = service.urlPattern.replace('{city}', cityData.slug);
+        return (
+          <a href={`/${url}`} class="dir-card">
+            <div class="card-image">
+              <img 
+                src={service.image} 
+                alt={`${service.imageAlt} di ${cityData.name}`} 
+                loading={index === 0 ? "eager" : "lazy"} 
+              />
+            </div>
+            <div class="card-content">
+              <h2>{service.name}</h2>
+              <p>{service.description}</p>
+              <span class="action-link">Lihat Harga &amp; Detail &rarr;</span>
+            </div>
+          </a>
+        );
+      })}
     </div>
   </section>
 
@@ -85,7 +81,6 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     margin: 0 auto var(--space-8) auto;
   }
 
-  /* DIRECTORY GRID */
   .services-directory {
     margin-bottom: var(--space-12);
   }
@@ -102,7 +97,6 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     }
   }
 
-  /* DIR CARDS */
   .dir-card {
     display: flex;
     flex-direction: column;
@@ -141,7 +135,6 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     flex-direction: column;
     flex-grow: 1;
   }
-  
   .card-content h2 {
     margin: 0 0 10px 0;
     font-size: 1.4rem;
@@ -170,7 +163,6 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     background: #6a0000;
   }
 
-  /* OTHER CITIES */
   .other-cities {
     text-align: center;
     padding-top: var(--space-6);
