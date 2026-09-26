@@ -3,7 +3,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
 import ServiceCard from '../../components/ui/ServiceCard.astro';
-import AreaGrid from '../../components/ui/AreaGrid.astro';
 import { SERVICE_CITIES } from '../../data/seo-data';
 import { CITY_SERVICES } from '../../data/services';
 
@@ -61,9 +60,24 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
   </section>
 
   <!-- OTHER CITIES LINKS -->
-  <div slot="bottom-content" style="margin-bottom: var(--space-8);">
-    <h2 style="text-align: center; margin-top: var(--space-12); margin-bottom: var(--space-6); font-size: 1.75rem;">Area Layanan Kami Lainnya</h2>
-    <AreaGrid hideTitle={true} noPaddingTop={true} />
+  <section class="other-cities">
+    <p class="other-label">Kami juga melayani:</p>
+    <div class="city-chips">
+      {otherCities.map((city) => (
+        <a href={`/area-layanan/${city.slug}`} class="city-chip">
+          {city.name}
+        </a>
+      ))}
+      <a href="/area-layanan" class="city-chip chip-all">
+        Semua Kota &rarr;
+      </a>
+    </div>
+  </section>
+
+  <div slot="below-cta" style="text-align: center; padding-bottom: var(--space-12);">
+    <a href="/kontak" style="display: inline-block; padding: 12px 28px; background: white; color: var(--color-primary); border: 2px solid var(--color-primary); border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-primary)'; this.style.color='white';" onmouseout="this.style.background='white'; this.style.color='var(--color-primary)';">
+      Lihat Lokasi Kami &rarr;
+    </a>
   </div>
 
 </LocalSEOLayout>
@@ -145,6 +159,4 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     border-style: solid;
   }
 </style>
-
-
 
