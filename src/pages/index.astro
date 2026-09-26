@@ -1,10 +1,10 @@
----
+﻿---
 import BaseLayout from '../components/layout/BaseLayout.astro';
 import Hero from '../components/ui/Hero.astro';
-import TrustBar from '../components/ui/TrustBar.astro';
 import ServicesGrid from '../components/ui/ServicesGrid.astro';
 import FeaturesGrid from '../components/ui/FeaturesGrid.astro';
 import ProcessSteps from '../components/ui/ProcessSteps.astro';
+import PremiumCTA from '../components/ui/PremiumCTA.astro';
 import FAQSection from '../components/ui/FAQSection.astro';
 import MiniGallery from '../components/ui/MiniGallery.astro';
 import AreaGrid from '../components/ui/AreaGrid.astro';
@@ -12,15 +12,25 @@ import InteractiveCoverageMap from '../components/ui/InteractiveCoverageMap.astr
 import ContactSection from '../components/ui/ContactSection.astro';
 ---
 
-<BaseLayout title="Jasa Bore Pile & Strauss Pile Profesional">
+<BaseLayout 
+  title="ASeven Pile | Kontraktor Spesialis Pondasi & Konstruksi"
+  description="Layanan jasa bore pile mesin dan strauss pile manual profesional. Solusi pondasi kokoh, presisi, dan aman untuk berbagai proyek konstruksi di Pulau Jawa."
+>
   <Hero />
-  <TrustBar />
   <ServicesGrid />
   <FeaturesGrid />
   <ProcessSteps />
-  <FAQSection />
+  
+  <PremiumCTA 
+    title="Butuh Konsultasi Teknis Fondasi?"
+    subtitle="Tim engineer kami siap menganalisis kebutuhan struktur bangunan Anda dan memberikan rekomendasi metode pengeboran terbaik."
+    buttonText="Konsultasi Gratis Sekarang"
+    waMessage="Halo ASeven Pile, saya ingin konsultasi mengenai pondasi untuk proyek saya."
+  />
+
   <MiniGallery />
   <AreaGrid />
   <InteractiveCoverageMap />
+  <FAQSection />
   <ContactSection />
 </BaseLayout>
