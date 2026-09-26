@@ -1,7 +1,5 @@
----
+﻿---
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
-
-
 import { SERVICE_CITIES } from '../../data/seo-data';
 
 export async function getStaticPaths() {
@@ -20,55 +18,49 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
 ---
 
 <LocalSEOLayout 
-  title={`Pusat Layanan ASeven Pile di ${cityData.name}`} 
-  description={`Mitra kontraktor terpercaya untuk berbagai kebutuhan proyek Anda di ${cityData.name}. Kami hadir memberikan solusi profesional, cepat, dan transparan.`}
+  title={`Jasa Bore Pile & Strauss Pile di ${cityData.name}`} 
+  description={`Jasa bore pile dan strauss pile di ${cityData.name}. Tim ASeven Pile siap menangani proyek pondasi rumah, ruko, hingga gedung bertingkat. Harga transparan, survei gratis.`}
   city={cityData.name}
-  serviceName="Layanan Konstruksi & Pendukung"
+  serviceName="Bore Pile & Strauss Pile"
   pathContext="general"
 >
 
-    <!-- SERVICE DIRECTORY -->
+  <!-- SERVICE DIRECTORY -->
   <section class="services-directory">
-    <div class="section-header">
-      <h2>Pilihan Layanan</h2>
-      <p>Pilih metode yang paling sesuai dengan kebutuhan bangunan dan lokasi proyek Anda di {cityData.name}.</p>
-    </div>
+    <p class="hub-intro">Pilih jenis pekerjaan pondasi yang sesuai dengan kondisi lahan dan kebutuhan proyek Anda di {cityData.name}.</p>
 
-        <div class="directory-grid">
+    <div class="directory-grid">
       
       <!-- SERVICE 1: BORE PILE -->
       <a href={`/area-layanan/bore-pile/${cityData.slug}`} class="dir-card">
         <div class="card-image">
-          <img src="/imgs/header-beranda-bore-pile-aseven-2.webp" alt="Pekerjaan Bore Pile Mesin" loading="lazy" />
+          <img src="/imgs/header-beranda-bore-pile-aseven-2.webp" alt={`Pekerjaan Bore Pile Mesin di ${cityData.name}`} loading="eager" />
         </div>
         <div class="card-content">
-          <h3>Bore Pile Mesin</h3>
-          <p>Pengeboran menggunakan alat mesin (mini crane). Sangat cocok untuk bangunan skala menengah ke atas yang membutuhkan pondasi kokoh dan dalam.</p>
-          <span class="action-link">Lihat Harga & Detail &rarr;</span>
+          <h2>Bore Pile Mesin</h2>
+          <p>Pengeboran pakai mesin mini crane. Cocok untuk bangunan skala menengah ke atas yang butuh pondasi dalam dan kokoh.</p>
+          <span class="action-link">Lihat Harga &amp; Detail &rarr;</span>
         </div>
       </a>
 
       <!-- SERVICE 2: STRAUSS PILE -->
       <a href={`/area-layanan/strauss-pile/${cityData.slug}`} class="dir-card">
         <div class="card-image">
-          <img src="/imgs/wa-gallery-1.webp" alt="Pekerjaan Strauss Pile Manual" loading="lazy" />
+          <img src="/imgs/wa-gallery-1.webp" alt={`Pekerjaan Strauss Pile Manual di ${cityData.name}`} loading="lazy" />
         </div>
         <div class="card-content">
-          <h3>Strauss Pile Manual</h3>
-          <p>Pengeboran dengan tenaga manusia. Tanpa getaran dan suara bising, sehingga sangat aman untuk perumahan atau proyek di area padat penduduk.</p>
-          <span class="action-link">Lihat Harga & Detail &rarr;</span>
+          <h2>Strauss Pile Manual</h2>
+          <p>Pengeboran dengan tenaga manusia. Tanpa getaran dan suara bising — aman untuk perumahan padat penduduk.</p>
+          <span class="action-link">Lihat Harga &amp; Detail &rarr;</span>
         </div>
       </a>
 
     </div>
   </section>
 
-  
-
   <!-- OTHER CITIES LINKS -->
   <section class="other-cities">
-    <h3>Cari Area Layanan Lain?</h3>
-    <p>Selain {cityData.name}, kami juga melayani pekerjaan pondasi di kota-kota berikut:</p>
+    <p class="other-label">Kami juga melayani:</p>
     <div class="city-chips">
       {otherCities.map((city) => (
         <a href={`/area-layanan/${city.slug}`} class="city-chip">
@@ -76,33 +68,26 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
         </a>
       ))}
       <a href="/area-layanan" class="city-chip chip-all">
-        Lihat Semua Kota &rarr;
+        Semua Kota &rarr;
       </a>
     </div>
   </section>
 
-  
 </LocalSEOLayout>
 
 <style>
+  .hub-intro {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto var(--space-8) auto;
+  }
+
   /* DIRECTORY GRID */
   .services-directory {
-    margin-bottom: var(--space-16);
-  }
-  .section-header {
-    text-align: center;
-    margin-bottom: var(--space-8);
-  }
-  .section-header h2 {
-    font-size: 2rem;
-    margin-bottom: var(--space-3);
-    color: var(--color-text);
-  }
-  .section-header p {
-    color: var(--color-text-muted);
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
+    margin-bottom: var(--space-12);
   }
   .directory-grid {
     display: grid;
@@ -117,7 +102,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     }
   }
 
-    /* DIR CARDS */
+  /* DIR CARDS */
   .dir-card {
     display: flex;
     flex-direction: column;
@@ -131,6 +116,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   .dir-card:hover {
     border-color: var(--color-primary);
     box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
   }
   .dir-card:hover .card-image img {
     transform: scale(1.05);
@@ -156,25 +142,25 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     flex-grow: 1;
   }
   
-  .card-content h3 {
-    margin: 0 0 12px 0;
-    font-size: 1.5rem;
+  .card-content h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.4rem;
     color: var(--color-primary);
     font-weight: 700;
   }
   .card-content p {
-    font-size: 1rem;
+    font-size: 0.97rem;
     color: var(--color-text-muted);
     line-height: 1.6;
-    margin: 0 0 24px 0;
+    margin: 0 0 20px 0;
     flex-grow: 1;
   }
   .action-link {
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.97rem;
     color: white;
     background: var(--color-primary);
-    padding: 12px 24px;
+    padding: 11px 20px;
     border-radius: 8px;
     text-align: center;
     display: block;
@@ -187,34 +173,29 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
   /* OTHER CITIES */
   .other-cities {
     text-align: center;
-    padding: var(--space-8);
+    padding-top: var(--space-6);
     border-top: 1px solid var(--color-border-light);
     margin-bottom: var(--space-12);
   }
-  .other-cities h3 {
-    margin-bottom: var(--space-3);
-  }
-  .other-cities p {
+  .other-label {
     color: var(--color-text-muted);
-    margin-bottom: var(--space-6);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 0.9rem;
+    margin-bottom: var(--space-4);
   }
   .city-chips {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
   }
   .city-chip {
-    padding: 8px 16px;
+    padding: 6px 14px;
     background: #f8f9fa;
     border: 1px solid var(--color-border-light);
     border-radius: 20px;
     text-decoration: none;
     color: var(--color-text);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     font-weight: 500;
     transition: all 0.2s;
   }
@@ -227,6 +208,7 @@ const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 
     background: transparent;
     color: var(--color-primary);
     border-color: var(--color-primary);
+    font-weight: 600;
   }
   .chip-all:hover {
     background: var(--color-primary);
