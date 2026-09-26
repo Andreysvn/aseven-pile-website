@@ -118,7 +118,7 @@ const serviceSchema = {
     "itemListElement": breadcrumbItems
   })} />
 
-  <header class="section section-bg-alt" style="padding-top: var(--space-12); padding-bottom: var(--space-12); border-bottom: 1px solid var(--color-border-light);">
+  <header class="section section-bg-alt" style={`padding-top: var(--space-12); padding-bottom: ${pathContext === 'general' ? 'var(--space-6)' : 'var(--space-12)'}; border-bottom: 1px solid var(--color-border-light);`}>
     <div class="container" style="max-width: 800px; text-align: center;">
       <!-- HTML Breadcrumbs -->
       <nav aria-label="Breadcrumb" style="margin-bottom: var(--space-6); font-size: 0.875rem; color: var(--color-text-muted);">
@@ -143,7 +143,7 @@ const serviceSchema = {
 
       <slot name="header-badge" />
 
-      <h1 style="color: var(--color-primary); margin-bottom: var(--space-6); font-size: clamp(28px, 4vw, 42px); line-height: 1.3;">{h1 ?? title}</h1>
+      <h1 style={`color: var(--color-primary); margin-bottom: ${pathContext === 'general' ? '0' : 'var(--space-6)'}; font-size: clamp(28px, 4vw, 42px); line-height: 1.3;`}>{h1 ?? title}</h1>
       
             {pathContext !== 'general' && (
         <>
@@ -159,7 +159,7 @@ const serviceSchema = {
     </div>
   </header>
 
-  <article class="container" style="padding-top: var(--space-12); line-height: 1.8;">
+  <article class="container" style={`padding-top: ${pathContext === 'general' ? 'var(--space-6)' : 'var(--space-12)'}; line-height: 1.8;`}>
     <slot />
   </article>
 
@@ -177,3 +177,7 @@ const serviceSchema = {
   <slot name="below-cta" />
 
 </BaseLayout>
+
+
+
+
