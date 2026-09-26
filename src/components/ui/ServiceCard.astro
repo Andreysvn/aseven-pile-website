@@ -12,14 +12,15 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
 ---
 
 <a href={`/${url}`} class="hub-service-card">
-  <div class="card-image">
-    <img
-      src={image}
-      alt={imageAlt}
-      loading={isLcp ? "eager" : "lazy"}
-    />
-  </div>
-  <div class="card-body">
+  <img
+    src={image}
+    alt={imageAlt}
+    class="card-bg"
+    loading={isLcp ? "eager" : "lazy"}
+  />
+  <div class="card-overlay"></div>
+  
+  <div class="card-content">
     <h2>{title}</h2>
     <p>{description}</p>
     <div class="card-footer">
@@ -30,69 +31,71 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
 
 <style>
   .hub-service-card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    background: white;
-    border: 1px solid var(--color-border-light);
+    justify-content: flex-end;
+    background: #111;
     border-radius: var(--radius-lg);
+    overflow: hidden;
     text-decoration: none;
-    overflow: hidden;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-    padding: 0; 
-    text-align: left;
+    aspect-ratio: 4 / 5; /* Rasio tinggi elegan untuk mobile */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
   }
 
-  .hub-service-card:hover {
-    border-color: rgba(139, 0, 0, 0.3); /* Soft primary border on hover */
-    box-shadow: 0 12px 32px -8px rgba(0,0,0,0.12);
-    transform: translateY(-4px);
+  @media (min-width: 768px) {
+    .hub-service-card {
+      aspect-ratio: 1 / 1; /* Agak kotak di desktop supaya tidak terlalu raksasa */
+    }
   }
 
-  .hub-service-card:hover .card-image img {
-    transform: scale(1.05);
-  }
-
-  .card-image {
-    width: 100%;
-    aspect-ratio: 3 / 2; /* Responsive, elegant proportion */
-    overflow: hidden;
-    background: #f1f5f9;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-  }
-
-  .card-image img {
+  .card-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
   }
 
-  .card-body {
+  .card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    z-index: 2;
+    transition: height 0.4s ease;
+  }
+
+  .card-content {
+    position: relative;
+    z-index: 3;
     padding: 24px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    color: white;
   }
 
-  .card-body h2 {
-    font-size: 1.3rem;
-    color: var(--color-text);
+  .card-content h2 {
+    font-size: 1.4rem;
+    color: white;
     font-weight: 700;
-    margin: 0 0 10px 0;
-    line-height: 1.3;
-    transition: color 0.2s;
-  }
-  
-  .hub-service-card:hover h2 {
-    color: var(--color-primary);
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
 
-  .card-body p {
+  .card-content p {
     font-size: 0.95rem;
-    color: var(--color-text-muted);
+    color: rgba(255, 255, 255, 0.85);
     line-height: 1.6;
     margin: 0 0 24px 0;
-    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Maksimal 3 baris biar rapi */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .card-footer {
@@ -102,17 +105,35 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
 
   .card-cta {
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--color-primary);
-    background: rgba(139, 0, 0, 0.05);
-    padding: 8px 20px;
+    background: white;
+    padding: 10px 22px;
     border-radius: 100px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  /* Efek Hover Keren */
+  .hub-service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4);
+  }
+
+  .hub-service-card:hover .card-bg {
+    transform: scale(1.1);
+  }
+  
+  .hub-service-card:hover .card-overlay {
+    height: 85%; /* Gradasi naik sedikit */
   }
 
   .hub-service-card:hover .card-cta {
     background: var(--color-primary);
     color: white;
+    gap: 12px;
   }
 </style>
