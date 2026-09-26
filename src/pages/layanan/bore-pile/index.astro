@@ -1,8 +1,8 @@
----
+﻿---
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
 import { SERVICE_CITIES } from '../../../data/seo-data';
 
-const title = "Jasa Bore Pile Mesin (Mini Crane) | ASeven Pile";
+const title = "Jasa Bore Pile Mesin (Mini Crane) | Aseven Pile";
 const description = "Layanan pengeboran pondasi bore pile mesin menggunakan mini crane. Solusi pondasi dalam yang kokoh, cepat, dan aman untuk area padat penduduk.";
 
 // Filter out draft cities (if any exist in the array)
@@ -75,7 +75,7 @@ const activeCities = SERVICE_CITIES.filter(city => !city.draft);
               class="city-btn"
             >
               <span style="display: block; font-weight: 600; color: var(--color-text);">{city.name}</span>
-              <span style="display: block; font-size: 0.8rem; color: var(--color-primary); margin-top: 4px;">Lihat Harga →</span>
+              <span style="display: block; font-size: 0.8rem; color: var(--color-primary); margin-top: 4px;">Lihat Harga â†’</span>
             </a>
           ))}
         </div>
@@ -92,3 +92,4 @@ const activeCities = SERVICE_CITIES.filter(city => !city.draft);
     }
   </style>
 </BaseLayout>
+

@@ -1,5 +1,5 @@
-export const siteConfig = {
-  brand: "ASEVEN PILE",
+﻿export const siteConfig = {
+  brand: "Aseven Pile",
   tagline: "Spesialis Pondasi Bore Pile & Strauss Pile Profesional",
   phone: "0858-1417-3761",
   whatsapp: "6285814173761",
@@ -17,3 +17,4 @@ export const siteConfig = {
   foundingYear: 2015,
   url: "https://asevenpile.com",
 };
+

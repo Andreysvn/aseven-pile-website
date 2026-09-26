@@ -1,4 +1,4 @@
----
+﻿---
 import { siteConfig } from '../../data/site.config';
 
 interface Props {
@@ -111,10 +111,11 @@ const { hideLink = false } = Astro.props;
       const service = document.getElementById('service').value;
       const message = document.getElementById('message').value;
       
-      const text = `Halo ASEVEN PILE, saya ${name}.\n\n*Detail Proyek:*\n📍 Lokasi: ${location}\n🛠️ Layanan: ${service}\n\n*Pesan Tambahan:*\n${message}`;
+      const text = `Halo Aseven Pile, saya ${name}.\n\n*Detail Proyek:*\nðŸ“ Lokasi: ${location}\nðŸ› ï¸ Layanan: ${service}\n\n*Pesan Tambahan:*\n${message}`;
       const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
       
       window.open(url, '_blank');
     });
   }
 </script>
+

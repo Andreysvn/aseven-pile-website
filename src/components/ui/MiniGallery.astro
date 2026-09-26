@@ -11,7 +11,7 @@ const {
 } = Astro.props;
 
 const defaultImages = [
-  { src: "/imgs/wa-gallery-1.webp", alt: "Dokumentasi proyek lapangan ASeven Pile", fallback: "Rig+Bore+Pile" },
+  { src: "/imgs/wa-gallery-1.webp", alt: "Dokumentasi proyek lapangan Aseven Pile", fallback: "Rig+Bore+Pile" },
   { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: "Proses pengeboran bore pile", fallback: "Besi+Tulangan" },
   { src: "/imgs/aseven-pile-logo-3.webp", alt: "Persiapan alat bore pile", fallback: "Pengecoran+Tremi" }
 ];
@@ -239,4 +239,5 @@ const activeImages = images || defaultImages;
   // Daftarkan komponen ke browser
   customElements.define('image-lightbox', ImageLightbox);
 </script>
+
 

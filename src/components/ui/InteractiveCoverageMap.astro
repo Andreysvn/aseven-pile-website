@@ -1,4 +1,4 @@
----
+﻿---
 // InteractiveCoverageMap.astro
 import citiesData from '../../data/cities.json';
 const validCitySlugs = citiesData.filter((c: any) => !c.draft).map(c => c.slug).join(',');
@@ -973,7 +973,7 @@ const validCitySlugs = citiesData.filter((c: any) => !c.draft).map(c => c.slug).
       
       // Smart WhatsApp (Task 1)
       const waNumber = "6285814173761";
-      const waText = encodeURIComponent(`Halo ASeven Pile, saya ingin konsultasi mengenai jasa bore pile untuk proyek di wilayah ${loc.name}.`);
+      const waText = encodeURIComponent(`Halo Aseven Pile, saya ingin konsultasi mengenai jasa bore pile untuk proyek di wilayah ${loc.name}.`);
       
       // Check if we have an internal SEO page for this city
       const mapWrapper = document.querySelector('.map-container');
@@ -1155,3 +1155,4 @@ const validCitySlugs = citiesData.filter((c: any) => !c.draft).map(c => c.slug).
     initCoverageMap();
   }
 </script>
+

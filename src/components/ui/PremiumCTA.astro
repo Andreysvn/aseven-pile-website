@@ -1,4 +1,4 @@
----
+﻿---
 import { siteConfig } from '../../data/site.config';
 
 export interface Props {
@@ -12,7 +12,7 @@ const {
   title,
   subtitle,
   buttonText = "Konsultasi via WA",
-  waMessage = "Halo ASEVEN PILE, saya ingin konsultasi mengenai jasa pondasi bore pile."
+  waMessage = "Halo Aseven Pile, saya ingin konsultasi mengenai jasa pondasi bore pile."
 } = Astro.props;
 
 const waLink = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(waMessage)}`;
@@ -80,3 +80,4 @@ const waLink = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(w
     height: 20px;
   }
 </style>
+

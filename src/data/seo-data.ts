@@ -1,4 +1,4 @@
-import citiesData from './cities.json';
+﻿import citiesData from './cities.json';
 
 export const GLOBAL_FAQS = [
   {
@@ -10,7 +10,7 @@ export const GLOBAL_FAQS = [
     answer: "Durasi pengerjaan sangat bergantung pada kondisi tanah, cuaca, dan jumlah titik yang dibor. Secara rata-rata, untuk proyek perumahan memakan waktu 3-7 hari kerja."
   },
   {
-    question: "Apakah ASeven Pile menyediakan material besi dan beton?",
+    question: "Apakah Aseven Pile menyediakan material besi dan beton?",
     answer: "Ya, kami melayani sistem borong penuh (jasa + material) maupun hanya jasa pengerjaan saja. Anda bisa berdiskusi dengan tim kami untuk opsi terbaik."
   }
 ];

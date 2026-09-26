@@ -1,4 +1,4 @@
-// main.js - Global scripts for ASeven Pile
+﻿// main.js - Global scripts for Aseven Pile
 document.addEventListener('DOMContentLoaded', () => {
   
   // Header Scroll Effect (Transparent to Solid)
@@ -38,3 +38,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import type { CalculatorConfig } from './calculator.config';
 
 export interface CalculationResult {
@@ -170,10 +170,10 @@ export function useCalculator(config: CalculatorConfig, defaults?: CalculatorDef
   const toolLabel = toolOptions.find(t => t.value === tool)?.label || tool;
 
   const generateWaUrl = () => {
-    let text = `Halo ASEVEN PILE, saya ingin konsultasi proyek pondasi.\n\n*Spesifikasi Proyek:*\n- Lokasi: ${calculation.locData?.label}\n- Metode: ${activeTab === 'borepile' ? 'Bore Pile Mesin' : 'Strauss Pile Manual'}\n- Alat: ${toolLabel}\n- Diameter: ${diameter} cm\n- Kedalaman: ${depth || 0} meter/titik\n- Jumlah: ${points || 0} titik\n- Akses Jalan: ${roadAccess === 'wide' ? 'Truk Bisa Masuk' : 'Sempit / Gang'}\n- Layanan: ${packageType === 'jasa' ? 'Hanya Jasa Pengeboran' : 'Jasa + Material Beton & Besi'}\n\n*Estimasi Biaya:*\n- Total Volume: ${calculation.totalMeters} meter\n- Biaya ${packageType === 'jasa' ? 'Jasa' : 'Jasa + Material'}: ${formatRupiah(calculation.minJasa + calculation.totalMaterial)}${calculation.maxJasa > calculation.minJasa ? ` - ${formatRupiah(calculation.maxJasa + calculation.totalMaterial)}` : ''}\n`;
+    let text = `Halo Aseven Pile, saya ingin konsultasi proyek pondasi.\n\n*Spesifikasi Proyek:*\n- Lokasi: ${calculation.locData?.label}\n- Metode: ${activeTab === 'borepile' ? 'Bore Pile Mesin' : 'Strauss Pile Manual'}\n- Alat: ${toolLabel}\n- Diameter: ${diameter} cm\n- Kedalaman: ${depth || 0} meter/titik\n- Jumlah: ${points || 0} titik\n- Akses Jalan: ${roadAccess === 'wide' ? 'Truk Bisa Masuk' : 'Sempit / Gang'}\n- Layanan: ${packageType === 'jasa' ? 'Hanya Jasa Pengeboran' : 'Jasa + Material Beton & Besi'}\n\n*Estimasi Biaya:*\n- Total Volume: ${calculation.totalMeters} meter\n- Biaya ${packageType === 'jasa' ? 'Jasa' : 'Jasa + Material'}: ${formatRupiah(calculation.minJasa + calculation.totalMaterial)}${calculation.maxJasa > calculation.minJasa ? ` - ${formatRupiah(calculation.maxJasa + calculation.totalMaterial)}` : ''}\n`;
 
     if (packageType === 'jasa' && calculation.totalMeters > 0) {
-      text += `\n*Catatan Belanja Material:*\n- Beton K-250 - K-300: ~${materials.betonM3} m³\n- Besi Utama (${materials.utama.spec}): ~${materials.utama.batang} btg\n- Besi Spiral (${materials.spiral.spec}): ~${materials.spiral.batang} btg\n`;
+      text += `\n*Catatan Belanja Material:*\n- Beton K-250 - K-300: ~${materials.betonM3} mÂ³\n- Besi Utama (${materials.utama.spec}): ~${materials.utama.batang} btg\n- Besi Spiral (${materials.spiral.spec}): ~${materials.spiral.batang} btg\n`;
     }
 
     if (activeTab === 'borepile') {
@@ -198,3 +198,4 @@ export function useCalculator(config: CalculatorConfig, defaults?: CalculatorDef
     formatRupiah, toolLabel, generateWaUrl,
   };
 }
+
