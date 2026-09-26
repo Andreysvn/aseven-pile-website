@@ -28,7 +28,10 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
       <div class="service-grid">
         {activeServices.map((service, index) => (
           <ServiceCard 
-            service={service} 
+            title={service.name}
+            description={service.description}
+            image={service.image}
+            imageAlt={service.imageAlt}
             url={service.serviceUrl} 
             isLcp={index === 0} 
           />

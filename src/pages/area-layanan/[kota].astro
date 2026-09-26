@@ -1,4 +1,6 @@
 ﻿---
+import fs from 'node:fs';
+import path from 'node:path';
 import LocalSEOLayout from '../../components/layout/LocalSEOLayout.astro';
 import ServiceCard from '../../components/ui/ServiceCard.astro';
 import { SERVICE_CITIES } from '../../data/seo-data';
@@ -36,11 +38,20 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     <div class="directory-grid">
       {activeServices.map((service, index) => {
         const url = service.cityUrlPattern.replace('{city}', cityData.slug);
+        
+        // Cek apakah gambar SEO khusus kota (misal: jasa-bore-pile-jakarta.webp) sudah ada.
+        // Jika belum, gunakan gambar default dari services.ts sebagai fallback.
+        const localImageName = `jasa-${service.slug}-${cityData.slug}.webp`;
+        const localImagePath = path.join(process.cwd(), 'public', 'imgs', localImageName);
+        const finalImage = fs.existsSync(localImagePath) ? `/imgs/${localImageName}` : service.image;
+
         return (
           <ServiceCard 
-            service={service} 
+            title={service.name}
+            description={service.description}
+            image={finalImage}
+            imageAlt={`${service.imageAlt} di ${cityData.name}`}
             url={url} 
-            imageAltSuffix={` di ${cityData.name}`} 
             isLcp={index === 0} 
           />
         );

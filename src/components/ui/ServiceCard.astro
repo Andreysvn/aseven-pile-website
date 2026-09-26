@@ -1,27 +1,27 @@
 ﻿---
-import type { CityService } from '../../data/services';
-
 interface Props {
-  service: CityService;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
   url: string;
-  imageAltSuffix?: string;
   isLcp?: boolean;
 }
 
-const { service, url, imageAltSuffix = "", isLcp = false } = Astro.props;
+const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
 ---
 
 <a href={`/${url}`} class="service-card">
   <div class="card-image">
     <img
-      src={service.image}
-      alt={`${service.imageAlt}${imageAltSuffix}`}
+      src={image}
+      alt={imageAlt}
       loading={isLcp ? "eager" : "lazy"}
     />
   </div>
   <div class="card-body">
-    <h2>{service.name}</h2>
-    <p>{service.description}</p>
+    <h2>{title}</h2>
+    <p>{description}</p>
     <span class="card-cta">Pelajari Layanan &rarr;</span>
   </div>
 </a>
