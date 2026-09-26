@@ -11,7 +11,7 @@ interface Props {
 const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
 ---
 
-<a href={`/${url}`} class="service-card">
+<a href={`/${url}`} class="hub-service-card">
   <div class="card-image">
     <img
       src={image}
@@ -27,7 +27,7 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
 </a>
 
 <style>
-  .service-card {
+  .hub-service-card {
     display: flex;
     flex-direction: column;
     background: white;
@@ -36,15 +36,17 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
     text-decoration: none;
     overflow: hidden;
     transition: all 0.3s ease;
+    padding: 0; /* Reset global padding if any */
+    text-align: left; /* Reset text align */
   }
 
-  .service-card:hover {
+  .hub-service-card:hover {
     border-color: var(--color-primary);
     box-shadow: 0 10px 24px -6px rgba(0,0,0,0.1);
     transform: translateY(-3px);
   }
 
-  .service-card:hover .card-image img {
+  .hub-service-card:hover .card-image img {
     transform: scale(1.05);
   }
 
@@ -96,7 +98,7 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
     transition: background 0.3s;
   }
 
-  .service-card:hover .card-cta {
+  .hub-service-card:hover .card-cta {
     background: #6a0000;
   }
 </style>
