@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from './BaseLayout.astro';
 import LastUpdated from '../ui/LastUpdated.astro';
 import PremiumCTA from '../ui/PremiumCTA.astro';
@@ -10,6 +10,7 @@ export interface FAQ {
 }
 
 interface Props {
+  h1?: string;
   title: string;
   description: string;
   city: string;
@@ -19,7 +20,8 @@ interface Props {
 }
 
 const { 
-  title, 
+  title,
+  h1,
   description, 
   city, 
   serviceName, 
@@ -141,7 +143,7 @@ const serviceSchema = {
 
       <slot name="header-badge" />
 
-      <h1 style="color: var(--color-primary); margin-bottom: var(--space-6); font-size: clamp(28px, 4vw, 42px); line-height: 1.3;">{title}</h1>
+      <h1 style="color: var(--color-primary); margin-bottom: var(--space-6); font-size: clamp(28px, 4vw, 42px); line-height: 1.3;">{h1 ?? title}</h1>
       
             {pathContext !== 'general' && (
         <>
@@ -157,7 +159,7 @@ const serviceSchema = {
     </div>
   </header>
 
-  <article class="container section" style="max-width: 800px; line-height: 1.8;">
+  <article style="line-height: 1.8;">
     <slot />
   </article>
 
@@ -173,3 +175,5 @@ const serviceSchema = {
   />
 
 </BaseLayout>
+
+

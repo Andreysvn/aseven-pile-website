@@ -20,7 +20,8 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
 ---
 
 <LocalSEOLayout 
-  title={`Layanan Konstruksi di ${cityData.name} | ASeven Pile`} 
+  title={`Layanan Konstruksi di ${cityData.name} | ASeven Pile`}
+  h1={`Layanan di ${cityData.name}`} 
   description={`Jasa kontraktor spesialis di ${cityData.name}. ASeven Pile melayani berbagai kebutuhan konstruksi — dari pekerjaan pondasi hingga layanan pendukung proyek lainnya. Survei gratis, harga transparan.`}
   city={cityData.name}
   serviceName="Layanan Konstruksi"
@@ -207,4 +208,5 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     color: white;
   }
 </style>
+
 
