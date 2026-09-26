@@ -3,68 +3,34 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
 import AreaGrid from '../../components/ui/AreaGrid.astro';
 import InteractiveCoverageMap from '../../components/ui/InteractiveCoverageMap.astro';
 import PremiumCTA from '../../components/ui/PremiumCTA.astro';
-import ProcessSteps from '../../components/ui/ProcessSteps.astro';
-import MiniGallery from '../../components/ui/MiniGallery.astro';
 import { siteConfig } from '../../data/site.config';
 
-const title = "Area Layanan Bore Pile & Strauss Pile";
-const description = `Jangkauan layanan kontraktor pondasi ${siteConfig.brand} mencakup seluruh wilayah Jabodetabek, Jawa Barat, Banten, Jawa Tengah, dan Jawa Timur.`;
+const title = "Area Layanan Jasa Pondasi | ASeven Pile";
+const description = `Pilih kota Anda untuk melihat detail layanan, harga, dan estimasi biaya pondasi dari ${siteConfig.brand}. Melayani Jabodetabek dan sekitarnya.`;
 ---
 
 <BaseLayout title={title} description={description}>
   
   <header class="section section-bg-alt" style="padding-top: var(--space-12); padding-bottom: var(--space-8); text-align: center;">
-    <div class="container" style="max-width: 800px;">
-      <h1 style="color: var(--color-primary); margin-bottom: var(--space-4); font-size: clamp(28px, 4vw, 42px); line-height: 1.3;">Jangkauan Area Layanan</h1>
-      <p style="font-size: 1.125rem; color: var(--color-text-muted); line-height: 1.7; max-width: 650px; margin: 0 auto;">
-        Tim spesialis pengeboran pondasi kami siap meluncur ke proyek Anda. Ketik nama kota di bawah ini untuk melihat detail harga dan estimasi RAB sesuai lokasi.
+    <div class="container" style="max-width: 700px;">
+      <h1 style="color: var(--color-primary); margin-bottom: var(--space-4); font-size: clamp(28px, 4vw, 42px); line-height: 1.3;">Pilih Kota Layanan Anda</h1>
+      <p style="font-size: 1.1rem; color: var(--color-text-muted); line-height: 1.7; max-width: 560px; margin: 0 auto;">
+        Klik kota di bawah untuk melihat layanan, harga, dan estimasi biaya pondasi di wilayah Anda.
       </p>
     </div>
   </header>
 
-  <!-- GRID SECTION -->
+  <!-- GRID KOTA -->
   <AreaGrid hideTitle={true} noPaddingTop={true} />
 
-  <!-- LOGISTICS & MOBILIZATION SECTION (E-E-A-T) -->
-  <section class="section">
-    <div class="container" style="max-width: 900px;">
-      <div style="text-align: center; margin-bottom: var(--space-8);">
-        <span style="color: var(--color-primary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.875rem;">Logistik & Operasional</span>
-        <h2 style="font-size: var(--text-2xl); color: var(--color-text); margin-top: 8px;">Mekanisme Mobilisasi Alat Berat</h2>
-        <p style="color: var(--color-text-muted);">Transparansi proses pengiriman mesin bore pile ke lokasi proyek Anda</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6);">
-        <div style="background: white; padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); box-shadow: var(--shadow-sm);">
-          <h3 style="color: var(--color-primary); margin-bottom: 12px; font-size: 1.25rem;">Armada Transportasi Mandiri</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7; font-size: 0.95rem;">Kami tidak bergantung pada pihak ketiga untuk penyewaan truk. Dengan armada truk <em>colt diesel</em> dan <em>fuso</em> milik sendiri, alat mesin <em>mini crane</em> atau gawangan dapat dikirim ke lokasi Anda kapan saja tanpa delay.</p>
-        </div>
-        
-        <div style="background: white; padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); box-shadow: var(--shadow-sm);">
-          <h3 style="color: var(--color-primary); margin-bottom: 12px; font-size: 1.25rem;">Biaya Mob-Demob Transparan</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7; font-size: 0.95rem;">Biaya Mobilisasi-Demobilisasi (Mob-Demob) dihitung <em>fair</em> berdasarkan jarak dari <em>basecamp</em> kami. Wilayah Jabodetabek memiliki rate standar terendah, sementara luar kota dihitung proporsional sesuai tarif tol dan BBM operasional.</p>
-        </div>
-
-        <div style="background: white; padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light); box-shadow: var(--shadow-sm);">
-          <h3 style="color: var(--color-primary); margin-bottom: 12px; font-size: 1.25rem;">Survei Lokasi & Akses Jalan</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7; font-size: 0.95rem;">Sebelum alat diturunkan, tim surveyor kami akan meninjau kondisi jalan menuju lokasi proyek. Kami memastikan truk pengangkut dapat bermanuver dan mesin bisa masuk dengan aman tanpa merusak fasilitas umum.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-    <ProcessSteps />
-  
-  <MiniGallery />
-
-  <!-- MAP SECTION (Moved to Bottom) -->
+  <!-- PETA CAKUPAN -->
   <InteractiveCoverageMap />
 
-  <!-- PREMIUM CTA -->
+  <!-- CTA -->
   <PremiumCTA 
-    title="Konsultasi Gratis" 
-    subtitle="Hubungi kami via WhatsApp untuk diskusi jangkauan dan biaya mobilisasi."
-    waMessage="Halo ASEVEN PILE, saya ingin konsultasi soal area layanan bore pile"
+    title="Kota Anda Tidak Ada di Sini?" 
+    subtitle="Hubungi kami langsung. Kami bisa survei ke luar area standar dengan biaya mobilisasi yang transparan."
+    waMessage="Halo ASEVEN PILE, saya ingin tanya apakah bisa melayani lokasi saya"
   />
 
 </BaseLayout>
