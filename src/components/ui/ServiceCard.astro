@@ -22,7 +22,9 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
   <div class="card-body">
     <h2>{title}</h2>
     <p>{description}</p>
-    <span class="card-cta">Pelajari Layanan &rarr;</span>
+    <div class="card-footer">
+      <span class="card-cta">Pelajari Layanan &rarr;</span>
+    </div>
   </div>
 </a>
 
@@ -35,15 +37,15 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
     border-radius: var(--radius-lg);
     text-decoration: none;
     overflow: hidden;
-    transition: all 0.3s ease;
-    padding: 0; /* Reset global padding if any */
-    text-align: left; /* Reset text align */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    padding: 0; 
+    text-align: left;
   }
 
   .hub-service-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 10px 24px -6px rgba(0,0,0,0.1);
-    transform: translateY(-3px);
+    border-color: rgba(139, 0, 0, 0.3); /* Soft primary border on hover */
+    box-shadow: 0 12px 32px -8px rgba(0,0,0,0.12);
+    transform: translateY(-4px);
   }
 
   .hub-service-card:hover .card-image img {
@@ -52,53 +54,65 @@ const { title, description, image, imageAlt, url, isLcp = false } = Astro.props;
 
   .card-image {
     width: 100%;
-    height: 320px; /* Gambar dibikin sangat tinggi (~70%) */
+    aspect-ratio: 3 / 2; /* Responsive, elegant proportion */
     overflow: hidden;
     background: #f1f5f9;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
   .card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .card-body {
-    padding: 16px 20px; /* Padding dikecilkan agar porsi text jadi ~30% */
+    padding: 24px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
   }
 
   .card-body h2 {
-    font-size: 1.2rem;
-    color: var(--color-primary);
+    font-size: 1.3rem;
+    color: var(--color-text);
     font-weight: 700;
-    margin: 0 0 6px 0;
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+    transition: color 0.2s;
+  }
+  
+  .hub-service-card:hover h2 {
+    color: var(--color-primary);
   }
 
   .card-body p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--color-text-muted);
-    line-height: 1.5;
-    margin: 0 0 16px 0;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
     flex-grow: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: flex-start;
   }
 
   .card-cta {
     font-size: 0.9rem;
     font-weight: 600;
-    color: white;
-    background: var(--color-primary);
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-align: center;
-    display: block;
-    transition: background 0.3s;
+    color: var(--color-primary);
+    background: rgba(139, 0, 0, 0.05);
+    padding: 8px 20px;
+    border-radius: 100px;
+    display: inline-block;
+    transition: all 0.3s ease;
   }
 
   .hub-service-card:hover .card-cta {
-    background: #6a0000;
+    background: var(--color-primary);
+    color: white;
   }
 </style>
