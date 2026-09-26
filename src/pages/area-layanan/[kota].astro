@@ -61,7 +61,7 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
   </section>
 
   <!-- OTHER CITIES LINKS -->
-  <div style="margin-bottom: var(--space-12);">
+  <div slot="bottom-content" style="margin-bottom: var(--space-12);">
     <h2 style="text-align: center; margin-bottom: var(--space-6); font-size: 1.75rem;">Area Layanan Kami Lainnya</h2>
     <AreaGrid hideTitle={true} noPaddingTop={true} />
   </div>
@@ -145,5 +145,6 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
     border-style: solid;
   }
 </style>
+
 
 

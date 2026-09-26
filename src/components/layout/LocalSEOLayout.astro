@@ -165,16 +165,18 @@ const serviceSchema = {
 
   <slot name="calculator" />
   
-  <slot name="bottom-content" />
-
   <!-- PREMIUM CTA WhatsApp -->
   <PremiumCTA 
     title={`Butuh ${serviceName} di ${city}?`}
-    subtitle="Hubungi kami untuk survei lokasi gratis dan estimasi RAB."
+    subtitle="Konsultasikan kebutuhan proyek Anda sekarang dan dapatkan estimasi biaya secara gratis."
     waMessage={`Halo ASEVEN PILE, saya butuh jasa ${serviceName} di ${city}`}
   />
 
+  <slot name="bottom-content" />
+
 </BaseLayout>
+
+
 
 
 
