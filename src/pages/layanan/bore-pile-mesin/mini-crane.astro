@@ -1,13 +1,20 @@
-﻿---
+---
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import { siteConfig } from '../../../data/site.config';
 ---
 
-<BaseLayout title="Spesifikasi Mesin Mini Crane | Aseven Pile" description="Spesifikasi lengkap alat berat Mini Crane untuk bore pile. Cocok untuk perumahan padat, bebas getaran, dan minim polusi suara.">
+<BaseLayout title="Mesin Mini Crane untuk Bore Pile | Aseven Pile" description="Mesin mini crane untuk pekerjaan bore pile di lokasi sempit. Cocok untuk perumahan padat, minim getaran, akses jalan minimal 2 meter.">
   <div class="hero-service">
-    <div class="container text-center">
-      <span class="badge">Mesin Andalan</span>
-      <h1>Mesin Mini Crane</h1>
-      <p class="subtitle">Bermanuver sempurna di perumahan padat. Tanpa getaran, tanpa retak.</p>
+    <div class="container hero-split">
+      <div class="hero-text">
+        <span class="badge">Bore Pile Mesin</span>
+        <h1>Mesin Mini Crane</h1>
+        <p class="subtitle">Alat bore pile yang dirancang untuk masuk ke lokasi sempit perumahan padat. Menggunakan metode wash boring dengan getaran sangat minim.</p>
+        <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent('Halo Aseven Pile, saya ingin konsultasi bore pile mini crane.')}`} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a>
+      </div>
+      <div class="hero-image">
+        <img src="/assets/images/layanan/mini-crane/mini-crane-alat.webp" alt="Mesin mini crane Aseven Pile siap beroperasi di lokasi proyek" width="768" height="1024" loading="eager" />
+      </div>
     </div>
   </div>
 
@@ -16,29 +23,29 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
       <div class="spec-layout">
         
         <div class="spec-content">
-          <h2>Mengapa Memilih Mini Crane?</h2>
-          <p>Mesin Mini Crane adalah solusi paling revolusioner untuk proyek pondasi di area padat penduduk seperti Jakarta. Mesin ini beroperasi menggunakan metode <em>wash boring</em> (sirkulasi air) yang membuat proses pengeboran hampir 100% bebas dari getaran yang berisiko meretakkan dinding tetangga Anda.</p>
+          <h2>Kapan Menggunakan Mini Crane?</h2>
+          <p>Mini crane dipakai ketika lokasi proyek berada di area perumahan padat atau gang sempit yang tidak bisa diakses alat berat besar. Mesin ini bekerja dengan metode wash boring (sirkulasi air dan lumpur), sehingga proses pengeboran minim getaran dan aman untuk bangunan sekitar.</p>
           
           <div class="features-list">
             <div class="feature">
               <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
               <div>
-                <strong>Aman Untuk Tetangga</strong>
-                <p>Nol getaran ekstrem. Sangat direkomendasikan jika jarak proyek dengan rumah tetangga sangat mepet.</p>
+                <strong>Minim Getaran</strong>
+                <p>Aman untuk lokasi yang berdekatan langsung dengan rumah tetangga. Tidak menimbulkan kerusakan pada bangunan sekitar.</p>
               </div>
             </div>
             <div class="feature">
               <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
               <div>
-                <strong>Manuver Ekstrem</strong>
-                <p>Sasis mesin ini didesain ringkas, mampu melewati akses jalan gang selebar 2 meter saja.</p>
+                <strong>Masuk Gang Sempit</strong>
+                <p>Ukuran mesin kompak, bisa melewati akses jalan selebar 2 meter saja.</p>
               </div>
             </div>
             <div class="feature">
               <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
               <div>
-                <strong>Tenaga Pengeboran Stabil</strong>
-                <p>Meskipun ukurannya kompak, mesin ini mampu menembus kedalaman keras berkat daya tekan hidroliknya.</p>
+                <strong>Wash Boring</strong>
+                <p>Proses pengeboran menggunakan sirkulasi air dan lumpur. Tanah diangkat keluar melalui aliran air, bukan dengan getar atau tumbuk.</p>
               </div>
             </div>
           </div>
@@ -58,31 +65,82 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
               </li>
               <li>
                 <span>Metode Pengeboran</span>
-                <strong>Wash Boring (Air)</strong>
+                <strong>Wash Boring (Sirkulasi Air)</strong>
               </li>
               <li>
-                <span>Kebutuhan Akses Jalan</span>
-                <strong>Minimal 2 Meter</strong>
+                <span>Akses Jalan Minimal</span>
+                <strong>2 Meter</strong>
               </li>
               <li>
-                <span>Tingkat Kebisingan</span>
-                <strong>Rendah (Mesin Diesel Standar)</strong>
+                <span>Minimum Order</span>
+                <strong>200 Meter Lari</strong>
               </li>
             </ul>
-            <a href="https://wa.me/6285814173761" class="btn btn-primary" style="width: 100%; margin-top: var(--space-6);">Konsultasi & Pesan Alat</a>
+            <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent('Halo Aseven Pile, saya mau tanya harga bore pile mini crane.')}`} class="btn btn-primary" style="width: 100%; margin-top: var(--space-6);" target="_blank" rel="noopener noreferrer">Tanya Harga</a>
           </div>
         </div>
 
       </div>
     </div>
   </section>
+
+  <!-- Galeri Proses Kerja -->
+  <section class="section section-bg-alt">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Dokumentasi Proyek</h2>
+        <p>Foto langsung dari lokasi pengerjaan bore pile mini crane oleh tim Aseven Pile.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="/assets/images/layanan/mini-crane/mini-crane-lokasi-sempit.webp" alt="Pengerjaan bore pile mini crane di lokasi sempit antar bangunan" width="845" height="1024" loading="lazy" />
+          <p class="gallery-caption">Lokasi sempit antar bangunan &mdash; mini crane tetap bisa masuk dan beroperasi.</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/images/layanan/mini-crane/mini-crane-proses-wash-boring.webp" alt="Proses wash boring dengan sirkulasi air dan lumpur di lokasi proyek" width="576" height="1024" loading="lazy" />
+          <p class="gallery-caption">Proses wash boring &mdash; sirkulasi air dan lumpur mengangkat tanah dari lubang bor.</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/images/layanan/mini-crane/mini-crane-lubang-bor-1.webp" alt="Lubang bor yang sudah siap dimasukkan tulangan besi" width="800" height="975" loading="lazy" />
+          <p class="gallery-caption">Lubang bor siap dimasukkan tulangan besi dan dicor beton.</p>
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/images/layanan/mini-crane/mini-crane-lubang-bor-2.webp" alt="Detail lubang bor bore pile dengan air lumpur di dalamnya" width="800" height="967" loading="lazy" />
+          <p class="gallery-caption">Detail lubang bor &mdash; air lumpur menjaga dinding lubang tetap stabil sebelum pengecoran.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container text-center">
+      <h2>Butuh Bore Pile Mini Crane?</h2>
+      <p style="color: var(--color-text-muted); max-width: 500px; margin: 0 auto var(--space-6);">Hubungi kami untuk konsultasi kebutuhan proyek Anda. Tim kami siap membantu menghitung estimasi biaya.</p>
+      <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent('Halo Aseven Pile, saya ingin konsultasi bore pile mini crane untuk proyek saya.')}`} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Hubungi via WhatsApp</a>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
   .hero-service {
-    padding: 160px 0 80px;
+    padding: 140px 0 60px;
     background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
     border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .hero-split {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
   }
 
   .badge {
@@ -96,16 +154,24 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
     margin-bottom: var(--space-4);
   }
 
-  .hero-service h1 {
-    font-size: clamp(32px, 5vw, 56px);
+  .hero-text h1 {
+    font-size: clamp(32px, 5vw, 48px);
     margin-bottom: var(--space-4);
   }
 
   .subtitle {
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     color: var(--color-text-muted);
-    max-width: 600px;
-    margin: 0 auto;
+    margin-bottom: var(--space-6);
+    line-height: 1.7;
+  }
+
+  .hero-image img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
   }
 
   .spec-layout {
@@ -207,6 +273,33 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
     color: var(--color-text);
     text-align: right;
   }
+
+  /* Gallery */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  @media (max-width: 600px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .gallery-caption {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+    text-align: center;
+  }
 </style>
-
-
