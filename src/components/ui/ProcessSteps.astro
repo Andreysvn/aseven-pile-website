@@ -5,16 +5,16 @@ export interface Props {
   steps?: { number: number; title: string; desc: string }[];
 }
 const { 
-  title = "Cara Mulai Bekerja Sama", 
-  subtitle = "Proses transparan tanpa kerumitan. Dari chat pertama hingga alat tiba di lokasi Anda.",
+  title = "Alur Kerja Kami", 
+  subtitle = "Proses yang jelas dan transparan. Dari konsultasi pertama hingga pekerjaan selesai di lapangan.",
   steps
 } = Astro.props;
 
 const defaultSteps = [
-  { number: 1, title: "Konsultasi Awal", desc: "Hubungi via WA. Informasikan lokasi, jenis bangunan, dan kirimkan data Sondir/SPT (jika ada) atau gambar denah." },
-  { number: 2, title: "Survei Lahan", desc: "Tim kami akan meninjau lokasi untuk mengecek akses jalan masuk alat berat, ketersediaan air, dan manuver rig." },
-  { number: 3, title: "SPK & Mobilisasi", desc: "Kesepakatan harga total dan penandatanganan SPK. Alat berat dan kru akan dimobilisasi ke lokasi proyek Anda." },
-  { number: 4, title: "Eksekusi & Laporan", desc: "Pengeboran dimulai. Anda menerima laporan harian kedalaman, jenis tanah yang ditembus, serta volume pengecoran." }
+  { number: 1, title: "Konsultasi & Estimasi", desc: "Hubungi via WA. Informasikan kebutuhan Anda (diameter, kedalaman, dan jumlah titik) untuk kami buatkan dokumen penawaran harga." },
+  { number: 2, title: "Kesepakatan & Survei", desc: "Setelah penawaran disetujui dan DP dibayarkan, tim kami akan turun melakukan survei untuk memastikan kesiapan lokasi." },
+  { number: 3, title: "Mobilisasi & Eksekusi", desc: "Alat (mini crane / manual) beserta kru diberangkatkan ke lokasi. Pekerjaan fondasi langsung dieksekusi sesuai spesifikasi." },
+  { number: 4, title: "Selesai & Pelunasan", desc: "Pekerjaan dipantau hingga beres. Setelah serah terima hasil dengan baik, baru dilakukan pelunasan dan alat ditarik." }
 ];
 
 const activeSteps = steps || defaultSteps;
@@ -40,5 +40,3 @@ const activeSteps = steps || defaultSteps;
     </div>
   </div>
 </section>
-
-
