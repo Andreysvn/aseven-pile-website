@@ -1,4 +1,4 @@
-﻿---
+---
 // ServicesGrid.astro
 ---
 
@@ -11,33 +11,36 @@
     <div class="services-grid">
       
       <a href="/layanan/bore-pile-mesin/mini-crane" class="service-card">
-        <div class="service-icon">
-          <!-- GANTI IKON ANDA DI SINI -->
-          <img src="/assets/icons/icon-mini-crane.svg" alt="Ikon Mini Crane" class="user-custom-icon" />
+        <div class="service-image">
+          <img src="/assets/images/layanan/mini-crane/mc-rig-2.webp" alt="Mesin Mini Crane Aseven Pile" loading="lazy" />
         </div>
-        <h3>Mesin Mini Crane</h3>
-        <p>Solusi bore pile untuk lokasi sempit dan padat penduduk. Butuh akses jalan 3 meter. Bisa metode bor basah atau kering, aman dan minim getaran.</p>
-        <span class="service-link" aria-label="Pelajari Spesifikasi Mini Crane">Pelajari Spesifikasi &rarr;</span>
+        <div class="service-content">
+          <h3>Mesin Mini Crane</h3>
+          <p>Solusi bore pile untuk lokasi sempit dan padat penduduk. Butuh akses jalan 3 meter. Bisa metode bor basah atau kering, aman dan minim getaran.</p>
+          <span class="service-link" aria-label="Pelajari Spesifikasi Mini Crane">Pelajari Spesifikasi &rarr;</span>
+        </div>
       </a>
 
       <a href="/layanan/bore-pile-mesin/gawangan" class="service-card">
-        <div class="service-icon">
-          <!-- GANTI IKON ANDA DI SINI -->
-          <img src="/assets/icons/icon-gawangan.svg" alt="Ikon Mesin Gawangan" class="user-custom-icon" />
+        <div class="service-image">
+          <img src="/assets/images/layanan/gawangan/gawangan-alat.webp" alt="Mesin Gawangan Aseven Pile" loading="lazy" />
         </div>
-        <h3>Mesin Gawangan</h3>
-        <p>Sistem tiang menara (tripod) dengan mesin penggerak bertenaga besar. Pilihan tepat untuk tanah cadas dan lahan dengan kemiringan ekstrem.</p>
-        <span class="service-link" aria-label="Pelajari Spesifikasi Mesin Gawangan">Pelajari Spesifikasi &rarr;</span>
+        <div class="service-content">
+          <h3>Mesin Gawangan</h3>
+          <p>Sistem tiang menara (tripod) dengan mesin penggerak bertenaga besar. Pilihan tepat untuk tanah cadas dan lahan dengan kemiringan ekstrem.</p>
+          <span class="service-link" aria-label="Pelajari Spesifikasi Mesin Gawangan">Pelajari Spesifikasi &rarr;</span>
+        </div>
       </a>
 
       <a href="/layanan/strauss-pile" class="service-card">
-        <div class="service-icon">
-          <!-- GANTI IKON ANDA DI SINI -->
-          <img src="/assets/icons/icon-strauss.svg" alt="Ikon Strauss Pile" class="user-custom-icon" />
+        <div class="service-image">
+          <img src="https://placehold.co/600x400/eeeeee/999999?text=Foto+Strauss+Pile+Belum+Ada" alt="Strauss Pile Manual Aseven Pile" loading="lazy" />
         </div>
-        <h3>Strauss Pile Manual</h3>
-        <p>Pengeboran pondasi manual tenaga manusia. Solusi ekonomis tanpa polusi suara dan asap. Maksimal untuk bangunan 2 lantai di tanah lunak.</p>
-        <span class="service-link" aria-label="Pelajari Spesifikasi Strauss Pile">Pelajari Spesifikasi &rarr;</span>
+        <div class="service-content">
+          <h3>Strauss Pile Manual</h3>
+          <p>Pengeboran pondasi manual tenaga manusia. Solusi ekonomis tanpa polusi suara dan asap. Maksimal untuk bangunan 2 lantai di tanah lunak.</p>
+          <span class="service-link" aria-label="Pelajari Spesifikasi Strauss Pile">Pelajari Spesifikasi &rarr;</span>
+        </div>
       </a>
 
     </div>
@@ -77,23 +80,6 @@
     border-color: var(--color-primary);
   }
 
-  
-  
-  /* Styling khusus untuk ikon buatan Anda (SVG/PNG) */
-  .user-custom-icon {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-  }
-
-  
-
-  /* Jika ikon bawaannya berupa SVG eksternal tapi tidak bisa ganti warna otomatis lewat CSS text-color, kita bisa tambahkan filter CSS atau biarkan saja warna aslinya */
-  .service-card:hover .user-custom-icon {
-    /* filter: brightness(0) invert(1); */ /* Aktifkan baris ini nanti jika ingin ikon buatan Anda berubah jadi warna putih saat disentuh/di-hover */
-  }
-
-  
   .service-image {
     width: 100%;
     height: 220px;
@@ -118,7 +104,6 @@
     flex-direction: column;
     flex: 1;
   }
-
 
   .service-card h3 {
     font-size: var(--text-xl);
@@ -147,6 +132,3 @@
     gap: var(--space-3);
   }
 </style>
-
-
-
