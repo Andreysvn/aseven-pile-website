@@ -1,13 +1,20 @@
-﻿---
+---
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import { siteConfig } from '../../../data/site.config';
 ---
 
-<BaseLayout title="Spesifikasi Mesin Gawangan | Aseven Pile" description="Spesifikasi alat berat Mesin Gawangan untuk bore pile. Tenaga besar untuk lahan cadas dan tanah keras.">
+<BaseLayout title="Mesin Gawangan untuk Bore Pile | Aseven Pile" description="Mesin gawangan untuk pengeboran tanah keras dan cadas ringan. Struktur tripod stabil, cocok untuk kontur tanah miring dan diameter besar.">
   <div class="hero-service">
-    <div class="container text-center">
-      <span class="badge">Mesin Tenaga Besar</span>
-      <h1>Mesin Gawangan</h1>
-      <p class="subtitle">Sistem tiang menara (tripod) bertenaga gahar. Solusi mutlak untuk tanah keras dan cadas.</p>
+    <div class="container hero-split">
+      <div class="hero-text">
+        <span class="badge">Bore Pile Mesin</span>
+        <h1>Mesin Gawangan</h1>
+        <p class="subtitle">Sistem bor dengan tiang menara (tripod) bertenaga besar. Dirancang khusus untuk menembus lapisan tanah keras dan beroperasi stabil di lahan miring.</p>
+        <a href={'https://wa.me/' + siteConfig.whatsapp + '?text=' + encodeURIComponent('Halo Aseven Pile, saya ingin konsultasi bore pile mesin gawangan.')} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a>
+      </div>
+      <div class="hero-image">
+        <div style="width: 100%; height: 500px; background: var(--color-bg-alt); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);">Foto menyusul</div>
+      </div>
     </div>
   </div>
 
@@ -16,29 +23,29 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
       <div class="spec-layout">
         
         <div class="spec-content">
-          <h2>Mengapa Memilih Mesin Gawangan?</h2>
-          <p>Mesin Gawangan dirancang dengan konstruksi tiang menara (tripod) yang sangat stabil saat menahan beban putaran. Mesin ini didukung oleh winch bertenaga besar yang memungkinkannya mengikis dan menghancurkan lapisan tanah yang jauh lebih keras dibandingkan mesin standar.</p>
+          <h2>Kapan Menggunakan Mesin Gawangan?</h2>
+          <p>Mesin Gawangan adalah pilihan utama saat kondisi tanah di lapangan terindikasi keras atau cadas ringan yang sulit ditembus oleh mesin kecil. Berkat struktur kakinya yang berupa tripod, mesin ini juga sangat bisa diandalkan untuk proyek di area dengan kontur tanah tidak rata atau perbukitan.</p>
           
           <div class="features-list">
             <div class="feature">
               <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
               <div>
-                <strong>Penakluk Tanah Cadas</strong>
-                <p>Dilengkapi mata bor khusus (rock auger/coring) yang sanggup menembus lapisan tanah berbatu atau cadas ringan.</p>
+                <strong>Tenaga Pengeboran Besar</strong>
+                <p>Didukung oleh tarikan winch yang kuat, mampu menembus lapisan tanah berbatu atau cadas ringan dengan lebih efisien.</p>
               </div>
             </div>
             <div class="feature">
               <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
               <div>
-                <strong>Stabilitas di Lahan Miring</strong>
-                <p>Kaki-kaki tripod dapat disesuaikan tinggi rendahnya, sehingga alat ini tetap kokoh beroperasi di tanah berkontur miring (perbukitan).</p>
+                <strong>Struktur Tripod Stabil</strong>
+                <p>Kaki-kaki penyangganya dapat disesuaikan tinggi rendahnya, sehingga alat tetap berdiri tegak meski lahan miring.</p>
               </div>
             </div>
             <div class="feature">
               <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
               <div>
-                <strong>Produktivitas Tinggi</strong>
-                <p>Proses pengeboran lebih cepat di kedalaman menengah karena tarikan winch yang lebih kuat saat mengangkat lumpur.</p>
+                <strong>Metode Fleksibel</strong>
+                <p>Dapat menggunakan sistem dry drilling (kering) maupun wash boring (sirkulasi air) menyesuaikan jenis tanah di lokasi.</p>
               </div>
             </div>
           </div>
@@ -58,31 +65,74 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
               </li>
               <li>
                 <span>Metode Pengeboran</span>
-                <strong>Wash Boring / Dry Drilling</strong>
+                <strong>Wash Boring / Dry</strong>
               </li>
               <li>
-                <span>Kebutuhan Akses Jalan</span>
-                <strong>Minimal 2.5 Meter</strong>
+                <span>Akses Jalan Minimal</span>
+                <strong>2.5 Meter</strong>
               </li>
               <li>
-                <span>Cocok Untuk</span>
-                <strong>Lahan Terbuka / Lereng</strong>
+                <span>Minimum Order</span>
+                <strong>200 Meter Lari</strong>
               </li>
             </ul>
-            <a href="https://wa.me/6285814173761" class="btn btn-primary" style="width: 100%; margin-top: var(--space-6);">Konsultasi & Pesan Alat</a>
+            <a href={'https://wa.me/' + siteConfig.whatsapp + '?text=' + encodeURIComponent('Halo Aseven Pile, saya mau tanya harga bore pile mesin gawangan.')} class="btn btn-primary" style="width: 100%; margin-top: var(--space-6);" target="_blank" rel="noopener noreferrer">Tanya Harga</a>
           </div>
         </div>
 
       </div>
     </div>
   </section>
+
+  <!-- Galeri Proses Kerja -->
+  <section class="section section-bg-alt">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Dokumentasi Proyek</h2>
+        <p>Proses pengeboran dan persiapan lubang bor di lapangan.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <div style="width: 100%; height: 300px; background: var(--color-bg-alt); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);">Foto menyusul</div>
+          <p class="gallery-caption">Setup mesin gawangan (tripod) siap memulai pengeboran di area terbuka.</p>
+        </div>
+        <div class="gallery-item">
+          <div style="width: 100%; height: 300px; background: var(--color-bg-alt); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);">Foto menyusul</div>
+          <p class="gallery-caption">Posisi lubang bor yang sudah siap untuk tahap pemasangan tulangan besi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container text-center">
+      <h2>Butuh Bore Pile Mesin Gawangan?</h2>
+      <p style="color: var(--color-text-muted); max-width: 500px; margin: 0 auto var(--space-6);">Hubungi kami untuk memastikan apakah kondisi tanah Anda memerlukan mesin gawangan. Kami bantu hitung estimasinya.</p>
+      <a href={'https://wa.me/' + siteConfig.whatsapp + '?text=' + encodeURIComponent('Halo Aseven Pile, saya ingin konsultasi bore pile mesin gawangan untuk proyek saya.')} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Hubungi via WhatsApp</a>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
   .hero-service {
-    padding: 160px 0 80px;
+    padding: 140px 0 60px;
     background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
     border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .hero-split {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
   }
 
   .badge {
@@ -96,16 +146,24 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
     margin-bottom: var(--space-4);
   }
 
-  .hero-service h1 {
-    font-size: clamp(32px, 5vw, 56px);
+  .hero-text h1 {
+    font-size: clamp(32px, 5vw, 48px);
     margin-bottom: var(--space-4);
   }
 
   .subtitle {
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     color: var(--color-text-muted);
-    max-width: 600px;
-    margin: 0 auto;
+    margin-bottom: var(--space-6);
+    line-height: 1.7;
+  }
+
+  .hero-image img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
   }
 
   .spec-layout {
@@ -207,7 +265,33 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
     color: var(--color-text);
     text-align: right;
   }
+
+  /* Gallery */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  @media (max-width: 600px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .gallery-caption {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+    text-align: center;
+  }
 </style>
-
-
-
