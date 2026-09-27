@@ -177,14 +177,23 @@ import { siteConfig } from '../../../data/site.config';
   }
 
   .badge {
-    display: inline-block;
-    padding: 6px 12px;
-    background: rgba(139, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
     color: var(--color-primary);
-    border-radius: 20px;
-    font-size: var(--text-sm);
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     margin-bottom: var(--space-4);
+  }
+  
+  .badge::before {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: var(--color-primary);
   }
 
   .hero-text h1 {
