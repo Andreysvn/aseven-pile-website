@@ -268,10 +268,16 @@ import { siteConfig } from '../../../data/site.config';
     background: var(--color-bg);
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-lg);
-    padding: var(--space-8);
+    padding: 1.25rem;
     box-shadow: var(--shadow-md);
     position: sticky;
     top: 100px;
+  }
+  
+  @media (min-width: 576px) {
+    .spec-card {
+      padding: var(--space-8);
+    }
   }
 
   .spec-card h3 {
@@ -291,10 +297,27 @@ import { siteConfig } from '../../../data/site.config';
 
   .spec-details li {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     padding-bottom: var(--space-4);
     border-bottom: 1px dashed var(--color-border-light);
+  }
+
+  .spec-details li strong {
+    text-align: left;
+  }
+  
+  @media (min-width: 576px) {
+    .spec-details li {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .spec-details li strong {
+      text-align: right;
+    }
   }
 
   .spec-details li:last-child {
