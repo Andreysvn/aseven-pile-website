@@ -73,9 +73,7 @@ const allTags = ["Bore Pile", "Strauss Pile", "Lahan Sempit", "Tanah Rawa/Lunak"
               <span>{article.imageText}</span>
             </div>
             <div class="card-content">
-              <div class="card-tags">
-                {article.tags.map(t => <span class="tag-badge">{t}</span>)}
-              </div>
+              
               <h2><a href={`/artikel/${article.slug}`}>{article.title}</a></h2>
               <p>{article.excerpt}</p>
               <a href={`/artikel/${article.slug}`} class="read-more">Baca Solusinya &rarr;</a>
