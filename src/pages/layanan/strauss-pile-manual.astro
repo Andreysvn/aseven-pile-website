@@ -189,7 +189,7 @@ import { siteConfig } from '../../data/site.config';
   .hero-image img {
     width: 100%;
     height: 450px;
-      object-position: 50% 95%;
+      object-position: center bottom !important;
     object-fit: cover;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
@@ -351,7 +351,7 @@ import { siteConfig } from '../../data/site.config';
     height: 450px;
     display: block;
     object-fit: cover;
-    object-position: 50% 95%;
+    object-position: center bottom !important;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .gallery-item:hover .image-wrapper img {
@@ -477,6 +477,7 @@ import { siteConfig } from '../../data/site.config';
     customElements.define('image-lightbox', ImageLightbox);
   }
 </script>
+
 
 
 
