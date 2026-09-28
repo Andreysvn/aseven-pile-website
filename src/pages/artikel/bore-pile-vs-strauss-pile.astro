@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import { siteConfig } from '../../data/site.config';
+
+const title = "Bore Pile Mesin vs Strauss Pile: Mana yang Tepat untuk Proyek Anda?";
+const description = "Bingung memilih antara bore pile mesin atau strauss pile manual? Ketahui perbedaan teknis, harga, dan peruntukannya sebelum memulai konstruksi.";
+---
+
+<BaseLayout title={`${title} | Aseven Pile`} description={description}>
+  <!-- Header Artikel -->
+  <header class="article-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="tags">
+          <span class="tag">Bore Pile</span>
+          <span class="tag">Strauss Pile</span>
+          <span class="tag">Lahan Sempit</span>
+        </div>
+        <h1>{title}</h1>
+        <p class="meta">Ditulis oleh Tim Teknik Aseven Pile</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Isi Artikel -->
+  <article class="article-body section">
+    <div class="container article-container">
+      <div class="content-prose">
+        <p class="lead">Salah satu pertanyaan yang paling sering ditanyakan oleh klien kami di lapangan adalah: <strong>"Mending pakai mesin bore pile (mini crane/gawangan) atau strauss pile manual?"</strong> Jika salah pilih, Anda berisiko membuang anggaran secara percuma atau justru mendapatkan pondasi yang tidak cukup kuat menahan beban bangunan.</p>
+
+        <p>Mari kita bedah secara lugas perbandingan kedua metode ini berdasarkan fakta lapangan.</p>
+
+        <h2>1. Strauss Pile (Bor Manual)</h2>
+        <p>Strauss pile adalah metode pengeboran tanah yang digerakkan mutlak oleh tenaga manusia. Mata bor diputar oleh dua orang pekerja untuk mengangkat tanah.</p>
+        <ul>
+          <li><strong>Keunggulan:</strong> Harga per meter paling murah. Tidak ada biaya mobilisasi alat berat karena alatnya bisa dibawa dengan motor atau mobil bak kecil. Tidak bising sama sekali.</li>
+          <li><strong>Kelemahan:</strong> Sangat bergantung pada fisik pekerja. Jika di kedalaman 4 meter sudah bertemu lapisan tanah keras, padas, atau bebatuan, pengeboran otomatis harus berhenti karena tenaga manusia tidak sanggup lagi menembusnya.</li>
+          <li><strong>Peruntukan Ideal:</strong> Rumah tinggal 1-2 lantai, ruko kecil, atau pagar beton. Sangat cocok jika lapisan tanah keras di lokasi Anda tergolong dangkal (kurang dari 6 meter).</li>
+        </ul>
+
+        <h2>2. Bore Pile Mesin (Mini Crane / Gawangan)</h2>
+        <p>Menggunakan mesin diesel hidrolik atau winch (tarikan tali) yang dipasang pada kerangka mini crane atau gawangan. Menggunakan metode *wash boring* (bor basah) atau *dry boring* (bor kering).</p>
+        <ul>
+          <li><strong>Keunggulan:</strong> Tenaga putaran sangat kuat. Mampu menembus lapisan tanah keras, cadas ringan, hingga kedalaman 30 meter. Proses pengerjaan jauh lebih cepat dibanding manual.</li>
+          <li><strong>Kelemahan:</strong> Harga jasa per meter lebih tinggi. Membutuhkan akses jalan yang memadai untuk mobilisasi alat berat (mobil pickup/truk CDD) dan suplai air yang cukup jika menggunakan metode bor basah.</li>
+          <li><strong>Peruntukan Ideal:</strong> Bangunan 3 lantai atau lebih, pabrik, gudang, dan struktur berat lainnya. Wajib digunakan di area tanah lempung/rawa yang membutuhkan kedalaman lebih dari 8 meter untuk mencapai tanah keras.</li>
+        </ul>
+
+        <h2>Kesimpulan Singkat</h2>
+        <p>Gunakan <strong>Strauss Pile</strong> jika beban bangunan ringan (1-2 lantai) dan budget terbatas. Namun, jika Anda membangun struktur berat atau berlokasi di tanah rawa yang butuh pondasi dalam, jangan memaksakan tenaga manual—gunakan <strong>Bore Pile Mesin</strong> demi keamanan struktur.</p>
+
+        <div class="cta-box">
+          <h3>Masih Ragu Memilih Metode yang Tepat?</h3>
+          <p>Setiap lokasi memiliki struktur tanah yang berbeda. Hubungi tim Aseven Pile untuk konsultasi teknis atau permintaan survei lokasi. Kami akan merekomendasikan metode paling efisien untuk proyek Anda.</p>
+          <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent('Halo Aseven Pile, saya sudah baca artikel Bore Pile vs Strauss Pile dan ingin konsultasi pemilihan alat untuk proyek saya.')}`} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Konsultasi Gratis via WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-header {
+    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: var(--space-4);
+  }
+
+  .tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    background: rgba(139, 0, 0, 0.05);
+    padding: 6px 16px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .article-header h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: var(--space-4);
+    line-height: 1.2;
+  }
+
+  .meta {
+    color: var(--color-text-muted);
+    font-size: var(--text-md);
+  }
+
+  .article-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .content-prose {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .lead {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+
+  .content-prose h2 {
+    font-size: 1.75rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--color-text);
+  }
+
+  .content-prose p {
+    margin-bottom: var(--space-5);
+  }
+
+  .content-prose ul {
+    margin-bottom: var(--space-8);
+    padding-left: var(--space-5);
+  }
+
+  .content-prose li {
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-box {
+    margin-top: var(--space-12);
+    padding: var(--space-8);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .cta-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-box p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+</style>
