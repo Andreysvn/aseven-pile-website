@@ -57,7 +57,7 @@ import { siteConfig } from '../../../data/site.config';
             <ul class="spec-details">
               <li>
                 <span>Kedalaman Maksimal</span>
-                <strong>Sampai 30 Meter <br><small style="font-weight: normal; color: var(--color-text-muted);">(Efektif 20-26m, tergantung kondisi tanah, jenis tanah, diamte)</small></strong>
+                <strong>Sampai 30 Meter <br><small style="font-weight: normal; color: var(--color-text-muted);">(Efektif 20-26m, tergantung jenis tanah, diamte)</small></strong>
               </li>
               <li>
                 <span>Diameter</span>
@@ -375,6 +375,42 @@ import { siteConfig } from '../../../data/site.config';
     cursor: zoom-in;
     display: block;
     width: 100%;
+  }
+
+  
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-border-light);
+    border-radius: var(--radius-lg);
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .zoom-indicator {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .gallery-item:hover .image-wrapper img {
+    transform: scale(1.05);
+  }
+
+  .gallery-item:hover .zoom-indicator {
+    opacity: 1;
   }
 
   /* LIGHTBOX STYLES */
