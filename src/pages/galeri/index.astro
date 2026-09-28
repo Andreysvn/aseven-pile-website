@@ -4,20 +4,38 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
 // Database Foto Galeri
 // Bapak tinggal tambah/edit foto di sini.
 // Kategori yang tersedia: "Bore Pile", "Strauss Pile", "Gawangan"
-const photos = Array.from({ length: 22 }).map((_, i) => {
-  // Bikin data dummy sementara (campur Bore Pile & Strauss Pile)
-  const isStrauss = i % 3 === 0;
-  return {
-    id: i + 1,
-    title: `Proyek ${isStrauss ? 'Strauss Pile' : 'Bore Pile Mesin'} - Lokasi ${i + 1}`,
-    category: isStrauss ? 'Strauss Pile' : 'Bore Pile',
-    altText: `Foto proyek ${isStrauss ? 'Strauss Pile manual' : 'Bore Pile mesin'} ${i + 1} - Aseven Pile`,
-    // Untuk saat ini karena belum ada foto, kita pakai placeholder warna
-    imageUrl: "" 
-  };
-});
+const photos = [
+  {
+    id: 1,
+    title: 'Proyek Bore Pile Mesin - Lokasi 1',
+    category: 'Bore Pile',
+    altText: 'Foto proyek Bore Pile mesin 1 - Aseven Pile',
+    imageUrl: ''
+  },
+  {
+    id: 2,
+    title: 'Proyek Bore Pile Mesin - Lokasi 2',
+    category: 'Bore Pile',
+    altText: 'Foto proyek Bore Pile mesin 2 - Aseven Pile',
+    imageUrl: ''
+  },
+  {
+    id: 3,
+    title: 'Proyek Strauss Pile Manual - Lokasi 1',
+    category: 'Strauss Pile',
+    altText: 'Foto proyek Strauss Pile manual 1 - Aseven Pile',
+    imageUrl: ''
+  },
+  {
+    id: 4,
+    title: 'Proyek Strauss Pile Manual - Lokasi 2',
+    category: 'Strauss Pile',
+    altText: 'Foto proyek Strauss Pile manual 2 - Aseven Pile',
+    imageUrl: ''
+  }
+];
 
-const allTags = ["Bore Pile", "Strauss Pile", "Gawangan"];
+const allTags = ["Bore Pile", "Strauss Pile"];
 ---
 
 <BaseLayout title="Galeri Proyek | Aseven Pile" description="Dokumentasi hasil pekerjaan pondasi bore pile dan strauss pile dari Aseven Pile.">
