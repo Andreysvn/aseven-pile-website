@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import { siteConfig } from '../../data/site.config';
+
+const title = "Cara Menghitung Biaya Jasa Bore Pile per Meter di Lapangan";
+const description = "Jangan tertipu jebakan harga murah per meter. Pelajari komponen biaya tak terduga seperti kuli buang lumpur dan mobilisasi alat berat.";
+---
+
+<BaseLayout title={`${title} | Aseven Pile`} description={description}>
+  <!-- Header Artikel -->
+  <header class="article-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="tags">
+          <span class="tag">Bingung Hitung Biaya</span>
+        </div>
+        <h1>{title}</h1>
+        <p class="meta">Ditulis oleh Tim Teknik Aseven Pile</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Isi Artikel -->
+  <article class="article-body section">
+    <div class="container article-container">
+      <div class="content-prose">
+        <p class="lead">Seringkali calon klien tergiur dengan iklan yang menawarkan <strong>"Harga Bore Pile Rp X per meter"</strong> yang terlihat sangat murah. Namun, di lapangan, harga per meter ini hanyalah sebagian dari total biaya aktual yang harus Anda keluarkan.</p>
+
+        <p>Agar anggaran pondasi Anda tidak mendadak bengkak di tengah jalan, Anda harus memahami 4 komponen utama dalam perhitungan Rencana Anggaran Biaya (RAB) pondasi bore pile.</p>
+
+        <h2>1. Biaya Jasa Pengeboran (Per Meter Lari)</h2>
+        <p>Ini adalah biaya dasar yang paling sering dipublikasikan. Dihitung dengan rumus: <strong>Total Titik Bor × Kedalaman per Titik × Harga per Meter</strong>.</p>
+        <p>Contoh: Jika Anda punya 20 titik bor dan kedalaman yang diminta adalah 10 meter per titik, maka total pengeboran adalah 200 meter lari. Ingat, harga per meter ini biasanya berbeda tergantung ukuran diameter mata bor (misal 30cm, 40cm, atau 60cm).</p>
+
+        <h2>2. Biaya Mobilisasi & Demobilisasi Alat</h2>
+        <p>Alat bore pile mesin (mini crane atau gawangan) sangat berat dan membutuhkan armada truk/pickup khusus untuk mengangkutnya ke lokasi proyek Anda. Ada biaya yang harus dibayar untuk proses mendatangkan alat (mobilisasi) dan membawa pulang alat setelah selesai (demobilisasi).</p>
+
+        <h2>3. Biaya Buang Lumpur / Tanah (Penting!)</h2>
+        <p>Pengeboran terutama dengan sistem <em>wash boring</em> akan menghasilkan volume lumpur dan sisa tanah galian yang sangat banyak. Jika lokasi proyek Anda berada di perumahan padat atau jalan raya bersih, sisa galian ini tidak bisa ditumpuk di lokasi dan <strong>harus segera diangkut/dibuang</strong>.</p>
+        <p>Biaya penyediaan mobil pickup, karung, dan upah kuli panggul untuk membuang lumpur ini seringkali dilupakan di awal, padahal jumlahnya cukup signifikan.</p>
+
+        <h2>4. Material: Besi Tulangan & Beton</h2>
+        <p>Pengeboran hanyalah membuat lubang. Lubang tersebut harus diisi dengan rakitan besi tulangan (pembesian) dan dicor menggunakan beton (biasanya beton *ready mix* kualitas K-225 hingga K-300). Pastikan Anda tahu apakah harga borongan yang ditawarkan kontraktor hanya <strong>"Jasa Bor Saja"</strong> atau sudah <strong>"Borong Material"</strong> (terima jadi).</p>
+
+        <h2>Kesimpulan Singkat</h2>
+        <p>Selalu mintalah rincian harga (Quotation/RAB) tertulis dari kontraktor yang merinci semua item di atas, bukan sekadar menanyakan harga per meter via telepon. Dengan begitu, Anda terhindar dari jebakan biaya tak terduga.</p>
+
+        <div class="cta-box">
+          <h3>Butuh Perhitungan Biaya yang Transparan?</h3>
+          <p>Kirimkan data titik bor dan lokasi proyek Anda. Tim Aseven Pile akan membuatkan estimasi harga resmi yang detail, jujur, dan tanpa biaya tersembunyi.</p>
+          <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent('Halo Aseven Pile, saya ingin meminta rincian perhitungan biaya (estimasi harga) untuk proyek bore pile saya.')}`} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Minta Estimasi Harga via WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-header {
+    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: var(--space-4);
+  }
+
+  .tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    background: rgba(139, 0, 0, 0.05);
+    padding: 6px 16px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .article-header h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: var(--space-4);
+    line-height: 1.2;
+  }
+
+  .meta {
+    color: var(--color-text-muted);
+    font-size: var(--text-md);
+  }
+
+  .article-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .content-prose {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .lead {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+
+  .content-prose h2 {
+    font-size: 1.75rem;
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--color-text);
+  }
+
+  .content-prose p {
+    margin-bottom: var(--space-5);
+  }
+
+  .content-prose ul {
+    margin-bottom: var(--space-8);
+    padding-left: var(--space-5);
+  }
+
+  .content-prose li {
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-box {
+    margin-top: var(--space-12);
+    padding: var(--space-8);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .cta-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-box p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+</style>
