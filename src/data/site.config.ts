@@ -1,14 +1,14 @@
-﻿export const siteConfig = {
+export const siteConfig = {
   brand: "Aseven Pile",
   tagline: "Spesialis Pondasi Bore Pile & Strauss Pile Profesional",
   phone: "0858-1417-3761",
   whatsapp: "6285814173761",
   email: "info@asevenpile.com",
   address: {
-    street: "Jl. Contoh Alamat No. 123",
-    city: "Bekasi",
+    street: "Setia Asih, Kec. Tarumajaya",
+    city: "Kabupaten Bekasi",
     province: "Jawa Barat",
-    postalCode: "17xxx",
+    postalCode: "17215",
   },
   socialMedia: {
     instagram: "https://instagram.com/asevenpile",
@@ -17,4 +17,5 @@
   foundingYear: 2015,
   url: "https://asevenpile.com",
 };
+
 
