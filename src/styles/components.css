@@ -119,7 +119,7 @@
 .footer { background: var(--color-primary-dark); padding: var(--space-12) 0 var(--space-6); color: rgba(255,255,255,0.9); }
 .footer-inner { display: grid; gap: var(--space-8); margin-bottom: var(--space-8); grid-template-columns: 1fr; }
 @media (min-width: 640px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1024px) { .footer-inner { grid-template-columns: 2.5fr 1fr 1fr 1.5fr; } }
+@media (min-width: 1024px) { .footer-inner { grid-template-columns: 2.5fr 1fr 1.5fr 1fr; } }
 .footer-brand h3 { font-size: var(--text-xl); color: var(--color-primary); margin-bottom: var(--space-2); }
 .footer-brand p { color: rgba(255,255,255,0.8); font-size: var(--text-sm); max-width: 300px; }
 .footer-links h4, .footer-contact h4 { font-size: var(--text-base); margin-bottom: 12px; color: #ffffff; }
@@ -416,6 +416,7 @@ body { margin: 0; }
   font-size: var(--text-base);
   font-weight: 600;
 }
+
 
 
 
