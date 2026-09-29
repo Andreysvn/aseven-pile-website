@@ -40,7 +40,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
       <faq-accordion class="faq-accordion" id="faqContainer">
         
         <!-- FAQ 1: Minimum Order -->
-        <div class="faq-item" data-category="harga">
+        <div class="faq-item" data-category="harga bore-pile strauss-pile">
           <button class="faq-question" aria-expanded="false">
             <span>Berapa minimum order / volume pengerjaan?</span>
             <span class="faq-icon">
@@ -55,7 +55,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
         </div>
 
         <!-- FAQ 2: Harga -->
-        <div class="faq-item" data-category="harga">
+        <div class="faq-item" data-category="harga bore-pile strauss-pile">
           <button class="faq-question" aria-expanded="false">
             <span>Berapa harga jasa per meter?</span>
             <span class="faq-icon">
@@ -70,7 +70,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
         </div>
 
         <!-- FAQ 3: Akses -->
-        <div class="faq-item" data-category="teknis">
+        <div class="faq-item" data-category="teknis bore-pile strauss-pile">
           <button class="faq-question" aria-expanded="false">
             <span>Apakah alat bisa masuk jalan sempit di perumahan padat?</span>
             <span class="faq-icon">
@@ -85,7 +85,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
         </div>
 
         <!-- FAQ 4: Material -->
-        <div class="faq-item" data-category="teknis">
+        <div class="faq-item" data-category="teknis bore-pile strauss-pile">
           <button class="faq-question" aria-expanded="false">
             <span>Apakah harga sudah termasuk material (besi & cor beton)?</span>
             <span class="faq-icon">
@@ -100,7 +100,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
         </div>
 
         <!-- FAQ 5: Pembuangan Tanah -->
-        <div class="faq-item" data-category="teknis">
+        <div class="faq-item" data-category="teknis bore-pile strauss-pile">
           <button class="faq-question" aria-expanded="false">
             <span>Bagaimana urusan buang tanah sisa galian / lumpur?</span>
             <span class="faq-icon">
@@ -115,7 +115,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
         </div>
 
         <!-- FAQ 6: Mobilisasi -->
-        <div class="faq-item" data-category="harga">
+        <div class="faq-item" data-category="harga bore-pile strauss-pile">
           <button class="faq-question" aria-expanded="false">
             <span>Apakah ada biaya tambahan seperti mobilisasi alat?</span>
             <span class="faq-icon">
@@ -130,7 +130,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
         </div>
 
         <!-- FAQ 7: Kecepatan Kerja -->
-        <div class="faq-item" data-category="teknis">
+        <div class="faq-item" data-category="teknis bore-pile strauss-pile">
           <button class="faq-question" aria-expanded="false">
             <span>Berapa lama estimasi proses pengerjaannya?</span>
             <span class="faq-icon">
@@ -145,7 +145,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
         </div>
 
         <!-- FAQ 8: Survei -->
-        <div class="faq-item" data-category="umum">
+        <div class="faq-item" data-category="umum bore-pile strauss-pile">
           <button class="faq-question" aria-expanded="false">
             <span>Apakah survei lokasi berbayar?</span>
             <span class="faq-icon">
@@ -155,6 +155,37 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
           <div class="faq-answer-wrapper">
             <div class="faq-answer">
               <p>Survei lokasi <strong>GRATIS</strong> untuk area Jabodetabek. Tapi survei baru kami lakukan <strong>setelah ada kesepakatan harga indikatif</strong>. Tim turun ke lapangan murni untuk cek teknis (akses manuver alat, sumber air, cek tanah) dan mematangkan rencana kerja, bukan untuk nego harga dari nol.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- FAQ 9: Kedalaman Mesin -->
+        <div class="faq-item" data-category="teknis bore-pile">
+          <button class="faq-question" aria-expanded="false">
+            <span>Berapa kedalaman maksimal untuk Bore Pile Mesin?</span>
+            <span class="faq-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div class="faq-answer-wrapper">
+            <div class="faq-answer">
+              <p>Menggunakan mesin Gawangan atau Mini Crane, kami bisa mengebor hingga kedalaman <strong>20-30 meter</strong> (bahkan lebih), dan sanggup menembus lapisan tanah keras atau cadas yang tidak bisa ditembus oleh alat manual.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 10: Kedalaman Manual -->
+        <div class="faq-item" data-category="teknis strauss-pile">
+          <button class="faq-question" aria-expanded="false">
+            <span>Berapa kedalaman maksimal untuk Strauss Pile Manual?</span>
+            <span class="faq-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div class="faq-answer-wrapper">
+            <div class="faq-answer">
+              <p>Karena mengandalkan tenaga manusia murni, kedalaman maksimal Strauss Pile umumnya di <strong>6-8 meter</strong>, tergantung kekerasan tanah. Begitu ketemu lapisan cadas/batu, mata bor manual tidak akan bisa menembus lagi.</p>
             </div>
           </div>
         </div>
@@ -399,7 +430,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
         const category = item.getAttribute('data-category');
         
         const matchesSearch = questionText.includes(searchQuery) || answerText.includes(searchQuery);
-        const matchesFilter = currentFilter === 'all' || category === currentFilter;
+        const matchesFilter = currentFilter === 'all' || category.split(' ').includes(currentFilter);
 
         if (matchesSearch && matchesFilter) {
           item.style.display = 'block';
