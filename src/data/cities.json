@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "slug": "jakarta",
     "name": "Jakarta",
@@ -13,6 +13,28 @@
         "question": "Bagaimana izin kerja malam untuk proyek di Jakarta?",
         "answer": "Untuk proyek di jalan protokol atau area komersial Jakarta yang mengharuskan kerja malam, mesin bor kami dilengkapi dengan peredam suara (low noise) sehingga minim gangguan dan aman dari keluhan warga."
       }
+    ],
+    "subAreas": [
+      {
+        "name": "Jakarta Selatan",
+        "slug": "jakarta-selatan"
+      },
+      {
+        "name": "Jakarta Utara",
+        "slug": "jakarta-utara"
+      },
+      {
+        "name": "Jakarta Barat",
+        "slug": "jakarta-barat"
+      },
+      {
+        "name": "Jakarta Timur",
+        "slug": "jakarta-timur"
+      },
+      {
+        "name": "Jakarta Pusat",
+        "slug": "jakarta-pusat"
+      }
     ]
   },
   {
@@ -24,6 +46,24 @@
       {
         "question": "Bagaimana penanganan lumpur bor di daerah rawa/tanah liat Bekasi?",
         "answer": "Kami menggunakan cairan polimer dan sistem sirkulasi lumpur (mud circulation) yang aman untuk menahan dinding lubang bor agar tidak longsor, sangat efektif untuk kontur tanah Bekasi."
+      }
+    ],
+    "subAreas": [
+      {
+        "name": "Bekasi Barat",
+        "slug": "bekasi-barat"
+      },
+      {
+        "name": "Bekasi Timur",
+        "slug": "bekasi-timur"
+      },
+      {
+        "name": "Tambun",
+        "slug": "tambun"
+      },
+      {
+        "name": "Cikarang",
+        "slug": "cikarang"
       }
     ]
   },
@@ -37,7 +77,8 @@
         "question": "Apakah mesin bore pile bisa mengebor tanah berbatu di wilayah Bogor?",
         "answer": "Ya, mesin bore pile mini crane kami dilengkapi dengan mata bor khusus (rock auger/core barrel) yang dirancang untuk menembus lapisan tanah keras atau bebatuan yang sering ditemui di kontur tanah Bogor."
       }
-    ]
+    ],
+    "subAreas": []
   },
   {
     "slug": "depok",
@@ -48,6 +89,24 @@
       {
         "question": "Berapa lama proses pengerjaan bore pile untuk satu rumah di Depok?",
         "answer": "Rata-rata untuk rumah tinggal standar di Depok (sekitar 30 titik), pengerjaan bore pile mesin memakan waktu sekitar 3-5 hari kerja tergantung cuaca dan kondisi tanah."
+      }
+    ],
+    "subAreas": [
+      {
+        "name": "Pancoran Mas",
+        "slug": "pancoran-mas"
+      },
+      {
+        "name": "Margonda",
+        "slug": "margonda"
+      },
+      {
+        "name": "Beji",
+        "slug": "beji"
+      },
+      {
+        "name": "Cimanggis",
+        "slug": "cimanggis"
       }
     ]
   },
@@ -61,7 +120,8 @@
         "question": "Apakah melayani jasa bore pile untuk area industri di Tangerang?",
         "answer": "Tentu, kami sering melayani pengeboran pondasi bore pile untuk pembangunan gudang dan pabrik di kawasan industri Tangerang dengan standar K3 yang ketat."
       }
-    ]
+    ],
+    "subAreas": []
   },
   {
     "slug": "tangerang-selatan",
@@ -72,6 +132,32 @@
       {
         "question": "Pilih bore pile atau strauss pile untuk renovasi rumah di Tangsel?",
         "answer": "Jika akses jalan masuk ke perumahan Anda di Tangsel sangat sempit (kurang dari 2 meter) dan Anda ingin menghindari kebisingan, strauss pile (manual) adalah pilihan terbaik. Namun jika butuh pondasi lebih dalam dari 6 meter, kami sarankan bore pile mesin."
+      }
+    ],
+    "subAreas": []
+  },
+  {
+    "slug": "jakarta-selatan",
+    "name": "Jakarta Selatan",
+    "province": "DKI Jakarta",
+    "description": "Layanan jasa bore pile dan strauss pile di wilayah Jakarta Selatan. Ahli menangani kontur tanah padas.",
+    "localFaqs": [],
+    "subAreas": [
+      {
+        "name": "Tebet",
+        "slug": "tebet"
+      },
+      {
+        "name": "Kebayoran Baru",
+        "slug": "kebayoran-baru"
+      },
+      {
+        "name": "Cilandak",
+        "slug": "cilandak"
+      },
+      {
+        "name": "Pancoran",
+        "slug": "pancoran"
       }
     ]
   }
