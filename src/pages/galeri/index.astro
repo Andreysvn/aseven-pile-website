@@ -1,31 +1,106 @@
 ---
-import BaseLayout from '../../com<div class="img-wrapper">
-                {photo.imageUrl ? (
-                  <img src={photo.imageUrl} alt={photo.altText} loading="lazy" class="gallery-zoom-img" data-large={photo.imageUrl} />
-                ) : (
-                  <div class="placeholder-img">
-                    <span>Foto {photo.id}</span>
-                  </div>
-                )}
-              </div>
-              <div class="card-content">
-                <span class="photo-category">{photo.category}</span>
-                <p class="photo-title">{photo.title}</p>
-              </div>
-            </div>
-          ))}<div class="img-wrapper">
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+
+// Database Foto Galeri
+// Bapak tinggal tambah/edit foto di sini.
+// Kategori yang tersedia: "Bore Pile", "Strauss Pile", "Gawangan"
+const photos = [
+  {
+    id: 1,
+    title: 'Proyek Bore Pile Mesin Mini Crane',
+    category: 'Bore Pile',
+    altText: 'Foto alat berat bore pile mesin mini crane Aseven Pile',
+    imageUrl: '/assets/images/layanan/mini-crane/mini-crane-alat.webp'
+  },
+  {
+    id: 2,
+    title: 'Pengeboran Bore Pile di Gudang',
+    category: 'Bore Pile',
+    altText: 'Proyek pengeboran bore pile mesin di area gudang',
+    imageUrl: '/assets/images/layanan/mini-crane/mc-gudang.webp'
+  },
+  {
+    id: 3,
+    title: 'Proyek Strauss Pile Manual - Tahap Pengeboran',
+    category: 'Strauss Pile',
+    altText: 'Foto pekerja melakukan pengeboran strauss pile manual',
+    imageUrl: '/assets/images/layanan/strauss-pile/sp-hero.jpg'
+  },
+  {
+    id: 4,
+    title: 'Proyek Strauss Pile Manual - Penekanan Pipa',
+    category: 'Strauss Pile',
+    altText: 'Foto pekerja menekan pipa strauss pile manual di lokasi',
+    imageUrl: '/assets/images/layanan/strauss-pile/sp-2.jpg'
+  },
+  {
+    id: 5,
+    title: 'Proyek Strauss Pile Manual - Pengangkatan Tanah',
+    category: 'Strauss Pile',
+    altText: 'Pekerja mengangkat tanah hasil pengeboran strauss pile manual',
+    imageUrl: '/assets/images/layanan/strauss-pile/sp-3.jpg'
+  }
+];
+
+const allTags = ["Bore Pile", "Strauss Pile"];
+---
+
+<BaseLayout title="Galeri Proyek | Aseven Pile" description="Dokumentasi hasil pekerjaan pondasi bore pile dan strauss pile dari Aseven Pile.">
+  <!-- Header & Search Bar -->
+  <div class="page-header search-header">
+    <div class="container text-center">
+      <h1>Galeri Proyek</h1>
+      <p class="subtitle">Dokumentasi hasil pekerjaan pondasi lapangan Aseven Pile.</p>
+      
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-box">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" placeholder="Cari foto proyek (misal: strauss)..." autocomplete="off" />
+        </div>
+      </div>
+
+      <!-- Filter Kategori -->
+      <div class="problem-filters">
+        <div class="filter-chips">
+          <button class="chip active" data-filter="all">Semua</button>
+          {allTags.map(tag => (
+            <button class="chip" data-filter={tag.toLowerCase()}>{tag}</button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area Galeri -->
+  <section class="section">
+    <div class="container">
+      
+      <div id="noResults" class="no-results hidden">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <h3>Foto Tidak Ditemukan</h3>
+      </div>
+
+      <!-- Grid 2 Kolom -->
+      <div class="gallery-grid" id="galleryGrid">
+        {photos.map((photo) => (
+          <div 
+            class="gallery-item" 
+            data-title={photo.title.toLowerCase()} 
+            data-category={photo.category.toLowerCase()}
+          >
+            <div class="img-wrapper">
               {photo.imageUrl ? (
                 <img src={photo.imageUrl} alt={photo.altText} loading="lazy" class="gallery-zoom-img" data-large={photo.imageUrl} />
-                <div class="zoom-indicator"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
               ) : (
                 <div class="placeholder-img">
-                  <span>📷 Foto {photo.id}</span>
+                  <span>Foto {photo.id}</span>
                 </div>
               )}
-              <div class="overlay">
-                <span class="photo-category">{photo.category}</span>
-                <p class="photo-title">{photo.title}</p>
-              </div>
+            </div>
+            <div class="card-content">
+              <span class="photo-category">{photo.category}</span>
+              <p class="photo-title">{photo.title}</p>
             </div>
           </div>
         ))}
@@ -150,24 +225,20 @@ import BaseLayout from '../../com<div class="img-wrapper">
   }
 
   .gallery-item {
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: var(--radius-md);
     overflow: hidden;
     background: var(--color-bg-alt);
     border: 1px solid var(--color-border-light);
-    
+    aspect-ratio: 4/3;
     position: relative;
     display: none; /* Disembunyikan dulu, nanti diatur JS pagination */
   }
 
   .img-wrapper {
-      width: 100%;
-      aspect-ratio: 4/3;
-      position: relative;
-      overflow: hidden;
-      cursor: zoom-in;
-    }
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
 
   .placeholder-img {
     width: 100%;
@@ -188,20 +259,20 @@ import BaseLayout from '../../com<div class="img-wrapper">
     transition: transform 0.3s ease;
   }
 
-  .gallery-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-    }
-    .gallery-item:hover img {
+  .gallery-item:hover img {
     transform: scale(1.05);
   }
 
   /* Overlay Teks di Foto */
-  .card-content {
-      padding: 16px;
-      background: #ffffff;
-      border-top: 1px solid var(--color-border-light);
-    }
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+    padding: var(--space-6) var(--space-4) var(--space-4);
+    color: white;
+  }
 
   .photo-category {
     background: var(--color-primary);
@@ -216,8 +287,7 @@ import BaseLayout from '../../com<div class="img-wrapper">
 
   .photo-title {
       font-size: 0.9rem;
-      color: var(--color-text) !important;
-      margin-top: 12px;
+      color: #ffffff !important;
     font-weight: 500;
     margin: 0;
   }
@@ -281,7 +351,7 @@ import BaseLayout from '../../com<div class="img-wrapper">
   
   
 
-  
+  .gallery-item:hover 
 
   /* Lightbox Styles */
   .lightbox {
@@ -501,5 +571,4 @@ import BaseLayout from '../../com<div class="img-wrapper">
     }
   }); // This closes the DOMContentLoaded block from the original script
 </script>
-
 
