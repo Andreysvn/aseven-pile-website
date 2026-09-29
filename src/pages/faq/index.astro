@@ -20,6 +20,8 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
       <div class="problem-filters">
         <div class="filter-chips">
           <button class="chip active" data-filter="all">Semua</button>
+          <button class="chip" data-filter="bore-pile">Bore Pile</button>
+          <button class="chip" data-filter="strauss-pile">Strauss Pile</button>
           <button class="chip" data-filter="harga">Biaya & Harga</button>
           <button class="chip" data-filter="teknis">Teknis Lapangan</button>
           <button class="chip" data-filter="umum">Umum</button>
@@ -190,7 +192,38 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
           </div>
         </div>
 
+      
+        <!-- FAQ 9: Kedalaman Mesin -->
+        <div class="faq-item" data-category="teknis bore-pile">
+          <button class="faq-question" aria-expanded="false">
+            <span>Berapa kedalaman maksimal untuk Bore Pile Mesin?</span>
+            <span class="faq-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div class="faq-answer-wrapper">
+            <div class="faq-answer">
+              <p>Menggunakan mesin Gawangan atau Mini Crane, kami bisa mengebor hingga kedalaman <strong>20-30 meter</strong> (bahkan lebih), dan sanggup menembus lapisan tanah keras atau cadas yang tidak bisa ditembus oleh alat manual.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 10: Kedalaman Manual -->
+        <div class="faq-item" data-category="teknis strauss-pile">
+          <button class="faq-question" aria-expanded="false">
+            <span>Berapa kedalaman maksimal untuk Strauss Pile Manual?</span>
+            <span class="faq-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </button>
+          <div class="faq-answer-wrapper">
+            <div class="faq-answer">
+              <p>Karena mengandalkan tenaga manusia murni, kedalaman maksimal Strauss Pile umumnya di <strong>6-8 meter</strong>, tergantung kekerasan tanah. Begitu ketemu lapisan cadas/batu, mata bor manual tidak akan bisa menembus lagi.</p>
+            </div>
+          </div>
+        </div>
       </faq-accordion>
+
     </div>
   </section>
 
