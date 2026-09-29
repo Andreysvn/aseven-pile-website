@@ -25,19 +25,12 @@ import { siteConfig } from '../../data/site.config';
       </ul>
     </div>
 
-    
-
-    <div class="footer-links">
-      <h4>Area Layanan</h4>
-      <ul>
-        <li><a href="/#area">Jawa Barat</a></li>
-        <li><a href="/#area">Jawa Tengah</a></li>
-        <li><a href="/#area">Jawa Timur</a></li>
-      </ul>
-    </div>
-
     <div class="footer-contact">
       <h4>Kontak & Lokasi</h4>
+      <p style="display:flex; gap: 8px; align-items:flex-start;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+        <span><strong>Area Layanan:</strong><br>Jawa Barat, Jawa Tengah, Jawa Timur</span>
+      </p>
       <p style="display:flex; gap: 8px; align-items:flex-start;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0; margin-top:2px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
         <span>{siteConfig.address.street}, {siteConfig.address.city}, {siteConfig.address.province} {siteConfig.address.postalCode}</span>
@@ -57,5 +50,3 @@ import { siteConfig } from '../../data/site.config';
     <p>&copy; {new Date().getFullYear()} {siteConfig.brand}. All rights reserved.</p>
   </div>
 </footer>
-
-
