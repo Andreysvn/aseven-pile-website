@@ -12,15 +12,11 @@ import ContactSection from '../../components/ui/ContactSection.astro';
     <ContactSection hideLink={true} />
   </div>
 
-  <!-- Section Peta -->
-  <section class="section" style="padding-top: 0;">
+    <!-- Section Peta -->
+  <section class="section" style="padding-top: var(--space-4); padding-bottom: var(--space-12);">
     <div class="container">
-      <div class="section-title">
-        <h2>Lokasi Kami</h2>
-      </div>
-
       <div class="map-card">
-        <iframe src="https://maps.google.com/maps?q=-6.1627854,107.0076685&amp;hl=id&amp;z=15&amp;output=embed" class="map-iframe"
+        <iframe src="https://maps.google.com/maps?q=-6.1627854,107.0076685&amp;t=k&amp;hl=id&amp;z=17&amp;output=embed" class="map-iframe"
           allowfullscreen="" 
           loading="lazy" 
           referrerpolicy="no-referrer-when-downgrade">
@@ -33,20 +29,23 @@ import ContactSection from '../../components/ui/ContactSection.astro';
 <style>
   .map-card {
     width: 100%;
-    height: 420px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border-light);
-    box-shadow: var(--shadow-sm);
+    height: 450px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
     background: var(--color-bg-alt);
+    position: relative;
+    border: 4px solid white;
   }
 
   .map-iframe {
     width: 100%;
     height: 100%;
     border: none;
+    filter: contrast(1.1) saturate(1.1);
   }
 </style>
+
 
 
 
