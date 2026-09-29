@@ -1,4 +1,4 @@
-﻿---
+---
 import { siteConfig } from '../../data/site.config';
 
 interface Props {
@@ -12,10 +12,10 @@ const { hideLink = false } = Astro.props;
   <div class="container">
     <div class="contact-wrapper">
       
-      <!-- Kiri: Info Kontak & CTA -->
+      <!-- Kiri: Info Kontak -->
       <div class="contact-info">
-        <h2>Siap Memulai Proyek Anda?</h2>
-        <p>Diskusikan kebutuhan pondasi Bore Pile atau Strauss Pile Anda. Tim kami siap melakukan survei lokasi dan memberikan penawaran harga terbaik.</p>
+        <h2>Hubungi Aseven Pile</h2>
+        <p>Kirim detail lokasi dan ukuran pondasi proyek Anda. Kami akan hitung estimasi harga dan jadwalkan survei lapangan (gratis).</p>
         
         <ul class="contact-list">
           <li>
@@ -42,7 +42,7 @@ const { hideLink = false } = Astro.props;
             </div>
             <div>
               <strong>Jam Operasional</strong>
-              <span>Senin - Minggu (Layanan 24 Jam)</span>
+              <span>Buka 24 Jam</span>
             </div>
           </li>
           <li>
@@ -51,14 +51,14 @@ const { hideLink = false } = Astro.props;
             </div>
             <div>
               <strong>Area Layanan</strong>
-              <span>Basis di Jabodetabek, Melayani Pulau Jawa</span>
+              <span>Jabodetabek & Seluruh Pulau Jawa</span>
             </div>
           </li>
         </ul>
         
         {!hideLink && (
           <div style="margin-top: var(--space-6);">
-            <a href="/kontak" class="btn btn-outline" style="width: 100%; justify-content: center;">Lihat Detail Lokasi Kami &rarr;</a>
+            <a href="/kontak" class="btn btn-outline" style="width: 100%; justify-content: center;">Lihat Alamat & Lokasi Map &rarr;</a>
           </div>
         )}
       </div>
@@ -67,39 +67,37 @@ const { hideLink = false } = Astro.props;
       <div class="contact-form-card">
         <form id="wa-form" class="form">
           <div class="form-group">
-            <label for="name">Nama Lengkap / Perusahaan</label>
-            <input type="text" id="name" name="name" placeholder="Contoh: Bpk. Budi / PT Sejahtera..." required />
+            <label for="name">Nama / Perusahaan</label>
+            <input type="text" id="name" name="name" placeholder="Masukkan nama Anda..." required />
           </div>
           
           <div class="form-group">
             <label for="location">Lokasi Proyek</label>
-            <input type="text" id="location" name="location" placeholder="Kecamatan, Kota (contoh: Jagakarsa, Jakarta Selatan)" required />
+            <input type="text" id="location" name="location" placeholder="Kecamatan, Kota (contoh: Jagakarsa, Jaksel)" required />
           </div>
           
           <div class="form-group">
-            <label for="service">Layanan yang Dibutuhkan</label>
+            <label for="service">Pilih Layanan</label>
             <select id="service" name="service" required>
-              <option value="" disabled selected>Pilih jenis layanan...</option>
-              <option value="Bore Pile Mesin">Bore Pile Mesin (Mini Crane/Gawangan)</option>
-              <option value="Strauss Pile Manual">Strauss Pile Manual</option>
-              <option value="Konsultasi Dulu">Konsultasi / Belum Yakin</option>
+              <option value="" disabled selected>Pilih jenis alat...</option>
+              <option value="Bore Pile Mesin">Mesin Bore Pile (Mini Crane/Gawangan)</option>
+              <option value="Strauss Pile Manual">Strauss Pile (Bor Manual)</option>
+              <option value="Belum Tahu">Belum tahu, mau survei/konsultasi dulu</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="message">Kebutuhan / Spesifikasi</label>
-            <textarea id="message" name="message" rows="3" placeholder="Misal: Diameter 30cm, kedalaman 12m, apakah bisa akses mesin mini crane?" required></textarea>
+            <label for="message">Spesifikasi Proyek (Diameter & Kedalaman)</label>
+            <textarea id="message" name="message" rows="3" placeholder="Contoh: Butuh bor diameter 30cm, kedalaman 12 meter, akses jalan sempit..." required></textarea>
           </div>
           
-          <button type="submit" class="btn btn-primary btn-block">Kirim Pesan via WhatsApp &rarr;</button>
+          <button type="submit" class="btn btn-primary btn-block">Kirim Pesan ke WhatsApp &rarr;</button>
         </form>
       </div>
 
     </div>
   </div>
 </section>
-
-
 
 <script define:vars={{ whatsappNumber: siteConfig.whatsapp }}>
   const form = document.getElementById('wa-form');
@@ -111,11 +109,10 @@ const { hideLink = false } = Astro.props;
       const service = document.getElementById('service').value;
       const message = document.getElementById('message').value;
       
-      const text = `Halo Aseven Pile, saya ${name}.\n\n*Detail Proyek:*\nðŸ“ Lokasi: ${location}\nðŸ› ï¸ Layanan: ${service}\n\n*Pesan Tambahan:*\n${message}`;
-      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+      const text = \Halo Aseven Pile, saya \.\n\n*Detail Proyek:*\n?? Lokasi: \\n?? Layanan: \\n\n*Spesifikasi/Pesan:*\n\\;
+      const url = \https://wa.me/\?text=\\;
       
       window.open(url, '_blank');
     });
   }
 </script>
-
