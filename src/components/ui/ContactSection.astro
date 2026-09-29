@@ -72,60 +72,43 @@ const { hideLink = false } = Astro.props;
         )}
       </div>
 
-      <!-- Kanan: Form WhatsApp -->
-      <div class="contact-form-card">
-        <form id="wa-form" class="form">
-          <div class="form-group">
-            <label for="name">Nama / Perusahaan</label>
-            <input type="text" id="name" name="name" placeholder="Masukkan nama Anda..." required />
-          </div>
-          
-          <div class="form-group">
-            <label for="location">Lokasi Proyek</label>
-            <input type="text" id="location" name="location" placeholder="Kecamatan, Kota (contoh: Jagakarsa, Jaksel)" required />
-          </div>
-          
-          <div class="form-group">
-            <label for="service">Pilih Layanan</label>
-            <select id="service" name="service" required>
-              <option value="" disabled selected>Pilih jenis alat...</option>
-              <option value="Bore Pile Mesin">Mesin Bore Pile (Mini Crane/Gawangan)</option>
-              <option value="Strauss Pile Manual">Strauss Pile (Bor Manual)</option>
-              <option value="Belum Tahu">Belum tahu, mau survei/konsultasi dulu</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="message">Spesifikasi Proyek (Diameter & Kedalaman)</label>
-            <textarea id="message" name="message" rows="3" placeholder="Contoh: Butuh bor diameter 30cm, kedalaman 12 meter, akses jalan sempit..." required></textarea>
-          </div>
-          
-          <button type="submit" class="btn btn-primary btn-block">Kirim Pesan ke WhatsApp &rarr;</button>
-        </form>
+            <!-- Kanan: Peta Lokasi -->
+      <div class="map-card-elegant">
+        <iframe src="https://maps.google.com/maps?q=-6.1627854,107.0076685&amp;t=k&amp;hl=id&amp;z=17&amp;output=embed" class="map-iframe-elegant"
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
       </div>
-
     </div>
   </div>
 </section>
 
-<script define:vars={{ whatsappNumber: siteConfig.whatsapp }}>
-  const form = document.getElementById('wa-form');
-  if(form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const location = document.getElementById('location').value;
-      const service = document.getElementById('service').value;
-      const message = document.getElementById('message').value;
-      
-      const text = \Halo Aseven Pile, saya \.\n\n*Detail Proyek:*\n?? Lokasi: \\n?? Layanan: \\n\n*Spesifikasi/Pesan:*\n\\;
-      const url = \https://wa.me/\?text=\\;
-      
-      window.open(url, '_blank');
-    });
+
+
+
+
+
+
+<style>
+  .map-card-elegant {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border-light);
+    background: var(--color-bg-alt);
   }
-</script>
-
-
-
-
+  .map-iframe-elegant {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: contrast(1.1) saturate(1.1);
+  }
+  @media (max-width: 768px) {
+    .map-card-elegant {
+      margin-top: var(--space-8);
+    }
+  }
+</style>
