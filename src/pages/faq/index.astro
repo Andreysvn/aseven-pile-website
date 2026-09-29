@@ -3,10 +3,9 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
 ---
 
 <BaseLayout title="FAQ - Tanya Jawab Bore Pile" description="Pertanyaan yang Sering Diajukan mengenai Jasa Bore Pile & Strauss Pile Aseven Pile.">
-  <div class="page-header search-header">
-    <div class="container text-center">
-      <h1>Tanya Jawab (FAQ)</h1>
-      <p class="subtitle">Aturan main, teknis pengerjaan, dan informasi harga.</p>
+  <div class="container text-center" style="padding-top: 120px; max-width: 650px;">
+      <div class="section-title text-center" style="margin-bottom: 40px;"><h1 style="font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 8px;">Tanya Jawab (FAQ)</h1>
+      <p style="font-size: 0.9rem; color: var(--color-text-muted);">Aturan main, teknis pengerjaan, dan informasi harga.</p></div>
       
       <!-- Search Box -->
       <div class="search-container">
@@ -31,7 +30,7 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
   </div>
 
   <section class="section" style="padding-top: 0;">
-    <div class="container" style="max-width: 750px;">
+    <div class="container" style="max-width: 650px;">
       
       <div id="noResults" class="no-results hidden">
         <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
@@ -230,24 +229,11 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  .search-header {
-    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
-    padding: 120px 0 60px;
-    border-bottom: 1px solid var(--color-border-light);
-    margin-bottom: var(--space-8);
-  }
+  
 
-  .search-header h1 {
-    font-size: clamp(32px, 5vw, 48px);
-    margin-bottom: var(--space-4);
-  }
+  
 
-  .subtitle {
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-    max-width: 600px;
-    margin: 0 auto var(--space-8);
-  }
+  
 
   .search-container {
     max-width: 700px;
@@ -352,9 +338,9 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
     text-align: left;
     background: transparent;
     border: none;
-    padding: 20px 0;
-    font-size: 1rem;
-    font-weight: 600;
+    padding: 18px 0;
+    font-size: 0.95rem;
+    font-weight: 500;
     color: var(--color-text);
     font-family: inherit;
     cursor: pointer;
@@ -401,8 +387,8 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
 
   .faq-answer p {
     margin: 0;
-    padding: 0 0 24px 0;
-    font-size: 0.95rem;
+    padding: 0 0 20px 0;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
     line-height: 1.7;
     max-width: 95%;
@@ -506,3 +492,5 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
     });
   });
 </script>
+
+
