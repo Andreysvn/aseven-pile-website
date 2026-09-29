@@ -6,15 +6,15 @@ export interface Props {
 }
 const { 
   title = "Alur Kerja Kami", 
-  subtitle = "Proses yang jelas dan transparan. Dari konsultasi pertama hingga pekerjaan selesai di lapangan.",
+  subtitle = "Proses yang jelas dan transparan untuk memastikan kelancaran proyek Anda.",
   steps
 } = Astro.props;
 
 const defaultSteps = [
-  { number: 1, title: "Konsultasi & Estimasi", desc: "Hubungi via WA. Informasikan kebutuhan Anda (diameter, kedalaman, dan jumlah titik) untuk kami buatkan dokumen penawaran harga." },
-  { number: 2, title: "Survei Lokasi & DP", desc: "Setelah penawaran disetujui, tim kami turun mensurvei kesiapan lokasi. Jika lahan sudah beres dan siap dikerjakan, barulah dilakukan pembayaran DP." },
-  { number: 3, title: "Mobilisasi & Eksekusi", desc: "Alat (mini crane / manual) beserta kru diberangkatkan ke lokasi. Pekerjaan fondasi langsung dieksekusi sesuai spesifikasi." },
-  { number: 4, title: "Selesai & Pelunasan", desc: "Setelah seluruh titik selesai dikerjakan sesuai target, barulah klien melakukan pelunasan bersamaan dengan penarikan alat dari lokasi." }
+  { number: 1, title: "Konsultasi & Estimasi", desc: "Hubungi via WA. Informasikan detail kebutuhan Anda dan menyertakan data yang diperlukan untuk diberikan penawaran harga yang sesuai dengan lokasi dan kebutuhan proyek Anda." },
+  { number: 2, title: "Survei Lokasi & DP", desc: "Setelah penawaran disetujui, tim kami turun mensurvei kesiapan lokasi. Jika lahan sudah beres dan siap dikerjakan, barulah dilakukan pembayaran DP untuk mobilisasi alat dan tim kami." },
+  { number: 3, title: "Mobilisasi & Eksekusi", desc: "Alat mesin/manual beserta kru diberangkatkan ke lokasi. Pekerjaan pondasi langsung dieksekusi sesuai spesifikasi yang sudah disepakati." },
+  { number: 4, title: "Selesai & Pelunasan", desc: "Setelah seluruh titik selesai dikerjakan sesuai target, barulah klien melakukan pelunasan, kemudian dilakukan penarikan alat dari lokasi." }
 ];
 
 const activeSteps = steps || defaultSteps;
