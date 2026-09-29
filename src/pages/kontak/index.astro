@@ -12,7 +12,7 @@ import ContactSection from '../../components/ui/ContactSection.astro';
     <ContactSection hideLink={true} />
   </div>
 
-    <!-- Section Peta -->
+      <!-- Section Peta -->
   <section class="section" style="padding-top: var(--space-4); padding-bottom: var(--space-12);">
     <div class="container">
       <div class="map-card">
@@ -21,6 +21,9 @@ import ContactSection from '../../components/ui/ContactSection.astro';
           loading="lazy" 
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
+      </div>
+      <div class="map-caption">
+        Setia Asih, Kec. Tarumajaya, Kabupaten Bekasi, Jawa Barat 17215
       </div>
     </div>
   </section>
@@ -44,7 +47,16 @@ import ContactSection from '../../components/ui/ContactSection.astro';
     border: none;
     filter: contrast(1.1) saturate(1.1);
   }
+
+  .map-caption {
+    text-align: center;
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
 </style>
+
 
 
 
