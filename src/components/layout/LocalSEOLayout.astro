@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from './BaseLayout.astro';
 import LastUpdated from '../ui/LastUpdated.astro';
 import PremiumCTA from '../ui/PremiumCTA.astro';
@@ -39,11 +39,11 @@ let breadcrumbItems = [
 
 if (pathContext === 'bore-pile') {
   pageUrl = `${siteConfig.url}/area-layanan/bore-pile/${citySlug}`;
-  breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": "Bore Pile", "item": `${siteConfig.url}/area-layanan/bore-pile` });
+  breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": "Bore Pile", "item": `${siteConfig.url}/layanan/bore-pile` });
   breadcrumbItems.push({ "@type": "ListItem", "position": 4, "name": city, "item": pageUrl });
 } else if (pathContext === 'strauss-pile') {
   pageUrl = `${siteConfig.url}/area-layanan/strauss-pile/${citySlug}`;
-  breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": "Strauss Pile", "item": `${siteConfig.url}/area-layanan/strauss-pile` });
+  breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": "Strauss Pile", "item": `${siteConfig.url}/layanan/strauss-pile-manual` });
   breadcrumbItems.push({ "@type": "ListItem", "position": 4, "name": city, "item": pageUrl });
 } else {
   breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": city, "item": pageUrl });

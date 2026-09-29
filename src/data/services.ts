@@ -1,4 +1,4 @@
-﻿export interface CityService {
+export interface CityService {
   slug: string;
   name: string;
   description: string;
@@ -27,7 +27,7 @@ export const CITY_SERVICES: CityService[] = [
     image: "/imgs/wa-gallery-1.webp",
     imageAlt: "Pekerjaan Strauss Pile Manual",
     cityUrlPattern: "area-layanan/strauss-pile/{city}",
-    serviceUrl: "layanan/strauss-pile",
+    serviceUrl: "layanan/strauss-pile-manual",
     available: true,
   }
 ];
