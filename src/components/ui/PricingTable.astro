@@ -11,6 +11,7 @@ const showBore = method === 'all' || method === 'borepile';
 const showStrauss = method === 'all' || method === 'strauss';
 const year = new Date().getFullYear();
 const cityLabel = city ? ` ${city}` : '';
+const citySlug = city ? city.toLowerCase().replace(/\s+/g, '-') : '';
 ---
 
 <section class="section pricing-section" id="harga">
@@ -35,6 +36,7 @@ const cityLabel = city ? ` ${city}` : '';
                   <th>Diameter</th>
                   <th>Jasa / m¹</th>
                   <th>Material / m¹</th>
+                  <th>Cocok Untuk</th>
                   <th></th>
                 </tr>
               </thead>
@@ -53,6 +55,7 @@ const cityLabel = city ? ` ${city}` : '';
                         ? `Rp ${tier.materialCostEstimate.toLocaleString('id-ID')}`
                         : <span class="badge-hubungi">Hubungi Kami</span>}
                     </td>
+                    <td class="suitable-col">{tier.notes}</td>
                     <td><a href={`/layanan/bore-pile/diameter/${tier.diameter}cm`}>Detail →</a></td>
                   </tr>
                 ))}
@@ -72,6 +75,7 @@ const cityLabel = city ? ` ${city}` : '';
                   <th>Diameter</th>
                   <th>Jasa / m¹</th>
                   <th>Material / m¹</th>
+                  <th>Cocok Untuk</th>
                   <th></th>
                 </tr>
               </thead>
@@ -85,6 +89,7 @@ const cityLabel = city ? ` ${city}` : '';
                         ? `Rp ${tier.materialCostEstimate.toLocaleString('id-ID')}`
                         : <span class="badge-hubungi">Hubungi Kami</span>}
                     </td>
+                    <td class="suitable-col">{tier.notes}</td>
                     <td><a href={`/layanan/strauss-pile-manual/diameter/${tier.diameter}cm`}>Detail →</a></td>
                   </tr>
                 ))}
@@ -94,6 +99,20 @@ const cityLabel = city ? ` ${city}` : '';
         </div>
       )}
     </div>
+
+    {method === 'borepile' && citySlug && (
+      <div class="cross-link-box">
+        <p><strong>Cari opsi pondasi yang lebih ekonomis dan bisa masuk gang sempit?</strong></p>
+        <a href={`/area-layanan/strauss-pile/${citySlug}`}>Lihat Harga Jasa Strauss Pile {city} →</a>
+      </div>
+    )}
+
+    {method === 'strauss' && citySlug && (
+      <div class="cross-link-box">
+        <p><strong>Butuh pondasi yang lebih dalam untuk rumah 2 lantai ke atas?</strong></p>
+        <a href={`/area-layanan/bore-pile/${citySlug}`}>Lihat Harga Jasa Bore Pile Mesin {city} →</a>
+      </div>
+    )}
 
     <p class="pricing-note">*Harga di atas adalah harga jasa pengeboran per meter lari. Belum termasuk biaya mobilisasi/demobilisasi alat.</p>
   </div>
@@ -164,6 +183,33 @@ const cityLabel = city ? ` ${city}` : '';
     border-radius: 4px;
     font-size: 12px;
     font-weight: 600;
+  }
+  .suitable-col {
+    max-width: 200px;
+    white-space: normal !important;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+  }
+  .cross-link-box {
+    margin-top: var(--space-6);
+    padding: var(--space-4) var(--space-6);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+  .cross-link-box p {
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+  .cross-link-box a {
+    display: inline-block;
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .cross-link-box a:hover {
+    text-decoration: underline;
   }
   .pricing-note {
     margin-top: var(--space-4);
