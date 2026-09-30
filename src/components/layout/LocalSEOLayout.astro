@@ -121,7 +121,7 @@ const serviceSchema = {
   
   
   <header class="section local-seo-header">
-    <div class="container" style="max-width: 900px; margin: 0 auto; text-align: center;">
+    <div class="container" style="max-width: 900px; margin: 0 auto; text-align: left;">
       <!-- HTML Breadcrumbs -->
       <nav aria-label="Breadcrumb" class="breadcrumbs">
         <ol itemscope itemtype="https://schema.org/BreadcrumbList">
@@ -150,7 +150,7 @@ const serviceSchema = {
       {pathContext !== 'general' && (
         <>
           <div class="last-updated-wrapper">
-            <LastUpdated prefix="Update" />
+            <LastUpdated prefix="Update" hideIcon={true} />
           </div>
           
           <div class="header-image-wrapper">
@@ -181,7 +181,7 @@ const serviceSchema = {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 8px;
       list-style: none;
       padding: 0;
@@ -213,7 +213,7 @@ const serviceSchema = {
     .last-updated-wrapper {
       margin-bottom: var(--space-6);
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
     }
     
     .header-image-wrapper {
