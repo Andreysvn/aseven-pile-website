@@ -19,14 +19,18 @@ const {
     
     <div class="map-wrapper">
       <div class="map-card">
-        <div id="location-leaflet-map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+        <!-- Placeholder sebelum peta di-load (biar layout gak lompat) -->
+        <div id="location-leaflet-map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+          <span style="color: var(--color-text-muted); font-size: 0.9rem;">Memuat Peta...</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<!-- Leaflet CSS dimuat asinkron biar gak nge-block render -->
+<link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin=""/>
+<noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/></noscript>
 
 <style>
   .map-section {
@@ -60,7 +64,6 @@ const {
     }
   }
 
-  /* Custom popup style to match brand */
   .leaflet-popup-content-wrapper {
     border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
@@ -74,68 +77,90 @@ const {
   }
 </style>
 
-<!-- Leaflet JS -->
-<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<!-- Script diload secara Lazy (Hanya kalau di-scroll) -->
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
-    const mapElement = document.getElementById('location-leaflet-map');
-    if (!mapElement) return;
+    const mapContainer = document.getElementById('location-leaflet-map');
+    if (!mapContainer) return;
 
-    // Koordinat Workshop Aseven Pile
-    const lat = -6.1627854;
-    const lng = 107.0076685;
+    let mapLoaded = false;
 
-    // Initialize Map
-    const map = L.map('location-leaflet-map', {
-      scrollWheelZoom: false // Mencegah zoom gak sengaja waktu user scroll halaman
-    }).setView([lat, lng], 16);
+    // Fungsi untuk inisialisasi peta
+    const loadLeafletMap = () => {
+      if (mapLoaded) return;
+      mapLoaded = true;
+      
+      // Hapus text loading
+      mapContainer.innerHTML = '';
 
-    // 1. Google Earth (Satelit)
-    const googleHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
-      attribution: '&copy; Google Maps',
-      maxNativeZoom: 20, maxZoom: 20
-    });
-    
-    // 2. Topografi Tanah
-    const openTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenTopoMap',
-      maxNativeZoom: 17, maxZoom: 20
-    });
+      // Load JS
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.crossOrigin = '';
+      script.onload = () => {
+        // Koordinat
+        const lat = -6.1627854;
+        const lng = 107.0076685;
 
-    // 3. Peta Standar
-    const googleStreets = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-      attribution: '&copy; Google Maps',
-      maxNativeZoom: 20, maxZoom: 20
-    });
+        const map = L.map('location-leaflet-map', {
+          scrollWheelZoom: false
+        }).setView([lat, lng], 16);
 
-    // Set Google Earth as default (User request: "skrg yg utama kan earth")
-    openTopoMap.addTo(map);
+        // Layers
+        const googleHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+          attribution: '&copy; Google Maps',
+          maxNativeZoom: 20, maxZoom: 20
+        });
+        
+        const openTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenTopoMap',
+          maxNativeZoom: 17, maxZoom: 20
+        });
 
-    // Add Layer Control di pojok kiri bawah
-    const baseMaps = {
-      "Google Earth (Satelit)": googleHybrid,
-      "Topografi Tanah": openTopoMap,
-      "Peta Standar": googleStreets
+        const googleStreets = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+          attribution: '&copy; Google Maps',
+          maxNativeZoom: 20, maxZoom: 20
+        });
+
+        openTopoMap.addTo(map); // Default
+
+        const baseMaps = {
+          "Topografi Tanah": openTopoMap,
+          "Google Earth (Satelit)": googleHybrid,
+          "Peta Standar": googleStreets
+        };
+
+        L.control.layers(baseMaps, null, { position: 'bottomleft' }).addTo(map);
+
+        // Custom Pin
+        const redPinHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#E53E3E" width="36px" height="36px" style="filter: drop-shadow(0px 4px 2px rgba(0,0,0,0.4));"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
+
+        const customIcon = L.divIcon({
+          html: redPinHtml,
+          className: '',
+          iconSize: [36, 36],
+          iconAnchor: [18, 36]
+        });
+
+        L.marker([lat, lng], { icon: customIcon }).addTo(map);
+      };
+      
+      document.body.appendChild(script);
     };
 
-    L.control.layers(baseMaps, null, { position: 'bottomleft' }).addTo(map);
-
-    // Custom Red Pin (SVG)
-    const redPinHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#E53E3E" width="36px" height="36px" style="filter: drop-shadow(0px 4px 2px rgba(0,0,0,0.4));">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-    </svg>`;
-
-    const customIcon = L.divIcon({
-      html: redPinHtml,
-      className: '',
-      iconSize: [36, 36],
-      iconAnchor: [18, 36], // Center bottom
-      popupAnchor: [0, -32] // Just above the pin
-    });
-
-    // Add Marker
-    L.marker([lat, lng], { icon: customIcon })
-      .addTo(map)
-      ;
+    // Panggil fungsi load hanya saat elemen peta masuk ke layar (Lazy Load)
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          loadLeafletMap();
+          observer.disconnect();
+        }
+      }, { rootMargin: "200px" }); // Load saat jarak 200px sebelum masuk layar
+      
+      observer.observe(mapContainer);
+    } else {
+      // Fallback buat browser jadul
+      setTimeout(loadLeafletMap, 2000); 
+    }
   });
 </script>
