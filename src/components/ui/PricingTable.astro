@@ -48,7 +48,7 @@ const cityLabel = city ? ` ${city}` : '';
                       {tier.isEstimate && <span class="badge-est">est.</span>}
                     </td>
                     
-                    <td><a href={`/layanan/bore-pile/diameter/${tier.diameter}cm`}>Detail →</a></td>
+                    <td style="text-align: right;"><a href={`/layanan/bore-pile/diameter/${tier.diameter}cm`} style="color: var(--color-primary); font-weight: 600;">Lihat Detail &rarr;</a></td>
                   </tr>
                 ))}
               </tbody>
@@ -75,7 +75,7 @@ const cityLabel = city ? ` ${city}` : '';
                     <td><strong>{tier.diameter} cm</strong></td>
                     <td>Rp {tier.pricePerMeter.min.toLocaleString('id-ID')}</td>
                     
-                    <td><a href={`/layanan/strauss-pile-manual/diameter/${tier.diameter}cm`}>Detail →</a></td>
+                    <td style="text-align: right;"><a href={`/layanan/strauss-pile-manual/diameter/${tier.diameter}cm`} style="color: var(--color-primary); font-weight: 600;">Lihat Detail &rarr;</a></td>
                   </tr>
                 ))}
               </tbody>
