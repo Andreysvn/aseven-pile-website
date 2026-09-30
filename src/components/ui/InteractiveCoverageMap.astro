@@ -378,15 +378,9 @@ const validCitySlugs = citiesData.filter((c: any) => !c.draft).map(c => c.slug).
 
     // Add UI toggle for user to select map style (Bottom Left)
     const baseMaps = {
-      "Google Maps (Standar)": googleStreets,
-      "Google Hybrid (Satelit+Jalan)": googleHybrid,
-      "Google Terrain (Relief Fisik)": googleTerrain,
-      "Apple Maps Style (Esri)": esriStreet,
-      "Dark Mode (Mewah)": esriDarkGray,
-      "Minimalis Corporate (Abu-Abu)": esriLightGray,
-      "National Geographic (Klasik)": esriNatGeo,
-      "Topografi (Elevasi Tanah)": openTopoMap,
-      "OSM Klasik (Warna-Warni)": osmOriginal
+      "Topografi Tanah": openTopoMap,
+      "Google Earth (Satelit)": googleHybrid,
+      "Peta Standar": googleStreets
     };
     L.control.layers(baseMaps, null, { position: 'bottomleft' }).addTo(map);
 
