@@ -62,6 +62,19 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <PricingTable method="borepile" city={cityData.name} />
 
   <!-- ================================================ -->
+  <!-- SECTION 2b: Kalkulator Interaktif                -->
+  <!-- Tepat di bawah tabel harga                       -->
+  <!-- ================================================ -->
+  <section style="margin-bottom: var(--space-12);">
+    <CalculatorUI 
+      client:visible 
+      title={`Kalkulator Estimasi Biaya Bore Pile ${cityData.name}`}
+      description="Gunakan kalkulator ini untuk menghitung total RAB pondasi bore pile proyek Anda."
+      defaults={{ method: 'borepile', location: calcLoc, depth: 12, points: 30 }} 
+    />
+  </section>
+
+  <!-- ================================================ -->
   <!-- SECTION 3: Biaya Tambahan & Ketentuan            -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12); margin-top: var(--space-8);">
@@ -179,19 +192,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     <p style="color: var(--color-text-muted); font-style: italic;">[CTA Penutup & Publisher Byline belum ada, nanti dikirim]</p>
   </section>
 
-  <!-- ================================================ -->
-  <!-- SLOT: Kalkulator Interaktif (Full-width)         -->
-  <!-- ================================================ -->
-  <div slot="calculator" style="margin-bottom: var(--space-12);">
-    <div class="calculator-edge-to-edge">
-      <CalculatorUI 
-        client:visible 
-        title={`Kalkulator Estimasi Biaya Bore Pile ${cityData.name}`}
-        description="Gunakan kalkulator ini untuk menghitung total RAB pondasi bore pile proyek Anda."
-        defaults={{ method: 'borepile', location: calcLoc, depth: 12, points: 30 }} 
-      />
-    </div>
-  </div>
+
 
   <!-- ================================================ -->
   <!-- SLOT: Bottom Content (Wilayah Kecamatan)         -->
