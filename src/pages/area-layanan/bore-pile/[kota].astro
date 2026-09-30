@@ -300,12 +300,13 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- ================================================ -->
   <!-- SECTION 13: Google Maps Embed                    -->
   <!-- ================================================ -->
-    <LocationMap />
+    <div slot="bottom-content">
+      <LocationMap />
 
   <!-- ================================================ -->
   <!-- SECTION 14: CTA Penutup + Publisher Byline       -->
   <!-- ================================================ -->
-  <section style="margin-bottom: var(--space-12); text-align: center; padding: var(--space-8); background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-lg);">
+  <section class="container" style="margin-bottom: var(--space-12); text-align: center; padding: var(--space-8); background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-lg);">
     <h2 style="font-size: 1.75rem; color: var(--color-primary); margin-bottom: 16px;">Amankan Pondasi Bangunan Anda Sekarang!</h2>
     <p style="font-size: 1.05rem; color: #475569; max-width: 600px; margin: 0 auto 24px;">Jangan ambil risiko dengan pondasi yang tidak standar. Konsultasikan kebutuhan proyek bore pile Anda di {cityData.name} secara gratis bersama tim ahli kami.</p>
     <a href={`https://wa.me/${siteConfig.whatsapp}?text=Halo%20Aseven%20Pile,%20saya%20mau%20konsultasi%20jasa%20bore%20pile%20untuk%20daerah%20${cityData.name}`} target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #16a34a; color: white; padding: 14px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 1.1rem; box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.4); transition: transform 0.2s;">
@@ -320,6 +321,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
       </div>
     </div>
   </section>
+    </div>
 
 
 
