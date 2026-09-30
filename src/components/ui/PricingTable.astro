@@ -48,11 +48,7 @@ const cityLabel = city ? ` ${city}` : '';
                         : `Rp ${tier.pricePerMeter.min.toLocaleString('id-ID')} – ${tier.pricePerMeter.max.toLocaleString('id-ID')}`}
                       {tier.isEstimate && <span class="badge-est">est.</span>}
                     </td>
-                    <td>
-                      {tier.materialCostEstimate > 0 
-                        ? `Rp ${tier.materialCostEstimate.toLocaleString('id-ID')}`
-                        : <span class="badge-hubungi">Hubungi Kami</span>}
-                    </td>
+                    
                     <td><a href={`/layanan/bore-pile/diameter/${tier.diameter}cm`}>Detail →</a></td>
                   </tr>
                 ))}
@@ -80,11 +76,7 @@ const cityLabel = city ? ` ${city}` : '';
                   <tr>
                     <td><strong>{tier.diameter} cm</strong></td>
                     <td>Rp {tier.pricePerMeter.min.toLocaleString('id-ID')}</td>
-                    <td>
-                      {tier.materialCostEstimate > 0 
-                        ? `Rp ${tier.materialCostEstimate.toLocaleString('id-ID')}`
-                        : <span class="badge-hubungi">Hubungi Kami</span>}
-                    </td>
+                    
                     <td><a href={`/layanan/strauss-pile-manual/diameter/${tier.diameter}cm`}>Detail →</a></td>
                   </tr>
                 ))}
