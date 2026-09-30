@@ -185,7 +185,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   {cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
     <section class="container" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--color-border-light);">
       <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); text-align: center; margin-bottom: var(--space-2); color: var(--color-primary);">Wilayah Layanan {cityData.name}</h2>
-      <p style="text-align: center; color: var(--color-text-muted); margin-bottom: var(--space-8); max-width: 600px; margin-left: auto; margin-right: auto;">Tim teknis kami siap memobilisasi alat pengeboran berstandar SNI ke seluruh kecamatan di {cityData.name} berikut ini (bebas biaya survei lokasi).</p>
+      <p style="text-align: center; color: var(--color-text-muted); margin-bottom: var(--space-8); max-width: 600px; margin-left: auto; margin-right: auto;">Area operasional Aseven Pile mencakup seluruh wilayah kecamatan di {cityData.name} berikut.</p>
       
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6);">
         {cityData.groupedAreas.map((group: any) => (
