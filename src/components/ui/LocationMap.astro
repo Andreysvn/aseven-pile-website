@@ -20,9 +20,10 @@ const {
     <div class="map-wrapper">
       <div class="map-card">
         <!-- Placeholder sebelum peta di-load (biar layout gak lompat) -->
-        <div id="location-leaflet-map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+        <div id="location-loading" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center;">
           <span style="color: var(--color-text-muted); font-size: 0.9rem;">Memuat Peta...</span>
         </div>
+        <div id="location-leaflet-map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
       </div>
     </div>
   </div>
@@ -91,7 +92,7 @@ const {
       mapLoaded = true;
       
       // Hapus text loading
-      mapContainer.innerHTML = '';
+      const loadingDiv = document.getElementById('location-loading'); if(loadingDiv) loadingDiv.remove();
 
       // Load JS
       const script = document.createElement('script');
