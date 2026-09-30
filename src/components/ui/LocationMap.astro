@@ -144,6 +144,9 @@ const {
         });
 
         L.marker([lat, lng], { icon: customIcon }).addTo(map);
+
+        // Paksa Leaflet buat nyesuaiin ukuran sama kontainernya
+        setTimeout(() => { map.invalidateSize(); }, 100);
       };
       
       document.body.appendChild(script);
