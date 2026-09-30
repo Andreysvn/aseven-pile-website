@@ -19,7 +19,7 @@ const { cityData } = Astro.props;
 const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
 
-const getCalculatorLocation = (slug: string, province: string) => {
+const getCalculatorLocation = (slug, province) => {
   const jabodetabek = ['jakarta', 'jakarta-selatan', 'jakarta-timur', 'jakarta-barat', 'jakarta-pusat', 'jakarta-utara', 'bogor', 'depok', 'tangerang', 'tangerang-selatan', 'bekasi'];
   if (jabodetabek.includes(slug)) return 'jabodetabek';
   if (province.toLowerCase().includes('banten')) return 'banten';
@@ -42,8 +42,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 1: Hero + Trust Badges + Direct Answer   -->
-  <!-- Target keyword: jasa bore pile [kota]            -->
-  <!-- H1 otomatis dari LocalSEOLayout                  -->
   <!-- ================================================ -->
   <div slot="header-badge" style="display: flex; gap: 8px; justify-content: center; margin-bottom: var(--space-4); flex-wrap: wrap;">
     <span style="display:inline-block; padding: 4px 12px; background: rgba(139,0,0,0.1); color: var(--color-primary); border-radius: 20px; font-weight:600; font-size: 0.875rem;">Bore Pile Mesin</span>
@@ -51,7 +49,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     <span style="display:inline-block; padding: 4px 12px; background: #dcfce7; color: #166534; border-radius: 20px; font-weight:600; font-size: 0.875rem;">✔ Survei Gratis</span>
   </div>
 
-  <!-- Direct Answer Box (Featured Snippet target) -->
   <section style="margin-bottom: var(--space-12);">
     <div style="background: var(--color-bg-alt); padding: var(--space-6); border-left: 4px solid var(--color-primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: var(--space-8);">
       <p style="margin: 0; font-weight: 500; font-size: 1.05rem; line-height: 1.6;"><strong>Ringkasan:</strong> Harga jasa bore pile mesin di <strong>{cityData.name}</strong> berkisar antara <strong>Rp 115.000 hingga Rp 350.000 per meter</strong> (jasa bor saja), tergantung diameter (30cm - 80cm) dan kondisi tanah.</p>
@@ -61,13 +58,11 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 2: Tabel Harga Bore Pile                 -->
-  <!-- Komponen PricingTable sudah jalan                -->
   <!-- ================================================ -->
   <PricingTable method="borepile" city={cityData.name} />
 
   <!-- ================================================ -->
   <!-- SECTION 3: Biaya Tambahan & Ketentuan            -->
-  <!-- Mobilisasi, Minimal Order, Buang Lumpur          -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12); margin-top: var(--space-8);">
     <h2 style="margin-bottom: var(--space-6);">Ketentuan & Biaya Tambahan</h2>
@@ -76,7 +71,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 4: Contoh Hitungan Proyek Nyata          -->
-  <!-- Simulasi RAB lengkap (Ruko, Rumah, dll)          -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Simulasi Biaya Proyek di {cityData.name}</h2>
@@ -85,7 +79,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 5: Tabel Perbandingan Bore vs Strauss    -->
-  <!-- Internal link ke halaman Strauss Pile            -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Bore Pile Mesin vs Strauss Pile Manual</h2>
@@ -94,7 +87,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 6: Kenapa Memilih Bore Pile Mesin        -->
-  <!-- 3 alasan utama (tanpa getaran, gang sempit, 30m) -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Kenapa Memilih Bore Pile Mesin?</h2>
@@ -102,8 +94,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   </section>
 
   <!-- ================================================ -->
-  <!-- SECTION 7: Kondisi Tanah per Wilayah (E-E-A-T)  -->
-  <!-- Data spesifik tanah per kota dari cities.json    -->
+  <!-- SECTION 7: Kondisi Tanah per Wilayah (E-E-A-T)   -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Kondisi Tanah di {cityData.name}</h2>
@@ -112,7 +103,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 8: SOP / Tahapan Pengerjaan              -->
-  <!-- 4-5 langkah visual (survei → bor → cor)          -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Tahapan Pengerjaan Bore Pile di {cityData.name}</h2>
@@ -121,7 +111,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 9: Galeri / Portofolio Proyek            -->
-  <!-- Foto asli pengerjaan di lapangan                 -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Dokumentasi Proyek Bore Pile {cityData.name}</h2>
@@ -130,7 +119,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 10: FAQ Lokal                            -->
-  <!-- Schema FAQPage otomatis via LocalSEOLayout       -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Pertanyaan Seputar Bore Pile di {cityData.name}</h2>
@@ -151,7 +139,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 11: Link Artikel / Blog                  -->
-  <!-- Topical authority links                          -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Artikel Terkait</h2>
@@ -160,7 +147,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 12: Cross-Links Layanan & Kota Lain      -->
-  <!-- Internal linking untuk SEO silo                  -->
   <!-- ================================================ -->
   <section style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-bottom: var(--space-12);">
     <div style="background: white; border: 1px solid var(--color-border-light); padding: var(--space-6); border-radius: var(--radius-lg);">
@@ -180,7 +166,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 13: Google Maps Embed                    -->
-  <!-- Lokasi gudang / kantor Aseven Pile               -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Lokasi Kami</h2>
@@ -189,7 +174,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SECTION 14: CTA Penutup + Publisher Byline       -->
-  <!-- E-E-A-T signal: author/publisher attribution     -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12); text-align: center; padding: var(--space-8); background: var(--color-bg-alt); border-radius: var(--radius-lg);">
     <p style="color: var(--color-text-muted); font-style: italic;">[CTA Penutup & Publisher Byline belum ada, nanti dikirim]</p>
@@ -197,7 +181,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   <!-- ================================================ -->
   <!-- SLOT: Kalkulator Interaktif (Full-width)         -->
-  <!-- Posisi render: setelah default slot              -->
   <!-- ================================================ -->
   <div slot="calculator" style="margin-bottom: var(--space-12);">
     <div class="calculator-edge-to-edge">
@@ -211,25 +194,22 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   </div>
 
   <!-- ================================================ -->
-  <!-- SLOT: Bottom Content (Full-width sections)       -->
-  <!-- Posisi render: setelah kalkulator                -->
+  <!-- SLOT: Bottom Content (Wilayah Kecamatan)         -->
   <!-- ================================================ -->
   <Fragment slot="bottom-content">
-
-    <!-- Wilayah Layanan Kecamatan (Silo SEO Cards) -->
     {cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
       <section class="container" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--color-border-light);">
         <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); text-align: center; margin-bottom: var(--space-2); color: var(--color-primary);">Wilayah Layanan Bore Pile {cityData.name}</h2>
         <p style="text-align: center; color: var(--color-text-muted); margin-bottom: var(--space-8); max-width: 600px; margin-left: auto; margin-right: auto;">Layanan kami mencakup seluruh area di bawah ini. Tim dan peralatan operasional kami siap didatangkan ke lokasi Anda.</p>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6);">
-          {cityData.groupedAreas.map((group: any) => (
+          {cityData.groupedAreas.map((group) => (
             <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: var(--space-6); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
               <h3 style="font-size: 1.25rem; margin-bottom: var(--space-4); border-bottom: 2px solid #f1f5f9; padding-bottom: 12px;">
                 <span style="color: var(--color-primary); font-weight: 700;">{group.groupName}</span>
               </h3>
               <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                {group.areas.map((area: string) => (
+                {group.areas.map((area) => (
                   <span style="display: inline-block; padding: 6px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 0.8rem; color: #475569;">
                     {area}
                   </span>
@@ -245,7 +225,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
           <h3 style="font-size: 1.2rem; margin-bottom: var(--space-2);">Area Layanan {cityData.name}</h3>
           <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: var(--space-4);">Area layanan kami di {cityData.name}:</p>
           <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-            {cityData.subAreas.map((area: any) => (
+            {cityData.subAreas.map((area) => (
               <span style="display: inline-block; padding: 4px 12px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 0.85rem; color: #475569; font-weight: 500;">
                 {area.name}
               </span>
@@ -254,6 +234,5 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
         </section>
       )
     )}
-
   </Fragment>
 </LocalSEOLayout>
