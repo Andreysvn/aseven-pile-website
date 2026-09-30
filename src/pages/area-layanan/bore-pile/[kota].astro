@@ -145,13 +145,42 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
     <h2 style="margin-bottom: var(--space-6);">Artikel Terkait</h2>
-    <p style="color: var(--color-text-muted); font-style: italic;">[Konten belum ada, nanti dikirim]</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6);">
+      <!-- Card 1 -->
+      <a href="/artikel/menghitung-rab-bore-pile" style="display: flex; flex-direction: column; background: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;" class="hover-card">
+        <div style="aspect-ratio: 16/9; background: #e2e8f0; position: relative;">
+          <div style="position: absolute; bottom: 8px; left: 8px; background: var(--color-primary); color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Edukasi</div>
+        </div>
+        <div style="padding: var(--space-4);">
+          <h3 style="font-size: 1.1rem; margin-bottom: 8px; color: var(--color-text);">Cara Menghitung Kebutuhan Besi & Beton untuk Pondasi Bore Pile</h3>
+          <p style="font-size: 0.9rem; color: var(--color-text-muted); margin: 0; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Pelajari cara menghitung RAB material (besi tulangan dan beton readymix) setelah mengetahui harga jasa bor.</p>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="/artikel/bahaya-lumpur-bore-pile" style="display: flex; flex-direction: column; background: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;" class="hover-card">
+        <div style="aspect-ratio: 16/9; background: #e2e8f0; position: relative;">
+          <div style="position: absolute; bottom: 8px; left: 8px; background: #0284c7; color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Tips Proyek</div>
+        </div>
+        <div style="padding: var(--space-4);">
+          <h3 style="font-size: 1.1rem; margin-bottom: 8px; color: var(--color-text);">Kenapa Cor Beton Wajib Pakai Pipa Tremi?</h3>
+          <p style="font-size: 0.9rem; color: var(--color-text-muted); margin: 0; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Hindari kegagalan struktur pondasi akibat beton yang bercampur dengan lumpur galian. Pipa tremi adalah solusinya.</p>
+        </div>
+      </a>
+    </div>
   </section>
+
+  <style>
+    .hover-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+  </style>
 
   <!-- ================================================ -->
   <!-- SECTION 12: Cross-Links Layanan & Kota Lain      -->
   <!-- ================================================ -->
-  <section style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-bottom: var(--space-12);">
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6); margin-bottom: var(--space-12);">
     <div style="background: white; border: 1px solid var(--color-border-light); padding: var(--space-6); border-radius: var(--radius-lg);">
       <h3 style="font-size: 1.125rem; margin-bottom: var(--space-2);">Butuh Strauss Pile?</h3>
       <p style="font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: var(--space-4);">Jika proyek di {cityData.name} tidak bisa diakses mesin, pertimbangkan Strauss Pile.</p>
