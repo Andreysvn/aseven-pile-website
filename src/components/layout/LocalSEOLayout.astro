@@ -119,49 +119,40 @@ const serviceSchema = {
   })} />
 
   
+  
   <header class="section local-seo-header">
-    <div class="container">
-      <div class="header-grid">
-        <div class="header-content">
-          <!-- HTML Breadcrumbs -->
-          <nav aria-label="Breadcrumb" class="breadcrumbs">
-            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
-              {breadcrumbItems.map((item, index) => (
-                <>
-                  {index > 0 && <li class="separator">&rsaquo;</li>}
-                  <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class={index === breadcrumbItems.length - 1 ? "active" : ""}>
-                    {index === breadcrumbItems.length - 1 ? (
-                      <span itemprop="name">{item.name}</span>
-                    ) : (
-                      <a itemprop="item" href={new URL(item.item as string).pathname}>
-                        <span itemprop="name">{item.name}</span>
-                      </a>
-                    )}
-                    <meta itemprop="position" content={item.position.toString()} />
-                  </li>
-                </>
-              ))}
-            </ol>
-          </nav>
-
-          <slot name="header-badge" />
-
-          <h1>{h1 ?? title}</h1>
-          
-          {pathContext !== 'general' && (
+    <div class="container" style="max-width: 900px; margin: 0 auto; text-align: center;">
+      <!-- HTML Breadcrumbs -->
+      <nav aria-label="Breadcrumb" class="breadcrumbs">
+        <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+          {breadcrumbItems.map((item, index) => (
             <>
-              <div class="last-updated-wrapper">
-                <LastUpdated prefix={`Info ${city} Update`} />
-              </div>
-              
-              <p class="header-desc">
-                {description}
-              </p>
+              {index > 0 && <li class="separator">&rsaquo;</li>}
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class={index === breadcrumbItems.length - 1 ? "active" : ""}>
+                {index === breadcrumbItems.length - 1 ? (
+                  <span itemprop="name">{item.name}</span>
+                ) : (
+                  <a itemprop="item" href={new URL(item.item as string).pathname}>
+                    <span itemprop="name">{item.name}</span>
+                  </a>
+                )}
+                <meta itemprop="position" content={item.position.toString()} />
+              </li>
             </>
-          )}
-        </div>
-        
-        {pathContext !== 'general' && (
+          ))}
+        </ol>
+      </nav>
+
+      <slot name="header-badge" />
+
+      <h1>{h1 ?? title}</h1>
+      
+      {pathContext !== 'general' && (
+        <>
+          <div class="last-updated-wrapper">
+            <LastUpdated prefix="Update" />
+          </div>
+          
           <div class="header-image-wrapper">
             <img 
               src="/imgs/header-beranda-bore-pile-aseven.webp" 
@@ -169,13 +160,13 @@ const serviceSchema = {
               loading="eager"
               fetchpriority="high"
             />
-            <div class="image-badge">
-              <span>✓ Tim Spesialis</span>
-              <span>✓ Alat Milik Sendiri</span>
-            </div>
           </div>
-        )}
-      </div>
+          
+          <p class="header-desc">
+            {description}
+          </p>
+        </>
+      )}
     </div>
   </header>
 <style>
@@ -186,24 +177,11 @@ const serviceSchema = {
       border-bottom: 1px solid var(--color-border-light);
     }
     
-    .header-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-      align-items: center;
-    }
-    
-    @media (min-width: 992px) {
-      .header-grid {
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 4rem;
-      }
-    }
-    
     .breadcrumbs ol {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       list-style: none;
       padding: 0;
@@ -225,7 +203,7 @@ const serviceSchema = {
       font-weight: 600;
     }
     
-    .header-content h1 {
+    .local-seo-header h1 {
       color: var(--color-primary);
       font-size: clamp(28px, 4vw, 42px);
       line-height: 1.25;
@@ -234,49 +212,33 @@ const serviceSchema = {
     
     .last-updated-wrapper {
       margin-bottom: var(--space-6);
-    }
-    
-    .header-desc {
-      font-size: 1.125rem;
-      color: var(--color-text-muted);
-      line-height: 1.7;
-      margin: 0;
+      display: flex;
+      justify-content: center;
     }
     
     .header-image-wrapper {
       position: relative;
       border-radius: 16px;
       overflow: hidden;
+      margin-bottom: var(--space-6);
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      width: 100%;
+      max-height: 450px;
     }
     
     .header-image-wrapper img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      aspect-ratio: 4/3;
       display: block;
     }
     
-    .image-badge {
-      position: absolute;
-      bottom: 16px;
-      left: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    
-    .image-badge span {
-      background: rgba(255, 255, 255, 0.95);
-      color: var(--color-text);
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 6px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      display: inline-block;
-      width: fit-content;
+    .header-desc {
+      font-size: 1.125rem;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      margin: 0 auto;
+      max-width: 800px;
     }
   </style>
 
