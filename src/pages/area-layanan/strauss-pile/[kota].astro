@@ -132,7 +132,10 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     </div>
   </section>
 
-    <!-- 8. Komponen Silo / Wilayah (Dinamis dari JSON) -->
+    
+
+  <Fragment slot="bottom-content">
+  <!-- 8. Komponen Silo / Wilayah (Dinamis dari JSON) -->
   {cityData.subAreas && cityData.subAreas.length > 0 && (
     <section style="margin-bottom: var(--space-12);">
       <h2>Cakupan Wilayah {cityData.name}</h2>
@@ -147,7 +150,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     </section>
   )}
 
-  <Fragment slot="bottom-content">
     <ProcessSteps 
       title={`Standar Kerja Strauss Pile Manual di ${cityData.name}`} 
       subtitle={`Langkah-langkah profesional tim Aseven Pile dalam mengerjakan pondasi strauss pile di wilayah ${cityData.name}.`}

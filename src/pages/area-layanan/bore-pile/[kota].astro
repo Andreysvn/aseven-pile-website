@@ -140,7 +140,10 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     </div>
   </section>
 
-    <!-- 8. Komponen Silo / Wilayah (Dinamis dari JSON) -->
+    
+
+  <Fragment slot="bottom-content">
+  <!-- 8. Komponen Silo / Wilayah (Dinamis dari JSON) -->
   {cityData.subAreas && cityData.subAreas.length > 0 && (
     <section style="margin-bottom: var(--space-12);">
       <h2>Cakupan Wilayah {cityData.name}</h2>
@@ -155,7 +158,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     </section>
   )}
 
-  <Fragment slot="bottom-content">
     <ProcessSteps 
       title={`SOP Bore Pile Mesin di ${cityData.name}`} 
       subtitle={`Standar kerja Aseven Pile untuk menjamin kualitas pengeboran mesin di lokasi proyek area ${cityData.name}.`}
