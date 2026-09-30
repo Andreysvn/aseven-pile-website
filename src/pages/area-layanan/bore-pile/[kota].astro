@@ -158,20 +158,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
       </div>
     </section>
   )}
-  <!-- 8. Komponen Silo / Wilayah (Dinamis dari JSON) -->
-  {cityData.subAreas && cityData.subAreas.length > 0 && (
-    <section style="margin-bottom: var(--space-12);">
-      <h2>Cakupan Wilayah {cityData.name}</h2>
-      <p style="color: var(--color-text-muted);">Pilih area spesifik di {cityData.name} untuk melihat detail harga dan layanan bore pile mesin:</p>
-      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--space-4);">
-        {cityData.subAreas.map((area: any) => (
-          <a href={`/area-layanan/bore-pile/${area.slug}`} style="display: inline-block; padding: 6px 14px; background: white; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 0.875rem; color: var(--color-primary); text-decoration: none; font-weight: 500;">
-            Bore Pile {area.name} →
-          </a>
-        ))}
-      </div>
-    </section>
-  )}
+  
 
     <ProcessSteps 
       title={`SOP Bore Pile Mesin di ${cityData.name}`} 
