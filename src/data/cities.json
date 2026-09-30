@@ -35,6 +35,81 @@
         "name": "Jakarta Pusat",
         "slug": "jakarta-pusat"
       }
+    ],
+    "groupedAreas": [
+      {
+        "groupName": "Jakarta Pusat",
+        "groupSlug": "jakarta-pusat",
+        "areas": [
+          "Tanah Abang",
+          "Menteng",
+          "Senen",
+          "Kemayoran",
+          "Cempaka Putih",
+          "Gambir",
+          "Johar Baru",
+          "Sawah Besar"
+        ]
+      },
+      {
+        "groupName": "Jakarta Barat",
+        "groupSlug": "jakarta-barat",
+        "areas": [
+          "Grogol Petamburan",
+          "Kembangan",
+          "Kalideres",
+          "Cengkareng",
+          "Kebon Jeruk",
+          "Palmerah",
+          "Tambora",
+          "Taman Sari"
+        ]
+      },
+      {
+        "groupName": "Jakarta Selatan",
+        "groupSlug": "jakarta-selatan",
+        "areas": [
+          "Kebayoran Baru",
+          "Kebayoran Lama",
+          "Pesanggrahan",
+          "Cilandak",
+          "Pasar Minggu",
+          "Jagakarsa",
+          "Mampang Prapatan",
+          "Pancoran",
+          "Tebet",
+          "Setiabudi"
+        ]
+      },
+      {
+        "groupName": "Jakarta Timur",
+        "groupSlug": "jakarta-timur",
+        "areas": [
+          "Pulo Gadung",
+          "Jatinegara",
+          "Duren Sawit",
+          "Kramat Jati",
+          "Makasar",
+          "Cakung",
+          "Cipayung",
+          "Ciracas",
+          "Matraman",
+          "Pasar Rebo"
+        ]
+      },
+      {
+        "groupName": "Jakarta Utara",
+        "groupSlug": "jakarta-utara",
+        "areas": [
+          "Tanjung Priok",
+          "Koja",
+          "Cilincing",
+          "Kelapa Gading",
+          "Pademangan",
+          "Penjaringan",
+          "Sunter"
+        ]
+      }
     ]
   },
   {
