@@ -13,28 +13,42 @@ const {
   serviceName = 'Bore Pile'
 } = Astro.props;
 
-// Filter out the current city
-const otherCities = SERVICE_CITIES.filter(c => c.slug !== currentSlug);
+// Filter out the current city and sub-regions (like jakarta-selatan, jakarta-timur) 
+// so we only show main cities like Jakarta, Bogor, Depok, Tangerang, Bekasi.
+const otherCities = SERVICE_CITIES.filter(c => {
+  if (c.slug === currentSlug) return false;
+  // Exclude Jakarta sub-regions so it doesn't look weird alongside real cities
+  if (c.slug.startsWith('jakarta-')) return false;
+  return true;
+});
 ---
 
-<p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.7; margin-top: 24px; margin-bottom: 0; padding-top: 16px; border-top: 1px dashed var(--color-border-light);">
-  <strong>Layanan {serviceName} di Area Lain:</strong> 
-  {otherCities.map((city, index) => (
-    <Fragment key={city.slug}>
-      <a 
-        href={`/area-layanan/${serviceType}/${city.slug}`} 
-        style="color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; font-weight: 500;"
-        class="hover-link"
-      >
-        {city.name}
-      </a>
-      {index < otherCities.length - 1 && <span style="margin: 0 6px; color: #94a3b8;">&bull;</span>}
-    </Fragment>
-  ))}
-</p>
+<div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--color-border-light);">
+  <p style="font-size: 0.95rem; font-weight: 600; color: #334155; margin-bottom: 12px;">
+    Layanan {serviceName} di Kota Lain:
+  </p>
+  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 16px;">
+    {otherCities.map((city) => (
+      <li>
+        <a 
+          href={`/area-layanan/${serviceType}/${city.slug}`} 
+          style="font-size: 0.9rem; color: #475569; text-decoration: none; padding: 4px 8px; border: 1px solid #e2e8f0; border-radius: 4px; background: white;"
+          class="hover-link"
+        >
+          {city.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
 
 <style>
+  .hover-link {
+    transition: all 0.2s ease;
+  }
   .hover-link:hover {
-    color: #0f172a !important;
+    color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    background: #f8fafc !important;
   }
 </style>
