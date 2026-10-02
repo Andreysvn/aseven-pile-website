@@ -153,7 +153,19 @@ export function formatRupiah(num: number): string {
 
 export function formatRangeShort(min: number, max: number, prefix = ''): string {
   if (min === max) return `${prefix}${formatRupiah(min)}`;
-  return `<span style="display:inline-block;text-align:right;line-height:1.2">${prefix}${formatRupiah(min)}<br/><span style="font-size:0.85em;opacity:0.85;font-weight:normal">- ${formatRupiah(max)}</span></span>`;
+  return `${prefix}Rp ${formatRupiah(min).replace('Rp ', '')} - ${formatRupiah(max).replace('Rp ', '')}`;
+}
+
+export function formatRangeCompact(min: number, max: number, prefix = ''): string {
+  if (min === max) return `${prefix}${formatRupiah(min)}`;
+  if (min >= 1000000 && max >= 1000000) {
+    const minM = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 }).format(min / 1000000);
+    const maxM = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 }).format(max / 1000000);
+    // user specifically requested: +Rp 1,5 - 4 Juta (no space after prefix)
+    const p = prefix === '+ ' ? '+' : prefix;
+    return `${p}Rp ${minM} - ${maxM} Juta`;
+  }
+  return formatRangeShort(min, max, prefix);
 }
 
 export function generateWaUrl(state: CalcState, config: CalculatorConfig, calc: CalculationResult, materials: MaterialResult): string {
@@ -264,7 +276,7 @@ export function footerInner(state: CalcState, config: CalculatorConfig): string 
     : '';
 
   const mobRow = state.activeTab === 'borepile'
-    ? `<div class="breakdown-row" style="padding:8px 12px;background-color:${state.includeMob ? '#f0fdf4' : '#f8fafc'};border-radius:4px;border:1px solid ${state.includeMob ? '#bbf7d0' : '#e2e8f0'};align-items:center;margin-top:8px"><label style="display:flex;align-items:center;cursor:pointer;flex:1"><input type="checkbox"${state.includeMob ? ' checked' : ''} style="margin-right:8px;cursor:pointer;width:16px;height:16px;accent-color:#16a34a"/><span>Mob/Demob (${calc.locData?.label.split(' ')[0]})</span></label><strong style="color:${state.includeMob ? '#212529' : '#9ca3af'};text-decoration:${state.includeMob ? 'none' : 'line-through'};text-align:right;margin-left:8px">${calc.isCustomMob ? 'Diskusikan via WA' : formatRangeShort(calc.baseMobMin, calc.baseMobMax, '+ ')}</strong></div>`
+    ? `<div class="breakdown-row" style="padding:8px 12px;background-color:${state.includeMob ? '#f0fdf4' : '#f8fafc'};border-radius:4px;border:1px solid ${state.includeMob ? '#bbf7d0' : '#e2e8f0'};align-items:center;margin-top:8px"><label style="display:flex;align-items:center;cursor:pointer;flex:1"><input type="checkbox"${state.includeMob ? ' checked' : ''} style="margin-right:8px;cursor:pointer;width:16px;height:16px;accent-color:#16a34a"/><span>Mob/Demob (${calc.locData?.label.split(' ')[0]})</span></label><strong style="color:${state.includeMob ? '#212529' : '#9ca3af'};text-decoration:${state.includeMob ? 'none' : 'line-through'};text-align:right;margin-left:8px">${calc.isCustomMob ? 'Diskusikan via WA' : formatRangeCompact(calc.baseMobMin, calc.baseMobMax, '+ ')}</strong></div>`
     : '';
 
   const lumpsumWarning = calc.isLumpsum
