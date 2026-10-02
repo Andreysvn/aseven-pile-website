@@ -21,32 +21,28 @@ const otherCities = SERVICE_CITIES.filter(c => {
 });
 ---
 
-<div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--color-border-light);">
+<div style="margin-top: 32px; padding-top: 24px; border-top: 1px dashed var(--color-border-light);">
   <p style="font-size: 0.95rem; font-weight: 600; color: #334155; margin-bottom: 12px;">
     Layanan {serviceName} di Area Lain:
   </p>
-  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 12px;">
-    {otherCities.map((city) => (
-      <li>
+  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center;">
+    {otherCities.map((city, index) => (
+      <li style="display: flex; align-items: center; gap: 12px;">
         <a 
           href={`/area-layanan/${serviceType}/${city.slug}`} 
-          style="display: inline-block; font-size: 0.85rem; color: #475569; text-decoration: none; padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 20px; background: white;"
+          style="font-size: 0.95rem; color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; font-weight: 500;"
           class="hover-link"
         >
           {city.name}
         </a>
+        {index < otherCities.length - 1 && <span style="color: #94a3b8; font-size: 0.8rem;">&bull;</span>}
       </li>
     ))}
   </ul>
 </div>
 
 <style>
-  .hover-link {
-    transition: all 0.2s ease;
-  }
   .hover-link:hover {
-    color: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
-    background: #f8fafc !important;
+    color: #0f172a !important;
   }
 </style>
