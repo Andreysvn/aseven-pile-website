@@ -166,17 +166,21 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   </section>
 
   <!-- ================================================ -->
-  <!-- SECTION 7: Kondisi Tanah per Wilayah (E-E-A-T)   -->
+  <!-- SECTION 7: Kemampuan Mesin & Kondisi Tanah (E-E-A-T) -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
-    <h2 style="font-size: 1.5rem; margin-bottom: 16px;">Karakteristik Tanah & Geoteknik {cityData.name}</h2>
+    <h2 style="font-size: 1.5rem; margin-bottom: 16px;">Kapasitas Mesin Bore Pile & Kondisi Tanah di {cityData.name}</h2>
     
     <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px;">
-      Wilayah <strong>{cityData.name}</strong> memiliki kondisi geoteknik yang didominasi oleh <strong>{cityData.soilType || 'tanah aluvial & lempung'}</strong> dengan kontur lahan <strong>{cityData.terrain || 'datar'}</strong>. Berdasarkan pengalaman proyek kami, lapisan tanah keras (<em>hard strata</em>) di area ini umumnya berada pada kedalaman rata-rata <strong>{cityData.averageDepth || '18 - 25 meter'}</strong>, sehingga penentuan kedalaman tiang pondasi harus presisi agar bangunan tidak mengalami penurunan (<em>settlement</em>).
+      Banyak klien di <strong>{cityData.name}</strong> bertanya, "Berapa meter maksimal bor bisa masuk?" Jawabannya sangat bergantung pada kekerasan tanah di lokasi proyek, bukan sekadar panjang tiang atau pipa bor. Mesin bore pile mini crane yang kami gunakan dirancang untuk mampu mengebor hingga kedalaman <strong>25 - 30 meter</strong> pada kondisi tanah normal (seperti lempung atau aluvial lunak). Namun, pengeboran akan dihentikan saat mata bor telah mencapai atau menembus <strong>lapisan tanah keras (<em>hard strata</em>)</strong>.
+    </p>
+
+    <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px;">
+      Faktor diameter lubang juga sangat menentukan. Semakin besar diameter (misalnya <strong>Ø60 cm</strong>), maka beban torsi dan putaran mesin akan semakin berat. Jika lapisan tanah sangat keras atau berbatu, putaran mesin untuk diameter besar mungkin sudah mencapai batas maksimalnya pada kedalaman kurang dari 25 meter. Sebaliknya, untuk diameter yang lebih kecil (seperti <strong>Ø30 cm</strong> atau <strong>Ø40 cm</strong>), beban putar mesin lebih ringan sehingga lebih mudah mencapai elevasi yang lebih dalam jika lapisan tanah kerasnya berada jauh di bawah permukaan.
     </p>
 
     <p style="font-size: 1.05rem; line-height: 1.7;">
-      Untuk mengantisipasi risiko kelongsoran lubang bor akibat tingginya muka air tanah di {cityData.name}, kami memadukan teknik bor basah (<em>wash boring</em>) dengan pemasangan pipa pelindung sementara (<em>temporary casing</em>). Seluruh proses pengecoran diwajibkan menggunakan sistem <strong>Pipa Tremi SNI</strong> agar adukan beton mengalir murni dari dasar lubang dan menekan air keluar tanpa segregasi, menjamin mutu beton tetap padat dan kokoh sempurna.
+      Oleh karena itu, kami selalu menyarankan adanya data <em>soil test</em> (sondir) terlebih dahulu. Jika muka air tanah di lokasi proyek {cityData.name} tinggi dan rawan longsor, kami akan menggunakan metode <strong>bor basah (<em>wash boring</em>)</strong> dengan sirkulasi lumpur polimer atau bentonite, dipadukan dengan pengecoran sistem <strong>Pipa Tremi</strong> agar adukan beton padat murni dari dasar lubang tanpa tercampur lumpur.
     </p>
   </section>
 
@@ -223,7 +227,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     <h2 style="margin-bottom: var(--space-6);">Artikel Terkait</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6);">
       <!-- Card 1 -->
-      <a href="/artikel/menghitung-rab-bore-pile" style="display: flex; flex-direction: column; background: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;" class="hover-card">
+      <a href="/artikel/cara-menghitung-biaya-bore-pile" style="display: flex; flex-direction: column; background: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;" class="hover-card">
         <div style="aspect-ratio: 16/9; background: #e2e8f0; position: relative;">
           <div style="position: absolute; bottom: 8px; left: 8px; background: var(--color-primary); color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Edukasi</div>
         </div>
@@ -234,7 +238,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
       </a>
 
       <!-- Card 2 -->
-      <a href="/artikel/bahaya-lumpur-bore-pile" style="display: flex; flex-direction: column; background: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;" class="hover-card">
+      <a href="/artikel/bore-pile-vs-strauss-pile" style="display: flex; flex-direction: column; background: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;" class="hover-card">
         <div style="aspect-ratio: 16/9; background: #e2e8f0; position: relative;">
           <div style="position: absolute; bottom: 8px; left: 8px; background: #0284c7; color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Tips Proyek</div>
         </div>
@@ -311,3 +315,4 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+

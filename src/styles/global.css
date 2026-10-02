@@ -171,3 +171,7 @@ img, picture, video, canvas, svg {
 
 
 main { flex: 1 0 auto; }
+/* A11y: Underline links in text (WCAG 1.4.1) */
+p a, li a, td a, .content-body a { text-decoration: underline; color: var(--color-primary); font-weight: 500; }
+.btn, .nav-links a, .footer-links a, .mobile-menu a, .hover-card { text-decoration: none !important; }
+

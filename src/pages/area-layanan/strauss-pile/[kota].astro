@@ -1,4 +1,4 @@
-﻿---
+---
 import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
 import CalculatorUI from '../../../components/interactive/CalculatorUI';
 import PricingTable from '../../../components/ui/PricingTable.astro';
@@ -60,7 +60,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <div slot="calculator" style="margin-bottom: var(--space-12);">
     <div class="calculator-edge-to-edge">
       <CalculatorUI 
-        client:load 
+        client:visible 
         title={`Kalkulator Estimasi Biaya Strauss Pile ${cityData.name}`}
         description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
         defaults={{ method: 'strauss', location: calcLoc, depth: 4, points: 30 }} 
@@ -244,5 +244,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   </Fragment>
 </LocalSEOLayout>
+
 
 
