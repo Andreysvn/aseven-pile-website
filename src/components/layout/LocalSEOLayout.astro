@@ -103,7 +103,16 @@ const serviceSchema = {
     "@type": "City",
     "name": city
   },
-  "description": description
+  "description": description,
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "IDR",
+    "lowPrice": "115000",
+    "highPrice": "350000",
+    "offerCount": "5",
+    "availability": "https://schema.org/InStock",
+    "url": pageUrl
+  }
 };
 ---
 
@@ -252,6 +261,7 @@ const serviceSchema = {
   <slot name="below-cta" />
 
 </BaseLayout>
+
 
 
 

@@ -19,9 +19,20 @@ export async function getStaticPaths() {
   });
 }
 
+
 const { cityData } = Astro.props;
 const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
+
+const jabodetabekSlugs = ['jakarta', 'jakarta-selatan', 'jakarta-timur', 'jakarta-barat', 'jakarta-pusat', 'jakarta-utara', 'bogor', 'depok', 'tangerang', 'tangerang-selatan', 'bekasi'];
+const hasRealProject = jabodetabekSlugs.includes(cityData.slug);
+const projectTitle = hasRealProject 
+  ? `Studi Kasus: Proyek Riil Rumah 2 Lantai di ${cityData.name}`
+  : `Simulasi Biaya Bore Pile Rumah 2 Lantai di ${cityData.name}`;
+const projectDesc = hasRealProject
+  ? `Banyak klien kami di ${cityData.name} membangun rumah 2 atau 3 lantai menggunakan pondasi bore pile diameter 30cm. Berikut adalah estimasi <strong>biaya jasa aktual</strong> dari salah satu proyek kami untuk rumah dengan kebutuhan 15 titik pondasi sedalam 10 meter:`
+  : `Banyak klien kami membangun rumah 2 atau 3 lantai menggunakan pondasi bore pile diameter 30cm. Berikut adalah estimasi <strong>simulasi biaya jasa murni</strong> untuk rumah di ${cityData.name} dengan kebutuhan 15 titik pondasi sedalam 10 meter:`;
+
 
 const getCalculatorLocation = (slug, province) => {
   const jabodetabek = ['jakarta', 'jakarta-selatan', 'jakarta-timur', 'jakarta-barat', 'jakarta-pusat', 'jakarta-utara', 'bogor', 'depok', 'tangerang', 'tangerang-selatan', 'bekasi'];
@@ -87,10 +98,8 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- SECTION 5: Contoh Hitungan                       -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12); background: white; border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-8);">
-    <h3 style="font-size: 1.25rem; margin-bottom: 16px; color: var(--color-primary);">Simulasi Biaya Bore Pile Rumah 2 Lantai di {cityData.name}</h3>
-    <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 16px;">
-      Banyak klien kami di {cityData.name} membangun rumah 2 atau 3 lantai menggunakan pondasi bore pile diameter 30cm. Berikut adalah estimasi <strong>biaya jasa murni</strong> untuk rumah dengan kebutuhan 15 titik pondasi sedalam 10 meter:
-    </p>
+    <h3 style="font-size: 1.25rem; margin-bottom: 16px; color: var(--color-primary);">{projectTitle}</h3>
+      <p style="font-size: 0.95rem; line-height: 1.6; color: var(--color-text-muted); margin-bottom: 16px;" set:html={projectDesc}></p>
     <ul style="margin: 0 0 16px 20px; padding: 0; font-size: 0.95rem; color: #334155;">
       <li style="margin-bottom: 8px;">Spesifikasi: <strong>Diameter 30 cm</strong> (Jasa Rp 115.000 / m&sup1;)</li>
       <li style="margin-bottom: 8px;">Kedalaman per Titik: <strong>10 meter</strong></li>
@@ -108,7 +117,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- SECTION 6: Keunggulan                            -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12);">
-    <h2 style="font-size: 1.75rem; margin-bottom: 24px; text-align: center;">Mengapa Mempercayakan Pondasi Pada Aseven Pile?</h2>
+    <h2 style="font-size: 1.75rem; margin-bottom: 24px; text-align: center;">Keunggulan Jasa Bore Pile Aseven Pile di {cityData.name}</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
       <div style="background: white; border: 1px solid var(--color-border-light); padding: 24px; border-radius: 12px;">
         <div style="width: 48px; height: 48px; background: #e0f2fe; color: #0284c7; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
@@ -138,164 +147,17 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- SECTION 7: Bore Pile vs Strauss                  -->
   <!-- ================================================ -->
   <section style="margin-bottom: var(--space-12); display: flex; flex-direction: column; gap: 24px; background: #f8fafc; padding: 32px; border-radius: var(--radius-lg);">
-    <h2 style="font-size: 1.5rem; margin-bottom: 0;">Bore Pile Mesin vs Strauss Pile</h2>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0;">Bore Pile Mesin vs Strauss Pile di {cityData.name}</h2>
     <p style="color: var(--color-text-muted); margin-bottom: 16px; font-size: 1rem;">Bingung memilih antara mesin atau manual? Berikut panduan singkat menyesuaikan dengan kondisi lapangan di {cityData.name}:</p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
       <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid var(--color-primary); box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
-        <h4 style="margin-bottom: 8px; font-size: 1.1rem;">Bore Pile Mesin</h4>
+        <h3 style="margin-bottom: 8px; font-size: 1.1rem;">Bore Pile Mesin</h3>
         <p style="font-size: 0.9rem; color: #475569; margin: 0;">Mampu mengebor hingga kedalaman 30m. Cocok untuk bangunan 3+ lantai dan sanggup menembus lapisan tanah cadas. Membutuhkan akses jalan setidaknya seukuran mobil engkel.</p>
       </div>
       <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
-        <h4 style="margin-bottom: 8px; font-size: 1.1rem;">Strauss Pile Manual</h4>
-        <p style="font-size: 0.9rem; color: #475569; margin: 0;">Digerakkan tenaga manusia (maks 6-8m). Paling pas untuk gang sangat sempit di {cityData.name} (cuma muat motor) dan bangunan ringan 1-2 lantai. Tidak bisa menembus batuan keras.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================ -->
-  <!-- SECTION 8: Kondisi Tanah                         -->
-  <!-- ================================================ -->
-  <section style="margin-bottom: var(--space-12);">
-    <h2 style="font-size: 1.5rem; margin-bottom: 16px;">Karakteristik Tanah di {cityData.name}</h2>
-    <p style="font-size: 1.05rem; line-height: 1.7; color: var(--color-text);">
-      Setiap wilayah memiliki karakteristik geoteknik yang berbeda. Tim kami akan mengevaluasi kondisi daya dukung tanah di lokasi proyek Anda di {cityData.name} sebelum pengeboran dimulai. Menentukan kedalaman pondasi sangat bergantung pada kerasnya strata tanah. 
-      Apabila ditemukan genangan lumpur atau muka air tanah dangkal, kami akan menggunakan metode bor basah (*wash boring*) dipadukan dengan teknik pengecoran tremi agar mutu beton tetap kokoh sempurna.
-    </p>
-  </section>
-
-  <!-- ================================================ -->
-  <!-- SECTION 9: SOP & Portofolio                      -->
-  <!-- ================================================ -->
-  <div style="margin-bottom: var(--space-12);">
-    <ProcessSteps />
-  </div>
-
-  <div style="margin-bottom: var(--space-12);">
-    <MiniGallery 
-      title={`Dokumentasi Proyek di ${cityData.name}`} 
-      subtitle="Kumpulan foto dokumentasi pekerjaan pondasi bore pile kami di berbagai lokasi proyek." 
-    />
-  </div>
-
-
-  <!-- ================================================ -->
-  <!-- SECTION 3: Biaya Tambahan & Ketentuan            -->
-  <!-- ================================================ -->
-  <section style="margin-bottom: var(--space-12); margin-top: var(--space-8);">
-    <h2 style="text-align: center; margin-bottom: var(--space-6);">Ketentuan & Biaya Tambahan</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
-      <div style="background: #f8fafc; padding: var(--space-4); border-radius: 8px; border-left: 4px solid var(--color-primary);">
-        <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Mobilisasi Alat</h3>
-        <p style="font-size: 0.9rem; color: #475569;">Mulai dari Rp 3.500.000 (Area Jabodetabek). Menyesuaikan jarak lokasi proyek di {cityData.name} dari *pool* alat kami.</p>
-      </div>
-      <div style="background: #f8fafc; padding: var(--space-4); border-radius: 8px; border-left: 4px solid var(--color-primary);">
-        <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Minimal Order</h3>
-        <p style="font-size: 0.9rem; color: #475569;">Volume pengeboran minimum adalah <strong>200 meter</strong>. Volume di bawah batas minimal akan dihitung dengan sistem borongan (lump sum).</p>
-      </div>
-      <div style="background: #f8fafc; padding: var(--space-4); border-radius: 8px; border-left: 4px solid var(--color-primary);">
-        <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Manajemen Lumpur</h3>
-        <p style="font-size: 0.9rem; color: #475569;">Pembersihan lumpur sisa pengeboran adalah tanggung jawab *owner* proyek. Kami dapat membantu menyediakan vendor angkut jika diperlukan.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================ -->
-  <!-- SECTION 4: Contoh Hitungan Proyek Nyata          -->
-  <!-- ================================================ -->
-  <section style="margin-bottom: var(--space-12);">
-    <h2 style="text-align: center; margin-bottom: var(--space-6);">Simulasi Biaya Proyek di {cityData.name}</h2>
-    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto;">
-      <div style="background: var(--color-primary); color: white; padding: 16px 24px;">
-        <h3 style="margin: 0; color: white; font-size: 1.25rem;">📍 Studi Kasus: Ruko 3 Lantai di {cityData.name}</h3>
-      </div>
-      <div style="padding: 24px;">
-        <ul style="list-style: none; padding: 0; margin-bottom: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
-          <li><strong>Metode:</strong> Bore Pile Mesin</li>
-          <li><strong>Diameter:</strong> Ø 30 cm</li>
-          <li><strong>Kedalaman:</strong> 12 meter / titik</li>
-          <li><strong>Volume Pengeboran:</strong> 18 Titik</li>
-        </ul>
-        <div style="background: #f1f5f9; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 1rem; color: #1e293b;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span>12m × Rp 115.000 × 18 titik</span>
-            <span>= Rp 24.840.000</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px;">
-            <span>Biaya Mobilisasi Alat (Estimasi)</span>
-            <span>= Rp  3.500.000</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; color: var(--color-primary); margin-top: 8px;">
-            <span>Total Estimasi Jasa Bor Saja</span>
-            <span>= Rp 28.340.000</span>
-          </div>
-        </div>
-        <p style="margin-top: 16px; font-size: 0.85rem; color: #64748b; font-style: italic;">*Catatan: Ini adalah simulasi RAB kasar untuk jasa pengeboran. Belum termasuk pengadaan material besi tulangan, beton readymix, dan biaya pembuangan lumpur.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================ -->
-  <!-- SECTION 5: Tabel Perbandingan Bore vs Strauss    -->
-  <!-- ================================================ -->
-  <section style="margin-bottom: var(--space-12);">
-    <h2 style="text-align: center; margin-bottom: var(--space-2);">Bore Pile Mesin vs Strauss Pile Manual</h2>
-    <p style="text-align: center; color: var(--color-text-muted); margin-bottom: var(--space-8); max-width: 700px; margin-left: auto; margin-right: auto;">Bingung memilih metode pondasi yang tepat untuk proyek Anda di {cityData.name}? Berikut panduan teknisnya.</p>
-    
-    <div style="overflow-x: auto; padding-bottom: var(--space-4);">
-      <table style="width: 100%; min-width: 700px; border-collapse: collapse; text-align: left; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-        <thead>
-          <tr style="background: var(--color-bg-alt); border-bottom: 1px solid var(--color-border-light);">
-            <th style="padding: 16px; font-weight: 600; width: 20%;">Spesifikasi</th>
-            <th style="padding: 16px; font-weight: 600; width: 40%; border-left: 1px solid rgba(255,255,255,0.2);">Bore Pile Mesin (Mini Crane)</th>
-            <th style="padding: 16px; font-weight: 600; width: 40%; border-left: 1px solid rgba(255,255,255,0.2);">Strauss Pile (Manual)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Kedalaman Maksimal</td>
-            <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0; font-weight: 600;">Hingga 30 Meter <span style="font-weight:normal;">(Tembus cadas)</span></td>
-            <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">6 - 10 Meter <span style="font-weight:normal;">(Terbatas tanah lunak)</span></td>
-          </tr>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Diameter Lubang</td>
-            <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">30cm, 40cm, 50cm, 60cm, 80cm</td>
-            <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">20cm, 25cm, 30cm, 40cm</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Peruntukan Proyek</td>
-            <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Gedung, Ruko 3+ Lantai, Pabrik, Gudang</td>
-            <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Rumah Tinggal 1-2 Lantai, Pagar Panel</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Akses Lokasi</td>
-            <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Minimal lebar jalan 2.5m (Akses Truk)</td>
-            <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Bisa masuk gang sempit / area padat</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ================================================ -->
-  <!-- SECTION 6: Kenapa Memilih Bore Pile Mesin        -->
-  <!-- ================================================ -->
-  <section style="margin-bottom: var(--space-12);">
-    <h2 style="text-align: center; margin-bottom: var(--space-8);">Kenapa Memilih Bore Pile Mesin?</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6);">
-      <div style="text-align: center; padding: 24px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-        <div style="width: 64px; height: 64px; background: #fee2e2; color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 1.5rem; font-weight: bold;">1</div>
-        <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Tanpa Getaran & Retak</h3>
-        <p style="font-size: 0.95rem; color: #475569;">Proses pengeboran sangat stabil. 100% aman diaplikasikan di area padat {cityData.name} tanpa risiko dinding rumah tetangga retak atau komplain warga (berbeda dengan tiang pancang).</p>
-      </div>
-      <div style="text-align: center; padding: 24px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-        <div style="width: 64px; height: 64px; background: #e0f2fe; color: #0284c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 1.5rem; font-weight: bold;">2</div>
-        <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Fleksibel di Lahan Sempit</h3>
-        <p style="font-size: 0.95rem; color: #475569;">Alat mini crane kami berjenis <em>knock-down</em>. Mesin dapat dipreteli, diangkut secara manual, dan dirakit kembali tepat di titik pengeboran yang aksesnya terbatas.</p>
-      </div>
-      <div style="text-align: center; padding: 24px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-        <div style="width: 64px; height: 64px; background: #dcfce7; color: #166534; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 1.5rem; font-weight: bold;">3</div>
-        <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Tembus Lapisan Tanah Keras</h3>
-        <p style="font-size: 0.95rem; color: #475569;">Punya daya tekan hidrolik tinggi. Mampu menembus lapisan tanah keras, padas, hingga bebatuan ringan di kedalaman 30 meter untuk mencari *hardcut* bearing capacity.</p>
+        <h3 style="margin-bottom: 8px; font-size: 1.1rem;">Strauss Pile Manual</h3>
+        <p style="font-size: 0.9rem; color: #475569; margin: 0 0 12px 0;">Digerakkan tenaga manusia (maks 6-8m). Paling pas untuk gang sangat sempit di {cityData.name} (cuma muat motor) dan bangunan ringan 1-2 lantai. Tidak bisa menembus batuan keras.</p>
+        <a href={`/area-layanan/strauss-pile/${cityData.slug}`} style="font-size: 0.88rem; font-weight: 600; color: var(--color-primary); text-decoration: underline;">Lihat Jasa Strauss Pile {cityData.name} &rarr;</a>
       </div>
     </div>
   </section>
@@ -303,9 +165,16 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- ================================================ -->
   <!-- SECTION 7: Kondisi Tanah per Wilayah (E-E-A-T)   -->
   <!-- ================================================ -->
-  <section style="margin-bottom: var(--space-12); padding: 32px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; border-left: 6px solid var(--color-primary);">
-    <h2 style="font-size: 1.5rem; margin-bottom: 12px; color: #0f172a;">Karakteristik Tanah Wilayah {cityData.name}</h2>
-    <p style="color: #475569; line-height: 1.7; margin-bottom: 0;">Secara geologis, struktur tanah di wilayah {cityData.name} cukup variatif dan menantang. Tim kami seringkali menemui lapisan tanah liat lembek pada meter-meter awal, dan lapisan tanah keras (padas) atau pasir berair di kedalaman tertentu. Untuk mencegah kelongsoran lubang bor akibat tingginya muka air tanah, kami selalu siap mengaplikasikan teknik pengeboran <em>Wash Boring</em> atau menggunakan pelindung Pipa Casing sementara (Temporary Casing). Pastikan pengerjaan pondasi Anda diserahkan kepada ahlinya yang sudah paham betul anatomi tanah lokal.</p>
+  <section style="margin-bottom: var(--space-12);">
+    <h2 style="font-size: 1.5rem; margin-bottom: 16px;">Karakteristik Tanah & Geoteknik {cityData.name}</h2>
+    
+    <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px;">
+      Wilayah <strong>{cityData.name}</strong> memiliki kondisi geoteknik yang didominasi oleh <strong>{cityData.soilType || 'tanah aluvial & lempung'}</strong> dengan kontur lahan <strong>{cityData.terrain || 'datar'}</strong>. Berdasarkan pengalaman proyek kami, lapisan tanah keras (<em>hard strata</em>) di area ini umumnya berada pada kedalaman rata-rata <strong>{cityData.averageDepth || '18 - 25 meter'}</strong>, sehingga penentuan kedalaman tiang pondasi harus presisi agar bangunan tidak mengalami penurunan (<em>settlement</em>).
+    </p>
+
+    <p style="font-size: 1.05rem; line-height: 1.7;">
+      Untuk mengantisipasi risiko kelongsoran lubang bor akibat tingginya muka air tanah di {cityData.name}, kami memadukan teknik bor basah (<em>wash boring</em>) dengan pemasangan pipa pelindung sementara (<em>temporary casing</em>). Seluruh proses pengecoran diwajibkan menggunakan sistem <strong>Pipa Tremi SNI</strong> agar adukan beton mengalir murni dari dasar lubang dan menekan air keluar tanpa segregasi, menjamin mutu beton tetap padat dan kokoh sempurna.
+    </p>
   </section>
 
   <!-- ================================================ -->
@@ -382,56 +251,21 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   </style>
 
   <!-- ================================================ -->
-  <!-- SECTION 12: Cross-Links Layanan & Kota Lain      -->
+  <!-- SECTION 12: Konsultasi & Jadwal Survei           -->
   <!-- ================================================ -->
-  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6); margin-bottom: var(--space-12);">
-    <div style="background: white; border: 1px solid var(--color-border-light); padding: var(--space-6); border-radius: var(--radius-lg);">
-      <h3 style="font-size: 1.125rem; margin-bottom: var(--space-2);">Butuh Strauss Pile?</h3>
-      <p style="font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: var(--space-4);">Jika proyek di {cityData.name} tidak bisa diakses mesin, pertimbangkan Strauss Pile.</p>
-      <a href={`/area-layanan/strauss-pile/${cityData.slug}`} style="color: var(--color-primary); font-weight: 600; text-decoration: none;">Cek Strauss Pile {cityData.name} →</a>
-    </div>
-    <div style="background: white; border: 1px solid var(--color-border-light); padding: var(--space-6); border-radius: var(--radius-lg);">
-      <h3 style="font-size: 1.125rem; margin-bottom: var(--space-2);">Bore Pile Kota Lain</h3>
-      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-        {otherCities.map(c => (
-          <a href={`/area-layanan/bore-pile/${c.slug}`} style="font-size: 0.875rem; color: #475569; text-decoration: underline;">{c.name}</a>
-        ))}
-      </div>
-    </div>
+  <section style="margin-bottom: var(--space-12);">
+    <h2 style="font-size: 1.5rem; margin-bottom: 16px;">Konsultasi & Survei Lapangan</h2>
+    <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 0;">
+      Jangan ambil risiko dengan pondasi bangunan Anda. Tim teknis Aseven Pile siap membantu menghitung kebutuhan titik bore pile dan meninjau lokasi proyek di <strong>{cityData.name}</strong> secara gratis. Hubungi kami melalui WhatsApp di <strong><a href={`https://wa.me/${siteConfig.whatsapp}?text=Halo%20Aseven%20Pile,%20saya%20mau%20konsultasi%20jasa%20bore%20pile%20untuk%20daerah%20${cityData.name}`} target="_blank" rel="noopener noreferrer" style="color: var(--color-primary); text-decoration: none;">{siteConfig.whatsapp}</a></strong> untuk penjadwalan survei.
+    </p>
   </section>
 
   <!-- ================================================ -->
-  <!-- SECTION 13: Google Maps Embed                    -->
-  <!-- ================================================ -->
-    <div slot="bottom-content">
-      <LocationMap />
-
-  <!-- ================================================ -->
-  <!-- SECTION 14: CTA Penutup + Publisher Byline       -->
-  <!-- ================================================ -->
-  <section class="container" style="margin-bottom: var(--space-12); text-align: center; padding: var(--space-8); background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-lg);">
-    <h2 style="font-size: 1.75rem; color: var(--color-primary); margin-bottom: 16px;">Amankan Pondasi Bangunan Anda Sekarang!</h2>
-    <p style="font-size: 1.05rem; color: #475569; max-width: 600px; margin: 0 auto 24px;">Jangan ambil risiko dengan pondasi yang tidak standar. Konsultasikan kebutuhan proyek bore pile Anda di {cityData.name} secara gratis bersama tim ahli kami.</p>
-    <a href={`https://wa.me/${siteConfig.whatsapp}?text=Halo%20Aseven%20Pile,%20saya%20mau%20konsultasi%20jasa%20bore%20pile%20untuk%20daerah%20${cityData.name}`} target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #16a34a; color: white; padding: 14px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 1.1rem; box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.4); transition: transform 0.2s;">
-      WhatsApp Admin: {siteConfig.whatsapp}
-    </a>
-    
-    <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; gap: 12px;">
-      <div style="width: 40px; height: 40px; background: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">A7</div>
-      <div style="text-align: left;">
-        <p style="margin: 0; font-weight: 600; font-size: 0.95rem; color: #1e293b;">Ditinjau oleh Tim Teknik Aseven Pile</p>
-        <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Spesialis Pondasi Dalam sejak {siteConfig.foundingYear}</p>
-      </div>
-    </div>
-  </section>
-    </div>
-
-
-
-  <!-- ================================================ -->
-  <!-- SLOT: Bottom Content (Wilayah Kecamatan)         -->
+  <!-- SECTION 13: Google Maps & Wilayah Kecamatan      -->
   <!-- ================================================ -->
   <Fragment slot="bottom-content">
+    <LocationMap />
+
     {cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
       <section class="container" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--color-border-light);">
         <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); text-align: center; margin-bottom: var(--space-2); color: var(--color-primary);">Wilayah Layanan Bore Pile {cityData.name}</h2>
