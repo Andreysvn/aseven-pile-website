@@ -1,0 +1,180 @@
+---
+import type { Project } from '../../data/projects';
+
+interface Props {
+  city: string;
+  projects: Project[];
+}
+
+const { city, projects } = Astro.props;
+---
+
+<section class="section" id="galeri">
+  <div class="container">
+    <div class="section-title text-center">
+      <h2 class="pg-h2">Dokumentasi Proyek di {city}</h2>
+      <p>Beberapa proyek pondasi bore pile yang kami kerjakan di wilayah ini.</p>
+    </div>
+
+    <project-lightbox>
+      <div class="pg-grid">
+        {projects.map((p) => (
+          <figure class="pg-card">
+            <button class="pg-item" data-src={p.img} aria-label={`Lihat proyek ${p.area}`}>
+              <img src={p.img} alt={p.alt} loading="lazy" decoding="async" width="600" height="450" />
+            </button>
+            <figcaption class="pg-cap">
+              <span class="pg-cap-area">{p.area}</span>
+              <span class="pg-cap-meta">
+                Diameter {p.diameterCm} cm &bull; Kedalaman {p.depthM} m &bull; {p.method}
+              </span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <dialog class="pg-lightbox">
+        <div class="pg-lightbox-wrap">
+          <button class="pg-close" aria-label="Tutup">&times;</button>
+          <img class="pg-lightbox-img" src="" alt="Gambar diperbesar" />
+        </div>
+      </dialog>
+    </project-lightbox>
+  </div>
+</section>
+
+<style>
+  .section-title h2.pg-h2 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-3);
+  }
+  .pg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-5);
+  }
+  .pg-card {
+    margin: 0;
+    background: #fff;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .pg-item {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: zoom-in;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .pg-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .pg-item:hover img {
+    transform: scale(1.05);
+  }
+  .pg-cap {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .pg-cap-area {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-primary);
+  }
+  .pg-cap-meta {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+  .pg-lightbox {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: auto;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: hidden;
+  }
+  .pg-lightbox[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pg-lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  .pg-lightbox-wrap {
+    position: relative;
+    display: inline-block;
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+  .pg-lightbox-img {
+    display: block;
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .pg-close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 44px;
+    height: 44px;
+    background: var(--color-primary);
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    font-size: 28px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  class ProjectLightbox extends HTMLElement {
+    connectedCallback() {
+      const dialog = this.querySelector('.pg-lightbox') as HTMLDialogElement;
+      const img = this.querySelector('.pg-lightbox-img') as HTMLImageElement;
+      const closeBtn = this.querySelector('.pg-close');
+      const items = this.querySelectorAll('.pg-item');
+      if (!dialog || !img) return;
+
+      items.forEach((item) => {
+        item.addEventListener('click', () => {
+          const src = item.getAttribute('data-src');
+          if (src) {
+            img.src = src;
+            dialog.showModal();
+            document.body.style.overflow = 'hidden';
+          }
+        });
+      });
+
+      const close = () => {
+        dialog.close();
+        document.body.style.overflow = '';
+        setTimeout(() => { img.src = ''; }, 300);
+      };
+      if (closeBtn) closeBtn.addEventListener('click', close);
+      dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
+    }
+  }
+  if (!customElements.get('project-lightbox')) customElements.define('project-lightbox', ProjectLightbox);
+</script>
