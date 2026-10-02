@@ -13,11 +13,9 @@ const {
   serviceName = 'Bore Pile'
 } = Astro.props;
 
-// Filter out the current city and sub-regions (like jakarta-selatan, jakarta-timur) 
-// so we only show main cities like Jakarta, Bogor, Depok, Tangerang, Bekasi.
+// Filter out the current city and sub-regions (like jakarta-selatan)
 const otherCities = SERVICE_CITIES.filter(c => {
   if (c.slug === currentSlug) return false;
-  // Exclude Jakarta sub-regions so it doesn't look weird alongside real cities
   if (c.slug.startsWith('jakarta-')) return false;
   return true;
 });
@@ -25,14 +23,14 @@ const otherCities = SERVICE_CITIES.filter(c => {
 
 <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--color-border-light);">
   <p style="font-size: 0.95rem; font-weight: 600; color: #334155; margin-bottom: 12px;">
-    Layanan {serviceName} di Kota Lain:
+    Layanan {serviceName} di Area Lain:
   </p>
-  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 16px;">
+  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 12px;">
     {otherCities.map((city) => (
       <li>
         <a 
           href={`/area-layanan/${serviceType}/${city.slug}`} 
-          style="font-size: 0.9rem; color: #475569; text-decoration: none; padding: 4px 8px; border: 1px solid #e2e8f0; border-radius: 4px; background: white;"
+          style="display: inline-block; font-size: 0.85rem; color: #475569; text-decoration: none; padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 20px; background: white;"
           class="hover-link"
         >
           {city.name}
