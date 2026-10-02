@@ -1,0 +1,40 @@
+---
+import { SERVICE_CITIES } from '../../data/seo-data';
+
+export interface Props {
+  currentSlug: string;
+  serviceType?: 'bore-pile' | 'strauss-pile';
+  serviceName?: string;
+}
+
+const { 
+  currentSlug, 
+  serviceType = 'bore-pile',
+  serviceName = 'Bore Pile'
+} = Astro.props;
+
+// Filter out the current city
+const otherCities = SERVICE_CITIES.filter(c => c.slug !== currentSlug);
+---
+
+<p style="font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.7; margin-top: 24px; margin-bottom: 0; padding-top: 16px; border-top: 1px dashed var(--color-border-light);">
+  <strong>Layanan {serviceName} di Area Lain:</strong> 
+  {otherCities.map((city, index) => (
+    <Fragment key={city.slug}>
+      <a 
+        href={`/area-layanan/${serviceType}/${city.slug}`} 
+        style="color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; font-weight: 500;"
+        class="hover-link"
+      >
+        {city.name}
+      </a>
+      {index < otherCities.length - 1 && <span style="margin: 0 6px; color: #94a3b8;">&bull;</span>}
+    </Fragment>
+  ))}
+</p>
+
+<style>
+  .hover-link:hover {
+    color: #0f172a !important;
+  }
+</style>

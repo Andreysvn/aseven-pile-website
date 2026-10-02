@@ -6,6 +6,8 @@ import FAQSection from '../../../components/ui/FAQSection.astro';
 import ProcessSteps from '../../../components/ui/ProcessSteps.astro';
 import MiniGallery from '../../../components/ui/MiniGallery.astro';
 import LocationMap from '../../../components/ui/LocationMap.astro';
+import CityCrossLinks from '../../../components/ui/CityCrossLinks.astro';
+
 import '../../../styles/calculator.css';
 import { SERVICE_CITIES, GLOBAL_FAQS } from '../../../data/seo-data';
 import { siteConfig } from '../../../data/site.config';
@@ -258,6 +260,8 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 0;">
       Jangan ambil risiko dengan pondasi bangunan Anda. Tim teknis Aseven Pile siap membantu menghitung kebutuhan titik bore pile dan meninjau lokasi proyek di <strong>{cityData.name}</strong> secara gratis. Hubungi kami melalui WhatsApp di <strong><a href={`https://wa.me/${siteConfig.whatsapp}?text=Halo%20Aseven%20Pile,%20saya%20mau%20konsultasi%20jasa%20bore%20pile%20untuk%20daerah%20${cityData.name}`} target="_blank" rel="noopener noreferrer" style="color: var(--color-primary); text-decoration: none;">{siteConfig.whatsapp}</a></strong> untuk penjadwalan survei.
     </p>
+    
+    <CityCrossLinks currentSlug={cityData.slug} serviceType="bore-pile" serviceName="Bore Pile" />
   </section>
 
   <!-- ================================================ -->
