@@ -26,6 +26,11 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://asevenpile.com');
     <meta name="robots" content="index, follow" />
     <meta name="author" content={siteConfig.brand} />
     <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Google Fonts: preconnect + direct load (replaces slow @import in CSS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" />
     
     <meta property="og:title" content={`${title} | ${siteConfig.brand}`} />
     <meta property="og:description" content={description} />
