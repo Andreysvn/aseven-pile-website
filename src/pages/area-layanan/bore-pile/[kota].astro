@@ -38,7 +38,7 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0
 const ex = exampleForCity(cityData);
 const rupiah = (n) => `Rp ${n.toLocaleString('id-ID')}`;
 const projectTitle = ex.isReal
-  ? `Contoh Asli: Proyek Pondasi di ${cityData.name}`
+  ? `Rincian Biaya Asli Proyek di ${cityData.name}`
   : `Contoh Perhitungan Biaya Bore Pile di ${cityData.name}`;
   const projectDesc = ex.isReal
     ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
@@ -141,13 +141,17 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
       
       <div style="margin-top: 16px; padding-top: 16px; border-top: 2px dashed #cbd5e1;">
         <div style="font-size: 0.9rem; color: #64748b; margin-bottom: 4px;">Total Estimasi Biaya Jasa:</div>
-        <div style="font-size: 0.95rem; color: #475569; margin-bottom: 8px;">
+                <div style="font-size: 0.95rem; color: #475569; margin-bottom: 8px;">
           {ex.items.length > 1 
-            ? ex.items.map(i => `${i.points} titik (D${i.diameterCm})`).join(' + ')
+            ? ex.items.map(i => (
+                <div style="margin-bottom: 4px;">
+                  &bull; D{i.diameterCm}: {i.points} titik &times; {i.depthM} m &times; {rupiah(i.pricePerM)}
+                </div>
+              ))
             : `${ex.items[0].points} titik \u00D7 ${ex.items[0].depthM} m \u00D7 ${rupiah(ex.items[0].pricePerM)}`
           }
         </div>
-                <div style="font-size: 1.25rem; font-weight: 700; color: var(--color-primary);">{rupiah(ex.total)}</div>
+        <div style="font-size: 1.25rem; font-weight: 700; color: var(--color-primary);">{rupiah(ex.total)}</div>
         {ex.isReal && (
           <div style="margin-top: 16px;">
             <a href="#galeri" style="display: inline-block; font-size: 0.85rem; color: var(--color-primary); text-decoration: none; font-weight: 500; background: #eff6ff; padding: 6px 16px; border-radius: 20px; border: 1px solid #bfdbfe; transition: all 0.2s ease;">
@@ -366,6 +370,9 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+
+
+
 
 
 
