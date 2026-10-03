@@ -15,7 +15,7 @@ export const PROJECTS: Record<string, Project[]> = {
       img: '/imgs/bore-pile-mini-crane-aseven-pile-sunter-september-2026.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane Area Mepet Tembok di Sunter, Jakarta Utara',
       area: 'Sunter, Jakarta Utara (Mepet Tembok)',
-      customSpec: 'Diameter 30cm: 14 titik<br/>Diameter 50cm: 2 titik',
+      customSpec: 'Diameter 30 cm &bull; 14 titik<br/>Diameter 50 cm &bull; 2 titik',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
@@ -51,5 +51,6 @@ export const PROJECTS: Record<string, Project[]> = {
 export function getProjects(slug: string, service: 'borepile' | 'strauss'): Project[] {
   return (PROJECTS[slug] || []).filter((p) => (p.service ?? 'borepile') === service);
 }
+
 
 
