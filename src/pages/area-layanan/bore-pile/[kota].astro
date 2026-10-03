@@ -95,8 +95,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- ================================================ -->
   <PricingTable method="borepile" city={cityData.name} />
 
-  <CostAddons service="borepile" />
-
   <!-- ================================================ -->
   <!-- SECTION 2b: Kalkulator Interaktif                -->
   <!-- Tepat di bawah tabel harga                       -->
@@ -167,6 +165,8 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
       {caseNote}
     </p>
   </section>
+
+  <CostAddons service="borepile" />
 
   <!-- ================================================ -->
   <!-- SECTION 6: Keunggulan                            -->
@@ -371,6 +371,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+
 
 
 

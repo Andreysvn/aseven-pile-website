@@ -60,8 +60,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- 2. Tabel Harga -->
   <PricingTable method="strauss" city={cityData.name} />
 
-  <CostAddons service="strauss" />
-
   <!-- 3. Kalkulator -->
   <div slot="calculator" class="ls-section">
     <div class="calculator-edge-to-edge">
@@ -72,6 +70,10 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
       />
     </div>
   </div>
+
+  <section class="ls-section">
+    <CostAddons service="strauss" />
+  </section>
 
   <!-- 4. Keunggulan Kami -->
   <section class="ls-sp-why-section">
@@ -255,5 +257,6 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
   </Fragment>
 </LocalSEOLayout>
+
 
 
