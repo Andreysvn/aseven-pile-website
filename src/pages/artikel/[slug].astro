@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import PremiumCTA from '../../components/ui/PremiumCTA.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('artikel');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "author": {
+    "@type": "Organization",
+    "name": post.data.author
+  },
+  "datePublished": post.data.pubDate.toISOString()
+};
+---
+
+<BaseLayout 
+  title={`${post.data.title} | Aseven Pile`} 
+  description={post.data.description}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <article class="container ls-article-content" style="max-width: 800px; margin: 60px auto; padding: 0 20px;">
+    <header style="margin-bottom: 40px; text-align: center;">
+      <h1 style="font-size: 2.2rem; margin-bottom: 16px; color: #1e293b; line-height: 1.3;">{post.data.title}</h1>
+      <p style="color: #64748b; font-size: 1.1rem;">{post.data.description}</p>
+      <div style="margin-top: 16px; font-size: 0.95rem; color: #94a3b8;">
+        <span>Oleh <strong>{post.data.author}</strong></span> &bull; 
+        <time datetime={post.data.pubDate.toISOString()}>
+          {post.data.pubDate.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+      </div>
+    </header>
+
+    <div class="prose-content">
+      <Content />
+    </div>
+  </article>
+
+  <PremiumCTA 
+    title="Butuh Jasa Bore Pile Standar SNI?"
+    subtitle="Kami mematuhi standar prosedur pengecoran yang ketat (termasuk penggunaan pipa tremi) demi keamanan pondasi bangunan Anda."
+    waMessage="Halo Aseven Pile, saya butuh info jasa bore pile setelah membaca artikel di web."
+  />
+</BaseLayout>
+
+<style is:global>
+  .prose-content {
+    color: #334155; 
+    line-height: 1.8; 
+    font-size: 1.1rem;
+  }
+  .prose-content h2 {
+    font-size: 1.7rem;
+    color: #0f172a;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose-content h3 {
+    font-size: 1.4rem;
+    color: #1e293b;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+  .prose-content p {
+    margin-bottom: 1.2rem;
+  }
+  .prose-content ul, .prose-content ol {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+  }
+  .prose-content li {
+    margin-bottom: 0.5rem;
+  }
+  .prose-content strong {
+    color: #0f172a;
+  }
+</style>
