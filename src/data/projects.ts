@@ -33,7 +33,7 @@ export const PROJECTS: Record<string, Project[]> = {
       alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Pulo Gadung, Jakarta Timur',
       area: 'Pulo Gadung, Jakarta Timur',
       diameterCm: 40,
-      depthM: 24,
+      depthM: 18,
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
@@ -51,6 +51,7 @@ export const PROJECTS: Record<string, Project[]> = {
 export function getProjects(slug: string, service: 'borepile' | 'strauss'): Project[] {
   return (PROJECTS[slug] || []).filter((p) => (p.service ?? 'borepile') === service);
 }
+
 
 
 
