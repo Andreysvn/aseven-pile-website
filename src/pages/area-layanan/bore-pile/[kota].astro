@@ -113,27 +113,29 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- ================================================ -->
   <!-- SECTION 5: Contoh Hitungan                       -->
   <!-- ================================================ -->
-      <section class="ls-case-box">
-    <h3 class="ls-case-title">{projectTitle}</h3>
+      <section class="ls-section">
+        <h3 class="ls-case-title">{projectTitle}</h3>
     <p class="ls-case-desc" set:html={projectDesc}></p>
     
-    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-        <tbody>
-          <tr>
-            <td style="padding: 10px 0; color: #64748b; width: 45%;">Spesifikasi</td>
-            <td style="padding: 10px 0; font-weight: 600; color: #0f172a;">Diameter {ex.diameterCm} cm <span style="font-weight:normal; color:#64748b; font-size:0.85rem;">(Jasa {rupiah(ex.pricePerM)} / m&sup1;)</span></td>
-          </tr>
-          <tr style="border-top: 1px solid #e2e8f0;">
-            <td style="padding: 10px 0; color: #64748b;">Kedalaman / Titik</td>
-            <td style="padding: 10px 0; font-weight: 600; color: #0f172a;">{ex.depthM} meter</td>
-          </tr>
-          <tr style="border-top: 1px solid #e2e8f0;">
-            <td style="padding: 10px 0; color: #64748b;">Jumlah Titik</td>
-            <td style="padding: 10px 0; font-weight: 600; color: #0f172a;">{ex.points} titik</td>
-          </tr>
-        </tbody>
-      </table>
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+        <div style="color: #64748b; font-size: 0.95rem;">Spesifikasi</div>
+        <div style="font-weight: 600; color: #0f172a; text-align: right;">
+          Diameter {ex.diameterCm} cm 
+          <span style="font-weight:normal; color:#64748b; font-size:0.85rem; display:block;">(Jasa {rupiah(ex.pricePerM)} / m&sup1;)</span>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+        <div style="color: #64748b; font-size: 0.95rem;">Kedalaman / Titik</div>
+        <div style="font-weight: 600; color: #0f172a; text-align: right;">{ex.depthM} meter</div>
+      </div>
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0;">
+        <div style="color: #64748b; font-size: 0.95rem;">Jumlah Titik</div>
+        <div style="font-weight: 600; color: #0f172a; text-align: right;">{ex.points} titik</div>
+      </div>
       
       <div style="margin-top: 16px; padding-top: 16px; border-top: 2px dashed #cbd5e1;">
         <div style="font-size: 0.9rem; color: #64748b; margin-bottom: 4px;">Total Estimasi Biaya Jasa:</div>
@@ -350,6 +352,9 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+
+
+
 
 
 
