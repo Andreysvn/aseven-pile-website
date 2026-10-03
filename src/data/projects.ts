@@ -2,8 +2,9 @@ export interface Project {
   img: string;
   alt: string;
   area: string;
-  diameterCm: number;
-  depthM: number;
+  diameterCm?: number;
+  depthM?: number;
+  customSpec?: string;
   method: string;
   service?: 'borepile' | 'strauss';
 }
@@ -14,8 +15,7 @@ export const PROJECTS: Record<string, Project[]> = {
       img: '/imgs/bore-pile-mini-crane-aseven-pile-sunter-september-2026.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane Area Mepet Tembok di Sunter, Jakarta Utara',
       area: 'Sunter, Jakarta Utara (Mepet Tembok)',
-      diameterCm: 40,
-      depthM: 20,
+      customSpec: 'Dia. 30cm (14 titik) & 50cm (2 titik) x 15m',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
@@ -41,8 +41,7 @@ export const PROJECTS: Record<string, Project[]> = {
       img: '/imgs/bore-pile-mini-crane-aseven-pile-jelambar-september-2026.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane untuk Lokasi Sempit di Jelambar, Jakarta Barat',
       area: 'Jelambar, Jakarta Barat (Lokasi Sempit)',
-      diameterCm: 30,
-      depthM: 15,
+      customSpec: 'Diameter 30 cm • 24 titik x 13 m',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     }

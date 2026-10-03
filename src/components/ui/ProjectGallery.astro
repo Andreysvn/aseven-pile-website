@@ -26,7 +26,11 @@ const { city, projects } = Astro.props;
             <figcaption class="pg-cap">
               <span class="pg-cap-area">{p.area}</span>
               <span class="pg-cap-meta">
-                Diameter {p.diameterCm} cm &bull; Kedalaman {p.depthM} m<br/>{p.method}
+                {p.customSpec ? (
+                  <>{p.customSpec}<br/>{p.method}</>
+                ) : (
+                  <>Diameter {p.diameterCm} cm &bull; Kedalaman {p.depthM} m<br/>{p.method}</>
+                )}
               </span>
             </figcaption>
           </figure>
