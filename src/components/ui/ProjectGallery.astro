@@ -55,7 +55,8 @@ const { city, projects } = Astro.props;
     font-size: var(--text-3xl);
     margin-bottom: var(--space-3);
   }
-  .pg-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .pg-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-4); }
+  @media (min-width: 640px) { .pg-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-5); } }
   .pg-card {
     margin: 0;
     background: #fff;
@@ -168,6 +169,7 @@ const { city, projects } = Astro.props;
   }
   if (!customElements.get('project-lightbox')) customElements.define('project-lightbox', ProjectLightbox);
 </script>
+
 
 
 
