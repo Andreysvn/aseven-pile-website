@@ -1,11 +1,16 @@
 import { pricingTiers } from './pricing';
 
-export interface ExampleCalc {
-  isReal: boolean;
+export interface ExampleItem {
   diameterCm: number;
   depthM: number;
   points: number;
   pricePerM: number;
+  subtotal: number;
+}
+
+export interface ExampleCalc {
+  isReal: boolean;
+  items: ExampleItem[];
   total: number;
 }
 
@@ -15,31 +20,57 @@ function hash(str: string): number {
   return h;
 }
 
-/**
- * Contoh perhitungan biaya bore pile per kota.
- * - Bila kota punya `caseStudy.isReal` → pakai angka proyek nyata.
- * - Bila tidak → contoh digenerate dari data kota (kedalaman dari `averageDepth`,
- *   jumlah titik divariasikan stabil per kota) supaya angka BEDA tiap wilayah.
- */
 export function exampleForCity(city: any): ExampleCalc {
   const cs = city.caseStudy;
   const isReal = !!(cs && cs.isReal);
 
-  let diameterCm = cs?.diameter ?? 30;
-  let depthM = cs?.depthM ?? 0;
-  let points = cs?.points ?? 0;
-
-  if (!isReal) {
+  let items: ExampleItem[] = [];
+  
+  if (isReal && cs.items && Array.isArray(cs.items)) {
+    items = cs.items.map((i: any) => {
+      const tier = pricingTiers.find((t) => t.diameter === i.diameter) ?? pricingTiers[0];
+      const pricePerM = tier.pricePerMeter.min;
+      return {
+        diameterCm: i.diameter,
+        depthM: i.depthM,
+        points: i.points,
+        pricePerM,
+        subtotal: i.points * i.depthM * pricePerM
+      };
+    });
+  } else if (isReal && cs.diameter) {
+    const tier = pricingTiers.find((t) => t.diameter === cs.diameter) ?? pricingTiers[0];
+    const pricePerM = tier.pricePerMeter.min;
+    items = [{
+      diameterCm: cs.diameter,
+      depthM: cs.depthM,
+      points: cs.points,
+      pricePerM,
+      subtotal: cs.points * cs.depthM * pricePerM
+    }];
+  } else {
+    // Generate dummy example
+    let depthM = 0;
     const nums = String(city.averageDepth || '').match(/\d+/g);
     if (nums && nums.length >= 2) depthM = Math.round((Number(nums[0]) + Number(nums[1])) / 2);
     else if (nums && nums.length === 1) depthM = Number(nums[0]);
     if (!depthM) depthM = 10;
-    points = 12 + (hash(String(city.slug)) % 9); // 12–20
+    
+    const points = 12 + (hash(String(city.slug)) % 9); // 12-20
+    const diameterCm = 30; // default example diameter
+    const tier = pricingTiers.find((t) => t.diameter === diameterCm) ?? pricingTiers[0];
+    const pricePerM = tier.pricePerMeter.min;
+    
+    items = [{
+      diameterCm,
+      depthM,
+      points,
+      pricePerM,
+      subtotal: points * depthM * pricePerM
+    }];
   }
 
-  const tier = pricingTiers.find((t) => t.diameter === diameterCm) ?? pricingTiers[0];
-  const pricePerM = tier.pricePerMeter.min;
-  const total = points * depthM * pricePerM;
+  const total = items.reduce((sum, item) => sum + item.subtotal, 0);
 
-  return { isReal, diameterCm, depthM, points, pricePerM, total };
+  return { isReal, items, total };
 }

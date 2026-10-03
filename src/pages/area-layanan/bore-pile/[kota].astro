@@ -40,9 +40,9 @@ const rupiah = (n) => `Rp ${n.toLocaleString('id-ID')}`;
 const projectTitle = ex.isReal
   ? `Studi Kasus: Proyek Pondasi di ${cityData.name}`
   : `Contoh Perhitungan Biaya Bore Pile di ${cityData.name}`;
-const projectDesc = ex.isReal
-  ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
-  : `Sebagai gambaran, berikut contoh perhitungan biaya jasa bore pile di ${cityData.name} untuk ${ex.points} titik pondasi sedalam ${ex.depthM} meter diameter ${ex.diameterCm} cm:`;
+  const projectDesc = ex.isReal
+    ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
+    : `Sebagai gambaran, berikut contoh perhitungan biaya jasa bore pile di ${cityData.name} untuk ${ex.items[0].points} titik pondasi sedalam ${ex.items[0].depthM} meter diameter ${ex.items[0].diameterCm} cm:`;
 const caseNote = ex.isReal
   ? `*Rincian dari proyek nyata. Harga jasa bor saja; belum termasuk material, mob/demob alat, dan bak sirkulasi air.`
   : `*Contoh perhitungan (bukan proyek spesifik). Harga jasa bor saja; belum termasuk material, pengiriman alat, dan penampungan air.`;
@@ -117,15 +117,41 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
         <h3 class="ls-case-title">{projectTitle}</h3>
     <p class="ls-case-desc" set:html={projectDesc}></p>
     
-    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
       
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
-        <div style="color: #64748b; font-size: 0.95rem;">Spesifikasi</div>
-        <div style="font-weight: 600; color: #0f172a; text-align: right;">
-          Diameter {ex.diameterCm} cm 
-          <span style="font-weight:normal; color:#64748b; font-size:0.85rem; display:block;">(Jasa {rupiah(ex.pricePerM)} / m&sup1;)</span>
+      {ex.items.map((item, idx) => (
+        <div style={`padding: ${idx > 0 ? '16px 0 0 0' : '0 0 16px 0'}; border-bottom: ${idx < ex.items.length - 1 ? '2px dashed #cbd5e1' : 'none'};`}>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+            <div style="color: #64748b; font-size: 0.95rem;">Spesifikasi</div>
+            <div style="font-weight: 600; color: #0f172a; text-align: right;">
+              Diameter {item.diameterCm} cm 
+              <span style="font-weight:normal; color:#64748b; font-size:0.85rem; display:block;">(Jasa {rupiah(item.pricePerM)} / m&sup1;)</span>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+            <div style="color: #64748b; font-size: 0.95rem;">Kedalaman / Titik</div>
+            <div style="font-weight: 600; color: #0f172a; text-align: right;">{item.depthM} meter</div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0;">
+            <div style="color: #64748b; font-size: 0.95rem;">Jumlah Titik</div>
+            <div style="font-weight: 600; color: #0f172a; text-align: right;">{item.points} titik</div>
+          </div>
         </div>
+      ))}
+      
+      <div style="margin-top: 16px; padding-top: 16px; border-top: 2px dashed #cbd5e1;">
+        <div style="font-size: 0.9rem; color: #64748b; margin-bottom: 4px;">Total Estimasi Biaya Jasa:</div>
+        <div style="font-size: 0.95rem; color: #475569; margin-bottom: 8px;">
+          {ex.items.length > 1 
+            ? ex.items.map(i => `${i.points} ttk (D${i.diameterCm})`).join(' + ')
+            : `${ex.items[0].points} titik \u00D7 ${ex.items[0].depthM} m \u00D7 ${rupiah(ex.items[0].pricePerM)}`
+          }
+        </div>
+        <div style="font-size: 1.25rem; font-weight: 700; color: var(--color-primary);">{rupiah(ex.total)}</div>
       </div>
+    </div>
       
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
         <div style="color: #64748b; font-size: 0.95rem;">Kedalaman / Titik</div>
@@ -352,6 +378,13 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+
+
+
+
+
+
+
 
 
 
