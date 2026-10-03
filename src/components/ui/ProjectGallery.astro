@@ -40,6 +40,12 @@ const { city, projects } = Astro.props;
         </div>
       </dialog>
     </project-lightbox>
+
+    <div class="text-center pg-cta-wrap">
+      <a href="/galeri" class="btn btn-primary pg-btn">
+        Lihat Semua Portofolio
+      </a>
+    </div>
   </div>
 </section>
 
@@ -128,6 +134,8 @@ const { city, projects } = Astro.props;
     object-fit: contain;
     border-radius: 8px;
   }
+  .pg-cta-wrap { margin-top: var(--space-8); }
+  .btn.pg-btn { padding: 14px 32px; border-radius: 30px; font-weight: 600; letter-spacing: 0.5px; box-shadow: 0 10px 20px rgba(139, 0, 0, 0.2); }
   .pg-close {
     position: absolute;
     top: -15px;
@@ -178,3 +186,4 @@ const { city, projects } = Astro.props;
   }
   if (!customElements.get('project-lightbox')) customElements.define('project-lightbox', ProjectLightbox);
 </script>
+
