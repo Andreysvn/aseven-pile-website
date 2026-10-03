@@ -27,7 +27,7 @@ const { city, projects } = Astro.props;
               <span class="pg-cap-area">{p.area}</span>
               <span class="pg-cap-meta">
                 {p.customSpec ? (
-                  <>{p.customSpec}<br/>{p.method}</>
+                  <><Fragment set:html={p.customSpec} /><br/>{p.method}</>
                 ) : (
                   <>Diameter {p.diameterCm} cm &bull; Kedalaman {p.depthM} m<br/>{p.method}</>
                 )}
@@ -172,6 +172,7 @@ const { city, projects } = Astro.props;
   }
   if (!customElements.get('project-lightbox')) customElements.define('project-lightbox', ProjectLightbox);
 </script>
+
 
 
 
