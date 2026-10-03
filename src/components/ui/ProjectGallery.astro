@@ -25,9 +25,10 @@ const { city, projects } = Astro.props;
             </button>
             <figcaption class="pg-cap">
               <span class="pg-cap-area">{p.area}</span>
-              <span class="pg-cap-meta">
-                Diameter {p.diameterCm} cm &bull; Kedalaman {p.depthM} m &bull; {p.method}
-              </span>
+              <div class="pg-cap-meta">
+                <span class="meta-tag">D{p.diameterCm} cm | {p.depthM} m</span>
+                <span class="meta-tag">{p.method}</span>
+              </div>
             </figcaption>
           </figure>
         ))}
@@ -82,22 +83,7 @@ const { city, projects } = Astro.props;
   .pg-item:hover img {
     transform: scale(1.05);
   }
-  .pg-cap {
-    padding: 10px 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .pg-cap-area {
-    font-weight: 700;
-    font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-    color: var(--color-primary);
-  }
-  .pg-cap-meta {
-    font-size: clamp(0.7rem, 2vw, 0.8rem);
-    color: var(--color-text-muted);
-    line-height: 1.4;
-  }
+  .pg-cap { padding: 8px; display: flex; flex-direction: column; gap: 6px; } .pg-cap-area { font-weight: 700; font-size: clamp(0.75rem, 2.5vw, 0.95rem); color: var(--color-primary); line-height: 1.25; } .pg-cap-meta { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; } .meta-tag { display: inline-block; background: #f8fafc; padding: 3px 6px; border-radius: 4px; font-size: clamp(0.65rem, 2vw, 0.75rem); color: #475569; border: 1px solid #e2e8f0; line-height: 1.2; }
   .pg-lightbox {
     border: none;
     background: transparent;
@@ -182,6 +168,9 @@ const { city, projects } = Astro.props;
   }
   if (!customElements.get('project-lightbox')) customElements.define('project-lightbox', ProjectLightbox);
 </script>
+
+
+
 
 
 
