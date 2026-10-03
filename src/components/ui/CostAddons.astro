@@ -4,34 +4,38 @@ interface Props {
 }
 
 const { service = 'borepile' } = Astro.props;
-const minOrder = service === 'strauss' ? '100 meter' : '200 meter';
+const minOrder = service === 'strauss' ? '100 meter' : '200 meter (mini crane/gawangan)';
 ---
 
 <section class="ls-section">
-  <h2 class="ls-mach-title">Catatan &amp; Persiapan Proyek (Di Luar Jasa)</h2>
+  <h2 class="ls-mach-title">Biaya Tambahan di Luar Harga Jasa</h2>
   <p class="ls-mach-p">
-    Agar estimasi anggaran proyek Anda terencana dengan presisi, berikut adalah komponen-komponen yang <strong>belum termasuk</strong> dalam harga jasa bor di atas:
+    Harga pada tabel di atas hanya mencakup <strong>jasa pengeborannya saja</strong>. Agar anggaran proyek lebih akurat, berikut komponen biaya lain yang biasanya belum termasuk:
   </p>
   <div class="ca-grid">
     <div class="ca-item">
-      <h3>1. Material Besi &amp; Beton</h3>
-      <p>Harga tabel hanya untuk <strong>jasa bor saja</strong>. Kebutuhan besi dan beton mengikuti desain struktur bangunan Anda. Namun jika Anda tidak ingin repot, kami juga melayani pengerjaan <strong>Paket All-In (Jasa + Material)</strong> sesuai spesifikasi yang diminta.</p>
+      <h3>Mobilisasi &amp; Demobilisasi Alat</h3>
+      <p>Biaya pengiriman alat dari workshop kami ke lokasi dan kembali. Besarannya menyesuaikan jarak/zona lokasi — estimasi per wilayah bisa dilihat di kalkulator biaya pada halaman ini.</p>
     </div>
     <div class="ca-item">
-      <h3>2. Data Uji Sondir (Wajib)</h3>
-      <p>Data hasil uji sondir/SPT sangat penting bagi kami untuk mengetahui secara pasti di mana letak lapisan tanah keras dan target kedalaman bor yang aman sebelum pengerjaan pondasi dimulai.</p>
+      <h3>Sedot &amp; Pembuangan Lumpur</h3>
+      <p>Pada metode bor basah (wash boring), lumpur hasil pengeboran perlu disedot dan diangkut keluar. Biaya menyesuaikan volume lumpur dan jarak pembuangan.</p>
     </div>
     <div class="ca-item">
-      <h3>3. Mobilisasi Alat &amp; Akomodasi</h3>
-      <p>Biaya transportasi pengiriman alat bor dari workshop kami ke lokasi proyek Anda (PP). Besaran biayanya bervariasi tergantung jarak tempuh dan zona lokasi proyek.</p>
+      <h3>Bak Sirkulasi Air</h3>
+      <p>Bila diperlukan sebagai penampung sirkulasi air selama proses pengeboran berlangsung.</p>
     </div>
     <div class="ca-item">
-      <h3>4. Penanganan Lumpur Bor</h3>
-      <p>Khusus pengerjaan dengan metode bor basah (<em>wash boring</em>), akan ada lumpur sisa pengeboran. Pembuatan bak sirkulasi air, penyedotan lumpur, serta biaya buang lumpur ke luar lokasi ditanggung oleh pemberi tugas.</p>
+      <h3>Uji Tanah (Sondir / SPT)</h3>
+      <p>Uji sondir wajib dilakukan untuk menentukan seberapa dalam target pengeboran dan di mana lapisan tanah keras berada. Bisa dilengkapi uji SPT untuk data daya dukung. Kami dapat membantu merekomendasikan penyedia jasa uji tanah.</p>
     </div>
     <div class="ca-item">
-      <h3>5. Syarat Minimal Order</h3>
-      <p>Berlaku batas volume pengerjaan minimal <strong>{minOrder}</strong>. Apabila total kedalaman titik proyek Anda di bawah batas tersebut, maka biaya akan dihitung menggunakan sistem borongan (<em>Lump Sum</em>).</p>
+      <h3>Minimal Order Jasa</h3>
+      <p>Berlaku minimal order {minOrder} untuk jasa ini. Untuk kebutuhan di bawah itu, silakan hubungi admin kami untuk penawaran khusus.</p>
+    </div>
+    <div class="ca-item">
+      <h3>Material (Besi &amp; Beton)</h3>
+      <p>Harga di tabel belum termasuk material (besi &amp; beton). Kebutuhan besi &amp; beton mengikuti desain struktur tiap proyek, jadi mengacu pada perhitungan perencana/struktur Anda. Kami fokus pada jasa pengeborannya.</p>
     </div>
   </div>
 </section>
@@ -39,24 +43,25 @@ const minOrder = service === 'strauss' ? '100 meter' : '200 meter';
 <style>
   .ca-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: var(--space-4);
   }
   .ca-item {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 10px;
-    padding: 18px 20px;
+    padding: 16px 18px;
   }
   .ca-item h3 {
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: var(--color-primary);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .ca-item p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.6;
     color: var(--color-text-muted);
     margin: 0;
   }
 </style>
+
