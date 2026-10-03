@@ -1,0 +1,45 @@
+export interface Project {
+  img: string;
+  alt: string;
+  area: string;
+  diameterCm: number;
+  depthM: number;
+  method: string;
+  service?: 'borepile' | 'strauss';
+}
+
+export const PROJECTS: Record<string, Project[]> = {
+  jakarta: [
+    {
+      img: '/imgs/bore-pile-mini-crane-aseven-pile-sunter-september-2026.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Sunter, Jakarta Utara',
+      area: 'Sunter, Jakarta Utara',
+      diameterCm: 40,
+      depthM: 20,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    },
+    {
+      img: '/imgs/bore-pile-mini-crane-aseven-pile-mangga-dua-agustus-2026.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Mangga Dua, Jakarta',
+      area: 'Mangga Dua, Jakarta',
+      diameterCm: 30,
+      depthM: 18,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    },
+    {
+      img: '/imgs/bore-pile-mini-crane-aseven-pile-pulo-gadung-agustus-2026.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Pulo Gadung, Jakarta Timur',
+      area: 'Pulo Gadung, Jakarta Timur',
+      diameterCm: 40,
+      depthM: 24,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    }
+  ]
+};
+
+export function getProjects(slug: string, service: 'borepile' | 'strauss'): Project[] {
+  return (PROJECTS[slug] || []).filter((p) => (p.service ?? 'borepile') === service);
+}
