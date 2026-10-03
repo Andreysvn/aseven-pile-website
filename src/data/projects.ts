@@ -15,7 +15,7 @@ export const PROJECTS: Record<string, Project[]> = {
       img: '/imgs/bore-pile-mini-crane-aseven-pile-sunter-september-2026.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane Area Mepet Tembok di Sunter, Jakarta Utara',
       area: 'Sunter, Jakarta Utara (Mepet Tembok)',
-      customSpec: 'Dia. 30cm (14 titik) & 50cm (2 titik) x 15m',
+      customSpec: 'Diameter 30cm: 14 titik<br/>Diameter 50cm: 2 titik',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
