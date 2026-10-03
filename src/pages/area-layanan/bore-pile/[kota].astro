@@ -204,14 +204,20 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <section class="ls-vs-section">
     <h2 class="ls-vs-title">Bore Pile Mesin vs Tiang Pancang di {cityData.name}</h2>
     <p class="ls-vs-desc">Bingung antara pondasi bor (bore pile) atau tiang pancang? Berikut bedanya, disesuaikan dengan kondisi lapangan di {cityData.name}:</p>
-    <div class="ls-vs-grid">
-      <div class="ls-vs-card">
-        <h3>Bore Pile Mesin</h3>
-                <p>Dibor lalu dicor di tempat (<em>cast in-situ</em>). Getaran dan suara minim sehingga sangat aman untuk bangunan di sekitarnya. Ukuran diameter 30 sampai 80 cm dan kedalaman maksimal 30 m sangat fleksibel. Alat kami juga bisa masuk ke akses jalan terbatas menggunakan <a href="/layanan/bore-pile-mesin/mini-crane">mini crane</a>. Untuk area yang kelewat sempit, metode alternatifnya adalah <a href={`/area-layanan/strauss-pile/${cityData.slug}`}>Strauss Pile</a>.</p>
+        <div class="ls-modern-vs-wrap">
+      <div class="ls-mvs-card ls-mvs-primary">
+        <h3 class="ls-mvs-title">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          Bore Pile Mesin
+        </h3>
+        <p class="ls-mvs-desc">Dibor lalu dicor di tempat (<em>cast in-situ</em>). Getaran dan suara minim sehingga sangat aman untuk bangunan di sekitarnya. Ukuran diameter 30 sampai 80 cm dan kedalaman maksimal 30 m sangat fleksibel. Alat kami juga bisa masuk ke akses jalan terbatas menggunakan <a href="/layanan/bore-pile-mesin/mini-crane">mini crane</a>. Untuk area yang kelewat sempit, metode alternatifnya adalah <a href={`/area-layanan/strauss-pile/${cityData.slug}`}>Strauss Pile</a>.</p>
       </div>
-      <div class="ls-vs-card-warn">
-        <h3>Tiang Pancang (Paku Bumi)</h3>
-                <p>Beton pracetak (<em>ex-situ</em>) yang dipancang dengan palu berat (hammer/jack). Saat proses memalu ke dalam tanah, tiang ini akan memadatkan tanah di sekitarnya. Metodenya lebih cepat dan seringkali lebih murah untuk tanah lunak, tetapi menimbulkan getaran dan suara bising yang sangat besar. Hal ini sangat berisiko meretakkan bangunan sekitar, serta butuh ruang bermanuver alat dan akses truk besar yang memadai.</p>
+
+      <div class="ls-mvs-badge">VS</div>
+
+      <div class="ls-mvs-card ls-mvs-secondary">
+        <h3 class="ls-mvs-title">Tiang Pancang (Paku Bumi)</h3>
+        <p class="ls-mvs-desc">Beton pracetak (<em>ex-situ</em>) yang dipancang dengan palu berat (hammer/jack). Saat proses memalu ke dalam tanah, tiang ini akan memadatkan tanah di sekitarnya. Metodenya lebih cepat dan seringkali lebih murah untuk tanah lunak, tetapi menimbulkan getaran dan suara bising yang sangat besar. Hal ini berisiko meretakkan bangunan sekitar, serta butuh ruang manuver alat dan akses truk besar.</p>
       </div>
     </div>
     <p class="ls-vs-note">Untuk area padat dan berawa seperti {cityData.name}, bore pile umumnya lebih aman terhadap bangunan sekitar.</p>
@@ -371,6 +377,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+
 
 
 
