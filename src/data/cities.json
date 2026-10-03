@@ -144,12 +144,14 @@
                                         {
                                             "depthM":  15,
                                             "points":  14,
-                                            "diameter":  30
+                                            "diameter":  30,
+                                            "price":  120000
                                         },
                                         {
                                             "depthM":  15,
                                             "points":  2,
-                                            "diameter":  50
+                                            "diameter":  50,
+                                            "price":  190000
                                         }
                                     ],
                           "isReal":  true

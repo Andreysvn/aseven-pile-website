@@ -29,7 +29,7 @@ export function exampleForCity(city: any): ExampleCalc {
   if (isReal && cs.items && Array.isArray(cs.items)) {
     items = cs.items.map((i: any) => {
       const tier = pricingTiers.find((t) => t.diameter === i.diameter) ?? pricingTiers[0];
-      const pricePerM = tier.pricePerMeter.min;
+      const pricePerM = i.price ?? tier.pricePerMeter.min;
       return {
         diameterCm: i.diameter,
         depthM: i.depthM,
@@ -40,7 +40,7 @@ export function exampleForCity(city: any): ExampleCalc {
     });
   } else if (isReal && cs.diameter) {
     const tier = pricingTiers.find((t) => t.diameter === cs.diameter) ?? pricingTiers[0];
-    const pricePerM = tier.pricePerMeter.min;
+    const pricePerM = cs.price ?? tier.pricePerMeter.min;
     items = [{
       diameterCm: cs.diameter,
       depthM: cs.depthM,
