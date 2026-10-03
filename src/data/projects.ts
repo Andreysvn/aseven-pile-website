@@ -36,6 +36,15 @@ export const PROJECTS: Record<string, Project[]> = {
       depthM: 24,
       method: 'Bor basah (wash boring)',
       service: 'borepile'
+    },
+    {
+      img: '/imgs/bore-pile-mini-crane-aseven-pile-jelambar-september-2026.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Jelambar, Jakarta Barat',
+      area: 'Jelambar, Jakarta Barat',
+      diameterCm: 30,
+      depthM: 15,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
     }
   ]
 };
