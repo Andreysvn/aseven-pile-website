@@ -38,7 +38,7 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0
 const ex = exampleForCity(cityData);
 const rupiah = (n) => `Rp ${n.toLocaleString('id-ID')}`;
 const projectTitle = ex.isReal
-  ? `Studi Kasus: Proyek Pondasi di ${cityData.name}`
+  ? `Contoh Asli: Proyek Pondasi di ${cityData.name}`
   : `Contoh Perhitungan Biaya Bore Pile di ${cityData.name}`;
   const projectDesc = ex.isReal
     ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
@@ -366,6 +366,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+
 
 
 
