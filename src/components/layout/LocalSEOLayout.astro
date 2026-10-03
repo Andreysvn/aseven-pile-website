@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import LastUpdated from '../ui/LastUpdated.astro';
 import PremiumCTA from '../ui/PremiumCTA.astro';
+import '../../styles/local-seo.css';
 import { siteConfig } from '../../data/site.config';
 
 export interface FAQ {
@@ -17,10 +18,12 @@ interface Props {
   serviceName: string;
   faqs?: FAQ[];
   pathContext?: 'general' | 'bore-pile' | 'strauss-pile';
+  heroImage?: string;
 }
 
 const { 
   title,
+  heroImage,
   h1,
   description, 
   city, 
@@ -52,7 +55,7 @@ if (pathContext === 'bore-pile') {
 const schema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": `${siteConfig.brand} - ${serviceName} ${city}`,
+  "name": siteConfig.brand,
   "description": description,
   "url": pageUrl,
   "telephone": siteConfig.phone,
@@ -73,7 +76,7 @@ const schema = {
   "priceRange": "Rp 70.000 - Rp 350.000",
   "foundingDate": siteConfig.foundingYear.toString(),
   "sameAs": Object.values(siteConfig.socialMedia),
-  "dateModified": new Date().toISOString()
+  "dateModified": new Date(siteConfig.contentUpdated).toISOString()
 };
 
 // FAQ Schema (if faqs provided)
@@ -130,7 +133,7 @@ const serviceSchema = {
   
   
   <header class="section local-seo-header">
-    <div class="container" style="max-width: 900px; margin: 0 auto; text-align: left;">
+    <div class="container local-seo-header-inner">
       <!-- HTML Breadcrumbs -->
       <nav aria-label="Breadcrumb" class="breadcrumbs">
         <ol itemscope itemtype="https://schema.org/BreadcrumbList">
@@ -164,7 +167,7 @@ const serviceSchema = {
           
           <div class="header-image-wrapper">
             <img 
-              src="/imgs/header-beranda-bore-pile-aseven.webp" 
+              src={heroImage || "/imgs/header-beranda-bore-pile-aseven.webp"} 
               alt={`Proyek Jasa Bore Pile ${city} oleh Aseven Pile`} 
               loading="eager"
               fetchpriority="high"
@@ -182,6 +185,17 @@ const serviceSchema = {
       padding-top: 120px;
       padding-bottom: var(--space-6);
       border-bottom: 1px solid var(--color-border-light);
+    }
+    
+    .container.local-seo-header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .local-seo-article {
+      padding-top: var(--space-6);
+      line-height: 1.8;
     }
     
     .breadcrumbs ol {
@@ -243,7 +257,7 @@ const serviceSchema = {
     
   </style>
 
-  <article class="container" style="padding-top: var(--space-6); line-height: 1.8;">
+  <article class="container local-seo-article">
     <slot />
   </article>
 
@@ -261,6 +275,8 @@ const serviceSchema = {
   <slot name="below-cta" />
 
 </BaseLayout>
+
+
 
 
 
