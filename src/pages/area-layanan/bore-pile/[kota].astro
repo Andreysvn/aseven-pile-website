@@ -204,21 +204,25 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <section class="ls-vs-section">
     <h2 class="ls-vs-title">Bore Pile Mesin vs Tiang Pancang di {cityData.name}</h2>
     <p class="ls-vs-desc">Bingung antara pondasi bor (bore pile) atau tiang pancang? Berikut bedanya, disesuaikan dengan kondisi lapangan di {cityData.name}:</p>
-        <div class="ls-modern-vs-wrap">
+            <div class="ls-modern-vs-wrap">
       <div class="ls-mvs-card ls-mvs-primary">
         <h3 class="ls-mvs-title">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
           Bore Pile Mesin
         </h3>
-        <p class="ls-mvs-desc">Dibor lalu dicor di tempat (<em>cast in-situ</em>). Getaran dan suara minim sehingga sangat aman untuk bangunan di sekitarnya. Ukuran diameter 30 sampai 80 cm dan kedalaman maksimal 30 m sangat fleksibel. Alat kami juga bisa masuk ke akses jalan terbatas menggunakan <a href="/layanan/bore-pile-mesin/mini-crane">mini crane</a>. Untuk area yang kelewat sempit, metode alternatifnya adalah <a href={`/area-layanan/strauss-pile/${cityData.slug}`}>Strauss Pile</a>.</p>
+        <p class="ls-mvs-desc">Bore pile mesin merupakan metode <em>cast in-situ</em>, yaitu lubang dibor terlebih dahulu di lokasi, kemudian diisi besi tulangan dan dicor beton langsung di tempat. Karena tidak melalui proses pemancangan, getaran dan suara yang dihasilkan sangat minim sehingga aman diterapkan di lingkungan padat bangunan seperti {cityData.name}. Diameternya fleksibel, mulai 30 hingga 80 cm, dengan kedalaman mencapai 30 meter tergantung kondisi tanah. Mini crane yang kami gunakan dirancang untuk masuk ke gang sempit dan jalan terbatas, sehingga bore pile dapat dikerjakan di lokasi yang tidak dapat dijangkau truk besar. Untuk area yang benar-benar sempit, metode alternatifnya adalah <a href={`/area-layanan/strauss-pile/${cityData.slug}`}>Strauss Pile</a> yang menggunakan tenaga manual.</p>
       </div>
 
       <div class="ls-mvs-badge">VS</div>
 
       <div class="ls-mvs-card ls-mvs-secondary">
         <h3 class="ls-mvs-title">Tiang Pancang (Paku Bumi)</h3>
-        <p class="ls-mvs-desc">Beton pracetak (<em>ex-situ</em>) yang dipancang dengan palu berat (hammer/jack). Saat proses memalu ke dalam tanah, tiang ini akan memadatkan tanah di sekitarnya. Metodenya lebih cepat dan seringkali lebih murah untuk tanah lunak, tetapi menimbulkan getaran dan suara bising yang sangat besar. Hal ini berisiko meretakkan bangunan sekitar, serta butuh ruang manuver alat dan akses truk besar.</p>
+        <p class="ls-mvs-desc">Tiang pancang merupakan kebalikannya. Beton dicetak di pabrik secara <em>precast</em>, lalu dipancang ke dalam tanah menggunakan palu berat. Metode ini lebih cepat dan seringkali lebih ekonomis untuk tanah lunak, serta mutu betonnya lebih terkontrol karena dicetak di pabrik. Namun, ada konsekuensi yang perlu dipertimbangkan. Getaran yang ditimbulkan cukup besar sehingga berisiko meretakkan dinding bangunan tua di sekitarnya, suaranya bising, dan alat pancang membutuhkan akses jalan lebar minimal 4 sampai 5 meter sehingga tidak dapat masuk ke gang sempit. Tiang pancang baru menjadi pertimbangan apabila lokasi jauh dari bangunan tetangga, akses jalan lebar, dan tanahnya lunak homogen.</p>
       </div>
+    </div>
+    
+    <div class="ls-vs-conclusion">
+      <p>Untuk mayoritas proyek di <strong>{cityData.name}</strong>, terutama ruko, rumah tinggal, dan gedung bertingkat di lingkungan padat, bore pile mesin hampir selalu menjadi pilihan yang lebih aman. Bukan karena lebih murah, sebab kadang justru lebih mahal, tetapi karena tidak berisiko merusak bangunan tetangga dan dapat masuk ke lokasi yang tidak dapat diakses alat pancang. Apabila masih ragu, tim kami dapat melakukan survei lapangan untuk menilai kondisi tanah dan akses, lalu merekomendasikan metode yang paling efisien untuk proyek Anda.</p>
     </div>
     <p class="ls-vs-note">Untuk area padat dan berawa seperti {cityData.name}, bore pile umumnya lebih aman terhadap bangunan sekitar.</p>
   </section>
@@ -377,6 +381,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+
 
 
 
