@@ -18,11 +18,11 @@ const {
 } = Astro.props;
 ---
 
-<section class="section" id="faq" style="background: transparent;">
-  <div class="container" style="max-width: 650px;">
-    <div class="section-title text-center" style="margin-bottom: 40px;">
-      <h2 style="font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 8px;">{title}</h2>
-      <p style="font-size: 0.9rem; color: var(--color-text-muted);">{subtitle}</p>
+<section class="section faqs-transparent-bg" id="faq">
+  <div class="container faqs-max-650">
+    <div class="section-title text-center faqs-title-mb">
+      <h2 class="faqs-h2">{title}</h2>
+      <p class="faqs-sub">{subtitle}</p>
     </div>
     
     <faq-accordion class="faq-accordion">
@@ -46,6 +46,12 @@ const {
 </section>
 
 <style>
+  .faqs-transparent-bg { background: transparent; }
+  .container.faqs-max-650 { max-width: 650px; }
+  .section-title.faqs-title-mb { margin-bottom: 40px; }
+  .section-title h2.faqs-h2 { font-size: 1.5rem; font-weight: 600; color: var(--color-text); margin-bottom: 8px; }
+  .section-title p.faqs-sub { font-size: 0.9rem; color: var(--color-text-muted); }
+
   .faq-accordion {
     display: flex;
     flex-direction: column;

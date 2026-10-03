@@ -1,0 +1,66 @@
+---
+interface Props {
+  service?: 'borepile' | 'strauss';
+}
+
+const { service = 'borepile' } = Astro.props;
+const minOrder = service === 'strauss' ? '100 meter' : '200 meter (mini crane/gawangan)';
+---
+
+<section class="ls-section">
+  <h2 class="ls-mach-title">Biaya Tambahan di Luar Harga Jasa</h2>
+  <p class="ls-mach-p">
+    Harga pada tabel di atas hanya mencakup <strong>jasa pengeborannya saja</strong>. Agar anggaran proyek lebih akurat, berikut komponen biaya lain yang biasanya belum termasuk:
+  </p>
+  <div class="ca-grid">
+    <div class="ca-item">
+      <h3>Mobilisasi &amp; Demobilisasi Alat</h3>
+      <p>Biaya pengiriman alat dari workshop kami ke lokasi dan kembali. Besarannya menyesuaikan jarak/zona lokasi — estimasi per wilayah bisa dilihat di kalkulator biaya pada halaman ini.</p>
+    </div>
+    <div class="ca-item">
+      <h3>Sedot &amp; Pembuangan Lumpur</h3>
+      <p>Pada metode bor basah (wash boring), lumpur hasil pengeboran perlu disedot dan diangkut keluar. Biaya menyesuaikan volume lumpur dan jarak pembuangan.</p>
+    </div>
+    <div class="ca-item">
+      <h3>Bak Sirkulasi Air</h3>
+      <p>Bila diperlukan sebagai penampung sirkulasi air selama proses pengeboran berlangsung.</p>
+    </div>
+    <div class="ca-item">
+      <h3>Uji Tanah (Sondir / SPT)</h3>
+      <p>Uji sondir wajib dilakukan untuk menentukan seberapa dalam target pengeboran dan di mana lapisan tanah keras berada. Bisa dilengkapi uji SPT untuk data daya dukung. Kami dapat membantu merekomendasikan penyedia jasa uji tanah.</p>
+    </div>
+    <div class="ca-item">
+      <h3>Minimal Order Jasa</h3>
+      <p>Berlaku minimal order {minOrder} untuk jasa ini. Untuk kebutuhan di bawah itu, silakan hubungi admin kami untuk penawaran khusus.</p>
+    </div>
+    <div class="ca-item">
+      <h3>Material (Besi &amp; Beton)</h3>
+      <p>Harga di tabel belum termasuk material (besi &amp; beton). Kebutuhan besi &amp; beton mengikuti desain struktur tiap proyek, jadi mengacu pada perhitungan perencana/struktur Anda. Kami fokus pada jasa pengeborannya.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ca-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+  .ca-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .ca-item h3 {
+    font-size: 1rem;
+    color: var(--color-primary);
+    margin-bottom: 6px;
+  }
+  .ca-item p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+</style>

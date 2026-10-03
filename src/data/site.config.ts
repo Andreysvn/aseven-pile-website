@@ -16,6 +16,9 @@ export const siteConfig = {
   },
   foundingYear: 2015,
   url: "https://asevenpile.com",
+  // Tanggal konten benar-benar diperbarui (manual). Bukan tanggal build.
+  // Update nilai ini HANYA saat konten/penawaran berubah, agar sinyal "freshness" jujur.
+  contentUpdated: "2026-10-03",
 };
 
 

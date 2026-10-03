@@ -20,9 +20,9 @@ const activeImages = images || defaultImages;
 ---
 <section class="section section-bg-alt" id="galeri">
   <div class="container">
-    <div class="section-title text-center" style="margin-bottom: var(--space-8);">
-      <h2 style="font-size: var(--text-3xl); margin-bottom: var(--space-3);">{title}</h2>
-      <p style="color: var(--color-text-muted);">{subtitle}</p>
+    <div class="section-title text-center">
+      <h2 class="mg-h2">{title}</h2>
+      <p>{subtitle}</p>
     </div>
     
         <image-lightbox>
@@ -52,8 +52,8 @@ const activeImages = images || defaultImages;
       </dialog>
     </image-lightbox>
 
-    <div class="text-center" style="margin-top: var(--space-8);">
-      <a href="/galeri" class="btn btn-primary" style="padding: 14px 32px; border-radius: 30px; font-weight: 600; letter-spacing: 0.5px; box-shadow: 0 10px 20px rgba(139, 0, 0, 0.2);">
+    <div class="text-center mg-cta-wrap">
+      <a href="/galeri" class="btn btn-primary mg-btn">
         Lihat Semua Portofolio
       </a>
     </div>
@@ -61,6 +61,16 @@ const activeImages = images || defaultImages;
 </section>
 
 <style>
+  .section-title h2.mg-h2 { font-size: var(--text-3xl); margin-bottom: var(--space-3); }
+  .mg-cta-wrap { margin-top: var(--space-8); }
+  .btn.mg-btn {
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 10px 20px rgba(139, 0, 0, 0.2);
+  }
+
   .gallery-grid {
     display: grid;
     grid-template-columns: 1fr;

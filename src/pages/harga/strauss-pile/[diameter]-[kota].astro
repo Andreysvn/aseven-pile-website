@@ -1,6 +1,6 @@
 ---
 import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
-import { straussTiers, pricingConfig } from '../../../data/pricing';
+import { straussTiers, pricingTiers, pricingConfig } from '../../../data/pricing';
 import { SERVICE_CITIES, GLOBAL_FAQS } from '../../../data/seo-data';
 import { siteConfig } from '../../../data/site.config';
 
@@ -36,6 +36,9 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
 
 const otherDiameters = straussTiers.filter(t => t.diameter !== tier.diameter);
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== city.slug).slice(0, 4);
+
+const boreDiameters = pricingTiers.map((t) => t.diameter);
+const borePileDiameter = boreDiameters.find((d) => d >= tier.diameter + 10) ?? boreDiameters[boreDiameters.length - 1];
 ---
 
 <LocalSEOLayout 
@@ -73,7 +76,7 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== city.slug).slice(0, 4)
   </p>
   <p>
     Jika proyek Anda membutuhkan diameter lebih besar dari {tier.diameter}cm atau kedalaman lebih dari 12m, 
-    pertimbangkan menggunakan <a href={`/harga/bore-pile/${Math.max(30, tier.diameter + 10)}cm-${city.slug}`} class="text-blue-600 underline">Bore Pile Mesin</a>.
+    pertimbangkan menggunakan <a href={`/harga/bore-pile/${borePileDiameter}-${city.slug}`} class="text-blue-600 underline">Bore Pile Mesin</a>.
   </p>
 
   <h3>Mengapa Pilih {siteConfig.brand}?</h3>
@@ -90,7 +93,7 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== city.slug).slice(0, 4)
     <div class="flex flex-wrap gap-3">
       {otherDiameters.map(t => (
         <a 
-          href={`/harga/${serviceType}/${t.diameter}cm-${city.slug}`}
+          href={`/harga/${serviceType}/${t.diameter}-${city.slug}`}
           class="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-green-400 hover:shadow transition-all"
         >
           {t.diameter}cm — Rp {t.pricePerMeter.min.toLocaleString("id-ID")}/m
@@ -105,7 +108,7 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== city.slug).slice(0, 4)
       <div class="flex flex-wrap gap-3">
         {otherCities.map(c => (
           <a 
-            href={`/harga/${serviceType}/${tier.diameter}cm-${c.slug}`}
+            href={`/harga/${serviceType}/${tier.diameter}-${c.slug}`}
             class="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-green-400 hover:shadow transition-all"
           >
             {c.name}

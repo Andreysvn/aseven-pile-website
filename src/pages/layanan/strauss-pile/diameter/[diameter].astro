@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../../../components/layout/BaseLayout.astro';
-import CalculatorUI from '../../../../components/interactive/CalculatorUI';
+import CalculatorUI from '../../../../components/interactive/CalculatorUI.astro';
 import '../../../../styles/calculator.css';
-import { straussTiers } from '../../../../data/pricing';
+import { straussTiers, pricingTiers } from '../../../../data/pricing';
 import { siteConfig } from '../../../../data/site.config';
 
 export async function getStaticPaths() {
@@ -15,6 +15,9 @@ export async function getStaticPaths() {
 const { tier } = Astro.props;
 
 const otherDiameters = straussTiers.filter(t => t.diameter !== tier.diameter);
+
+const boreDiameters = pricingTiers.map((t) => t.diameter);
+const borePileDiameter = boreDiameters.find((d) => d >= tier.diameter + 10) ?? boreDiameters[boreDiameters.length - 1];
 
 const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
   ? `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")}`
@@ -63,14 +66,13 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
         </p>
         <p>
           Jika proyek Anda membutuhkan diameter lebih besar dari {tier.diameter}cm atau kedalaman lebih dari 12m,
-          pertimbangkan menggunakan <a href={`/layanan/bore-pile/diameter/${Math.max(30, tier.diameter + 10)}`} class="text-blue-600 underline">Bore Pile Mesin</a>.
+          pertimbangkan menggunakan <a href={`/layanan/bore-pile/diameter/${borePileDiameter}`} class="text-blue-600 underline">Bore Pile Mesin</a>.
         </p>
       </div>
 
       <div style="margin-bottom: var(--space-12);">
         
         <CalculatorUI
-          client:load
           title={`Kalkulator Harga {service} ${tier.diameter}cm`}
           description={`Hitung estimasi biaya strauss pile diameter ${tier.diameter}cm. Masukkan kedalaman dan jumlah titik bor.`}
           defaults={{ method: 'strauss', diameter: tier.diameter, depth: 4, points: 30 }}
@@ -80,14 +82,14 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
       <div class="internal-link-box">
         <h3>Butuh Bore Pile?</h3>
         <p>Bore pile mesin untuk diameter lebih besar dan kedalaman lebih dari 12m.</p>
-        <a href={`/layanan/bore-pile/diameter/${Math.max(30, tier.diameter + 10)}`} class="internal-link link-bore">Lihat Jasa Bore Pile {Math.max(30, tier.diameter + 10)}cm →</a>
+        <a href={`/layanan/bore-pile/diameter/${borePileDiameter}`} class="internal-link link-bore">Lihat Jasa Bore Pile {borePileDiameter}cm →</a>
       </div>
 
       <div class="diameter-links">
         <h3>Diameter Lainnya</h3>
         <div class="link-grid">
           {otherDiameters.map((t) => (
-            <a href={`/layanan/strauss-pile-manual/diameter/${t.diameter}`} class="diameter-link">
+            <a href={`/layanan/strauss-pile/diameter/${t.diameter}`} class="diameter-link">
               <span class="diameter-value">{t.diameter}cm</span>
               <span class="diameter-price">Rp {t.pricePerMeter.min.toLocaleString("id-ID")}/m</span>
             </a>

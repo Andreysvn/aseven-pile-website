@@ -1,0 +1,23 @@
+---
+import { SOIL_CHARACTER } from '../../data/soil';
+
+interface Props {
+  city: any;
+  /** true = section sendiri (dengan judul). false = blok saja (untuk digabung). */
+  standalone?: boolean;
+}
+
+const { city, standalone = true } = Astro.props;
+const entry = SOIL_CHARACTER[city.slug];
+---
+
+{entry && (
+  standalone ? (
+    <section class="ls-section">
+      <h2 class="ls-mach-title">Karakteristik Tanah di {city.name}</h2>
+      <div class="ls-soil-note" set:html={entry.html}></div>
+    </section>
+  ) : (
+    <div class="ls-soil-note" set:html={entry.html}></div>
+  )
+)}

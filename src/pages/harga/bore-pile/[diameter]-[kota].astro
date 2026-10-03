@@ -80,7 +80,7 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== city.slug).slice(0, 4)
     <div class="flex flex-wrap gap-3">
       {otherDiameters.map(t => (
         <a 
-          href={`/harga/${serviceType}/${t.diameter}cm-${city.slug}`}
+          href={`/harga/${serviceType}/${t.diameter}-${city.slug}`}
           class="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-400 hover:shadow transition-all"
         >
           {t.diameter}cm — Rp {t.pricePerMeter.min.toLocaleString("id-ID")}/m
@@ -95,7 +95,7 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== city.slug).slice(0, 4)
       <div class="flex flex-wrap gap-3">
         {otherCities.map(c => (
           <a 
-            href={`/harga/${serviceType}/${tier.diameter}cm-${c.slug}`}
+            href={`/harga/${serviceType}/${tier.diameter}-${c.slug}`}
             class="px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-blue-400 hover:shadow transition-all"
           >
             {c.name}

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
-import CalculatorUI from '../../components/interactive/CalculatorUI.tsx';
+import CalculatorUI from '../../components/interactive/CalculatorUI.astro';
 import '../../styles/calculator.css';
 import LastUpdated from '../../components/ui/LastUpdated.astro';
 ---
@@ -22,7 +22,7 @@ import LastUpdated from '../../components/ui/LastUpdated.astro';
 
   <section class="section">
     <div class="container">
-      <CalculatorUI client:load />
+      <CalculatorUI />
     </div>
   </section>
 </BaseLayout>

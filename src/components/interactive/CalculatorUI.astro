@@ -1,0 +1,197 @@
+---
+import '../../styles/calculator.css';
+import { asevenCalculatorConfig as config } from './calculator.config';
+import * as L from './calculator-logic';
+import type { Tab } from './calculator-logic';
+
+interface Props {
+  title?: string;
+  description?: string;
+  defaults?: { method?: Tab; diameter?: number; location?: string; depth?: number; points?: number };
+}
+
+const { title, description, defaults } = Astro.props;
+
+const state = L.initState(defaults || {}, config);
+const serviceName = state.activeTab === 'borepile' ? 'Bore Pile' : 'Strauss Pile';
+const displayTitle = title ? title.replace('{service}', serviceName) : `Kalkulator Estimasi Biaya ${serviceName}`;
+const desc = description || 'Hitung cepat, harga transparan, dan akurat.';
+const maxDepth = state.activeTab === 'strauss' ? 6 : 30;
+const sliderDepth = state.depth === '' ? 1 : state.depth;
+const sliderPoints = state.points === '' ? 1 : state.points;
+
+const configPayload = JSON.stringify({
+  defaults: defaults || {},
+  title: title || null,
+});
+---
+
+<div class="calc-wrapper" data-calc-root>
+  <script type="application/json" data-c-config set:html={configPayload}></script>
+
+  <div class="calc-header">
+    <h3 class="calc-title" data-c="title">{displayTitle}</h3>
+    <p class="calc-desc">{desc}</p>
+  </div>
+
+  <div class="calc-tabs">
+    <button class={`tab-btn${state.activeTab === 'borepile' ? ' active' : ''}`} data-c="tab-borepile">Bore Pile (Mesin)</button>
+    <button class={`tab-btn${state.activeTab === 'strauss' ? ' active' : ''}`} data-c="tab-strauss">Strauss Pile (Manual)</button>
+  </div>
+
+  <div class="calc-body">
+    <div class="input-group">
+      <label>Lokasi Proyek</label>
+      <select class="select-input" data-c="location">
+        {config.locations.map((opt) => (
+          <option value={opt.value} selected={opt.value === state.location}>{opt.label}</option>
+        ))}
+      </select>
+    </div>
+
+    <div class="input-group" data-c="road" style={state.activeTab === 'strauss' ? 'display:none' : undefined} set:html={L.roadInner(state)}></div>
+
+    <div class="input-group" data-c="tool" set:html={L.toolInner(state, config)}></div>
+
+    <div class="input-group" data-c="diameter" set:html={L.diameterInner(state, config)}></div>
+
+    <div class="input-row" data-c="dp">
+      <div class="input-group">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <label style="margin:0">Kedalaman (m)</label>
+          <span style="font-size:13px;font-weight:600;color:#800000" data-c="depth-label">{state.depth === '' ? 0 : state.depth} m</span>
+        </div>
+        <input type="range" class="range-slider" data-c="depth-slider" value={sliderDepth} min="1" max={maxDepth} step="1" />
+        <input type="number" placeholder="cth: 12" class="text-input" style="display:none" value={state.depth} min="1" data-c="depth-number" />
+      </div>
+      <div class="input-group">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <label style="margin:0">Jumlah Titik</label>
+          <span style="font-size:13px;font-weight:600;color:#800000" data-c="points-label">{state.points === '' ? 0 : state.points} titik</span>
+        </div>
+        <input type="range" class="range-slider" data-c="points-slider" value={sliderPoints} min="1" max="200" step="1" />
+        <input type="number" placeholder="cth: 45" class="text-input" style="display:none" value={state.points} min="1" data-c="points-number" />
+      </div>
+    </div>
+
+    <div class="input-group" data-c="package" style="margin-bottom:24px" set:html={L.packageInner(state)}></div>
+
+    <div data-c="visualizer" style={L.visualizerRootStyle()} set:html={L.visualizerInner(state)}></div>
+
+    <small class="allin-note" data-c="allin" style="display:none;text-align:center;margin-top:-12px;margin-bottom:16px;color:#c2410c">*Estimasi material menggunakan besi SNI & beton K-250 - K-300.</small>
+  </div>
+
+  <div class="calc-footer" data-c="footer" set:html={L.footerInner(state, config)}></div>
+</div>
+
+<script>
+  import { asevenCalculatorConfig } from './calculator.config';
+  import * as L from './calculator-logic';
+
+  function initRoot(root: HTMLElement) {
+    const configEl = root.querySelector('[data-c-config]');
+    if (!configEl) return;
+    let payload: { defaults: any; title: string | null };
+    try {
+      payload = JSON.parse(configEl.textContent || '{}');
+    } catch {
+      payload = { defaults: {}, title: null };
+    }
+    const config = asevenCalculatorConfig;
+    const rawTitle = payload.title;
+
+    let state = L.initState(payload.defaults || {}, config);
+
+    const q = (name: string) => root.querySelector(`[data-c="${name}"]`) as HTMLElement;
+    const titleEl = q('title');
+    const tabB = q('tab-borepile');
+    const tabS = q('tab-strauss');
+    const locSel = q('location') as HTMLSelectElement;
+    const road = q('road');
+    const tool = q('tool');
+    const diameter = q('diameter');
+    const depthLabel = q('depth-label');
+    const depthSlider = q('depth-slider') as HTMLInputElement;
+    const depthNumber = q('depth-number') as HTMLInputElement;
+    const pointsLabel = q('points-label');
+    const pointsSlider = q('points-slider') as HTMLInputElement;
+    const pointsNumber = q('points-number') as HTMLInputElement;
+    const pkg = q('package');
+    const vis = q('visualizer');
+    const allin = q('allin');
+    const footer = q('footer');
+
+    function update() {
+      tabB.className = 'tab-btn' + (state.activeTab === 'borepile' ? ' active' : '');
+      tabS.className = 'tab-btn' + (state.activeTab === 'strauss' ? ' active' : '');
+      titleEl.textContent = L.titleFor(state, rawTitle);
+      locSel.value = state.location;
+
+      road.style.display = state.activeTab === 'borepile' ? '' : 'none';
+      road.innerHTML = L.roadInner(state);
+      tool.innerHTML = L.toolInner(state, config);
+      diameter.innerHTML = L.diameterInner(state, config);
+
+      const maxDepth = state.activeTab === 'strauss' ? 6 : 30;
+      depthSlider.max = String(maxDepth);
+      depthSlider.value = String(state.depth === '' ? 1 : state.depth);
+      depthLabel.textContent = `${state.depth === '' ? 0 : state.depth} m`;
+      depthNumber.value = state.depth === '' ? '' : String(state.depth);
+
+      pointsSlider.value = String(state.points === '' ? 1 : state.points);
+      pointsLabel.textContent = `${state.points === '' ? 0 : state.points} titik`;
+      pointsNumber.value = state.points === '' ? '' : String(state.points);
+
+      pkg.innerHTML = L.packageInner(state);
+      vis.style.cssText = L.visualizerRootStyle();
+      vis.innerHTML = L.visualizerInner(state);
+      allin.style.display = state.packageType === 'allin' ? 'block' : 'none';
+
+      const active = document.activeElement;
+      const hadMobFocus = !!(active && active.matches && active.matches('[data-c="footer"] input[type="checkbox"]'));
+      footer.innerHTML = L.footerInner(state, config);
+      if (hadMobFocus) {
+        const cb = footer.querySelector('input[type="checkbox"]') as HTMLInputElement | null;
+        if (cb) cb.focus();
+      }
+    }
+
+    root.addEventListener('change', (e) => {
+      const t = e.target as HTMLElement;
+      if (!t) return;
+      if (t.matches('[data-c="location"]')) { state.location = (t as HTMLSelectElement).value; update(); return; }
+      if (t.getAttribute('name') === 'road') { state.roadAccess = (t as HTMLInputElement).value as L.RoadAccess; update(); return; }
+      if (t.getAttribute('name') === 'tool') { state.tool = (t as HTMLInputElement).value; update(); return; }
+      if (t.getAttribute('name') === 'diameter') { state.diameter = Number((t as HTMLInputElement).value); update(); return; }
+      if (t.matches('[data-c="footer"] input[type="checkbox"]')) { state.includeMob = (t as HTMLInputElement).checked; update(); return; }
+    });
+
+    root.addEventListener('input', (e) => {
+      const t = e.target as HTMLElement;
+      if (!t) return;
+      if (t.matches('[data-c="depth-slider"]')) { state.depth = Number((t as HTMLInputElement).value); update(); return; }
+      if (t.matches('[data-c="points-slider"]')) { state.points = Number((t as HTMLInputElement).value); update(); return; }
+    });
+
+    root.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target) return;
+      const tabsEl = root.querySelector('.calc-tabs');
+      const tab = target.closest('.tab-btn');
+      if (tab && tabsEl && tabsEl.contains(tab)) {
+        const which: L.Tab = tab === tabS ? 'strauss' : 'borepile';
+        if (state.activeTab !== which) { state = L.nextStateOnTab(state, which, config); update(); }
+        return;
+      }
+      const pkgCard = target.closest('[data-pkg]');
+      if (pkgCard && pkg.contains(pkgCard)) {
+        state.packageType = pkgCard.getAttribute('data-pkg') as L.PackageType;
+        update();
+      }
+    });
+
+    update();
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-calc-root]').forEach(initRoot);
+</script>

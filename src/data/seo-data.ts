@@ -16,3 +16,38 @@ export const GLOBAL_FAQS = [
 ];
 
 export const SERVICE_CITIES = citiesData.filter((city: any) => !city.draft);
+
+type ServiceKey = 'borepile' | 'strauss';
+
+function classifyFaq(faq: { question: string; answer: string }): ServiceKey | 'both' {
+  const t = `${faq.question} ${faq.answer}`.toLowerCase();
+  const hasBore = /bore pile|borepile|bored pile|mini crane|mesin bor|\bbore\b/.test(t);
+  const hasStrauss = /strauss/.test(t);
+  if (hasBore && hasStrauss) return 'both';
+  if (hasStrauss) return 'strauss';
+  if (hasBore) return 'borepile';
+  return 'both';
+}
+
+/**
+ * FAQ untuk satu kota + satu layanan.
+ * Prioritas: field eksplisit (localFaqsBore / localFaqsStrauss) bila ada.
+ * Fallback: klasifikasi otomatis dari localFaqs berdasarkan kata kunci layanan,
+ * agar FAQ spesifik bore pile tidak bocor ke halaman strauss pile.
+ */
+export function getCityFaqs(city: any, service: ServiceKey) {
+  const explicit =
+    service === 'borepile' ? city.localFaqsBore : city.localFaqsStrauss;
+
+  if (Array.isArray(explicit)) {
+    return [...GLOBAL_FAQS, ...(city.localFaqs || []).filter((f: any) => classifyFaq(f) === 'both'), ...explicit];
+  }
+
+  const local = (city.localFaqs || []).filter((f: any) => {
+    const c = classifyFaq(f);
+    return c === service || c === 'both';
+  });
+
+  return [...GLOBAL_FAQS, ...local];
+}
+

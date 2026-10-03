@@ -21,27 +21,68 @@ const otherCities = SERVICE_CITIES.filter(c => {
 });
 ---
 
-<div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--color-border-light);">
-  <p style="font-size: 0.95rem; font-weight: 600; color: #334155; margin-bottom: 12px;">
+<div class="cll-wrapper">
+  <p class="cll-label">
     Layanan {serviceName} di Area Lain:
   </p>
-  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center;">
+  <ul class="cll-list">
     {otherCities.map((city, index) => (
-      <li style="display: flex; align-items: center; gap: 12px;">
+      <li>
         <a 
           href={`/area-layanan/${serviceType}/${city.slug}`} 
-          style="font-size: 0.95rem; color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; font-weight: 600;"
           class="hover-link"
         >
           {city.name}
         </a>
-        {index < otherCities.length - 1 && <span style="color: #cbd5e1; font-size: 0.8rem;">&bull;</span>}
+        {index < otherCities.length - 1 && <span class="cll-sep">&bull;</span>}
       </li>
     ))}
   </ul>
 </div>
 
 <style>
+  .cll-wrapper {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .cll-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 12px;
+  }
+
+  .cll-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+  }
+
+  .cll-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cll-list a {
+    font-size: 0.95rem;
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+  }
+
+  .cll-sep {
+    color: #cbd5e1;
+    font-size: 0.8rem;
+  }
+
   .hover-link:hover {
     opacity: 0.8;
   }

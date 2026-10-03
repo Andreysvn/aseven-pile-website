@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import PremiumCTA from '../../../components/ui/PremiumCTA.astro';
+import { SERVICE_CITIES } from '../../../data/seo-data';
+import { siteConfig } from '../../../data/site.config';
+
+const cities = SERVICE_CITIES;
+const pageUrl = `${siteConfig.url}/area-layanan/strauss-pile`;
+
+const breadcrumbItems = [
+  { "@type": "ListItem", "position": 1, "name": "Beranda", "item": siteConfig.url },
+  { "@type": "ListItem", "position": 2, "name": "Area Layanan", "item": `${siteConfig.url}/area-layanan` },
+  { "@type": "ListItem", "position": 3, "name": "Strauss Pile", "item": pageUrl },
+];
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Jasa Strauss Pile Manual per Kota",
+  "url": pageUrl,
+  "description": "Daftar kota layanan jasa strauss pile manual Aseven Pile di Jabodetabek dan Pulau Jawa.",
+  "provider": { "@type": "LocalBusiness", "name": siteConfig.brand, "url": siteConfig.url },
+  "hasPart": cities.map((c) => ({
+    "@type": "Service",
+    "name": `Jasa Strauss Pile ${c.name}`,
+    "areaServed": { "@type": "City", "name": c.name },
+    "url": `${siteConfig.url}/area-layanan/strauss-pile/${c.slug}`,
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems,
+};
+---
+
+<BaseLayout
+  title="Jasa Strauss Pile Manual per Kota | Harga & Estimasi"
+  description="Layanan jasa strauss pile manual (bor tangan) di Jabodetabek dan Pulau Jawa. Cocok untuk gang sempit & perumahan padat. Pilih kota Anda untuk melihat harga per meter."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <header class="hub-header">
+    <div class="container hub-header-inner">
+      <nav aria-label="Breadcrumb" class="hub-breadcrumbs">
+        <ol>
+          {breadcrumbItems.map((item, index) => (
+            <>
+              {index > 0 && <li class="sep">&rsaquo;</li>}
+              <li class={index === breadcrumbItems.length - 1 ? "active" : ""}>
+                {index === breadcrumbItems.length - 1
+                  ? <span>{item.name}</span>
+                  : <a href={new URL(item.item as string).pathname}>{item.name}</a>}
+              </li>
+            </>
+          ))}
+        </ol>
+      </nav>
+      <h1>Jasa Strauss Pile Manual di Seluruh Jabodetabek &amp; Pulau Jawa</h1>
+      <p class="hub-lead">
+        Aseven Pile melayani <strong>jasa strauss pile manual</strong> (bor tangan tanpa mesin) untuk pondasi rumah tinggal, pagar, ruko kecil, dan bangunan di area padat atau gang sempit. Pengerjaan sunyi, ekonomis, dan cocok untuk kedalaman dangkal.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Pilih Kota Layanan Strauss Pile</h2>
+        <p>Klik kota Anda untuk melihat harga per meter, estimasi biaya, dan detail layanan strauss pile di wilayah tersebut.</p>
+      </div>
+
+      <div class="hub-city-grid">
+        {cities.map((c) => (
+          <a href={`/area-layanan/strauss-pile/${c.slug}`} class="hub-city-card">
+            <span class="hub-city-name">Strauss Pile {c.name}</span>
+            <span class="hub-city-province">{c.province}</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="hub-cross">
+        <p>Butuh kedalaman lebih dari 10 meter atau tanah keras?</p>
+        <a href="/area-layanan/bore-pile" class="hub-cross-link">Lihat Jasa Bore Pile Mesin per Kota &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <PremiumCTA
+    title="Kota Anda Belum Ada di Daftar?"
+    subtitle="Hubungi kami via WhatsApp untuk konsultasi jasa strauss pile dan penjadwalan survei lokasi."
+    waMessage="Halo Aseven Pile, saya ingin konsultasi jasa strauss pile"
+  />
+</BaseLayout>
+
+<style>
+  .hub-header {
+    background-color: #f8fafc;
+    padding-top: 120px;
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .hub-header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .hub-breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4) 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+  .hub-breadcrumbs a { color: inherit; text-decoration: none; }
+  .hub-breadcrumbs a:hover { color: var(--color-primary); text-decoration: underline; }
+  .hub-breadcrumbs .active { color: var(--color-primary); font-weight: 600; }
+  .hub-header h1 {
+    color: var(--color-primary);
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.25;
+    margin-bottom: var(--space-4);
+  }
+  .hub-lead {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  .hub-city-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+  .hub-city-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: white;
+    border: 1px solid var(--color-border-light);
+    border-radius: 12px;
+    padding: var(--space-4) var(--space-5);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .hub-city-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-primary);
+  }
+  .hub-city-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--color-primary);
+  }
+  .hub-city-province {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+  .hub-cross {
+    margin-top: var(--space-8);
+    text-align: center;
+    padding: var(--space-6);
+    background: var(--color-bg-alt);
+    border-radius: 12px;
+  }
+  .hub-cross p { margin-bottom: var(--space-3); color: var(--color-text-muted); }
+  .hub-cross-link { font-weight: 600; color: var(--color-primary); }
+</style>

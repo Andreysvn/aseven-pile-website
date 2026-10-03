@@ -20,10 +20,10 @@ const {
     <div class="map-wrapper">
       <div class="map-card">
         <!-- Placeholder sebelum peta di-load (biar layout gak lompat) -->
-        <div id="location-loading" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; background-color: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-          <span style="color: var(--color-text-muted); font-size: 0.9rem;">Memuat Peta...</span>
+        <div id="location-loading" class="lm-overlay">
+          <span>Memuat Peta...</span>
         </div>
-        <div id="location-leaflet-map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+        <div id="location-leaflet-map" class="lm-map"></div>
       </div>
     </div>
   </div>
@@ -34,6 +34,33 @@ const {
 <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/></noscript>
 
 <style>
+  .lm-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lm-overlay span {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .lm-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
   .map-section {
     padding-top: var(--space-6);
     padding-bottom: var(--space-12);

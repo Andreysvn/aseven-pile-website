@@ -12,7 +12,7 @@ export const targetLocations: LocationData[] = [
     name: "Jakarta",
     region: "DKI Jakarta",
     geotechProfile: "Bervariasi dari tanah merah padat di Selatan hingga tanah lunak berair tinggi di Utara.",
-    recommendation: "Metode bore pile mini crane dengan bentonite sirkulasi untuk area padat penduduk."
+    recommendation: "Metode bore pile mini crane untuk area padat penduduk."
   },
   {
     slug: "bogor",

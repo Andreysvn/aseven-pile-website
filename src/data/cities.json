@@ -15,7 +15,7 @@
       },
       {
         "question": "Berapa harga bore pile per meter di Jakarta tahun 2026?",
-        "answer": "Harga jasa bore pile mesin di Jakarta tahun 2026 berkisar antara Rp 115.000 hingga Rp 350.000 per meter lari, tergantung diameter yang dipilih (30cm, 40cm, 50cm, 60cm, atau 80cm). Harga tersebut adalah jasa pengeboran murni, belum termasuk material besi dan beton."
+        "answer": "Harga jasa bore pile mesin di Jakarta tahun 2026 berkisar antara Rp 115.000 hingga Rp 350.000 per meter lari, tergantung diameter yang dipilih (30cm, 40cm, 50cm, 60cm, atau 80cm). Harga tersebut adalah harga jasa bor saja, belum termasuk material besi dan beton."
       },
       {
         "question": "Apakah bore pile aman untuk rumah di perumahan padat Jakarta?",
@@ -27,7 +27,7 @@
       },
       {
         "question": "Apakah tanah di Jakarta Utara yang rawa bisa dipasang bore pile?",
-        "answer": "Bisa. Jakarta Utara memang memiliki tanah rawa dengan muka air tanah yang tinggi. Kami menggunakan metode bor basah (wash boring) dengan sirkulasi air dan polimer cair untuk menstabilkan dinding lubang, lalu pengecoran dilakukan dengan pipa tremi agar beton tidak bercampur lumpur."
+        "answer": "Bisa. Jakarta Utara memang memiliki tanah rawa dengan muka air tanah yang tinggi. Kami menggunakan metode bor basah (wash boring) untuk menstabilkan dinding lubang, lalu pengecoran dilakukan dengan pipa tremi agar beton tidak bercampur lumpur."
       },
       {
         "question": "Apa bedanya harga jasa saja dengan harga all-in bore pile?",
@@ -138,7 +138,7 @@
     "soilType": "Tanah Aluvial & Endapan Lempung",
     "terrain": "Datar, Muka Air Tanah Tinggi",
     "averageDepth": "18 - 25 meter",
-    "soilDescription": "Wilayah Jakarta didominasi oleh tanah aluvial lunak dengan muka air tanah yang sangat tinggi. Pengeboran wajib menggunakan metode wash boring dengan sirkulasi lumpur atau polimer cair atau sistem full casing untuk mencegah kelongsoran dinding lubang bor sebelum pengecoran."
+    "soilDescription": "Wilayah Jakarta didominasi oleh tanah aluvial lunak dengan muka air tanah yang sangat tinggi. Pengeboran wajib menggunakan metode wash boring dengan sirkulasi air atau sistem full casing untuk mencegah kelongsoran dinding lubang bor sebelum pengecoran."
   },
   {
     "slug": "bekasi",
@@ -148,7 +148,7 @@
     "localFaqs": [
       {
         "question": "Bagaimana penanganan lumpur bor di daerah rawa/tanah liat Bekasi?",
-        "answer": "Kami menggunakan cairan polimer dan sistem sirkulasi lumpur (mud circulation) yang aman untuk menahan dinding lubang bor agar tidak longsor, sangat efektif untuk kontur tanah Bekasi."
+        "answer": "Kami menggunakan sistem sirkulasi air yang aman untuk menahan dinding lubang bor agar tidak longsor, sangat efektif untuk kontur tanah Bekasi."
       },
       {
         "question": "Berapa harga bore pile di Bekasi tahun 2026?",
@@ -192,7 +192,7 @@
     "soilType": "Lempung Ekspansif & Rawa",
     "terrain": "Datar, Kondisi Labil",
     "averageDepth": "12 - 20 meter",
-    "soilDescription": "Karakteristik tanah Bekasi didominasi oleh lempung ekspansif yang mudah menyusut dan mengembang. Pengeboran pondasi di sini membutuhkan cairan polimer khusus agar dinding bor tidak runtuh akibat sifat tanah lempung yang lunak saat terkena air."
+    "soilDescription": "Karakteristik tanah Bekasi didominasi oleh lempung ekspansif yang mudah menyusut dan mengembang. Pengeboran pondasi di sini membutuhkan penanganan khusus agar dinding bor tidak runtuh akibat sifat tanah lempung yang lunak saat terkena air."
   },
   {
     "slug": "bogor",

@@ -1,14 +1,18 @@
 ---
 import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
-import CalculatorUI from '../../../components/interactive/CalculatorUI';
+import CalculatorUI from '../../../components/interactive/CalculatorUI.astro';
 import PricingTable from '../../../components/ui/PricingTable.astro';
+import CostAddons from '../../../components/ui/CostAddons.astro';
+import SoilCharacter from '../../../components/ui/SoilCharacter.astro';
+import ProjectGallery from '../../../components/ui/ProjectGallery.astro';
 import ProcessSteps from '../../../components/ui/ProcessSteps.astro';
 import MiniGallery from '../../../components/ui/MiniGallery.astro';
 import PremiumCTA from '../../../components/ui/PremiumCTA.astro';
 import CityCrossLinks from '../../../components/ui/CityCrossLinks.astro';
 
 import '../../../styles/calculator.css';
-import { SERVICE_CITIES, GLOBAL_FAQS } from '../../../data/seo-data';
+import { SERVICE_CITIES, getCityFaqs } from '../../../data/seo-data';
+import { getProjects } from '../../../data/projects';
 import { siteConfig } from '../../../data/site.config';
 
 export async function getStaticPaths() {
@@ -21,7 +25,7 @@ export async function getStaticPaths() {
 }
 
 const { cityData } = Astro.props;
-const combinedFaqs = [...GLOBAL_FAQS, ...cityData.localFaqs];
+const cityFaqs = getCityFaqs(cityData, 'strauss');
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
 
 const getCalculatorLocation = (slug: string, province: string) => {
@@ -42,12 +46,12 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   city={cityData.name}
   serviceName="Strauss Pile"
   pathContext="strauss-pile"
-  faqs={combinedFaqs}
+  faqs={cityFaqs}
 >
-  <span slot="header-badge" style="display:inline-block; padding: 4px 12px; background: rgba(22, 163, 74, 0.1); color: #16a34a; border-radius: 20px; font-weight:600; font-size: 0.875rem; margin-bottom: var(--space-4);">Strauss Pile Manual</span>
+  <span slot="header-badge" class="ls-sp-badge">Strauss Pile Manual</span>
 
   <!-- 1. Intro E-E-A-T -->
-  <section style="margin-bottom: var(--space-12);">
+  <section class="ls-section">
     <h2>Alternatif Pondasi Sunyi di {cityData.name}</h2>
     <p>Punya proyek bangunan 1-3 lantai di perumahan padat {cityData.name} dan tidak boleh berisik? <strong>Strauss Pile</strong> (bor manual tenaga manusia) adalah solusi paling tepat. Karena dikerjakan murni tanpa mesin diesel, metode ini 100% bebas polusi suara.</p>
     <p>Tim spesialis strauss pile dari <strong>{siteConfig.brand}</strong> siap meluncur ke area sesempit apapun di {cityData.name}. Sangat cocok untuk renovasi dalam rumah, pembuatan ruko kecil, maupun pondasi pagar.</p>
@@ -56,11 +60,12 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- 2. Tabel Harga -->
   <PricingTable method="strauss" city={cityData.name} />
 
+  <CostAddons service="strauss" />
+
   <!-- 3. Kalkulator -->
-  <div slot="calculator" style="margin-bottom: var(--space-12);">
+  <div slot="calculator" class="ls-section">
     <div class="calculator-edge-to-edge">
       <CalculatorUI 
-        client:visible 
         title={`Kalkulator Estimasi Biaya Strauss Pile ${cityData.name}`}
         description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
         defaults={{ method: 'strauss', location: calcLoc, depth: 4, points: 30 }} 
@@ -69,47 +74,50 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   </div>
 
   <!-- 4. Keunggulan Kami -->
-  <section style="margin-bottom: var(--space-12); padding: var(--space-6); background: var(--color-bg-alt); border-radius: var(--radius-lg);">
-    <h2 style="text-align: center; margin-bottom: var(--space-6);">Kenapa Memilih Kami di {cityData.name}?</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
-      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
-        <h3 style="color: #16a34a; font-size: 1.125rem;">Bisa Masuk Gang Sempit</h3>
-        <p style="font-size: 0.95rem;">Alat strauss pile kami sangat ringkas. Bisa dipanggul masuk gang kecil atau bahkan ke dalam rumah yang sedang direnovasi di {cityData.name}.</p>
+  <section class="ls-sp-why-section">
+    <h2 class="ls-sp-why-title">Kenapa Memilih Kami di {cityData.name}?</h2>
+    <div class="ls-sp-why-grid">
+      <div class="ls-sp-why-card">
+        <h3>Bisa Masuk Gang Sempit</h3>
+        <p>Alat strauss pile kami sangat ringkas. Bisa dipanggul masuk gang kecil atau bahkan ke dalam rumah yang sedang direnovasi di {cityData.name}.</p>
       </div>
-      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
-        <h3 style="color: #16a34a; font-size: 1.125rem;">Nol Polusi Suara</h3>
-        <p style="font-size: 0.95rem;">Pengerjaan 100% sunyi. Dijamin tidak akan ada komplain dari tetangga sebelah proyek.</p>
+      <div class="ls-sp-why-card">
+        <h3>Nol Polusi Suara</h3>
+        <p>Pengerjaan 100% sunyi. Dijamin tidak akan ada komplain dari tetangga sebelah proyek.</p>
       </div>
-      <div style="background: white; padding: var(--space-4); border-radius: var(--radius-md);">
-        <h3 style="color: #16a34a; font-size: 1.125rem;">Harga Sangat Ekonomis</h3>
-        <p style="font-size: 0.95rem;">Tanpa bahan bakar mesin, harga jasa per meter strauss pile jauh lebih murah dibanding bore pile mesin.</p>
+      <div class="ls-sp-why-card">
+        <h3>Harga Sangat Ekonomis</h3>
+        <p>Tanpa bahan bakar mesin, harga jasa per meter strauss pile jauh lebih murah dibanding bore pile mesin.</p>
       </div>
     </div>
   </section>
 
+  <!-- Karakteristik tanah (unik per kota) -->
+  <SoilCharacter city={cityData} />
+
   <!-- 5. Portofolio (Placeholder) -->
-  <section style="margin-bottom: var(--space-12);">
+  <section class="ls-section">
     <h2>Proyek Strauss Pile Kami di {cityData.name}</h2>
-    <p style="color: var(--color-text-muted);">Dokumentasi hasil pengeboran tanah secara manual oleh tim lapangan kami.</p>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-top: var(--space-4);">
+    <p>Dokumentasi hasil pengeboran tanah secara manual oleh tim lapangan kami.</p>
+    <div class="ls-sp-gal-grid">
       <!-- PLACEHOLDER IMAGES -->
-      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 1</div>
-      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 2</div>
-      <div style="aspect-ratio: 4/3; background: #e2e8f0; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 0.875rem;">Foto Proyek 3</div>
+      <div class="ls-sp-gal-ph">Foto Proyek 1</div>
+      <div class="ls-sp-gal-ph">Foto Proyek 2</div>
+      <div class="ls-sp-gal-ph">Foto Proyek 3</div>
     </div>
   </section>
 
   <!-- 6. FAQ (Schema otomatis ter-generate via layout) -->
-  <section style="margin-bottom: var(--space-12);">
-    <h2 style="margin-bottom: var(--space-6);">Pertanyaan Seputar Strauss Pile di {cityData.name}</h2>
-    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
-      {combinedFaqs.map((faq) => (
-        <details style="border: 1px solid var(--color-border-light); border-radius: var(--radius-md); padding: var(--space-4); background: white; cursor: pointer;">
-          <summary style="font-weight: 600; color: var(--color-text); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+  <section class="ls-section">
+    <h2 class="ls-faq-title">Pertanyaan Seputar Strauss Pile di {cityData.name}</h2>
+    <div class="ls-sp-faq-wrap">
+      {cityFaqs.map((faq) => (
+        <details class="ls-sp-faq-item">
+          <summary>
             {faq.question}
-            <span style="color: #16a34a; font-size: 1.5rem; line-height: 1;">+</span>
+            <span class="ls-sp-faq-plus">+</span>
           </summary>
-          <p style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border-light); color: var(--color-text-muted);">
+          <p>
             {faq.answer}
           </p>
         </details>
@@ -118,74 +126,73 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   </section>
 
 
-
     
 
   <Fragment slot="bottom-content">
 
-    <section class="container" style="margin-top: var(--space-8);">
-      <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); text-align: center; margin-bottom: var(--space-2); color: var(--color-primary);">Bore Pile Mesin vs Strauss Pile Manual</h2>
-      <p style="text-align: center; color: var(--color-text-muted); margin-bottom: var(--space-8); max-width: 700px; margin-left: auto; margin-right: auto;">Bingung memilih metode pondasi yang tepat untuk proyek Anda di {cityData.name}? Berikut panduan perbandingannya.</p>
+    <section class="container ls-sec-mt">
+      <h2 class="ls-area-title">Bore Pile Mesin vs Strauss Pile Manual</h2>
+      <p class="ls-center-desc ls-desc-700">Bingung memilih metode pondasi yang tepat untuk proyek Anda di {cityData.name}? Berikut panduan perbandingannya.</p>
       
-      <div style="overflow-x: auto; padding-bottom: var(--space-4);">
-        <table style="width: 100%; min-width: 700px; border-collapse: collapse; text-align: left; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
+      <div class="ls-table-scroll">
+        <table class="ls-compare-table">
           <thead>
-            <tr style="background: var(--color-primary); color: white;">
-              <th style="padding: 16px; font-weight: 600; width: 20%;">Spesifikasi</th>
-              <th style="padding: 16px; font-weight: 600; width: 40%; border-left: 1px solid rgba(255,255,255,0.2);">Bore Pile Mesin (Mini Crane)</th>
-              <th style="padding: 16px; font-weight: 600; width: 40%; border-left: 1px solid rgba(255,255,255,0.2);">Strauss Pile (Manual)</th>
+            <tr>
+              <th>Spesifikasi</th>
+              <th class="ls-w40">Bore Pile Mesin (Mini Crane)</th>
+              <th class="ls-w40">Strauss Pile (Manual)</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Kedalaman Maksimal</td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0; font-weight: 600;">Hingga 30 Meter <span style="font-weight:normal;">(Bisa tembus tanah keras)</span></td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">6 - 10 Meter <span style="font-weight:normal;">(Tergantung kepadatan tanah)</span></td>
+            <tr class="ls-tr-bordered">
+              <td class="ls-lbl">Kedalaman Maksimal</td>
+              <td class="ls-cell-strong">Hingga 30 Meter <span class="ls-normal">(Bisa tembus tanah keras)</span></td>
+              <td class="ls-cell">6 - 10 Meter <span class="ls-normal">(Tergantung kepadatan tanah)</span></td>
             </tr>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Diameter Lubang</td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">30cm, 40cm, 50cm, 60cm</td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">20cm, 25cm, 30cm, 40cm</td>
+            <tr class="ls-tr-bordered">
+              <td class="ls-lbl">Diameter Lubang</td>
+              <td class="ls-cell">30cm, 40cm, 50cm, 60cm</td>
+              <td class="ls-cell">20cm, 25cm, 30cm, 40cm</td>
             </tr>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Peruntukan Proyek</td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Gedung Bertingkat, Ruko 3+ Lantai, Pabrik, Gudang, Jembatan</td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Rumah Tinggal 1-3 Lantai, Pagar Panel, Turap Penahan Tanah</td>
+            <tr class="ls-tr-bordered">
+              <td class="ls-lbl">Peruntukan Proyek</td>
+              <td class="ls-cell">Gedung Bertingkat, Ruko 3+ Lantai, Pabrik, Gudang, Jembatan</td>
+              <td class="ls-cell">Rumah Tinggal 1-3 Lantai, Pagar Panel, Turap Penahan Tanah</td>
             </tr>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Akses Lokasi</td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Minimal lebar jalan 2.5m (Bisa dilalui Truk)</td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Bisa masuk gang sempit / area padat penduduk</td>
+            <tr class="ls-tr-bordered">
+              <td class="ls-lbl">Akses Lokasi</td>
+              <td class="ls-cell">Minimal lebar jalan 2.5m (Bisa dilalui Truk)</td>
+              <td class="ls-cell">Bisa masuk gang sempit / area padat penduduk</td>
             </tr>
             <tr>
-              <td style="padding: 16px; font-weight: 600; color: #334155; background: #f8fafc;">Tingkat Kebisingan</td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0;">Sedang <span style="font-weight:normal;">(Alat kami menggunakan peredam suara)</span></td>
-              <td style="padding: 16px; color: #475569; border-left: 1px solid #e2e8f0; font-weight: 600;">Sangat Rendah <span style="font-weight:normal;">(Tanpa mesin, ramah lingkungan)</span></td>
+              <td class="ls-lbl">Tingkat Kebisingan</td>
+              <td class="ls-cell">Sedang <span class="ls-normal">(Alat kami menggunakan peredam suara)</span></td>
+              <td class="ls-cell-strong">Sangat Rendah <span class="ls-normal">(Tanpa mesin, ramah lingkungan)</span></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p style="text-align: center; margin-top: 16px;">
-        <a href={`/area-layanan/bore-pile/${cityData.slug}`} style="color: var(--color-primary); font-weight: 600; text-decoration: underline;">Pelajari Layanan Bore Pile Mesin di ${cityData.name} &rarr;</a>
+      <p class="ls-compare-cta">
+        <a href={`/area-layanan/bore-pile/${cityData.slug}`}>Pelajari Layanan Bore Pile Mesin di {cityData.name} &rarr;</a>
       </p>
     </section>
 
 
     <!-- 8. Komponen Silo / Wilayah (Dinamis dari JSON) -->
   {cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
-    <section class="container" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--color-border-light);">
-      <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); text-align: center; margin-bottom: var(--space-2); color: var(--color-primary);">Wilayah Layanan {cityData.name}</h2>
-      <p style="text-align: center; color: var(--color-text-muted); margin-bottom: var(--space-8); max-width: 600px; margin-left: auto; margin-right: auto;">Layanan kami mencakup seluruh area di bawah ini. Tim dan peralatan operasional kami siap didatangkan ke lokasi Anda.</p>
+    <section class="container ls-area-section">
+      <h2 class="ls-area-title">Wilayah Layanan {cityData.name}</h2>
+      <p class="ls-center-desc ls-desc-600">Layanan kami mencakup seluruh area di bawah ini. Tim dan peralatan operasional kami siap didatangkan ke lokasi Anda.</p>
       
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6);">
+      <div class="ls-area-grid">
         {cityData.groupedAreas.map((group: any) => (
-          <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: var(--space-6); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s;" class="hover:shadow-lg hover:-translate-y-1">
-            <h3 style="font-size: 1.25rem; margin-bottom: var(--space-4); border-bottom: 2px solid #f1f5f9; padding-bottom: 12px;">
-              <span style="color: var(--color-primary); font-weight: 700;">{group.groupName}</span>
+          <div class="ls-area-card">
+            <h3>
+              <span>{group.groupName}</span>
             </h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <div class="ls-area-chips">
               {group.areas.map((area: string) => (
-                <span style="display: inline-block; padding: 6px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 0.8rem; color: #475569;">
+                <span class="ls-area-chip">
                   {area}
                 </span>
               ))}
@@ -196,12 +203,12 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     </section>
   ) : (
     cityData.subAreas && cityData.subAreas.length > 0 && (
-      <section class="container" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--color-border-light);">
-        <h3 style="font-size: 1.2rem; margin-bottom: var(--space-2);">Area Layanan {cityData.name}</h3>
-        <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: var(--space-4);">Pilih area spesifik di {cityData.name} untuk melihat info harga lebih akurat:</p>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <section class="container ls-area-section">
+        <h3 class="ls-subarea-title">Area Layanan {cityData.name}</h3>
+        <p class="ls-subarea-desc">Pilih area spesifik di {cityData.name} untuk melihat info harga lebih akurat:</p>
+        <div class="ls-area-chips">
           {cityData.subAreas.map((area: any) => (
-            <span style="display: inline-block; padding: 4px 12px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 16px; font-size: 0.85rem; color: #475569; font-weight: 500;">
+            <span class="ls-subarea-chip">
               {area.name}
             </span>
           ))}
@@ -221,7 +228,10 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
         { number: 4, title: "Pengecoran & Pemadatan", desc: "Penuangan beton segar secara bertahap sambil dipadatkan agar bebas dari keropos." }
       ]}
     />
-    <MiniGallery 
+    {getProjects(cityData.slug, 'strauss').length ? (
+      <ProjectGallery city={cityData.name} projects={getProjects(cityData.slug, 'strauss')} />
+    ) : (
+      <MiniGallery 
       title={`Dokumentasi Strauss Pile di ${cityData.name}`} 
       subtitle={`Galeri pekerjaan lapangan strauss pile manual tanpa getaran oleh tenaga spesialis kami.`}
       images={[
@@ -229,7 +239,8 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
         { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Mata Bor Strauss Pile ${cityData.name}`, fallback: `Alat+Strauss+Pile+${cityData.name}` },
         { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Tulangan Spiral Strauss Pile ${cityData.name}`, fallback: `Besi+Strauss+Pile+${cityData.name}` }
       ]}
-    />
+      />
+    )}
     <PremiumCTA 
       title="Konsultasi & Survei Lapangan"
       subtitle={`Hubungi kami via WhatsApp untuk konsultasi proyek dan penjadwalan survei lokasi di ${cityData.name}.`}
@@ -237,13 +248,12 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
       waMessage={`Halo Aseven Pile, saya mau konsultasi jasa strauss pile untuk daerah ${cityData.name}`}
     />
       
-      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+      <div class="cll-center">
         <CityCrossLinks currentSlug={cityData.slug} serviceType="strauss-pile" serviceName="Strauss Pile Manual" />
       </div>
     </section>
 
   </Fragment>
 </LocalSEOLayout>
-
 
 

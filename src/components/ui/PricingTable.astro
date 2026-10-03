@@ -30,7 +30,7 @@ const cityLabel = city ? ` ${city}` : '';
           {method === 'all' && <h3>Bore Pile (Mesin)</h3>}
           <div class="table-responsive">
             <table class="price-table">
-              <thead>
+                <thead>
                   <tr>
                     <th>Diameter</th>
                     <th>Jasa / m&sup1;</th>
@@ -47,8 +47,7 @@ const cityLabel = city ? ` ${city}` : '';
                         : `Rp ${tier.pricePerMeter.min.toLocaleString('id-ID')} – ${tier.pricePerMeter.max.toLocaleString('id-ID')}`}
                       {tier.isEstimate && <span class="badge-est">est.</span>}
                     </td>
-                    
-                    <td style="text-align: right;"><a href={`/layanan/bore-pile/diameter/${tier.diameter}cm`} style="color: var(--color-primary); font-weight: 600;">Lihat Detail &rarr;</a></td>
+                    <td class="pt-td-right"><a href={`/layanan/bore-pile/diameter/${tier.diameter}`} class="pt-detail-link">Lihat Detail &rarr;</a></td>
                   </tr>
                 ))}
               </tbody>
@@ -62,7 +61,7 @@ const cityLabel = city ? ` ${city}` : '';
           {method === 'all' && <h3>Strauss Pile (Manual)</h3>}
           <div class="table-responsive">
             <table class="price-table">
-              <thead>
+                <thead>
                   <tr>
                     <th>Diameter</th>
                     <th>Jasa / m&sup1;</th>
@@ -74,8 +73,7 @@ const cityLabel = city ? ` ${city}` : '';
                   <tr>
                     <td><strong>{tier.diameter} cm</strong></td>
                     <td>Rp {tier.pricePerMeter.min.toLocaleString('id-ID')}</td>
-                    
-                    <td style="text-align: right;"><a href={`/layanan/strauss-pile-manual/diameter/${tier.diameter}cm`} style="color: var(--color-primary); font-weight: 600;">Lihat Detail &rarr;</a></td>
+                    <td class="pt-td-right"><a href={`/layanan/strauss-pile/diameter/${tier.diameter}`} class="pt-detail-link">Lihat Detail &rarr;</a></td>
                   </tr>
                 ))}
               </tbody>
@@ -85,7 +83,7 @@ const cityLabel = city ? ` ${city}` : '';
       )}
     </div>
 
-    <p class="pricing-note">*Harga di atas adalah harga murni jasa pengeboran per meter lari. Belum termasuk biaya mobilisasi/demobilisasi alat mesin, material (besi dan beton), serta pembuatan bak sirkulasi air.</p>
+    <p class="pricing-note">*Harga di atas hanya untuk jasa pengeboran per meter lari. Belum termasuk biaya mobilisasi/demobilisasi alat mesin, material (besi dan beton), serta pembuatan bak sirkulasi air.</p>
   </div>
 </section>
 
@@ -153,6 +151,13 @@ const cityLabel = city ? ` ${city}` : '';
     color: #991b1b;
     border-radius: 4px;
     font-size: 12px;
+    font-weight: 600;
+  }
+  .price-table td.pt-td-right {
+    text-align: right;
+  }
+  .price-table td a.pt-detail-link {
+    color: var(--color-primary);
     font-weight: 600;
   }
   .pricing-note {

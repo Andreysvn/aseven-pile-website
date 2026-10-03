@@ -2357,7 +2357,7 @@ bot.command("pricingcheck", async (ctx) => {
   }
   
   // Check if calculator uses same prices
-  const calcPath = path.join(PROJECT_ROOT, "src", "components", "calculator", "PriceCalculator.tsx");
+  const calcPath = path.join(PROJECT_ROOT, "src", "components", "interactive", "calculator.config.ts");
   const calcExists = fs.existsSync(calcPath);
   text += `\n📊 *Calculator:* ${calcExists ? "✅ Ada" : "❌ Hilang"}`;
   
