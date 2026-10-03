@@ -39,8 +39,8 @@ export const PROJECTS: Record<string, Project[]> = {
     },
     {
       img: '/imgs/bore-pile-mini-crane-aseven-pile-jelambar-september-2026.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Jelambar, Jakarta Barat',
-      area: 'Jelambar, Jakarta Barat',
+      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane untuk Lokasi Sempit di Jelambar, Jakarta Barat',
+      area: 'Jelambar, Jakarta Barat (Lokasi Sempit)',
       diameterCm: 30,
       depthM: 15,
       method: 'Bor basah (wash boring)',
@@ -52,3 +52,4 @@ export const PROJECTS: Record<string, Project[]> = {
 export function getProjects(slug: string, service: 'borepile' | 'strauss'): Project[] {
   return (PROJECTS[slug] || []).filter((p) => (p.service ?? 'borepile') === service);
 }
+
