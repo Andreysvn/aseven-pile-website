@@ -230,20 +230,25 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- SECTION 7: Kemampuan Mesin & Kondisi Tanah (E-E-A-T) -->
   <!-- ================================================ -->
   <section class="ls-section">
-    <h2 class="ls-mach-title">Kapasitas Mesin &amp; Karakteristik Tanah di {cityData.name}</h2>
+        <h2 class="ls-mach-title">Kapasitas Mesin &amp; Karakteristik Tanah di {cityData.name}</h2>
     
     <p class="ls-mach-p">
-      Banyak klien di <strong>{cityData.name}</strong> bertanya, "Berapa meter maksimal bor bisa masuk?" Jawabannya sangat bergantung pada kekerasan tanah di lokasi proyek, bukan sekadar panjang tiang atau pipa bor. Mesin bore pile mini crane yang kami gunakan dirancang untuk mampu mengebor hingga kedalaman <strong>25 - 30 meter</strong> pada kondisi tanah normal (seperti lempung atau aluvial lunak). Namun, pengeboran akan dihentikan saat mata bor telah mencapai atau menembus <strong>lapisan tanah keras (<em>hard strata</em>)</strong>.
+      Banyak klien di <strong>{cityData.name}</strong> bertanya, "Berapa maksimal kedalaman pengeboran untuk bore pile menggunakan mesin ini (mini crane/gawangan)?" Jawabannya sangat bergantung pada kekerasan tanah di lokasi proyek, bukan sekadar panjang tiang atau pipa bor. Mesin bore pile mini crane yang kami gunakan dirancang untuk mampu mengebor hingga kedalaman 25 sampai 30 meter pada kondisi tanah normal seperti lempung atau aluvial lunak. Namun, pengeboran akan dihentikan saat mata bor telah mencapai atau menembus lapisan tanah keras, karena di titik itulah pondasi dianggap sudah mencapai daya dukung yang cukup.
     </p>
 
     <p class="ls-mach-p">
-      Faktor diameter lubang juga sangat menentukan. Semakin besar diameter (misalnya <strong>Ø60 cm</strong>), maka beban torsi dan putaran mesin akan semakin berat. Jika lapisan tanah sangat keras atau berbatu, putaran mesin untuk diameter besar mungkin sudah mencapai batas maksimalnya pada kedalaman kurang dari 25 meter. Sebaliknya, untuk diameter yang lebih kecil (seperti <strong>Ø30 cm</strong> atau <strong>Ø40 cm</strong>), beban putar mesin lebih ringan sehingga lebih mudah mencapai elevasi yang lebih dalam jika lapisan tanah kerasnya berada jauh di bawah permukaan.
+      Faktor diameter lubang juga sangat menentukan. Semakin besar diameter, misalnya 60 cm, maka beban torsi dan putaran mesin akan semakin berat. Jika lapisan tanah sangat keras atau berbatu, putaran mesin untuk diameter besar mungkin sudah mencapai batas maksimalnya pada kedalaman kurang dari 25 meter. Sebaliknya, untuk diameter yang lebih kecil seperti 30 cm atau 40 cm, beban putar mesin lebih ringan sehingga lebih mudah mencapai elevasi yang lebih dalam apabila lapisan tanah kerasnya berada jauh di bawah permukaan. Karena itu, uji sondir wajib dilakukan sebelum pengeboran, sebab hasilnya menentukan seberapa dalam target pengeboran dan di mana lapisan tanah keras berada.
     </p>
 
     <p class="ls-mach-p">
-      Oleh karena itu, <strong>uji sondir wajib dilakukan</strong> sebelum pengeboran, karena hasilnya menentukan seberapa dalam target pengeboran dan di mana lapisan tanah keras berada. Metode pengeboran menyesuaikan kondisi tanah: pada tanah lunak berair atau muka air tanah tinggi, kami menggunakan <strong>bor basah (<em>wash boring</em>)</strong>; sedangkan pada tanah lempung yang lengket dan stabil, bisa dipakai <strong>bor kering (<em>dry boring</em>)</strong> yang lebih bersih dan cepat. Keduanya dipadukan dengan pengecoran sistem <strong>Pipa Tremi</strong> agar adukan beton padat murni dari dasar lubang tanpa tercampur lumpur.
+      Metode pengeboran menyesuaikan kondisi tanah. Pada tanah lunak berair atau muka air tanah tinggi, kami menggunakan bor basah atau <em>wash boring</em>. Sedangkan pada tanah lempung yang lengket dan stabil, bisa dipakai bor kering atau <em>dry boring</em> yang lebih bersih dan cepat. Keduanya dipadukan dengan pengecoran sistem Pipa Tremi agar adukan beton padat murni dari dasar lubang tanpa tercampur lumpur.
     </p>
+
     <SoilCharacter city={cityData} standalone={false} />
+    
+    <p class="ls-mach-p" style="margin-top: 16px;">
+      Karakteristik inilah yang membuat pemilihan metode pengeboran dan kedalaman pondasi tidak bisa disamaratakan antara satu lokasi dengan lokasi lainnya.
+    </p>
   </section>
 
   <!-- ================================================ -->
@@ -380,6 +385,8 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
     )}
   </Fragment>
 </LocalSEOLayout>
+
+
 
 
 
