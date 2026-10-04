@@ -27,6 +27,8 @@ Ujung bawah pipa tremi tidak boleh menempel ke dasar lubang. Jarak aman yang dir
 
 ## Prosedur Pengecoran dengan Pipa Tremi
 
+![Ilustrasi Pengecoran Bore Pile Menggunakan Pipa Tremi](/imgs/pengecoran-bore-pile-pipa-tremie-aseven-pile-ilustrasi.png)
+
 Prosedur pengecoran bore pile dengan pipa tremi mengikuti urutan yang ketat. Sebelum beton dituang, pipa tremi dipasang dan diturunkan hingga mendekati dasar lubang. Pipa tremie dipasang sedalam lubang bore pile, dan pada bagian paling atas disambung dengan corong concrete. Corong ini berfungsi seperti corong minyak pada mesin, mengarahkan beton agar masuk ke dalam pipa tanpa tumpah.
 
 Pada tahap awal, beton pertama yang masuk ke dalam pipa akan mendorong air yang ada di dalam pipa keluar. Sama seperti saat Anda memasukkan air ke dalam sedotan yang sudah terisi udara, air akan keluar dari ujung bawah dulu sebelum akhirnya mengalir keluar seluruhnya.
@@ -58,4 +60,5 @@ Hasil pengujian Crosshole Sonic Logging (CSL) pada pylon P1 menunjukkan bahwa da
 Pipa tremi adalah peralatan yang menentukan mutu pengecoran bore pile. Fungsinya sederhana, tetapi konsekuensinya besar. Beton yang tercampur lumpur atau mengalami segregasi akan menghasilkan pondasi yang lemah, dan pada akhirnya membahayakan seluruh struktur bangunan di atasnya. Memastikan pipa tremi dipasang dengan benar, ujung bawah terbenam cukup dalam di dalam beton segar, dan pengecoran berlangsung tanpa henti adalah langkah-langkah kecil yang menentukan kualitas pondasi secara keseluruhan.
 
 Kalau Anda sedang merencanakan proyek pondasi bore pile dan ingin memastikan pengecoran dilakukan dengan standar yang benar, tim kami siap membantu. Aseven Pile berpengalaman sejak 2015 menangani proyek bore pile di berbagai kondisi lapangan, dari gang sempit hingga lahan terbuka. Konsultasi via WhatsApp untuk survei lokasi dan penawaran harga.
+
 
