@@ -15,7 +15,7 @@ const articlesToShow = sortedArticles.slice(0, limit);
 
 <div class="ls-art-grid">
   {articlesToShow.map(post => (
-    <a href={/artikel/\} class="ls-art-card hover-card">
+    <a href={`/artikel/${post.slug}`} class="ls-art-card hover-card">
       <div class="ls-art-media">
         <div class="ls-art-badge ls-art-badge-blue">Info Teknis</div>
       </div>
@@ -89,3 +89,4 @@ const articlesToShow = sortedArticles.slice(0, limit);
     margin: 0;
   }
 </style>
+
