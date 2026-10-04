@@ -62,7 +62,8 @@ Hasil pengujian Crosshole Sonic Logging (CSL) pada pylon P1 menunjukkan bahwa da
 
 Pipa tremi adalah peralatan yang menentukan mutu pengecoran bore pile. Fungsinya sederhana, tetapi konsekuensinya besar. Beton yang tercampur lumpur atau mengalami segregasi akan menghasilkan pondasi yang lemah, dan pada akhirnya membahayakan seluruh struktur bangunan di atasnya. Memastikan pipa tremi dipasang dengan benar, ujung bawah terbenam cukup dalam di dalam beton segar, dan pengecoran berlangsung tanpa henti adalah langkah-langkah kecil yang menentukan kualitas pondasi secara keseluruhan.
 
-Kalau Anda sedang merencanakan proyek pondasi bore pile dan ingin memastikan pengecoran dilakukan dengan standar yang benar, tim kami siap membantu. Aseven Pile berpengalaman sejak 2015 menangani proyek bore pile di berbagai kondisi lapangan, dari gang sempit hingga lahan terbuka. Konsultasi via WhatsApp untuk survei lokasi dan penawaran harga.
+
+
 
 
 
