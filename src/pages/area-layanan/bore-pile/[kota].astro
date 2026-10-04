@@ -2,6 +2,7 @@
 import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
 import CalculatorUI from '../../../components/interactive/CalculatorUI.astro';
 import PricingTable from '../../../components/ui/PricingTable.astro';
+import CostExample from '../../../components/ui/CostExample.astro';
 import CostAddons from '../../../components/ui/CostAddons.astro';
 import SoilCharacter from '../../../components/ui/SoilCharacter.astro';
 import ProjectGallery from '../../../components/ui/ProjectGallery.astro';
@@ -112,62 +113,13 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 
 
   <!-- ================================================ -->
-  <!-- SECTION 5: Contoh Hitungan                       -->
-  <!-- ================================================ -->
-        <section class="ls-section">
-    <h3 class="ls-case-title">{projectTitle}</h3>
-    <p class="ls-case-desc" set:html={projectDesc}></p>
-    
-    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
-      
-      {ex.items.map((item, idx) => (
-        <div style={`padding: ${idx > 0 ? '16px 0 0 0' : '0 0 16px 0'}; border-bottom: ${idx < ex.items.length - 1 ? '2px dashed #cbd5e1' : 'none'};`}>
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
-            <div style="color: #64748b; font-size: 0.95rem;">Spesifikasi</div>
-            <div style="font-weight: 600; color: #0f172a; text-align: right;">
-              Diameter {item.diameterCm} cm 
-              <span style="font-weight:normal; color:#64748b; font-size:0.85rem; display:block;">(Jasa {rupiah(item.pricePerM)} / m&sup1;)</span>
-            </div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
-            <div style="color: #64748b; font-size: 0.95rem;">Kedalaman / Titik</div>
-            <div style="font-weight: 600; color: #0f172a; text-align: right;">{item.depthM} meter</div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0;">
-            <div style="color: #64748b; font-size: 0.95rem;">Jumlah Titik</div>
-            <div style="font-weight: 600; color: #0f172a; text-align: right;">{item.points} titik</div>
-          </div>
-        </div>
-      ))}
-      
-      <div style="margin-top: 16px; padding-top: 16px; border-top: 2px dashed #cbd5e1;">
-        <div style="font-size: 0.9rem; color: #64748b; margin-bottom: 4px;">Total Estimasi Biaya Jasa:</div>
-                        <div style="font-size: 0.95rem; color: #475569; margin-bottom: 8px;">
-          {ex.items.length > 1 
-            ? ex.items.map(i => (
-                <div style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap;">
-                  <span>&bull; D{i.diameterCm}: {i.points} titik &times; {i.depthM} m &times; {rupiah(i.pricePerM)}</span>
-                  <span style="font-weight: 600; color: #334155;">= {rupiah(i.subtotal)}</span>
-                </div>
-              ))
-            : `${ex.items[0].points} titik \u00D7 ${ex.items[0].depthM} m \u00D7 ${rupiah(ex.items[0].pricePerM)}`
-          }
-        </div>
-        <div style="font-size: 1.25rem; font-weight: 700; color: var(--color-primary);">{rupiah(ex.total)}</div>
-        {ex.isReal && (
-          <div style="margin-top: 16px;">
-            <a href="#galeri" style="display: inline-block; font-size: 0.85rem; color: var(--color-primary); text-decoration: none; font-weight: 500; background: #eff6ff; padding: 6px 16px; border-radius: 20px; border: 1px solid #bfdbfe; transition: all 0.2s ease;">
-              Lihat foto proyek ini di galeri &darr;
-            </a>
-          </div>
-        )}
-      </div>
-    </div>
-
-    <p class="ls-case-note">
-      {caseNote}
-    </p>
-  </section>
+  <!-- SECTION 5: Contoh Hitungan -->
+  <CostExample
+    title={projectTitle}
+    description={projectDesc}
+    ex={ex}
+    note={caseNote}
+  />
 
   <CostAddons service="borepile" />
 
