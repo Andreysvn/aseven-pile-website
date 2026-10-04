@@ -41,7 +41,7 @@ const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0
 // Contoh perhitungan biaya strauss pile (PINTAR per kota):
 // - Bila cities.json punya "caseStudy": { "isReal": true, "diameter":30, "depthM":12, "points":15 } â†’ tampil "Studi Kasus" (angka nyata).
 // - Bila tidak â†’ contoh digenerate dari data kota (kedalaman dari averageDepth, jumlah titik divariasikan) â†’ angka beda tiap wilayah.
-const ex = exampleForCity(cityData);
+const ex = exampleForCity(cityData, 'strauss');
 const rupiah = (n) => `Rp ${n.toLocaleString('id-ID')}`;
 const projectTitle = ex.isReal
   ? `Rincian Biaya Asli Proyek Strauss Pile di ${cityData.name}`
@@ -85,7 +85,7 @@ const hargaStraussPile = cityData.slug.includes('jakarta') ? 95000 : 90000;
   <!-- ================================================ -->
   <!-- SECTION: Karakteristik Tanah                     -->
   <!-- ================================================ -->
-  <SoilCharacter city={cityData} />
+  <SoilCharacter city={cityData} service="strauss" />
 
   <!-- ================================================ -->
   <!-- SECTION 2: Tabel Harga Strauss Pile                 -->
@@ -108,6 +108,7 @@ const hargaStraussPile = cityData.slug.includes('jakarta') ? 95000 : 90000;
   <!-- ================================================ -->
   <!-- SECTION 5: Contoh Hitungan -->
   <CostExample
+    method="strauss"
     title={projectTitle}
     description={projectDesc}
     ex={ex}

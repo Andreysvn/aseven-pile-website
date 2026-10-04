@@ -2,22 +2,24 @@
 import { SOIL_CHARACTER } from '../../data/soil';
 
 interface Props {
+  service?: "borepile" | "strauss";
   city: any;
   /** true = section sendiri (dengan judul). false = blok saja (untuk digabung). */
   standalone?: boolean;
 }
 
-const { city, standalone = true } = Astro.props;
+const { city, service = "borepile", standalone = true } = Astro.props;
 const entry = SOIL_CHARACTER[city.slug];
+const contentHtml = (service === "strauss" && entry?.htmlStrauss) ? entry.htmlStrauss : entry?.html;
 ---
 
 {entry && (
   standalone ? (
     <section class="ls-section">
-      <h2 class="ls-mach-title">Karakteristik Tanah di {city.name}</h2>
-      <div class="ls-soil-note" set:html={entry.html}></div>
+      <h2 class="ls-mach-title">Karakteristik Tanah di {city.name}{service === "strauss" ? " untuk Strauss Pile" : ""}</h2>
+      <div class="ls-soil-note" set:html={contentHtml}></div>
     </section>
   ) : (
-    <div class="ls-soil-note" set:html={entry.html}></div>
+    <div class="ls-soil-note" set:html={contentHtml}></div>
   )
 )}

@@ -6,12 +6,14 @@
 // Kejujuran: tiap studi berada di LOKASI spesifik dalam wilayah tsb (disebut namanya).
 
 export interface SoilCharacter {
+  htmlStrauss?: string;
   html: string;
 }
 
 export const SOIL_CHARACTER: Record<string, SoilCharacter> = {
   jakarta: {
     html: 'Jakarta terbentuk dari endapan aluvial, bekas rawa, dan timbunan organik. Di kawasan pesisir seperti <strong>Jakarta Utara</strong>, tanahnya cenderung lunak dan berair (<a href="https://lib.ui.ac.id/detail?id=20238696" target="_blank" rel="noopener">penelitian UI</a>); sedangkan kawasan <strong>Cengkareng</strong> (Jakarta Barat) tercatat sebagai wilayah rawan <a href="https://journal.untar.ac.id/index.php/jstupa/article/view/12876" target="_blank" rel="noopener">penurunan tanah (land subsidence)</a>. Secara umum, tanah Jakarta dan sekitarnya juga <a href="https://journal.untar.ac.id/index.php/jmts/article/view/28010" target="_blank" rel="noopener">berpotensi ekspansif</a>, yaitu mudah mengembang saat basah dan menyusut saat kering.',
+    htmlStrauss: 'Tanah Jakarta terdiri dari endapan aluvial muda, bekas rawa, dan timbunan organik. Untuk pekerjaan strauss pile yang kedalamannya terbatas pada 6–8 meter, lapisan tanah yang dihadapi umumnya masih dalam zona lempung lunak hingga sedang. Di kawasan pesisir seperti <strong>Jakarta Utara</strong>, tanahnya lebih berair sehingga pengeboran manual bisa lebih lambat dan membutuhkan casing untuk mencegah kelongsoran. Sementara di wilayah seperti <strong>Cengkareng</strong> dan <strong>Kalideres</strong> yang rawan penurunan tanah, strauss pile masih memadai untuk bangunan ringan seperti rumah tinggal atau pagar, selama kedalaman rencananya tidak melebihi kapasitas metode manual.',
   },
   bekasi: {
     html: 'Sebagian tanah Bekasi berupa lempung ekspansif yang mudah mengembang dan menyusut. Di kawasan <strong>Cikarang Pusat (DeltaMas)</strong>, karakteristik fisis <a href="https://repository.usbypkp.ac.id/4986/" target="_blank" rel="noopener">tanah lempungnya</a> pernah diteliti. Selain itu, sebagian wilayah Bekasi juga rentan <a href="http://jurnal.uqgresik.ac.id/index.php/qjms/article/view/62" target="_blank" rel="noopener">penurunan tanah (land subsidence)</a> akibat pengambilan air tanah yang berlebihan.',

@@ -20,8 +20,8 @@ function hash(str: string): number {
   return h;
 }
 
-export function exampleForCity(city: any): ExampleCalc {
-  const cs = city.caseStudy;
+export function exampleForCity(city: any, service: "borepile" | "strauss" = "borepile"): ExampleCalc {
+  const cs = service === "strauss" && city.caseStudyStrauss ? city.caseStudyStrauss : city.caseStudy;
   const isReal = !!(cs && cs.isReal);
 
   let items: ExampleItem[] = [];

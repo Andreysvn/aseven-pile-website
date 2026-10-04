@@ -1,408 +1,433 @@
 [
-    {
-        "slug":  "jakarta",
-        "name":  "Jakarta",
-        "province":  "DKI Jakarta",
-        "description":  "Layanan spesialis jasa \u0026 harga bore pile mesin dan strauss pile terpercaya di seluruh wilayah Jakarta. Solusi pondasi aman, cepat, dan berstandar SNI untuk gedung dan rumah tinggal.",
-        "localFaqs":  [
-                          {
-                              "question":  "Apakah Aseven Pile melayani seluruh wilayah kota Jakarta?",
-                              "answer":  "Ya, kami melayani proyek pengeboran pondasi di seluruh wilayah DKI Jakarta meliputi Jakarta Pusat, Jakarta Selatan, Jakarta Barat, Jakarta Timur, hingga Jakarta Utara."
-                          },
-                          {
-                              "question":  "Bagaimana izin kerja malam untuk proyek di Jakarta?",
-                              "answer":  "Untuk proyek di jalan protokol atau area komersial Jakarta yang mengharuskan kerja malam, mesin bor kami dilengkapi dengan peredam suara (low noise) sehingga minim gangguan dan aman dari keluhan warga."
-                          },
-                          {
-                              "question":  "Berapa harga bore pile per meter di Jakarta tahun 2026?",
-                              "answer":  "Harga jasa bore pile mesin di Jakarta tahun 2026 berkisar antara Rp 115.000 hingga Rp 350.000 per meter lari, tergantung diameter yang dipilih (30cm, 40cm, 50cm, 60cm, atau 80cm). Harga tersebut adalah harga jasa bor saja, belum termasuk material besi dan beton."
-                          },
-                          {
-                              "question":  "Apakah bore pile aman untuk rumah di perumahan padat Jakarta?",
-                              "answer":  "Sangat aman. Metode bore pile mesin tidak menimbulkan getaran seperti tiang pancang. Kami rutin mengerjakan proyek di perumahan padat di Tebet, Kebayoran, Cilandak, dan Kelapa Gading tanpa ada keluhan kerusakan dari bangunan sekitar."
-                          },
-                          {
-                              "question":  "Berapa lama proses pengerjaan bore pile untuk ruko 3 lantai di Jakarta?",
-                              "answer":  "Untuk ruko 3 lantai standar di Jakarta dengan kebutuhan sekitar 15-20 titik bore pile, pengerjaan rata-rata memakan waktu 4-7 hari kerja tergantung kondisi tanah dan cuaca. Tim kami bekerja dari pagi hingga sore hari."
-                          },
-                          {
-                              "question":  "Apakah tanah di Jakarta Utara yang rawa bisa dipasang bore pile?",
-                              "answer":  "Bisa. Jakarta Utara memang memiliki tanah rawa dengan muka air tanah yang tinggi. Kami menggunakan metode bor basah (wash boring) untuk menstabilkan dinding lubang, lalu pengecoran dilakukan dengan pipa tremi agar beton tidak bercampur lumpur."
-                          },
-                          {
-                              "question":  "Apa bedanya harga jasa saja dengan harga all-in bore pile?",
-                              "answer":  "Harga jasa saja hanya mencakup biaya pengeboran per meter lari. Sedangkan harga all-in sudah termasuk pengadaan material besi tulangan dan beton readymix. Gunakan kalkulator di halaman ini untuk menghitung estimasi biaya all-in proyek Anda."
-                          },
-                          {
-                              "question":  "Apakah Aseven Pile menyediakan jasa survei tanah sebelum pengeboran?",
-                              "answer":  "Ya, kami menyediakan layanan survei lokasi gratis untuk wilayah Jakarta dan sekitarnya. Tim teknis kami akan meninjau kondisi tanah, akses jalan, dan menentukan spesifikasi bore pile yang paling sesuai untuk proyek Anda."
-                          }
-                      ],
-        "subAreas":  [
-                         {
-                             "name":  "Jakarta Selatan",
-                             "slug":  "jakarta-selatan"
-                         },
-                         {
-                             "name":  "Jakarta Utara",
-                             "slug":  "jakarta-utara"
-                         },
-                         {
-                             "name":  "Jakarta Barat",
-                             "slug":  "jakarta-barat"
-                         },
-                         {
-                             "name":  "Jakarta Timur",
-                             "slug":  "jakarta-timur"
-                         },
-                         {
-                             "name":  "Jakarta Pusat",
-                             "slug":  "jakarta-pusat"
-                         }
-                     ],
-        "groupedAreas":  [
-                             {
-                                 "groupName":  "Jakarta Pusat",
-                                 "groupSlug":  "jakarta-pusat",
-                                 "areas":  [
-                                               "Tanah Abang",
-                                               "Menteng",
-                                               "Senen",
-                                               "Kemayoran",
-                                               "Cempaka Putih",
-                                               "Gambir",
-                                               "Johar Baru",
-                                               "Sawah Besar"
-                                           ]
-                             },
-                             {
-                                 "groupName":  "Jakarta Barat",
-                                 "groupSlug":  "jakarta-barat",
-                                 "areas":  [
-                                               "Grogol Petamburan",
-                                               "Kembangan",
-                                               "Kalideres",
-                                               "Cengkareng",
-                                               "Kebon Jeruk",
-                                               "Palmerah",
-                                               "Tambora",
-                                               "Taman Sari"
-                                           ]
-                             },
-                             {
-                                 "groupName":  "Jakarta Selatan",
-                                 "groupSlug":  "jakarta-selatan",
-                                 "areas":  [
-                                               "Kebayoran Baru",
-                                               "Kebayoran Lama",
-                                               "Pesanggrahan",
-                                               "Cilandak",
-                                               "Pasar Minggu",
-                                               "Jagakarsa",
-                                               "Mampang Prapatan",
-                                               "Pancoran",
-                                               "Tebet",
-                                               "Setiabudi"
-                                           ]
-                             },
-                             {
-                                 "groupName":  "Jakarta Timur",
-                                 "groupSlug":  "jakarta-timur",
-                                 "areas":  [
-                                               "Pulo Gadung",
-                                               "Jatinegara",
-                                               "Duren Sawit",
-                                               "Kramat Jati",
-                                               "Makasar",
-                                               "Cakung",
-                                               "Cipayung",
-                                               "Ciracas",
-                                               "Matraman",
-                                               "Pasar Rebo"
-                                           ]
-                             },
-                             {
-                                 "groupName":  "Jakarta Utara",
-                                 "groupSlug":  "jakarta-utara",
-                                 "areas":  [
-                                               "Tanjung Priok",
-                                               "Koja",
-                                               "Cilincing",
-                                               "Kelapa Gading",
-                                               "Pademangan",
-                                               "Penjaringan",
-                                               "Sunter"
-                                           ]
-                             }
-                         ],
-        "soilType":  "Tanah Aluvial \u0026 Endapan Lempung",
-        "terrain":  "Datar, Muka Air Tanah Tinggi",
-        "averageDepth":  "18 - 25 meter",
-        "soilDescription":  "Wilayah Jakarta didominasi oleh tanah aluvial lunak dengan muka air tanah yang sangat tinggi. Pengeboran wajib menggunakan metode wash boring dengan sirkulasi air atau sistem full casing untuk mencegah kelongsoran dinding lubang bor sebelum pengecoran.",
-        "caseStudy":  {
-                          "items":  [
-                                        {
-                                            "depthM":  15,
-                                            "points":  14,
-                                            "diameter":  30,
-                                            "price":  120000
-                                        },
-                                        {
-                                            "depthM":  15,
-                                            "points":  2,
-                                            "diameter":  50,
-                                            "price":  190000
-                                        }
-                                    ],
-                          "isReal":  true
-                      }
+  {
+    "slug": "jakarta",
+    "name": "Jakarta",
+    "province": "DKI Jakarta",
+    "description": "Layanan spesialis jasa & harga bore pile mesin dan strauss pile terpercaya di seluruh wilayah Jakarta. Solusi pondasi aman, cepat, dan berstandar SNI untuk gedung dan rumah tinggal.",
+    "localFaqs": [
+      {
+        "question": "Apakah Aseven Pile melayani seluruh wilayah kota Jakarta?",
+        "answer": "Ya, kami melayani proyek pengeboran pondasi di seluruh wilayah DKI Jakarta meliputi Jakarta Pusat, Jakarta Selatan, Jakarta Barat, Jakarta Timur, hingga Jakarta Utara."
+      },
+      {
+        "question": "Bagaimana izin kerja malam untuk proyek di Jakarta?",
+        "answer": "Untuk proyek di jalan protokol atau area komersial Jakarta yang mengharuskan kerja malam, mesin bor kami dilengkapi dengan peredam suara (low noise) sehingga minim gangguan dan aman dari keluhan warga."
+      },
+      {
+        "question": "Berapa harga bore pile per meter di Jakarta tahun 2026?",
+        "answer": "Harga jasa bore pile mesin di Jakarta tahun 2026 berkisar antara Rp 115.000 hingga Rp 350.000 per meter lari, tergantung diameter yang dipilih (30cm, 40cm, 50cm, 60cm, atau 80cm). Harga tersebut adalah harga jasa bor saja, belum termasuk material besi dan beton."
+      },
+      {
+        "question": "Apakah bore pile aman untuk rumah di perumahan padat Jakarta?",
+        "answer": "Sangat aman. Metode bore pile mesin tidak menimbulkan getaran seperti tiang pancang. Kami rutin mengerjakan proyek di perumahan padat di Tebet, Kebayoran, Cilandak, dan Kelapa Gading tanpa ada keluhan kerusakan dari bangunan sekitar."
+      },
+      {
+        "question": "Berapa lama proses pengerjaan bore pile untuk ruko 3 lantai di Jakarta?",
+        "answer": "Untuk ruko 3 lantai standar di Jakarta dengan kebutuhan sekitar 15-20 titik bore pile, pengerjaan rata-rata memakan waktu 4-7 hari kerja tergantung kondisi tanah dan cuaca. Tim kami bekerja dari pagi hingga sore hari."
+      },
+      {
+        "question": "Apakah tanah di Jakarta Utara yang rawa bisa dipasang bore pile?",
+        "answer": "Bisa. Jakarta Utara memang memiliki tanah rawa dengan muka air tanah yang tinggi. Kami menggunakan metode bor basah (wash boring) untuk menstabilkan dinding lubang, lalu pengecoran dilakukan dengan pipa tremi agar beton tidak bercampur lumpur."
+      },
+      {
+        "question": "Apa bedanya harga jasa saja dengan harga all-in bore pile?",
+        "answer": "Harga jasa saja hanya mencakup biaya pengeboran per meter lari. Sedangkan harga all-in sudah termasuk pengadaan material besi tulangan dan beton readymix. Gunakan kalkulator di halaman ini untuk menghitung estimasi biaya all-in proyek Anda."
+      },
+      {
+        "question": "Apakah Aseven Pile menyediakan jasa survei tanah sebelum pengeboran?",
+        "answer": "Ya, kami menyediakan layanan survei lokasi gratis untuk wilayah Jakarta dan sekitarnya. Tim teknis kami akan meninjau kondisi tanah, akses jalan, dan menentukan spesifikasi bore pile yang paling sesuai untuk proyek Anda."
+      }
+    ],
+    "subAreas": [
+      {
+        "name": "Jakarta Selatan",
+        "slug": "jakarta-selatan"
+      },
+      {
+        "name": "Jakarta Utara",
+        "slug": "jakarta-utara"
+      },
+      {
+        "name": "Jakarta Barat",
+        "slug": "jakarta-barat"
+      },
+      {
+        "name": "Jakarta Timur",
+        "slug": "jakarta-timur"
+      },
+      {
+        "name": "Jakarta Pusat",
+        "slug": "jakarta-pusat"
+      }
+    ],
+    "groupedAreas": [
+      {
+        "groupName": "Jakarta Pusat",
+        "groupSlug": "jakarta-pusat",
+        "areas": [
+          "Tanah Abang",
+          "Menteng",
+          "Senen",
+          "Kemayoran",
+          "Cempaka Putih",
+          "Gambir",
+          "Johar Baru",
+          "Sawah Besar"
+        ]
+      },
+      {
+        "groupName": "Jakarta Barat",
+        "groupSlug": "jakarta-barat",
+        "areas": [
+          "Grogol Petamburan",
+          "Kembangan",
+          "Kalideres",
+          "Cengkareng",
+          "Kebon Jeruk",
+          "Palmerah",
+          "Tambora",
+          "Taman Sari"
+        ]
+      },
+      {
+        "groupName": "Jakarta Selatan",
+        "groupSlug": "jakarta-selatan",
+        "areas": [
+          "Kebayoran Baru",
+          "Kebayoran Lama",
+          "Pesanggrahan",
+          "Cilandak",
+          "Pasar Minggu",
+          "Jagakarsa",
+          "Mampang Prapatan",
+          "Pancoran",
+          "Tebet",
+          "Setiabudi"
+        ]
+      },
+      {
+        "groupName": "Jakarta Timur",
+        "groupSlug": "jakarta-timur",
+        "areas": [
+          "Pulo Gadung",
+          "Jatinegara",
+          "Duren Sawit",
+          "Kramat Jati",
+          "Makasar",
+          "Cakung",
+          "Cipayung",
+          "Ciracas",
+          "Matraman",
+          "Pasar Rebo"
+        ]
+      },
+      {
+        "groupName": "Jakarta Utara",
+        "groupSlug": "jakarta-utara",
+        "areas": [
+          "Tanjung Priok",
+          "Koja",
+          "Cilincing",
+          "Kelapa Gading",
+          "Pademangan",
+          "Penjaringan",
+          "Sunter"
+        ]
+      }
+    ],
+    "soilType": "Tanah Aluvial & Endapan Lempung",
+    "terrain": "Datar, Muka Air Tanah Tinggi",
+    "averageDepth": "18 - 25 meter",
+    "soilDescription": "Wilayah Jakarta didominasi oleh tanah aluvial lunak dengan muka air tanah yang sangat tinggi. Pengeboran wajib menggunakan metode wash boring dengan sirkulasi air atau sistem full casing untuk mencegah kelongsoran dinding lubang bor sebelum pengecoran.",
+    "caseStudy": {
+      "items": [
+        {
+          "depthM": 15,
+          "points": 14,
+          "diameter": 30,
+          "price": 120000
+        },
+        {
+          "depthM": 15,
+          "points": 2,
+          "diameter": 50,
+          "price": 190000
+        }
+      ],
+      "isReal": true
     },
-    {
-        "slug":  "bekasi",
-        "name":  "Bekasi",
-        "province":  "Jawa Barat",
-        "description":  "Kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya di Bekasi. Harga transparan dan survei gratis.",
-        "localFaqs":  [
-                          {
-                              "question":  "Bagaimana penanganan lumpur bor di daerah rawa/tanah liat Bekasi?",
-                              "answer":  "Kami menggunakan sistem sirkulasi air yang aman untuk menahan dinding lubang bor agar tidak longsor, sangat efektif untuk kontur tanah Bekasi."
-                          },
-                          {
-                              "question":  "Berapa harga bore pile di Bekasi tahun 2026?",
-                              "answer":  "Harga jasa bore pile mesin di Bekasi berkisar Rp 115.000 - Rp 350.000 per meter lari tergantung diameter. Biaya mobilisasi alat dari pool kami ke Bekasi mulai dari Rp 3.500.000."
-                          },
-                          {
-                              "question":  "Apakah melayani area Cikarang dan Tambun?",
-                              "answer":  "Ya, kami melayani seluruh wilayah Bekasi termasuk Bekasi Barat, Bekasi Timur, Cikarang, Tambun, dan sekitarnya. Tim dan alat berat kami siap dimobilisasi ke lokasi proyek Anda."
-                          },
-                          {
-                              "question":  "Apakah bore pile cocok untuk tanah lempung ekspansif di Bekasi?",
-                              "answer":  "Sangat cocok. Tanah lempung ekspansif di Bekasi yang mudah menyusut dan mengembang justru membutuhkan pondasi dalam seperti bore pile untuk mencapai lapisan tanah keras yang stabil di bawahnya."
-                          },
-                          {
-                              "question":  "Berapa kedalaman bore pile yang direkomendasikan di Bekasi?",
-                              "answer":  "Untuk wilayah Bekasi, kedalaman bore pile umumnya berkisar 12-20 meter tergantung lokasi spesifik. Area bekas rawa seperti Bekasi Utara mungkin membutuhkan kedalaman lebih untuk mencapai tanah keras."
-                          },
-                          {
-                              "question":  "Apakah bisa bore pile untuk gudang di kawasan industri Bekasi?",
-                              "answer":  "Tentu bisa. Kami sering menangani proyek pengeboran pondasi untuk gudang dan pabrik di kawasan industri Bekasi seperti MM2100, EJIP, dan Jababeka dengan standar K3 yang ketat."
-                          }
-                      ],
-        "subAreas":  [
-                         {
-                             "name":  "Bekasi Barat",
-                             "slug":  "bekasi-barat"
-                         },
-                         {
-                             "name":  "Bekasi Timur",
-                             "slug":  "bekasi-timur"
-                         },
-                         {
-                             "name":  "Tambun",
-                             "slug":  "tambun"
-                         },
-                         {
-                             "name":  "Cikarang",
-                             "slug":  "cikarang"
-                         }
-                     ],
-        "soilType":  "Lempung Ekspansif \u0026 Rawa",
-        "terrain":  "Datar, Kondisi Labil",
-        "averageDepth":  "12 - 20 meter",
-        "soilDescription":  "Karakteristik tanah Bekasi didominasi oleh lempung ekspansif yang mudah menyusut dan mengembang. Pengeboran pondasi di sini membutuhkan penanganan khusus agar dinding bor tidak runtuh akibat sifat tanah lempung yang lunak saat terkena air."
-    },
-    {
-        "slug":  "bogor",
-        "name":  "Bogor",
-        "province":  "Jawa Barat",
-        "description":  "Jasa bore pile dan strauss pile berpengalaman di wilayah Bogor. Siap menangani berbagai kondisi tanah mulai dari tanah liat hingga bebatuan.",
-        "localFaqs":  [
-                          {
-                              "question":  "Apakah mesin bore pile bisa mengebor tanah berbatu di wilayah Bogor?",
-                              "answer":  "Ya, mesin bore pile mini crane kami dilengkapi dengan mata bor khusus (rock auger/core barrel) yang dirancang untuk menembus lapisan tanah keras atau bebatuan yang sering ditemui di kontur tanah Bogor."
-                          },
-                          {
-                              "question":  "Berapa harga bore pile di Bogor?",
-                              "answer":  "Harga jasa bore pile mesin di Bogor berkisar Rp 115.000 - Rp 350.000 per meter lari. Biaya mobilisasi menyesuaikan jarak dari pool alat kami."
-                          },
-                          {
-                              "question":  "Apakah bore pile bisa dikerjakan di area berbukit seperti Sentul atau Puncak?",
-                              "answer":  "Bisa, selama akses jalan bisa dilalui kendaraan roda empat untuk mengangkut mesin mini crane. Tim kami berpengalaman menangani proyek di area berkontur seperti Sentul, Ciawi, dan sekitar Puncak Bogor."
-                          },
-                          {
-                              "question":  "Kedalaman bore pile di Bogor biasanya berapa meter?",
-                              "answer":  "Karena kontur tanah Bogor yang cenderung keras (latosol/berbatu), kedalaman bore pile umumnya lebih dangkal yaitu 8-15 meter. Namun perlu survei N-SPT terlebih dahulu untuk memastikan."
-                          },
-                          {
-                              "question":  "Apakah bore pile aman untuk villa di lereng bukit Bogor?",
-                              "answer":  "Sangat aman dan justru direkomendasikan. Bore pile mampu menembus lapisan tanah yang labil di lereng bukit dan menanamkan pondasi hingga ke lapisan keras (bedrock), sehingga bangunan Anda kokoh meskipun dibangun di kontur miring."
-                          },
-                          {
-                              "question":  "Pilih bore pile atau strauss pile untuk rumah di Bogor?",
-                              "answer":  "Jika tanah di lokasi Anda berbatu atau Anda membangun lebih dari 2 lantai, gunakan bore pile mesin. Strauss pile hanya cocok untuk tanah lunak dan bangunan ringan 1-2 lantai di gang sempit."
-                          }
-                      ],
-        "subAreas":  [
-
-                     ],
-        "soilType":  "Tanah Merah (Latosol) \u0026 Berbatu",
-        "terrain":  "Berbukit \u0026 Bergelombang",
-        "averageDepth":  "8 - 15 meter",
-        "soilDescription":  "Tanah di wilayah Bogor umumnya bertekstur gembur kemerahan dan sering ditemukan lapisan bebatuan (boulder) atau cadas. Penggunaan mata bor khusus (rock auger/core barrel) mutlak diperlukan untuk menembus lapisan keras yang dangkal ini."
-    },
-    {
-        "slug":  "depok",
-        "name":  "Depok",
-        "province":  "Jawa Barat",
-        "description":  "Layanan spesialis jasa pengeboran pondasi bore pile mesin dan strauss pile manual di Depok. Harga murah, kualitas terjamin.",
-        "localFaqs":  [
-                          {
-                              "question":  "Berapa lama proses pengerjaan bore pile untuk satu rumah di Depok?",
-                              "answer":  "Rata-rata untuk rumah tinggal standar di Depok (sekitar 30 titik), pengerjaan bore pile mesin memakan waktu sekitar 3-5 hari kerja tergantung cuaca dan kondisi tanah."
-                          },
-                          {
-                              "question":  "Berapa biaya bore pile untuk rumah 2 lantai di Depok?",
-                              "answer":  "Untuk rumah 2 lantai standar di Depok dengan kebutuhan sekitar 15 titik bore pile diameter 30cm kedalaman 10 meter, estimasi biaya jasa pengeboran sekitar Rp 17 juta (belum termasuk material dan mobilisasi)."
-                          },
-                          {
-                              "question":  "Apakah bore pile cocok untuk tanah padas di Depok?",
-                              "answer":  "Sangat cocok. Tanah padas di Depok justru menjadi keuntungan karena lapisan tanah keras relatif dangkal, sehingga bore pile tidak perlu ditanamkan terlalu dalam. Metode dry boring seringkali bisa diaplikasikan di sini."
-                          },
-                          {
-                              "question":  "Apakah melayani area Margonda, Cimanggis, dan Beji?",
-                              "answer":  "Ya, kami melayani seluruh wilayah kota Depok termasuk Pancoran Mas, Margonda, Beji, Cimanggis, Sukmajaya, Limo, Cinere, dan sekitarnya."
-                          },
-                          {
-                              "question":  "Apakah bore pile bisa masuk gang kecil di perumahan Depok?",
-                              "answer":  "Mesin bore pile mini crane kami membutuhkan akses jalan minimal seukuran mobil pickup. Jika akses lebih sempit dari itu, kami sarankan menggunakan metode strauss pile manual yang bisa masuk gang sempit."
-                          },
-                          {
-                              "question":  "Kapan waktu terbaik untuk bore pile di Depok?",
-                              "answer":  "Idealnya di musim kemarau (April-Oktober). Namun kami tetap bisa beroperasi di musim hujan dengan penyesuaian jadwal. Pengecoran tetap menggunakan pipa tremi untuk menjaga mutu beton."
-                          }
-                      ],
-        "subAreas":  [
-                         {
-                             "name":  "Pancoran Mas",
-                             "slug":  "pancoran-mas"
-                         },
-                         {
-                             "name":  "Margonda",
-                             "slug":  "margonda"
-                         },
-                         {
-                             "name":  "Beji",
-                             "slug":  "beji"
-                         },
-                         {
-                             "name":  "Cimanggis",
-                             "slug":  "cimanggis"
-                         }
-                     ],
-        "soilType":  "Tanah Padas \u0026 Lempung Pasiran",
-        "terrain":  "Relatif Datar \u0026 Sedikit Bergelombang",
-        "averageDepth":  "10 - 18 meter",
-        "soilDescription":  "Kondisi tanah di Depok tergolong cukup stabil dengan kombinasi lempung pasiran dan lapisan padas di kedalaman sedang. Metode dry boring (bor kering) seringkali bisa diaplikasikan di sini sehingga proses kerja menjadi lebih bersih dan cepat."
-    },
-    {
-        "slug":  "tangerang",
-        "name":  "Tangerang",
-        "province":  "Banten",
-        "description":  "Kontraktor bore pile dan strauss pile terdekat di Tangerang. Solusi pondasi dalam untuk ruko, pabrik, dan perumahan.",
-        "localFaqs":  [
-                          {
-                              "question":  "Apakah melayani jasa bore pile untuk area industri di Tangerang?",
-                              "answer":  "Tentu, kami sering melayani pengeboran pondasi bore pile untuk pembangunan gudang dan pabrik di kawasan industri Tangerang dengan standar K3 yang ketat."
-                          },
-                          {
-                              "question":  "Berapa harga bore pile di Tangerang?",
-                              "answer":  "Harga jasa bore pile mesin di Tangerang berkisar Rp 115.000 - Rp 350.000 per meter lari tergantung diameter. Masih termasuk wilayah Jabodetabek sehingga biaya mobilisasi mulai dari Rp 3.500.000."
-                          },
-                          {
-                              "question":  "Apakah melayani BSD, Alam Sutera, dan Cikupa?",
-                              "answer":  "Ya, kami melayani seluruh wilayah Tangerang termasuk BSD, Alam Sutera, Cikupa, Balaraja, Tigaraksa, Cisauk, dan Karawaci."
-                          },
-                          {
-                              "question":  "Bagaimana kondisi tanah di Tangerang untuk bore pile?",
-                              "answer":  "Tanah di Tangerang bervariasi dari lempung berpasir hingga endapan sedimen. Kedalaman tanah keras cukup bervariasi tergantung area (BSD cenderung lebih keras dibanding Cikupa). Survei awal sangat disarankan."
-                          },
-                          {
-                              "question":  "Bore pile atau tiang pancang untuk pabrik di Tangerang?",
-                              "answer":  "Bore pile lebih aman untuk area pabrik yang berdekatan dengan bangunan lain karena tidak menimbulkan getaran. Tiang pancang bisa merusak struktur bangunan sekitar akibat getaran yang sangat keras saat pemancangan."
-                          },
-                          {
-                              "question":  "Berapa kedalaman bore pile di Tangerang?",
-                              "answer":  "Untuk wilayah Tangerang, kedalaman bore pile umumnya berkisar 15-22 meter. Area dekat pesisir utara Tangerang mungkin membutuhkan kedalaman lebih karena muka air tanah tinggi."
-                          }
-                      ],
-        "subAreas":  [
-
-                     ],
-        "soilType":  "Lempung Berpasir \u0026 Sedimen",
-        "terrain":  "Datar",
-        "averageDepth":  "15 - 22 meter",
-        "soilDescription":  "Wilayah Tangerang memiliki struktur tanah endapan (sedimen) yang bervariasi, dari lempung kaku hingga lapisan berpasir. Kedalaman tanah keras umumnya cukup bervariasi tergantung area (seperti BSD vs Cikupa), membutuhkan sistem bor basah untuk keamanan galian."
-    },
-    {
-        "slug":  "tangerang-selatan",
-        "name":  "Tangerang Selatan",
-        "province":  "Banten",
-        "description":  "Jasa bore pile dan strauss pile manual area Tangerang Selatan (Tangsel). Bebas polusi suara, aman untuk lingkungan padat.",
-        "localFaqs":  [
-                          {
-                              "question":  "Pilih bore pile atau strauss pile untuk renovasi rumah di Tangsel?",
-                              "answer":  "Jika akses jalan masuk ke perumahan Anda di Tangsel sangat sempit (kurang dari 2 meter) dan Anda ingin menghindari kebisingan, strauss pile (manual) adalah pilihan terbaik. Namun jika butuh pondasi lebih dalam dari 6 meter, kami sarankan bore pile mesin."
-                          },
-                          {
-                              "question":  "Berapa biaya bore pile untuk rumah di BSD atau Bintaro?",
-                              "answer":  "Untuk rumah 2-3 lantai di BSD atau Bintaro dengan kebutuhan 15-20 titik bore pile, estimasi biaya jasa mulai dari Rp 17-25 juta (tergantung diameter dan kedalaman), belum termasuk material."
-                          },
-                          {
-                              "question":  "Apakah bore pile aman untuk cluster padat di Tangsel?",
-                              "answer":  "Sangat aman. Bore pile mesin tidak menimbulkan getaran keras sehingga tidak akan merusak tembok rumah tetangga. Kami rutin mengerjakan proyek di cluster-cluster padat di BSD, Bintaro, dan Pamulang."
-                          },
-                          {
-                              "question":  "Apakah melayani area Pamulang, Serpong, dan Ciputat?",
-                              "answer":  "Ya, kami melayani seluruh wilayah Tangerang Selatan termasuk Pamulang, Serpong, Ciputat, Pondok Aren, dan Setu."
-                          }
-                      ],
-        "subAreas":  [
-
-                     ],
-        "soilType":  "Tanah Lempung/Pasir Standar",
-        "terrain":  "Bervariasi",
-        "averageDepth":  "10 - 20 meter",
-        "soilDescription":  "Secara umum, kondisi tanah di wilayah Tangerang Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering)."
-    },
-    {
-        "slug":  "jakarta-selatan",
-        "name":  "Jakarta Selatan",
-        "province":  "DKI Jakarta",
-        "description":  "Layanan jasa bore pile dan strauss pile di wilayah Jakarta Selatan. Ahli menangani kontur tanah padas.",
-        "localFaqs":  [
-
-                      ],
-        "subAreas":  [
-                         {
-                             "name":  "Tebet",
-                             "slug":  "tebet"
-                         },
-                         {
-                             "name":  "Kebayoran Baru",
-                             "slug":  "kebayoran-baru"
-                         },
-                         {
-                             "name":  "Cilandak",
-                             "slug":  "cilandak"
-                         },
-                         {
-                             "name":  "Pancoran",
-                             "slug":  "pancoran"
-                         }
-                     ],
-        "soilType":  "Tanah Lempung/Pasir Standar",
-        "terrain":  "Bervariasi",
-        "averageDepth":  "10 - 20 meter",
-        "soilDescription":  "Secara umum, kondisi tanah di wilayah Jakarta Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering)."
+    "localFaqsStrauss": [
+      {
+        "question": "Apa perbedaan Strauss Pile dan Bore Pile Mesin?",
+        "answer": "Strauss pile dikerjakan manual dengan tenaga manusia, kedalaman terbatas 6-8 meter, dan cocok untuk area sempit. Bore pile mesin menggunakan mini crane hidrolik, bisa mencapai 30 meter, dan cocok untuk bangunan berat."
+      },
+      {
+        "question": "Berapa lama pengerjaan strauss pile untuk rumah 2 lantai di Jakarta?",
+        "answer": "Untuk rumah 2 lantai dengan 12-18 titik pada kedalaman 6 meter, pengerjaan biasanya memakan waktu 5-8 hari kerja, tergantung kondisi tanah dan akses lokasi."
+      },
+      {
+        "question": "Apakah strauss pile aman untuk bangunan yang berbatasan langsung dengan tetangga?",
+        "answer": "Ya. Karena tidak menggunakan mesin, tidak ada getaran maupun suara bising. Ini justru keunggulan utama strauss pile dibandingkan metode lain di perumahan padat."
+      },
+      {
+        "question": "Apakah strauss pile bisa dikerjakan di dalam ruangan atau basement?",
+        "answer": "Bisa. Alat bor manual kami sangat ringan dan tidak menghasilkan gas buang, sehingga cocok untuk pekerjaan di dalam ruangan atau area tertutup."
+      },
+      {
+        "question": "Apakah tanah di Jakarta Utara yang berawa bisa dipasang strauss pile?",
+        "answer": "Bisa, dengan catatan kedalaman dibatasi pada lapisan tanah yang stabil dan menggunakan casing untuk mencegah kelongsoran. Untuk area yang sangat berair, kami akan mengevaluasi apakah strauss pile masih memadai atau perlu bore pile mesin."
+      }
+    ],
+    "caseStudyStrauss": {
+      "isReal": true,
+      "items": [
+        {
+          "diameterCm": 30,
+          "depthM": 6,
+          "points": 22,
+          "price": 85000
+        }
+      ]
     }
+  },
+  {
+    "slug": "bekasi",
+    "name": "Bekasi",
+    "province": "Jawa Barat",
+    "description": "Kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya di Bekasi. Harga transparan dan survei gratis.",
+    "localFaqs": [
+      {
+        "question": "Bagaimana penanganan lumpur bor di daerah rawa/tanah liat Bekasi?",
+        "answer": "Kami menggunakan sistem sirkulasi air yang aman untuk menahan dinding lubang bor agar tidak longsor, sangat efektif untuk kontur tanah Bekasi."
+      },
+      {
+        "question": "Berapa harga bore pile di Bekasi tahun 2026?",
+        "answer": "Harga jasa bore pile mesin di Bekasi berkisar Rp 115.000 - Rp 350.000 per meter lari tergantung diameter. Biaya mobilisasi alat dari pool kami ke Bekasi mulai dari Rp 3.500.000."
+      },
+      {
+        "question": "Apakah melayani area Cikarang dan Tambun?",
+        "answer": "Ya, kami melayani seluruh wilayah Bekasi termasuk Bekasi Barat, Bekasi Timur, Cikarang, Tambun, dan sekitarnya. Tim dan alat berat kami siap dimobilisasi ke lokasi proyek Anda."
+      },
+      {
+        "question": "Apakah bore pile cocok untuk tanah lempung ekspansif di Bekasi?",
+        "answer": "Sangat cocok. Tanah lempung ekspansif di Bekasi yang mudah menyusut dan mengembang justru membutuhkan pondasi dalam seperti bore pile untuk mencapai lapisan tanah keras yang stabil di bawahnya."
+      },
+      {
+        "question": "Berapa kedalaman bore pile yang direkomendasikan di Bekasi?",
+        "answer": "Untuk wilayah Bekasi, kedalaman bore pile umumnya berkisar 12-20 meter tergantung lokasi spesifik. Area bekas rawa seperti Bekasi Utara mungkin membutuhkan kedalaman lebih untuk mencapai tanah keras."
+      },
+      {
+        "question": "Apakah bisa bore pile untuk gudang di kawasan industri Bekasi?",
+        "answer": "Tentu bisa. Kami sering menangani proyek pengeboran pondasi untuk gudang dan pabrik di kawasan industri Bekasi seperti MM2100, EJIP, dan Jababeka dengan standar K3 yang ketat."
+      }
+    ],
+    "subAreas": [
+      {
+        "name": "Bekasi Barat",
+        "slug": "bekasi-barat"
+      },
+      {
+        "name": "Bekasi Timur",
+        "slug": "bekasi-timur"
+      },
+      {
+        "name": "Tambun",
+        "slug": "tambun"
+      },
+      {
+        "name": "Cikarang",
+        "slug": "cikarang"
+      }
+    ],
+    "soilType": "Lempung Ekspansif & Rawa",
+    "terrain": "Datar, Kondisi Labil",
+    "averageDepth": "12 - 20 meter",
+    "soilDescription": "Karakteristik tanah Bekasi didominasi oleh lempung ekspansif yang mudah menyusut dan mengembang. Pengeboran pondasi di sini membutuhkan penanganan khusus agar dinding bor tidak runtuh akibat sifat tanah lempung yang lunak saat terkena air."
+  },
+  {
+    "slug": "bogor",
+    "name": "Bogor",
+    "province": "Jawa Barat",
+    "description": "Jasa bore pile dan strauss pile berpengalaman di wilayah Bogor. Siap menangani berbagai kondisi tanah mulai dari tanah liat hingga bebatuan.",
+    "localFaqs": [
+      {
+        "question": "Apakah mesin bore pile bisa mengebor tanah berbatu di wilayah Bogor?",
+        "answer": "Ya, mesin bore pile mini crane kami dilengkapi dengan mata bor khusus (rock auger/core barrel) yang dirancang untuk menembus lapisan tanah keras atau bebatuan yang sering ditemui di kontur tanah Bogor."
+      },
+      {
+        "question": "Berapa harga bore pile di Bogor?",
+        "answer": "Harga jasa bore pile mesin di Bogor berkisar Rp 115.000 - Rp 350.000 per meter lari. Biaya mobilisasi menyesuaikan jarak dari pool alat kami."
+      },
+      {
+        "question": "Apakah bore pile bisa dikerjakan di area berbukit seperti Sentul atau Puncak?",
+        "answer": "Bisa, selama akses jalan bisa dilalui kendaraan roda empat untuk mengangkut mesin mini crane. Tim kami berpengalaman menangani proyek di area berkontur seperti Sentul, Ciawi, dan sekitar Puncak Bogor."
+      },
+      {
+        "question": "Kedalaman bore pile di Bogor biasanya berapa meter?",
+        "answer": "Karena kontur tanah Bogor yang cenderung keras (latosol/berbatu), kedalaman bore pile umumnya lebih dangkal yaitu 8-15 meter. Namun perlu survei N-SPT terlebih dahulu untuk memastikan."
+      },
+      {
+        "question": "Apakah bore pile aman untuk villa di lereng bukit Bogor?",
+        "answer": "Sangat aman dan justru direkomendasikan. Bore pile mampu menembus lapisan tanah yang labil di lereng bukit dan menanamkan pondasi hingga ke lapisan keras (bedrock), sehingga bangunan Anda kokoh meskipun dibangun di kontur miring."
+      },
+      {
+        "question": "Pilih bore pile atau strauss pile untuk rumah di Bogor?",
+        "answer": "Jika tanah di lokasi Anda berbatu atau Anda membangun lebih dari 2 lantai, gunakan bore pile mesin. Strauss pile hanya cocok untuk tanah lunak dan bangunan ringan 1-2 lantai di gang sempit."
+      }
+    ],
+    "subAreas": [],
+    "soilType": "Tanah Merah (Latosol) & Berbatu",
+    "terrain": "Berbukit & Bergelombang",
+    "averageDepth": "8 - 15 meter",
+    "soilDescription": "Tanah di wilayah Bogor umumnya bertekstur gembur kemerahan dan sering ditemukan lapisan bebatuan (boulder) atau cadas. Penggunaan mata bor khusus (rock auger/core barrel) mutlak diperlukan untuk menembus lapisan keras yang dangkal ini."
+  },
+  {
+    "slug": "depok",
+    "name": "Depok",
+    "province": "Jawa Barat",
+    "description": "Layanan spesialis jasa pengeboran pondasi bore pile mesin dan strauss pile manual di Depok. Harga murah, kualitas terjamin.",
+    "localFaqs": [
+      {
+        "question": "Berapa lama proses pengerjaan bore pile untuk satu rumah di Depok?",
+        "answer": "Rata-rata untuk rumah tinggal standar di Depok (sekitar 30 titik), pengerjaan bore pile mesin memakan waktu sekitar 3-5 hari kerja tergantung cuaca dan kondisi tanah."
+      },
+      {
+        "question": "Berapa biaya bore pile untuk rumah 2 lantai di Depok?",
+        "answer": "Untuk rumah 2 lantai standar di Depok dengan kebutuhan sekitar 15 titik bore pile diameter 30cm kedalaman 10 meter, estimasi biaya jasa pengeboran sekitar Rp 17 juta (belum termasuk material dan mobilisasi)."
+      },
+      {
+        "question": "Apakah bore pile cocok untuk tanah padas di Depok?",
+        "answer": "Sangat cocok. Tanah padas di Depok justru menjadi keuntungan karena lapisan tanah keras relatif dangkal, sehingga bore pile tidak perlu ditanamkan terlalu dalam. Metode dry boring seringkali bisa diaplikasikan di sini."
+      },
+      {
+        "question": "Apakah melayani area Margonda, Cimanggis, dan Beji?",
+        "answer": "Ya, kami melayani seluruh wilayah kota Depok termasuk Pancoran Mas, Margonda, Beji, Cimanggis, Sukmajaya, Limo, Cinere, dan sekitarnya."
+      },
+      {
+        "question": "Apakah bore pile bisa masuk gang kecil di perumahan Depok?",
+        "answer": "Mesin bore pile mini crane kami membutuhkan akses jalan minimal seukuran mobil pickup. Jika akses lebih sempit dari itu, kami sarankan menggunakan metode strauss pile manual yang bisa masuk gang sempit."
+      },
+      {
+        "question": "Kapan waktu terbaik untuk bore pile di Depok?",
+        "answer": "Idealnya di musim kemarau (April-Oktober). Namun kami tetap bisa beroperasi di musim hujan dengan penyesuaian jadwal. Pengecoran tetap menggunakan pipa tremi untuk menjaga mutu beton."
+      }
+    ],
+    "subAreas": [
+      {
+        "name": "Pancoran Mas",
+        "slug": "pancoran-mas"
+      },
+      {
+        "name": "Margonda",
+        "slug": "margonda"
+      },
+      {
+        "name": "Beji",
+        "slug": "beji"
+      },
+      {
+        "name": "Cimanggis",
+        "slug": "cimanggis"
+      }
+    ],
+    "soilType": "Tanah Padas & Lempung Pasiran",
+    "terrain": "Relatif Datar & Sedikit Bergelombang",
+    "averageDepth": "10 - 18 meter",
+    "soilDescription": "Kondisi tanah di Depok tergolong cukup stabil dengan kombinasi lempung pasiran dan lapisan padas di kedalaman sedang. Metode dry boring (bor kering) seringkali bisa diaplikasikan di sini sehingga proses kerja menjadi lebih bersih dan cepat."
+  },
+  {
+    "slug": "tangerang",
+    "name": "Tangerang",
+    "province": "Banten",
+    "description": "Kontraktor bore pile dan strauss pile terdekat di Tangerang. Solusi pondasi dalam untuk ruko, pabrik, dan perumahan.",
+    "localFaqs": [
+      {
+        "question": "Apakah melayani jasa bore pile untuk area industri di Tangerang?",
+        "answer": "Tentu, kami sering melayani pengeboran pondasi bore pile untuk pembangunan gudang dan pabrik di kawasan industri Tangerang dengan standar K3 yang ketat."
+      },
+      {
+        "question": "Berapa harga bore pile di Tangerang?",
+        "answer": "Harga jasa bore pile mesin di Tangerang berkisar Rp 115.000 - Rp 350.000 per meter lari tergantung diameter. Masih termasuk wilayah Jabodetabek sehingga biaya mobilisasi mulai dari Rp 3.500.000."
+      },
+      {
+        "question": "Apakah melayani BSD, Alam Sutera, dan Cikupa?",
+        "answer": "Ya, kami melayani seluruh wilayah Tangerang termasuk BSD, Alam Sutera, Cikupa, Balaraja, Tigaraksa, Cisauk, dan Karawaci."
+      },
+      {
+        "question": "Bagaimana kondisi tanah di Tangerang untuk bore pile?",
+        "answer": "Tanah di Tangerang bervariasi dari lempung berpasir hingga endapan sedimen. Kedalaman tanah keras cukup bervariasi tergantung area (BSD cenderung lebih keras dibanding Cikupa). Survei awal sangat disarankan."
+      },
+      {
+        "question": "Bore pile atau tiang pancang untuk pabrik di Tangerang?",
+        "answer": "Bore pile lebih aman untuk area pabrik yang berdekatan dengan bangunan lain karena tidak menimbulkan getaran. Tiang pancang bisa merusak struktur bangunan sekitar akibat getaran yang sangat keras saat pemancangan."
+      },
+      {
+        "question": "Berapa kedalaman bore pile di Tangerang?",
+        "answer": "Untuk wilayah Tangerang, kedalaman bore pile umumnya berkisar 15-22 meter. Area dekat pesisir utara Tangerang mungkin membutuhkan kedalaman lebih karena muka air tanah tinggi."
+      }
+    ],
+    "subAreas": [],
+    "soilType": "Lempung Berpasir & Sedimen",
+    "terrain": "Datar",
+    "averageDepth": "15 - 22 meter",
+    "soilDescription": "Wilayah Tangerang memiliki struktur tanah endapan (sedimen) yang bervariasi, dari lempung kaku hingga lapisan berpasir. Kedalaman tanah keras umumnya cukup bervariasi tergantung area (seperti BSD vs Cikupa), membutuhkan sistem bor basah untuk keamanan galian."
+  },
+  {
+    "slug": "tangerang-selatan",
+    "name": "Tangerang Selatan",
+    "province": "Banten",
+    "description": "Jasa bore pile dan strauss pile manual area Tangerang Selatan (Tangsel). Bebas polusi suara, aman untuk lingkungan padat.",
+    "localFaqs": [
+      {
+        "question": "Pilih bore pile atau strauss pile untuk renovasi rumah di Tangsel?",
+        "answer": "Jika akses jalan masuk ke perumahan Anda di Tangsel sangat sempit (kurang dari 2 meter) dan Anda ingin menghindari kebisingan, strauss pile (manual) adalah pilihan terbaik. Namun jika butuh pondasi lebih dalam dari 6 meter, kami sarankan bore pile mesin."
+      },
+      {
+        "question": "Berapa biaya bore pile untuk rumah di BSD atau Bintaro?",
+        "answer": "Untuk rumah 2-3 lantai di BSD atau Bintaro dengan kebutuhan 15-20 titik bore pile, estimasi biaya jasa mulai dari Rp 17-25 juta (tergantung diameter dan kedalaman), belum termasuk material."
+      },
+      {
+        "question": "Apakah bore pile aman untuk cluster padat di Tangsel?",
+        "answer": "Sangat aman. Bore pile mesin tidak menimbulkan getaran keras sehingga tidak akan merusak tembok rumah tetangga. Kami rutin mengerjakan proyek di cluster-cluster padat di BSD, Bintaro, dan Pamulang."
+      },
+      {
+        "question": "Apakah melayani area Pamulang, Serpong, dan Ciputat?",
+        "answer": "Ya, kami melayani seluruh wilayah Tangerang Selatan termasuk Pamulang, Serpong, Ciputat, Pondok Aren, dan Setu."
+      }
+    ],
+    "subAreas": [],
+    "soilType": "Tanah Lempung/Pasir Standar",
+    "terrain": "Bervariasi",
+    "averageDepth": "10 - 20 meter",
+    "soilDescription": "Secara umum, kondisi tanah di wilayah Tangerang Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering)."
+  },
+  {
+    "slug": "jakarta-selatan",
+    "name": "Jakarta Selatan",
+    "province": "DKI Jakarta",
+    "description": "Layanan jasa bore pile dan strauss pile di wilayah Jakarta Selatan. Ahli menangani kontur tanah padas.",
+    "localFaqs": [],
+    "subAreas": [
+      {
+        "name": "Tebet",
+        "slug": "tebet"
+      },
+      {
+        "name": "Kebayoran Baru",
+        "slug": "kebayoran-baru"
+      },
+      {
+        "name": "Cilandak",
+        "slug": "cilandak"
+      },
+      {
+        "name": "Pancoran",
+        "slug": "pancoran"
+      }
+    ],
+    "soilType": "Tanah Lempung/Pasir Standar",
+    "terrain": "Bervariasi",
+    "averageDepth": "10 - 20 meter",
+    "soilDescription": "Secara umum, kondisi tanah di wilayah Jakarta Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering)."
+  }
 ]
