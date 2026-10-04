@@ -47,20 +47,13 @@ export const PROJECTS: Record<string, Project[]> = {
     },
     {
       img: '/imgs/proses-strauss-pile-jakarta-aseven-pile.png',
-      alt: 'Proyek Strauss Pile Rumah Tinggal di Tebet, Jakarta Selatan',
-      area: 'Tebet, Jakarta Selatan',
-      customSpec: 'Diameter 25 cm &bull; 18 titik &bull; Kedalaman 6 m',
-      method: 'Strauss pile manual (gang 1,2 m)',
+      alt: 'Proyek Strauss Pile Manual di Jakarta',
+      area: 'Jakarta',
+        customSpec: 'Diameter 30 cm &bull; 22 titik &bull; Kedalaman 6 m',
+        method: 'Strauss pile manual',
       service: 'strauss'
     },
-    {
-      img: '/imgs/proses-strauss-pile-2-jakarta-aseven-pile.png',
-      alt: 'Proyek Strauss Pile Pagar Keliling di Penjaringan, Jakarta Utara',
-      area: 'Penjaringan, Jakarta Utara',
-      customSpec: 'Diameter 20 cm &bull; 32 titik &bull; Kedalaman 5 m',
-      method: 'Strauss pile manual (pakai casing)',
-      service: 'strauss'
-    }
+    
   ]
 };
 

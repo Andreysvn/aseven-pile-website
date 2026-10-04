@@ -66,7 +66,7 @@ export const straussTiers: PricingData[] = [
   },
   {
     diameter: 30,
-    pricePerMeter: { min: 85000, max: 85000 },
+    pricePerMeter: { min: 80000, max: 80000 },
     materialCostEstimate: 210000,
     isEstimate: false,
     notes: "Cocok untuk rumah tinggal 2 lantai di tanah stabil."

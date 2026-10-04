@@ -9,7 +9,7 @@ const { cityData, serviceName } = Astro.props;
 
 {cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
   <section class="container ls-area-section">
-    <h2 class="ls-area-title">Wilayah Layanan {serviceName} {cityData.name}</h2>
+    <h2 class="ls-area-title">{`Wilayah Layanan ${serviceName} ${cityData.name}`}</h2>
     <p class="ls-center-desc ls-desc-600">Layanan kami mencakup seluruh area di bawah ini. Tim dan peralatan operasional kami siap didatangkan ke lokasi Anda.</p>
     
     <div class="ls-area-grid">

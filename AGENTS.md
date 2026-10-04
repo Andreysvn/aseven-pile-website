@@ -73,6 +73,15 @@ src/
 
 **Catatan strategi:** konten TETAP berada di halaman kota (jangan dipindah ke halaman layanan). Keunikan diperoleh dari **data unik per wilayah** (karakteristik tanah, FAQ, proyek, contoh hitungan), bukan dari memindah section.
 
+
+## STRATEGI RILIS (STAGED ROLLOUT)
+Saat ini website menerapkan strategi **Staged Rollout** untuk menghindari penalti Google akibat halaman pSEO yang masih kosong/duplikat (Thin Content).
+**ATURAN ROLLOUT:**
+1. Hanya kota yang datanya sudah **100% UNIK dan LENGKAP** (description, terrain, soilType, FAQs spesifik, proyek lokal) yang boleh di-index.
+2. Kota yang belum siap **WAJIB** diset `"draft": true` di dalam `src/data/cities.json`. Ini akan mengecualikannya dari proses build Astro (via `SERVICE_CITIES` di `seo-data.ts`).
+3. Saat ini (per Oktober 2026), **HANYA JAKARTA** yang aktif (`draft: false`). Halaman lain seperti Bekasi, Bogor, Depok, dll sedang berstatus `draft: true`.
+4. Jangan aktifkan kota lain sebelum kontennya dibereskan satu per satu secara bertahap.
+
 ## Konvensi teknis
 - **React sudah DIHAPUS.** Kalkulator = `CalculatorUI.astro` (vanilla). Jangan menambah React/island.
 - Styling halaman lokal pakai class di `src/styles/local-seo.css` (bukan inline style). Tambah class di sana bila perlu.

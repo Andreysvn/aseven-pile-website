@@ -33,6 +33,7 @@ const {
 } = Astro.props;
 
 // Compute canonical URL and breadcrumb path based on context
+const lowPrice = pathContext === 'strauss-pile' ? '70000' : '115000';
 const citySlug = city.toLowerCase().replace(/\s+/g, "-");
 let pageUrl = `${siteConfig.url}/area-layanan/${citySlug}`;
 let breadcrumbItems = [
@@ -110,7 +111,7 @@ const serviceSchema = {
   "offers": {
     "@type": "AggregateOffer",
     "priceCurrency": "IDR",
-    "lowPrice": "115000",
+    "lowPrice": lowPrice,
     "highPrice": "350000",
     "offerCount": "5",
     "availability": "https://schema.org/InStock",
@@ -168,7 +169,7 @@ const serviceSchema = {
           <div class="header-image-wrapper">
             <img 
               src={heroImage || "/imgs/header-beranda-bore-pile-aseven.webp"} 
-              alt={`Proyek Jasa Bore Pile ${city} oleh Aseven Pile`} 
+              alt={`Proyek Jasa ${pathContext === 'strauss-pile' ? 'Strauss Pile' : 'Bore Pile'} ${city} oleh Aseven Pile`} 
               loading="eager"
               fetchpriority="high"
             />

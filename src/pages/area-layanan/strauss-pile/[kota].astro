@@ -64,12 +64,12 @@ const getCalculatorLocation = (slug, province) => {
   return 'other';
 };
 const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
-const hargaStraussPile = cityData.slug.includes('jakarta') ? 95000 : 90000;
+const hargaStraussPile = 70000;
 ---
 
 <LocalSEOLayout 
   title={`Harga Jasa Strauss Pile ${cityData.name} 2026`} 
-  description={`Jasa strauss pile manual di ${cityData.name}. Harga mulai Rp 90.000/m (O25cm). Cocok untuk gang sempit dan perumahan padat. Survei & konsultasi gratis.`}
+  description={`Jasa strauss pile manual di ${cityData.name}. Harga mulai Rp 70.000/m (O20cm). Cocok untuk gang sempit dan perumahan padat. Survei & konsultasi gratis.`}
   city={cityData.name}
   serviceName="Strauss Pile"
   pathContext="strauss-pile"
@@ -93,7 +93,7 @@ const hargaStraussPile = cityData.slug.includes('jakarta') ? 95000 : 90000;
   <!-- ================================================ -->
   <section class="ls-section">
     <CalculatorUI 
-      title={`Kalkulator Biaya Strauss Pile ${cityData.name}`}
+      title={`Harga Jasa Strauss Pile ${cityData.name} 2026 | Aseven Pile`}
       description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
       defaults={{ method: 'strauss', location: calcLoc, depth: 6, points: 15 }} 
     />

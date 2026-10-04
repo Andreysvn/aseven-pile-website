@@ -5,6 +5,58 @@ interface Props {
 
 const { service = 'borepile' } = Astro.props;
 const minOrder = service === 'strauss' ? '100 meter' : '200 meter (mini crane/gawangan)';
+
+const borePileItems = [
+  {
+    title: "Mobilisasi & Demobilisasi Alat",
+    desc: "Biaya pengiriman alat dari workshop kami ke lokasi dan kembali. Besarannya menyesuaikan jarak/zona lokasi — estimasi per wilayah bisa dilihat di kalkulator biaya pada halaman ini."
+  },
+  {
+    title: "Sedot & Pembuangan Lumpur",
+    desc: "Pada metode bor basah (wash boring), lumpur hasil pengeboran perlu disedot dan diangkut keluar. Biaya menyesuaikan volume lumpur dan jarak pembuangan."
+  },
+  {
+    title: "Bak Sirkulasi Air",
+    desc: "Bila diperlukan sebagai penampung sirkulasi air selama proses pengeboran berlangsung."
+  },
+  {
+    title: "Uji Tanah (Sondir / SPT)",
+    desc: "Uji sondir sangat disarankan untuk menentukan kedalaman target dan lapisan tanah keras. Bisa dilengkapi uji SPT. Kami dapat membantu merekomendasikan penyedia jasa uji tanah."
+  },
+  {
+    title: "Minimal Order Jasa",
+    desc: `Berlaku minimal order ${minOrder} untuk jasa ini. Untuk volume pengerjaan di bawah batas tersebut, akan dikenakan charge/biaya minimum setara perhitungan ${minOrder}.`
+  },
+  {
+    title: "Material (Besi & Beton)",
+    desc: "Harga di tabel belum termasuk material (besi & beton). Kebutuhan besi & beton mengikuti desain struktur tiap proyek, jadi mengacu pada perhitungan perencana/struktur Anda."
+  }
+];
+
+const straussPileItems = [
+  {
+    title: "Mobilisasi Tenaga & Alat",
+    desc: "Biaya transportasi tenaga kerja spesialis beserta alat bor manual (tripod/auger) menuju lokasi proyek Anda. Besarannya menyesuaikan jarak lokasi."
+  },
+  {
+    title: "Pembuangan Tanah Sisa Galian",
+    desc: "Tanah hasil pengeboran manual perlu diangkut keluar dari lokasi. Biaya menyesuaikan volume tanah yang dihasilkan dan jarak pembuangan."
+  },
+  {
+    title: "Minimal Order Jasa",
+    desc: `Berlaku minimal order ${minOrder} untuk jasa ini. Untuk volume pengerjaan di bawah batas tersebut, akan dikenakan charge/biaya minimum setara perhitungan ${minOrder}.`
+  },
+  {
+    title: "Material (Besi & Beton)",
+    desc: "Harga di tabel belum termasuk material (besi & beton). Kebutuhan material mengikuti desain struktur. Kami berfokus pada jasa pengeborannya."
+  },
+  {
+    title: "Uji Tanah (Opsional)",
+    desc: "Untuk bangunan beban ringan, uji sondir seringkali di-skip. Namun untuk 2-3 lantai, uji sondir tetap disarankan agar kedalaman tiang tepat pada tanah penyokong yang stabil."
+  }
+];
+
+const items = service === 'strauss' ? straussPileItems : borePileItems;
 ---
 
 <section class="ls-section">
@@ -13,30 +65,12 @@ const minOrder = service === 'strauss' ? '100 meter' : '200 meter (mini crane/ga
     Harga pada tabel di atas hanya mencakup <strong>jasa pengeborannya saja</strong>. Agar anggaran proyek lebih akurat, berikut komponen biaya lain yang biasanya belum termasuk:
   </p>
   <div class="ca-grid">
-    <div class="ca-item">
-      <h3>Mobilisasi &amp; Demobilisasi Alat</h3>
-      <p>Biaya pengiriman alat dari workshop kami ke lokasi dan kembali. Besarannya menyesuaikan jarak/zona lokasi — estimasi per wilayah bisa dilihat di kalkulator biaya pada halaman ini.</p>
-    </div>
-    <div class="ca-item">
-      <h3>Sedot &amp; Pembuangan Lumpur</h3>
-      <p>Pada metode bor basah (wash boring), lumpur hasil pengeboran perlu disedot dan diangkut keluar. Biaya menyesuaikan volume lumpur dan jarak pembuangan.</p>
-    </div>
-    <div class="ca-item">
-      <h3>Bak Sirkulasi Air</h3>
-      <p>Bila diperlukan sebagai penampung sirkulasi air selama proses pengeboran berlangsung.</p>
-    </div>
-    <div class="ca-item">
-      <h3>Uji Tanah (Sondir / SPT)</h3>
-      <p>Uji sondir wajib dilakukan untuk menentukan seberapa dalam target pengeboran dan di mana lapisan tanah keras berada. Bisa dilengkapi uji SPT untuk data daya dukung. Kami dapat membantu merekomendasikan penyedia jasa uji tanah.</p>
-    </div>
-    <div class="ca-item">
-      <h3>Minimal Order Jasa</h3>
-      <p>Berlaku minimal order {minOrder} untuk jasa ini. Untuk volume pengerjaan di bawah batas tersebut, akan dikenakan <em>charge</em>/biaya minimum setara perhitungan {minOrder}.</p>
-    </div>
-    <div class="ca-item">
-      <h3>Material (Besi &amp; Beton)</h3>
-      <p>Harga di tabel belum termasuk material (besi &amp; beton). Kebutuhan besi &amp; beton mengikuti desain struktur tiap proyek, jadi mengacu pada perhitungan perencana/struktur Anda. Kami fokus pada jasa pengeborannya.</p>
-    </div>
+    {items.map(item => (
+      <div class="ca-item">
+        <h3>{item.title}</h3>
+        <p>{item.desc}</p>
+      </div>
+    ))}
   </div>
 </section>
 
@@ -64,5 +98,3 @@ const minOrder = service === 'strauss' ? '100 meter' : '200 meter (mini crane/ga
     margin: 0;
   }
 </style>
-
-

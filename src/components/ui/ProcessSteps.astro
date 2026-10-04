@@ -1,4 +1,5 @@
 ﻿---
+import { siteConfig } from '../../data/site.config';
 export interface Props {
   title?: string;
   subtitle?: string;
@@ -36,7 +37,7 @@ const activeSteps = steps || defaultSteps;
       ))}
     </div>
     <div class="text-center ps-cta-wrap">
-      <a href="#kontak" class="btn btn-outline">Mulai Proyek Anda &rarr;</a>
+      <a href={`https://wa.me/${siteConfig.whatsapp}?text=Halo%20Aseven%20Pile,%20saya%20tertarik%20menggunakan%20jasa%20pengeboran.`} target="_blank" rel="noopener noreferrer" class="btn btn-outline">Mulai Proyek Anda &rarr;</a>
     </div>
   </div>
 </section>
