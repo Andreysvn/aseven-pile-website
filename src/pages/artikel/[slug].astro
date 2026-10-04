@@ -47,6 +47,8 @@ const schema = {
         <span class="current" aria-current="page">Info Teknis</span>
       </nav>
       
+      <h1 class="art-title">{post.data.title}</h1>
+      <p class="art-desc">{post.data.description}</p>
       <div class="art-meta">
         <div class="meta-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -59,9 +61,6 @@ const schema = {
           </time>
         </div>
       </div>
-
-      <h1 class="art-title">{post.data.title}</h1>
-      <p class="art-desc">{post.data.description}</p>
       
       <!-- Featured Image (Pra-Hasil Sunter) -->
       {post.data.heroImage && <img src={post.data.heroImage} alt={`Ilustrasi Utama - ${post.data.title}`} class="art-featured-img" />}
@@ -84,4 +83,5 @@ const schema = {
     />
   </div>
 </BaseLayout>
+
 
