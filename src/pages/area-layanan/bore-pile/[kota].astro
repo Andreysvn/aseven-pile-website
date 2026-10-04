@@ -172,26 +172,173 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <CostAddons service="borepile" />
 
   <!-- ================================================ -->
-    <!-- SECTION 6: Keunggulan                            -->
-    <!-- ================================================ -->
-    <ServiceFeatures
-      title={`Keunggulan Jasa Bore Pile Aseven Pile di ${cityData.name}`}
-      features={[
-        { title: "Minim Getaran & Aman", desc: `Mesin bor kami dirancang bekerja tanpa menimbulkan getaran keras. Sangat aman diaplikasikan di lingkungan padat penduduk ${cityData.name} tanpa merusak tembok rumah tetangga.`, iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>` },
-        { title: "Berpengalaman", desc: "Tim kami sudah berpengalaman dalam pekerjaan pondasi, khususnya bore pile, dan terbiasa menangani berbagai kondisi tanah di lapangan.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>` },
-        { title: "Komitmen Kualitas", desc: "Layanan yang dihasilkan mengutamakan kualitas dan dikerjakan sesuai prosedur, spesifikasi yang disepakati, serta Standar Nasional Indonesia (SNI).", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path><path d="M8 18h.01"></path><path d="M16 18h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path></svg>` }
-      ]}
-    />
+  <!-- SECTION 6: Keunggulan -->
+  <ServiceFeatures
+    title={`Keunggulan Jasa Bore Pile Aseven Pile di ${cityData.name}`}
+    features={[
+      { title: "Minim Getaran & Aman", desc: `Mesin bor kami dirancang bekerja tanpa menimbulkan getaran keras. Sangat aman diaplikasikan di lingkungan padat penduduk ${cityData.name} tanpa merusak tembok rumah tetangga.`, iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>` },
+      { title: "Berpengalaman", desc: "Tim kami sudah berpengalaman dalam pekerjaan pondasi, khususnya bore pile, dan terbiasa menangani berbagai kondisi tanah di lapangan.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>` },
+      { title: "Komitmen Kualitas", desc: "Layanan yang dihasilkan mengutamakan kualitas dan dikerjakan sesuai prosedur, spesifikasi yang disepakati, serta Standar Nasional Indonesia (SNI).", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path><path d="M8 18h.01"></path><path d="M16 18h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path></svg>` }
+    ]}
+  />
 
-    <!-- SECTION 7: Bore Pile Mesin vs Tiang Pancang -->
-    <!-- ================================================ -->
-    <ComparisonSection
-      title={`Bore Pile Mesin vs Tiang Pancang di ${cityData.name}`}
-      description={`Bingung antara pondasi bor (bore pile) atau tiang pancang? Berikut bedanya, disesuaikan dengan kondisi lapangan di ${cityData.name}:`}
-      primaryTitle="Bore Pile Mesin"
-      primaryDesc={`Bore pile mesin merupakan metode <em>cast in-situ</em>, yaitu lubang dibor terlebih dahulu di lokasi, kemudian diisi besi tulangan dan dicor beton langsung di tempat. Karena tidak melalui proses pemancangan, getaran dan suara yang dihasilkan sangat minim sehingga aman diterapkan di lingkungan padat bangunan seperti ${cityData.name}. Diameternya fleksibel, mulai 30 hingga 80 cm, dengan kedalaman mencapai 30 meter tergantung kondisi tanah. Mini crane yang kami gunakan dirancang untuk masuk ke gang sempit dan jalan terbatas, sehingga bore pile dapat dikerjakan di lokasi yang tidak dapat dijangkau truk besar. Untuk area yang benar-benar sempit, metode alternatifnya adalah <a href="/area-layanan/strauss-pile/${cityData.slug}">Strauss Pile</a> yang menggunakan tenaga manual.`}
-      secondaryTitle="Tiang Pancang (Paku Bumi)"
-      secondaryDesc="Tiang pancang merupakan kebalikannya. Beton dicetak di pabrik secara <em>precast</em>, lalu dipancang ke dalam tanah menggunakan palu berat. Metode ini lebih cepat dan seringkali lebih ekonomis untuk tanah lunak, serta mutu betonnya lebih terkontrol karena dicetak di pabrik. Namun, ada konsekuensi yang perlu dipertimbangkan. Getaran yang ditimbulkan cukup besar sehingga berisiko meretakkan dinding bangunan tua di sekitarnya, suaranya bising, dan alat pancang membutuhkan akses jalan lebar minimal 4 sampai 5 meter sehingga tidak dapat masuk ke gang sempit. Tiang pancang baru menjadi pertimbangan apabila lokasi jauh dari bangunan tetangga, akses jalan lebar, dan tanahnya lunak homogen."
-      conclusion={`<strong>Kesimpulan:</strong> Untuk mayoritas proyek di <strong>${cityData.name}</strong>, terutama ruko, rumah tinggal, dan gedung bertingkat di lingkungan padat, bore pile mesin hampir selalu menjadi pilihan yang lebih aman. Bukan karena lebih murah, sebab kadang justru lebih mahal, tetapi karena tidak berisiko merusak bangunan tetangga dan dapat masuk ke lokasi yang tidak dapat diakses alat pancang. Apabila masih ragu, tim kami dapat melakukan survei lapangan untuk menilai kondisi tanah dan akses, lalu merekomendasikan metode yang paling efisien untuk proyek Anda.`}
+  <!-- ================================================ -->
+  <!-- SECTION 7: Bore Pile Mesin vs Tiang Pancang -->
+  <ComparisonSection
+    title={`Bore Pile Mesin vs Tiang Pancang di ${cityData.name}`}
+    description={`Bingung antara pondasi bor (bore pile) atau tiang pancang? Berikut bedanya, disesuaikan dengan kondisi lapangan di ${cityData.name}:`}
+    primaryTitle="Bore Pile Mesin"
+    primaryDesc={`Bore pile mesin merupakan metode <em>cast in-situ</em>, yaitu lubang dibor terlebih dahulu di lokasi, kemudian diisi besi tulangan dan dicor beton langsung di tempat. Karena tidak melalui proses pemancangan, getaran dan suara yang dihasilkan sangat minim sehingga aman diterapkan di lingkungan padat bangunan seperti ${cityData.name}. Diameternya fleksibel, mulai 30 hingga 80 cm, dengan kedalaman mencapai 30 meter tergantung kondisi tanah. Mini crane yang kami gunakan dirancang untuk masuk ke gang sempit dan jalan terbatas, sehingga bore pile dapat dikerjakan di lokasi yang tidak dapat dijangkau truk besar. Untuk area yang benar-benar sempit, metode alternatifnya adalah <a href="/area-layanan/strauss-pile/${cityData.slug}">Strauss Pile</a> yang menggunakan tenaga manual.`}
+    secondaryTitle="Tiang Pancang (Paku Bumi)"
+    secondaryDesc="Tiang pancang merupakan kebalikannya. Beton dicetak di pabrik secara <em>precast</em>, lalu dipancang ke dalam tanah menggunakan palu berat. Metode ini lebih cepat dan seringkali lebih ekonomis untuk tanah lunak, serta mutu betonnya lebih terkontrol karena dicetak di pabrik. Namun, ada konsekuensi yang perlu dipertimbangkan. Getaran yang ditimbulkan cukup besar sehingga berisiko meretakkan dinding bangunan tua di sekitarnya, suaranya bising, dan alat pancang membutuhkan akses jalan lebar minimal 4 sampai 5 meter sehingga tidak dapat masuk ke gang sempit. Tiang pancang baru menjadi pertimbangan apabila lokasi jauh dari bangunan tetangga, akses jalan lebar, dan tanahnya lunak homogen."
+    conclusion={`<strong>Kesimpulan:</strong> Untuk mayoritas proyek di <strong>${cityData.name}</strong>, terutama ruko, rumah tinggal, dan gedung bertingkat di lingkungan padat, bore pile mesin hampir selalu menjadi pilihan yang lebih aman. Bukan karena lebih murah, sebab kadang justru lebih mahal, tetapi karena tidak berisiko merusak bangunan tetangga dan dapat masuk ke lokasi yang tidak dapat diakses alat pancang. Apabila masih ragu, tim kami dapat melakukan survei lapangan untuk menilai kondisi tanah dan akses, lalu merekomendasikan metode yang paling efisien untuk proyek Anda.`}
+  />
+
+  <!-- ================================================ -->
+  <!-- SECTION 8: Galeri / Portofolio Proyek            -->
+  <!-- ================================================ -->
+  {getProjects(cityData.slug, 'borepile').length ? (
+    <ProjectGallery city={cityData.name} projects={getProjects(cityData.slug, 'borepile')} />
+  ) : (
+    <MiniGallery 
+    title={`Dokumentasi Proyek Bore Pile ${cityData.name}`} 
+    subtitle="Bukti pengerjaan lapangan pondasi bore pile mesin yang dikerjakan langsung oleh tim spesialis kami."
+    images={[
+      { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Proses Pengeboran Bore Pile Mesin di ${cityData.name}`, fallback: `Pengeboran+${cityData.name}` },
+      { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Pemasangan Besi Tulangan Bore Pile ${cityData.name}`, fallback: `Besi+Tulangan` },
+      { src: "/imgs/wa-gallery-1.webp", alt: `Pengecoran Pipa Tremi ${cityData.name}`, fallback: `Pengecoran+Tremi` }
+    ]}
     />
+  )}
+
+  <!-- ================================================ -->
+  <!-- SECTION 9: SOP / Tahapan Pengerjaan              -->
+  <!-- ================================================ -->
+    <ProcessSteps 
+    title={`SOP Pengerjaan Bore Pile di ${cityData.name}`} 
+    subtitle="Standar kerja sistematis Aseven Pile untuk menjamin mutu dan keamanan struktur pondasi."
+    steps={[
+      { number: 1, title: `Survei Lapangan`, desc: `Tim meninjau kondisi tanah dan akses jalan masuk di ${cityData.name} untuk memastikan manuver alat berat mini crane aman.` },
+      { number: 2, title: "Setting Mesin & Pengeboran", desc: "Perakitan rig bore pile mesin di titik awal. Pengeboran dilakukan hingga mencapai kedalaman tanah keras yang diisyaratkan konsultan." },
+      { number: 3, title: "Pemasangan Besi Tulangan", desc: "Penurunan keranjang besi tulangan SNI ke dalam lubang bor yang sudah dibersihkan dari endapan lumpur." },
+      { number: 4, title: "Pengecoran Pipa Tremi", desc: "Pengecoran beton dilakukan menggunakan teknik pipa tremi dari dasar lubang, menekan lumpur dan air naik keluar sehingga beton murni utuh tanpa segregasi." }
+    ]}
+  />
+
+  <!-- ================================================ -->
+  <!-- SECTION 10: FAQ Lokal                            -->
+  <!-- ================================================ -->
+  <FAQSection 
+    title={`Pertanyaan Seputar Bore Pile di ${cityData.name}`} 
+    subtitle="Informasi lengkap biaya dan operasional."
+    faqs={cityFaqs} 
+  />
+
+  <!-- ================================================ -->
+  <!-- SECTION 11: Link Artikel / Blog                  -->
+  <!-- ================================================ -->
+  <section class="ls-section">
+    <h2 class="ls-art-heading">Artikel Terkait</h2>
+    <ArticleList limit={1} />
+  </section>
+
+  <!-- ================================================ -->
+  <!-- SECTION 12: Konsultasi & Jadwal Survei           -->
+  <!-- ================================================ -->
+  <PremiumCTA 
+      title="Konsultasi & Survei Lapangan"
+      subtitle={`Hubungi kami via WhatsApp untuk konsultasi proyek dan penjadwalan survei lokasi di ${cityData.name}.`}
+      buttonText="Konsultasi via WhatsApp"
+      waMessage={`Halo Aseven Pile, saya mau konsultasi jasa bore pile untuk daerah ${cityData.name}`}
+    />
+    
+    <CityCrossLinks currentSlug={cityData.slug} serviceType="bore-pile" serviceName="Bore Pile" />
+
+  <!-- ================================================ -->
+  <!-- SECTION 13: Google Maps & Wilayah Kecamatan      -->
+  <!-- ================================================ -->
+  <Fragment slot="bottom-content">
+    <LocationMap />
+
+    {cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
+      <section class="container ls-area-section">
+        <h2 class="ls-area-title">Wilayah Layanan Bore Pile {cityData.name}</h2>
+        <p class="ls-center-desc ls-desc-600">Layanan kami mencakup seluruh area di bawah ini. Tim dan peralatan operasional kami siap didatangkan ke lokasi Anda.</p>
+        
+        <div class="ls-area-grid">
+          {cityData.groupedAreas.map((group) => (
+            <div class="ls-area-card">
+              <h3>
+                <span>{group.groupName}</span>
+              </h3>
+              <div class="ls-area-chips">
+                {group.areas.map((area) => (
+                  <span class="ls-area-chip">
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ) : (
+      cityData.subAreas && cityData.subAreas.length > 0 && (
+        <section class="container ls-area-section">
+          <h3 class="ls-subarea-title">Area Layanan {cityData.name}</h3>
+          <p class="ls-subarea-desc">Area layanan kami di {cityData.name}:</p>
+          <div class="ls-area-chips">
+            {cityData.subAreas.map((area) => (
+              <span class="ls-subarea-chip">
+                {area.name}
+              </span>
+            ))}
+          </div>
+        </section>
+      )
+    )}
+  </Fragment>
+</LocalSEOLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
