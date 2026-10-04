@@ -1,0 +1,26 @@
+﻿---
+export interface FeatureItem {
+  title: string;
+  desc: string;
+  iconRawSvg?: string;
+}
+
+export interface Props {
+  title: string;
+  features: FeatureItem[];
+}
+const { title, features } = Astro.props;
+---
+
+<section class="ls-section">
+  <h2 class="ls-feat-title">{title}</h2>
+  <div class="ls-feat-grid">
+    {features.map((item) => (
+      <div class="ls-feat-card">
+        <div class="ls-feat-icon" set:html={item.iconRawSvg || ''}></div>
+        <h3>{item.title}</h3>
+        <p>{item.desc}</p>
+      </div>
+    ))}
+  </div>
+</section>

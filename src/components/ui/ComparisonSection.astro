@@ -1,0 +1,37 @@
+﻿---
+export interface Props {
+  title: string;
+  description: string;
+  primaryTitle: string;
+  primaryDesc: string;
+  secondaryTitle: string;
+  secondaryDesc: string;
+  conclusion: string;
+}
+const { title, description, primaryTitle, primaryDesc, secondaryTitle, secondaryDesc, conclusion } = Astro.props;
+---
+
+<section class="ls-vs-section">
+  <h2 class="ls-vs-title">{title}</h2>
+  <p class="ls-vs-desc">{description}</p>
+  <div class="ls-modern-vs-wrap">
+    <div class="ls-mvs-card ls-mvs-primary">
+      <h3 class="ls-mvs-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        {primaryTitle}
+      </h3>
+      <p class="ls-mvs-desc" set:html={primaryDesc}></p>
+    </div>
+
+    <div class="ls-mvs-badge">VS</div>
+
+    <div class="ls-mvs-card ls-mvs-secondary">
+      <h3 class="ls-mvs-title">{secondaryTitle}</h3>
+      <p class="ls-mvs-desc" set:html={secondaryDesc}></p>
+    </div>
+  </div>
+  
+  <div style="margin-top: 1.5rem; text-align: justify;">
+    <p class="ls-mvs-desc" set:html={conclusion}></p>
+  </div>
+</section>
