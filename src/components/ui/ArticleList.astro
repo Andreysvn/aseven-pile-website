@@ -1,0 +1,91 @@
+﻿---
+import { getCollection } from 'astro:content';
+
+export interface Props {
+  limit?: number;
+}
+
+const { limit = 3 } = Astro.props;
+
+// Fetch all articles, sort by date (newest first)
+const allArticles = await getCollection('artikel');
+const sortedArticles = allArticles.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const articlesToShow = sortedArticles.slice(0, limit);
+---
+
+<div class="ls-art-grid">
+  {articlesToShow.map(post => (
+    <a href={/artikel/\} class="ls-art-card hover-card">
+      <div class="ls-art-media">
+        <div class="ls-art-badge ls-art-badge-blue">Info Teknis</div>
+      </div>
+      <div class="ls-art-body">
+        <h3>{post.data.title}</h3>
+        <p>{post.data.description}</p>
+      </div>
+    </a>
+  ))}
+</div>
+
+<style>
+  .hover-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hover-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Fallback grid styles just in case local-seo.css isn't fully loaded */
+  .ls-art-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .ls-art-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+  .ls-art-media {
+    background-color: #f1f5f9;
+    height: 140px;
+    position: relative;
+  }
+  .ls-art-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #0f172a;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .ls-art-badge-blue {
+    background: #2563eb;
+  }
+  .ls-art-body {
+    padding: 20px;
+  }
+  .ls-art-body h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .ls-art-body p {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.6;
+    margin: 0;
+  }
+</style>

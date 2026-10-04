@@ -5,6 +5,7 @@ import PricingTable from '../../../components/ui/PricingTable.astro';
 import CostAddons from '../../../components/ui/CostAddons.astro';
 import SoilCharacter from '../../../components/ui/SoilCharacter.astro';
 import ProjectGallery from '../../../components/ui/ProjectGallery.astro';
+import ArticleList from '../../../components/ui/ArticleList.astro';
 import FAQSection from '../../../components/ui/FAQSection.astro';
 import ProcessSteps from '../../../components/ui/ProcessSteps.astro';
 import MiniGallery from '../../../components/ui/MiniGallery.astro';
@@ -296,37 +297,8 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- ================================================ -->
   <section class="ls-section">
     <h2 class="ls-art-heading">Artikel Terkait</h2>
-    <div class="ls-art-grid">
-      <!-- Card 1 -->
-      <a href="/artikel/cara-menghitung-biaya-bore-pile" class="ls-art-card hover-card">
-        <div class="ls-art-media">
-          <div class="ls-art-badge">Edukasi</div>
-        </div>
-        <div class="ls-art-body">
-          <h3>Cara Menghitung Kebutuhan Besi & Beton untuk Pondasi Bore Pile</h3>
-          <p>Pelajari cara menghitung RAB material (besi tulangan dan beton readymix) setelah mengetahui harga jasa bor.</p>
-        </div>
-      </a>
-
-      <!-- Card 2 -->
-      <a href="/artikel/wajib-pipa-tremi-bore-pile" class="ls-art-card hover-card">
-        <div class="ls-art-media">
-          <div class="ls-art-badge ls-art-badge-blue">Tips Proyek</div>
-        </div>
-        <div class="ls-art-body">
-          <h3>Kenapa Cor Beton Wajib Pakai Pipa Tremi?</h3>
-          <p>Hindari kegagalan struktur pondasi akibat beton yang bercampur dengan lumpur galian. Pipa tremi adalah solusinya.</p>
-        </div>
-      </a>
-    </div>
+    <ArticleList limit={1} />
   </section>
-
-  <style>
-    .hover-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-  </style>
 
   <!-- ================================================ -->
   <!-- SECTION 12: Konsultasi & Jadwal Survei           -->
