@@ -67,7 +67,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 ---
 
 <LocalSEOLayout 
-  title={`Harga Jasa Bore Pile ${cityData.name} 2026 | Aseven Pile`} 
+  title={`Harga Jasa Bore Pile ${cityData.name} 2026`} 
   description={`Jasa bore pile mesin di ${cityData.name}. Harga mulai Rp 120.000/m (O30cm). Alat mini crane milik sendiri, berpengalaman sejak ${siteConfig.foundingYear}. Survei & konsultasi gratis.`}
   city={cityData.name}
   serviceName="Bore Pile"
@@ -80,6 +80,11 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- SECTION 1: Header / Intro                        -->
   <!-- ================================================ -->
   <ServiceIntro service="borepile" cityName={cityData.name} hargaMulai={120000} foundingYear={siteConfig.foundingYear} />
+
+  <!-- ================================================ -->
+  <!-- SECTION: Karakteristik Tanah                     -->
+  <!-- ================================================ -->
+  <SoilCharacter city={cityData} />
 
   <!-- ================================================ -->
   <!-- SECTION 2: Tabel Harga Bore Pile                 -->

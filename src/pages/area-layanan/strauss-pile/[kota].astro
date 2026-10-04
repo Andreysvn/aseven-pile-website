@@ -2,23 +2,27 @@
 import LocalSEOLayout from '../../../components/layout/LocalSEOLayout.astro';
 import ServiceArea from '../../../components/ui/ServiceArea.astro';
 import ServiceIntro from '../../../components/ui/ServiceIntro.astro';
+import CalculatorUI from '../../../components/interactive/CalculatorUI.astro';
+import PricingTable from '../../../components/ui/PricingTable.astro';
 import CostExample from '../../../components/ui/CostExample.astro';
 import CostAddons from '../../../components/ui/CostAddons.astro';
 import SoilCharacter from '../../../components/ui/SoilCharacter.astro';
 import ProjectGallery from '../../../components/ui/ProjectGallery.astro';
+import ComparisonSection from '../../../components/ui/ComparisonSection.astro';
+import ServiceFeatures from '../../../components/ui/ServiceFeatures.astro';
+import ArticleList from '../../../components/ui/ArticleList.astro';
+import FAQSection from '../../../components/ui/FAQSection.astro';
 import ProcessSteps from '../../../components/ui/ProcessSteps.astro';
+import MiniGallery from '../../../components/ui/MiniGallery.astro';
+import LocationMap from '../../../components/ui/LocationMap.astro';
 import PremiumCTA from '../../../components/ui/PremiumCTA.astro';
 import CityCrossLinks from '../../../components/ui/CityCrossLinks.astro';
-import LocationMap from '../../../components/ui/LocationMap.astro';
-import ArticleList from '../../../components/ui/ArticleList.astro';
-import ServiceFeatures from '../../../components/ui/ServiceFeatures.astro';
-import ComparisonSection from '../../../components/ui/ComparisonSection.astro';
-import FAQSection from '../../../components/ui/FAQSection.astro';
 
 import '../../../styles/calculator.css';
 import { SERVICE_CITIES, getCityFaqs } from '../../../data/seo-data';
 import { getProjects } from '../../../data/projects';
 import { exampleForCity } from '../../../data/example';
+import { siteConfig } from '../../../data/site.config';
 
 export async function getStaticPaths() {
   return SERVICE_CITIES.map((cityData) => {
@@ -29,69 +33,80 @@ export async function getStaticPaths() {
   });
 }
 
+
 const { cityData } = Astro.props;
 const cityFaqs = getCityFaqs(cityData, 'strauss');
+const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
 
-const hargaStraussPile = 80000;
-const projects = getProjects(cityData.slug, 'strauss');
-const fallbackProjects = getProjects('jakarta', 'strauss');
-const displayProjects = projects.length > 0 ? projects : fallbackProjects;
-
-const rupiah = (n: number) => `Rp ${n.toLocaleString('id-ID')}`;
-
+// Contoh perhitungan biaya strauss pile (PINTAR per kota):
+// - Bila cities.json punya "caseStudy": { "isReal": true, "diameter":30, "depthM":12, "points":15 } â†’ tampil "Studi Kasus" (angka nyata).
+// - Bila tidak â†’ contoh digenerate dari data kota (kedalaman dari averageDepth, jumlah titik divariasikan) â†’ angka beda tiap wilayah.
 const ex = exampleForCity(cityData);
+const rupiah = (n) => `Rp ${n.toLocaleString('id-ID')}`;
 const projectTitle = ex.isReal
   ? `Rincian Biaya Asli Proyek Strauss Pile di ${cityData.name}`
   : `Contoh Perhitungan Biaya Strauss Pile di ${cityData.name}`;
-
-const projectDesc = ex.isReal
-  ? `Berikut rincian biaya jasa bor manual dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
-  : `Sebagai gambaran, berikut contoh perhitungan biaya jasa strauss pile di ${cityData.name} untuk ${ex.items[0].points} titik pondasi sedalam ${ex.items[0].depthM} meter diameter ${ex.items[0].diameterCm} cm:`;
-
+  const projectDesc = ex.isReal
+    ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
+    : `Sebagai gambaran, berikut contoh perhitungan biaya jasa strauss pile di ${cityData.name} untuk ${ex.items[0].points} titik pondasi sedalam ${ex.items[0].depthM} meter diameter ${ex.items[0].diameterCm} cm:`;
 const caseNote = ex.isReal
-  ? `*Rincian dari proyek nyata. Harga jasa bor manual saja; belum termasuk material pengecoran.`
-  : `*Contoh perhitungan (bukan proyek spesifik). Harga jasa bor manual saja; belum termasuk material pengecoran.`;
+  ? `*Rincian dari proyek nyata. Harga jasa bor saja; belum termasuk material, mob/demob alat, dan bak sirkulasi air.`
+  : `*Contoh perhitungan (bukan proyek spesifik). Harga jasa bor saja; belum termasuk material, pengiriman alat, dan penampungan air.`;
+
+
+const getCalculatorLocation = (slug, province) => {
+  const jabodetabek = ['jakarta', 'jakarta-selatan', 'jakarta-timur', 'jakarta-barat', 'jakarta-pusat', 'jakarta-utara', 'bogor', 'depok', 'tangerang', 'tangerang-selatan', 'bekasi'];
+  if (jabodetabek.includes(slug)) return 'jabodetabek';
+  if (province.toLowerCase().includes('banten')) return 'banten';
+  if (slug.includes('bandung')) return 'bandung';
+  if (province.toLowerCase().includes('jawa tengah') || province.toLowerCase().includes('yogyakarta')) return 'jawatengah';
+  if (province.toLowerCase().includes('jawa timur')) return 'jawatimur';
+  return 'other';
+};
+const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
+const hargaStraussPile = cityData.slug.includes('jakarta') ? 95000 : 90000;
 ---
 
 <LocalSEOLayout 
-  title={`Jasa Strauss Pile ${cityData.name} Terbaik (Bor Manual) - Aseven Pile`}
-  description={`Layanan jasa pondasi strauss pile manual di ${cityData.name} untuk rumah tinggal, pagar, dan bangunan ringan. Aman untuk gang sempit, tanpa getaran & kebisingan.`}
-  canonicalUrl={`https://asevenpile.com/area-layanan/strauss-pile/${cityData.slug}`}
+  title={`Harga Jasa Strauss Pile ${cityData.name} 2026`} 
+  description={`Jasa strauss pile manual di ${cityData.name}. Harga mulai Rp 90.000/m (O25cm). Cocok untuk gang sempit dan perumahan padat. Survei & konsultasi gratis.`}
   city={cityData.name}
-  serviceType="Strauss Pile"
+  serviceName="Strauss Pile"
+  pathContext="strauss-pile"
+  heroImage={cityData.slug === 'jakarta' ? '/imgs/header-jasa-bore-pile-jakarta-aseven-pile.webp' : undefined}
+  faqs={cityFaqs}
 >
+
   <!-- ================================================ -->
   <!-- SECTION 1: Header / Intro                        -->
   <!-- ================================================ -->
   <ServiceIntro service="strauss" cityName={cityData.name} hargaMulai={hargaStraussPile} />
 
   <!-- ================================================ -->
-  <!-- SECTION 2: Karakteristik Tanah                   -->
+  <!-- SECTION: Karakteristik Tanah                     -->
   <!-- ================================================ -->
   <SoilCharacter city={cityData} />
 
   <!-- ================================================ -->
-  <!-- SECTION 3: Galeri Proyek                         -->
+  <!-- SECTION 2: Tabel Harga Strauss Pile                 -->
   <!-- ================================================ -->
-  <ProjectGallery 
-    projects={displayProjects}
-    city={cityData.name} 
-    fallbackMessage={`Galeri dokumentasi pengerjaan Strauss Pile di wilayah ${cityData.name} dan sekitarnya.`}
-  />
+  <PricingTable method="strauss" city={cityData.name} />
 
   <!-- ================================================ -->
-  <!-- SECTION 4: CTA Konsultasi 1                      -->
+  <!-- SECTION 2b: Kalkulator Interaktif                -->
+  <!-- Tepat di bawah tabel harga                       -->
   <!-- ================================================ -->
-  <PremiumCTA 
-    title={`Butuh Jasa Strauss Pile di ${cityData.name}?`}
-    subtitle="Konsultasikan desain pondasi dan kondisi tanah lokasi proyek Anda langsung dengan tim lapangan kami."
-    buttonText="Tanya via WhatsApp"
-    waMessage={`Halo Aseven Pile, saya mau konsultasi jasa strauss pile untuk proyek di ${cityData.name}`}
-  />
+  <section class="ls-section">
+    <CalculatorUI 
+      title={`Kalkulator Biaya Strauss Pile ${cityData.name}`}
+      description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
+      defaults={{ method: 'strauss', location: calcLoc, depth: 6, points: 15 }} 
+    />
+  </section>
+
 
   <!-- ================================================ -->
-  <!-- SECTION 5: Contoh Hitungan                       -->
-  <!-- ================================================ -->
+  <!-- SECTION 5: Contoh Hitungan -->
   <CostExample
     title={projectTitle}
     description={projectDesc}
@@ -102,55 +117,70 @@ const caseNote = ex.isReal
   <CostAddons service="strauss" />
 
   <!-- ================================================ -->
-  <!-- SECTION 6: Keunggulan                            -->
-  <!-- ================================================ -->
+  <!-- SECTION 6: Keunggulan -->
   <ServiceFeatures
-    title={`Keunggulan Strauss Pile Manual di ${cityData.name}`}
+    title={`Keunggulan jasa strauss pile Aseven Pile di ${cityData.name}`}
     features={[
-      { title: "Tanpa Alat Berat", desc: `Dikerjakan dengan tenaga manusia memutar stang bor. Memungkinkan masuk ke gang sangat sempit atau di dalam bangunan existing di ${cityData.name} yang tidak bisa dilalui kendaraan.`, iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>` },
-      { title: "Bebas Getaran & Bising", desc: "Tidak ada suara mesin menderu atau getaran alat berat, sehingga pengerjaan bisa dilakukan tanpa mengganggu tetangga sekitar sama sekali.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3 -9l5 18l5 -18l3 9h3"></path></svg>` },
-      { title: "Biaya Lebih Ekonomis", desc: "Karena tidak membutuhkan mobilisasi alat berat, biaya operasionalnya jauh lebih terjangkau, cocok untuk proyek skala menengah ke bawah.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>` }
+      { title: "Minim Getaran & Aman", desc: `Mesin bor kami dirancang bekerja tanpa menimbulkan getaran keras. Sangat aman diaplikasikan di lingkungan padat penduduk ${cityData.name} tanpa merusak tembok rumah tetangga.`, iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>` },
+      { title: "Berpengalaman", desc: "Tim kami sudah berpengalaman dalam pekerjaan pondasi, khususnya strauss pile, dan terbiasa menangani berbagai kondisi tanah di lapangan.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>` },
+      { title: "Komitmen Kualitas", desc: "Layanan yang dihasilkan mengutamakan kualitas dan dikerjakan sesuai prosedur, spesifikasi yang disepakati, serta Standar Nasional Indonesia (SNI).", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path><path d="M8 18h.01"></path><path d="M16 18h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path></svg>` }
     ]}
   />
 
   <!-- ================================================ -->
-  <!-- SECTION 7: Strauss Pile vs Bore Pile Mesin       -->
-  <!-- ================================================ -->
+  <!-- SECTION 7: Strauss Pile vs Bore Pile -->
   <ComparisonSection
     title={`Strauss Pile Manual vs Bore Pile Mesin di ${cityData.name}`}
-    description={`Pilih Strauss Pile atau Bore Pile? Berikut perbandingannya untuk membantu Anda menentukan metode terbaik di ${cityData.name}:`}
+    description={`Bingung antara pondasi bor manual (strauss pile) atau bore pile mesin? Berikut bedanya, disesuaikan dengan kondisi lapangan di ${cityData.name}:`}
     primaryTitle="Strauss Pile Manual"
-    primaryDesc={`Strauss pile dikerjakan murni dengan tenaga manusia yang memutar mata bor. Karena ukurannya ringkas, alat ini bisa masuk menembus gang sempit, pekarangan kecil, bahkan <strong>di dalam bangunan yang sudah jadi</strong>. Ini adalah pilihan paling tepat (dan seringkali satu-satunya) jika akses lokasi proyek Anda di ${cityData.name} benar-benar terbatas. Kelemahannya, karena manual, alat ini akan berhenti jika bertemu lapisan batu atau tanah keras (cadas), sehingga kedalamannya umumnya mentok di 6-8 meter dengan diameter maksimal 30cm.`}
+    primaryDesc={`Strauss pile adalah metode pengeboran tanah secara manual (tenaga manusia) memutar mata bor. Karena alatnya ringkas, metode ini 100% bebas bising dan bebas getaran. Sangat cocok untuk proyek di gang sempit atau perumahan padat di ${cityData.name} yang tidak bisa dimasuki alat berat. Namun, karena manual, kedalamannya terbatas (rata-rata 6-8 meter) dan hanya bisa menembus tanah lunak hingga sedang.`}
     secondaryTitle="Bore Pile Mesin (Mini Crane)"
-    secondaryDesc={`Bore pile menggunakan mesin diesel (mini crane) yang jauh lebih bertenaga. Metode ini sanggup menembus lapisan cadas/tanah keras hingga kedalaman 30 meter, dengan pilihan diameter besar (hingga 80cm). Sangat direkomendasikan untuk gedung bertingkat, ruko, atau struktur beban berat. Namun, mesin ini membutuhkan akses jalan minimal 1,5 sampai 2 meter untuk masuk ke lokasi.`}
-    conclusion={`<strong>Kesimpulan:</strong> Jika Anda membangun ruko 3 lantai ke atas atau pabrik di <strong>${cityData.name}</strong>, pakailah Bore Pile Mesin demi daya dukung maksimal. Namun, jika Anda membangun rumah tinggal 2 lantai, menambah ruangan di belakang rumah, atau jalan masuknya hanya berupa gang sempit, <strong>Strauss Pile Manual</strong> adalah solusi yang paling hemat dan masuk akal.`}
+    secondaryDesc="Bore pile mesin menggunakan alat mini crane hidrolik. Metodenya sama-sama mengebor tanah, tetapi karena menggunakan mesin, kemampuannya jauh lebih besar. Bisa mengebor hingga kedalaman 30 meter dan menembus lapisan tanah keras atau berbatu. Cocok untuk bangunan beban berat seperti ruko 3 lantai ke atas atau pabrik. Kelemahannya, butuh ruang manuver alat dan suplai air yang cukup besar untuk sirkulasi."
+    conclusion={`<strong>Kesimpulan:</strong> Jika proyek Anda di <strong>${cityData.name}</strong> adalah rumah 2 lantai atau pagar yang berlokasi di gang sempit dan tidak butuh kedalaman lebih dari 8 meter, Strauss Pile adalah pilihan paling efisien dan murah. Namun, jika butuh daya dukung besar untuk bangunan 3 lantai ke atas, atau kondisi tanah kerasnya sangat dalam, maka Bore Pile Mesin adalah solusinya.`}
   />
 
   <!-- ================================================ -->
-  <!-- SECTION 8: SOP Pengerjaan                        -->
+  <!-- SECTION 8: Galeri / Portofolio Proyek            -->
   <!-- ================================================ -->
-  <ProcessSteps 
+  {getProjects(cityData.slug, 'strauss').length ? (
+    <ProjectGallery city={cityData.name} projects={getProjects(cityData.slug, 'strauss')} />
+  ) : (
+    <MiniGallery 
+    title={`Dokumentasi Proyek Strauss Pile ${cityData.name}`} 
+    subtitle="Bukti pengerjaan lapangan pondasi strauss pile manual yang dikerjakan langsung oleh tim spesialis kami."
+    images={[
+      { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Proses Pengerjaan Strauss Pile di ${cityData.name}`, fallback: `Pengeboran+${cityData.name}` },
+      { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Pemasangan Besi Tulangan Strauss Pile ${cityData.name}`, fallback: `Besi+Tulangan` },
+      { src: "/imgs/wa-gallery-1.webp", alt: `Pengecoran Pipa Tremi ${cityData.name}`, fallback: `Pengecoran+Tremi` }
+    ]}
+    />
+  )}
+
+  <!-- ================================================ -->
+  <!-- SECTION 9: SOP / Tahapan Pengerjaan              -->
+  <!-- ================================================ -->
+    <ProcessSteps 
     title={`SOP Pengerjaan Strauss Pile di ${cityData.name}`} 
-    subtitle="Tahapan kerja standar untuk memastikan pondasi manual yang kuat dan akurat."
-    steps={[
-      { number: 1, title: `Persiapan Titik & Alat`, desc: `Tim memastikan titik bor sesuai gambar kerja dan merakit alat strauss manual (stang dan mata bor) di lokasi proyek ${cityData.name}.` },
-      { number: 2, title: "Pengeboran Manual", desc: "Tanah dibor dengan memutar stang secara manual oleh 2 pekerja hingga mencapai kedalaman tanah keras yang direncanakan (umumnya 6-8 meter)." },
-      { number: 3, title: "Pemasangan Besi Tulangan", desc: "Memasukkan keranjang besi tulangan (spiral) ke dalam lubang yang telah dibersihkan." },
-      { number: 4, title: "Pengecoran Beton", desc: "Proses penuangan beton segar secara hati-hati agar tidak tercampur longsoran tanah, sehingga terbentuk tiang beton utuh." }
+    subtitle="Standar kerja sistematis Aseven Pile untuk menjamin mutu dan keamanan struktur pondasi."
+        steps={[
+      { number: 1, title: `Persiapan Alat & Titik`, desc: `Tim membawa alat bor manual ke lokasi di ${cityData.name}. Sangat ringkas, cukup diangkut mobil pick-up kecil dan bisa masuk gang sempit atau di dalam ruangan.` },
+      { number: 2, title: "Pengeboran Manual", desc: "Pengeboran dilakukan dengan memutar pipa dan mata bor secara manual oleh 2-3 orang pekerja hingga mencapai kedalaman tanah keras (rata-rata 6-8 meter)." },
+      { number: 3, title: "Pemasangan Besi Tulangan", desc: "Penurunan keranjang besi tulangan SNI ke dalam lubang bor yang sudah dibersihkan." },
+      { number: 4, title: "Pengecoran Beton", desc: "Pengecoran beton dilakukan langsung ke dalam lubang bor. Karena lubang biasanya relatif dangkal dan kering (bebas lumpur), beton langsung dituang merata tanpa tercampur tanah." }
     ]}
   />
 
   <!-- ================================================ -->
-  <!-- SECTION 9: FAQ Lokal                             -->
+  <!-- SECTION 10: FAQ Lokal                            -->
   <!-- ================================================ -->
   <FAQSection 
     title={`Pertanyaan Seputar Strauss Pile di ${cityData.name}`} 
-    subtitle="Hal-hal yang sering ditanyakan terkait jasa bor manual."
+    subtitle="Informasi lengkap biaya dan operasional."
     faqs={cityFaqs} 
   />
 
   <!-- ================================================ -->
-  <!-- SECTION 10: Artikel Terkait                      -->
+  <!-- SECTION 11: Link Artikel / Blog                  -->
   <!-- ================================================ -->
   <section class="ls-section">
     <h2 class="ls-art-heading">Artikel Terkait</h2>
@@ -158,56 +188,23 @@ const caseNote = ex.isReal
   </section>
 
   <!-- ================================================ -->
-  <!-- SECTION 11: CTA & Wilayah Layanan                -->
+  <!-- SECTION 12: Konsultasi & Jadwal Survei           -->
   <!-- ================================================ -->
   <PremiumCTA 
-    title="Konsultasi & Survei Lapangan"
-    subtitle={`Hubungi kami via WhatsApp untuk diskusi teknis dan jadwal survei lapangan di ${cityData.name}.`}
-    buttonText="Konsultasi via WhatsApp"
-    waMessage={`Halo Aseven Pile, saya mau konsultasi jasa strauss pile manual untuk daerah ${cityData.name}`}
-  />
-  
-  <CityCrossLinks currentSlug={cityData.slug} serviceType="strauss-pile" serviceName="Strauss Pile Manual" />
+      title="Konsultasi & Survei Lapangan"
+      subtitle={`Hubungi kami via WhatsApp untuk konsultasi proyek dan penjadwalan survei lokasi di ${cityData.name}.`}
+      buttonText="Konsultasi via WhatsApp"
+      waMessage={`Halo Aseven Pile, saya mau konsultasi jasa strauss pile untuk daerah ${cityData.name}`}
+    />
+    
+    <CityCrossLinks currentSlug={cityData.slug} serviceType="strauss-pile" serviceName="Strauss Pile" />
 
+  <!-- ================================================ -->
+  <!-- SECTION 13: Google Maps & Wilayah Kecamatan      -->
+  <!-- ================================================ -->
   <Fragment slot="bottom-content">
     <LocationMap />
 
-    {cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
-      <section class="container ls-area-section">
-        <h2 class="ls-area-title">Wilayah Layanan Strauss Pile {cityData.name}</h2>
-        <p class="ls-center-desc ls-desc-600">Layanan bor manual kami menjangkau seluruh area di bawah ini. Tim kami siap datang ke lokasi Anda, termasuk untuk area yang sempit.</p>
-        
-        <div class="ls-area-grid">
-          {cityData.groupedAreas.map((group) => (
-            <div class="ls-area-card">
-              <h3>
-                <span>{group.groupName}</span>
-              </h3>
-              <div class="ls-area-chips">
-                {group.areas.map((area) => (
-                  <span class="ls-area-chip">
-                    {area}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    ) : (
-      cityData.subAreas && cityData.subAreas.length > 0 && (
-        <section class="container ls-area-section">
-          <h3 class="ls-subarea-title">Area Layanan {cityData.name}</h3>
-          <p class="ls-subarea-desc">Cakupan layanan jasa strauss pile kami di wilayah {cityData.name}:</p>
-          <div class="ls-area-chips">
-            {cityData.subAreas.map((area) => (
-              <span class="ls-subarea-chip">
-                {area.name}
-              </span>
-            ))}
-          </div>
-        </section>
-      )
-    )}
+    <ServiceArea cityData={cityData} serviceName="Strauss Pile" />
   </Fragment>
 </LocalSEOLayout>
