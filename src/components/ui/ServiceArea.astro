@@ -1,0 +1,46 @@
+---
+export interface Props {
+  cityData: any;
+  serviceName: string;
+}
+
+const { cityData, serviceName } = Astro.props;
+---
+
+{cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
+  <section class="container ls-area-section">
+    <h2 class="ls-area-title">Wilayah Layanan {serviceName} {cityData.name}</h2>
+    <p class="ls-center-desc ls-desc-600">Layanan kami mencakup seluruh area di bawah ini. Tim dan peralatan operasional kami siap didatangkan ke lokasi Anda.</p>
+    
+    <div class="ls-area-grid">
+      {cityData.groupedAreas.map((group: any) => (
+        <div class="ls-area-card">
+          <h3>
+            <span>{group.groupName}</span>
+          </h3>
+          <div class="ls-area-chips">
+            {group.areas.map((area: string) => (
+              <span class="ls-area-chip">
+                {area}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+) : (
+  cityData.subAreas && cityData.subAreas.length > 0 && (
+    <section class="container ls-area-section">
+      <h3 class="ls-subarea-title">Area Layanan {cityData.name}</h3>
+      <p class="ls-subarea-desc">Area layanan {serviceName.toLowerCase()} kami di {cityData.name}:</p>
+      <div class="ls-area-chips">
+        {cityData.subAreas.map((area: any) => (
+          <span class="ls-subarea-chip">
+            {area.name}
+          </span>
+        ))}
+      </div>
+    </section>
+  )
+)}
