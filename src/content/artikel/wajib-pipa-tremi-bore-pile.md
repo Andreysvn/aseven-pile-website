@@ -2,7 +2,7 @@
 title: "Kenapa Pengecoran Bore Pile Wajib Menggunakan Pipa Tremi?"
 description: "Alasan teknis mengapa pengecoran beton pada pondasi bore pile harus menggunakan pipa tremi untuk mencegah keropos dan percampuran dengan lumpur."
 pubDate: 2026-10-04
-author: "Tim Aseven Pile"
+author: "Aseven Pile"
 ---
 
 Pengecoran bore pile adalah tahap paling kritis dalam pekerjaan pondasi. Berbeda dengan pengecoran struktur beton biasa yang menggunakan bekisting tertutup, bore pile dicor ke dalam lubang bor yang terbuka dan sering kali masih mengandung air serta lumpur. Kondisi ini menuntut metode pengecoran khusus yang mampu menjaga homogenitas beton dari dasar hingga permukaan. Metode tersebut adalah pengecoran dengan pipa tremi.
@@ -62,6 +62,7 @@ Hasil pengujian Crosshole Sonic Logging (CSL) pada pylon P1 menunjukkan bahwa da
 Pipa tremi adalah peralatan yang menentukan mutu pengecoran bore pile. Fungsinya sederhana, tetapi konsekuensinya besar. Beton yang tercampur lumpur atau mengalami segregasi akan menghasilkan pondasi yang lemah, dan pada akhirnya membahayakan seluruh struktur bangunan di atasnya. Memastikan pipa tremi dipasang dengan benar, ujung bawah terbenam cukup dalam di dalam beton segar, dan pengecoran berlangsung tanpa henti adalah langkah-langkah kecil yang menentukan kualitas pondasi secara keseluruhan.
 
 Kalau Anda sedang merencanakan proyek pondasi bore pile dan ingin memastikan pengecoran dilakukan dengan standar yang benar, tim kami siap membantu. Aseven Pile berpengalaman sejak 2015 menangani proyek bore pile di berbagai kondisi lapangan, dari gang sempit hingga lahan terbuka. Konsultasi via WhatsApp untuk survei lokasi dan penawaran harga.
+
 
 
 
