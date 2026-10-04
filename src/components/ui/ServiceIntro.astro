@@ -1,0 +1,59 @@
+---
+export interface Props {
+  service: 'borepile' | 'strauss';
+  cityName: string;
+  hargaMulai: number;
+  foundingYear?: number;
+}
+
+const { service, cityName, hargaMulai, foundingYear = 2005 } = Astro.props;
+
+const rupiah = (num: number) => 
+  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
+
+// Shared styles for summary box
+---
+
+<section class="ls-section">
+  {service === 'borepile' ? (
+    <>
+      <div class="ls-summary-box">
+        <div class="ls-summary-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        </div>
+        <p class="ls-summary-text">
+          <strong>Ringkasan:</strong> Harga jasa bore pile mesin di {cityName} berkisar mulai dari <strong>{rupiah(hargaMulai)} / meter lari (m&sup1;)</strong>. Harga ini baru biaya jasa bor, belum termasuk material (besi dan beton), mob/demob alat, dan pembuatan bak sirkulasi air.
+        </p>
+      </div>
+      <p class="ls-intro-p">
+        Membangun rumah tinggal, ruko, gedung bertingkat, pabrik, sampai jembatan skala kecil di <strong>{cityName}</strong> membutuhkan pondasi yang tepat. Perbedaannya hanya skala dan daya dukung, tetapi tantangannya mirip: kondisi tanah tidak selalu sama antar lokasi. Di sinilah peran bore pile, yang mampu menyesuaikan kedalaman dan diameter sesuai kondisi tanah masing-masing proyek.
+      </p>
+      <p class="ls-intro-p-flat">
+        Kami menyediakan jasa pengeboran <strong>bore pile mesin mini crane</strong> untuk kedalaman hingga 30 meter, diameter 30 sampai 80 cm, dan bisa masuk ke lokasi dengan akses terbatas. Berpengalaman sejak {foundingYear}, tim kami mengutamakan ketepatan titik bor, stabilitas lubang, dan pengecoran sistem pipa tremi. Minim getaran, sehingga risiko keretakan pada bangunan sekitar dapat dikurangi.
+      </p>
+    </>
+  ) : (
+    <>
+      <div class="ls-summary-box">
+        <div class="ls-summary-price">
+          <span class="ls-sp-label">Mulai dari</span>
+          <span class="ls-sp-value">{rupiah(hargaMulai)}<small>/m</small></span>
+        </div>
+        <ul class="ls-summary-list">
+          <li><strong>Metode:</strong> Strauss Pile Manual (Tenaga Manusia)</li>
+          <li><strong>Diameter:</strong> 20cm, 25cm, 30cm</li>
+          <li><strong>Kedalaman:</strong> Max 6 - 8 meter (tergantung tanah)</li>
+          <li><strong>Keunggulan:</strong> Solusi area sangat sempit & tanpa kebisingan</li>
+        </ul>
+      </div>
+      <p class="ls-intro-p">
+        Mencari jasa pondasi strauss pile manual di <strong>{cityName}</strong>? Aseven Pile solusinya. 
+        Kami melayani pengeboran pondasi secara manual tanpa alat berat, sangat cocok untuk perumahan padat, gang sempit, pembangunan rumah 2-3 lantai, atau pagar keliling di seluruh wilayah {cityName} dan sekitarnya.
+      </p>
+    </>
+  )}
+</section>
