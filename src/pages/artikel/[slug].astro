@@ -44,11 +44,8 @@ const schema = {
         <span class="separator">/</span>
         <a href="/artikel">Artikel</a>
         <span class="separator">/</span>
-        <span class="current" aria-current="page">Panduan Teknis</span>
+        <span class="current" aria-current="page">Info Teknis</span>
       </nav>
-      
-      <h1 class="art-title">{post.data.title}</h1>
-      <p class="art-desc">{post.data.description}</p>
       
       <div class="art-meta">
         <div class="meta-item">
@@ -62,6 +59,12 @@ const schema = {
           </time>
         </div>
       </div>
+
+      <h1 class="art-title">{post.data.title}</h1>
+      <p class="art-desc">{post.data.description}</p>
+      
+      <!-- Featured Image (Pra-Hasil Sunter) -->
+      {post.data.heroImage && <img src={post.data.heroImage} alt={`Ilustrasi Utama - ${post.data.title}`} class="art-featured-img" />}
     </div>
   </section>
 
@@ -81,3 +84,4 @@ const schema = {
     />
   </div>
 </BaseLayout>
+
