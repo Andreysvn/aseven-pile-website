@@ -81,12 +81,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   <!-- ================================================ -->
   <ServiceIntro service="borepile" cityName={cityData.name} hargaMulai={120000} foundingYear={siteConfig.foundingYear} />
 
-  <!-- ================================================ -->
-  <!-- SECTION: Karakteristik Tanah                     -->
-  <!-- ================================================ -->
-  <SoilCharacter city={cityData} />
-
-  <!-- ================================================ -->
+    <!-- ================================================ -->
   <!-- SECTION 2: Tabel Harga Bore Pile                 -->
   <!-- ================================================ -->
   <PricingTable method="borepile" city={cityData.name} />
@@ -115,6 +110,13 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   />
 
   <CostAddons service="borepile" />
+
+<!-- ================================================ -->
+  <!-- SECTION: Karakteristik Tanah                     -->
+  <!-- ================================================ -->
+  <SoilCharacter city={cityData} />
+
+
 
   <!-- ================================================ -->
   <!-- SECTION 6: Keunggulan -->

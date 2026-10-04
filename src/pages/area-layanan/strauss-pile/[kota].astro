@@ -82,12 +82,7 @@ const hargaStraussPile = cityData.slug.includes('jakarta') ? 95000 : 90000;
   <!-- ================================================ -->
   <ServiceIntro service="strauss" cityName={cityData.name} hargaMulai={hargaStraussPile} />
 
-  <!-- ================================================ -->
-  <!-- SECTION: Karakteristik Tanah                     -->
-  <!-- ================================================ -->
-  <SoilCharacter city={cityData} service="strauss" />
-
-  <!-- ================================================ -->
+    <!-- ================================================ -->
   <!-- SECTION 2: Tabel Harga Strauss Pile                 -->
   <!-- ================================================ -->
   <PricingTable method="strauss" city={cityData.name} />
@@ -116,6 +111,13 @@ const hargaStraussPile = cityData.slug.includes('jakarta') ? 95000 : 90000;
   />
 
   <CostAddons service="strauss" />
+
+<!-- ================================================ -->
+  <!-- SECTION: Karakteristik Tanah                     -->
+  <!-- ================================================ -->
+  <SoilCharacter city={cityData} service="strauss" />
+
+
 
   <!-- ================================================ -->
   <!-- SECTION 6: Keunggulan -->
