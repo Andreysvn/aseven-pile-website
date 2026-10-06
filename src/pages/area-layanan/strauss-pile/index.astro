@@ -4,7 +4,8 @@ import PremiumCTA from '../../../components/ui/PremiumCTA.astro';
 import { SERVICE_CITIES } from '../../../data/seo-data';
 import { siteConfig } from '../../../data/site.config';
 
-const cities = SERVICE_CITIES;
+const allowedCities = ['jakarta', 'bekasi'];
+const cities = SERVICE_CITIES.filter(c => allowedCities.includes(c.slug));
 const pageUrl = `${siteConfig.url}/area-layanan/strauss-pile`;
 
 const breadcrumbItems = [

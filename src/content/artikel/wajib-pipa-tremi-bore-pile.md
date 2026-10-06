@@ -3,7 +3,7 @@ title: "Kenapa Pengecoran Bore Pile Wajib Menggunakan Pipa Tremi?"
 description: "Alasan teknis mengapa pengecoran beton pada pondasi bore pile harus menggunakan pipa tremi untuk mencegah keropos dan percampuran dengan lumpur."
 pubDate: 2026-10-04
 author: "Aseven Pile"
-heroImage: "/imgs/prahasil-bore-pile-aseven-pile-sunter-september-2026.webp"
+heroImage: "/imgs/persiapan-pipa-tremi-aseven-pile-bekasi.webp"
 ---
 
 Pengecoran bore pile adalah tahap paling kritis dalam pekerjaan pondasi. Berbeda dengan pengecoran struktur beton biasa yang menggunakan bekisting tertutup, bore pile dicor ke dalam lubang bor yang terbuka dan sering kali masih mengandung air serta lumpur. Kondisi ini menuntut metode pengecoran khusus yang mampu menjaga homogenitas beton dari dasar hingga permukaan. Metode tersebut adalah pengecoran dengan pipa tremi.
@@ -28,7 +28,7 @@ Ujung bawah pipa tremi tidak boleh menempel ke dasar lubang. Jarak aman yang dir
 
 ## Prosedur Pengecoran dengan Pipa Tremi
 
-![Ilustrasi Pengecoran Bore Pile Menggunakan Pipa Tremi](/imgs/pengecoran-bore-pile-pipa-tremie-aseven-pile-ilustrasi.webp)
+![Persiapan Pipa Tremi untuk Pengecoran Bore Pile di Bekasi](/imgs/persiapan-pipa-tremi-aseven-pile-bekasi.webp)
 
 Prosedur pengecoran bore pile dengan pipa tremi mengikuti urutan yang ketat. Sebelum beton dituang, pipa tremi dipasang dan diturunkan hingga mendekati dasar lubang. Pipa tremie dipasang sedalam lubang bore pile, dan pada bagian paling atas disambung dengan corong concrete. Corong ini berfungsi seperti corong minyak pada mesin, mengarahkan beton agar masuk ke dalam pipa tanpa tumpah.
 
@@ -61,6 +61,9 @@ Hasil pengujian Crosshole Sonic Logging (CSL) pada pylon P1 menunjukkan bahwa da
 ## Kesimpulan
 
 Pipa tremi adalah peralatan yang menentukan mutu pengecoran bore pile. Fungsinya sederhana, tetapi konsekuensinya besar. Beton yang tercampur lumpur atau mengalami segregasi akan menghasilkan pondasi yang lemah, dan pada akhirnya membahayakan seluruh struktur bangunan di atasnya. Memastikan pipa tremi dipasang dengan benar, ujung bawah terbenam cukup dalam di dalam beton segar, dan pengecoran berlangsung tanpa henti adalah langkah-langkah kecil yang menentukan kualitas pondasi secara keseluruhan.
+
+
+
 
 
 

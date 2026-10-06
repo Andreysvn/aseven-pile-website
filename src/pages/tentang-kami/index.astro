@@ -1,35 +1,271 @@
-﻿---
+---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
+import { siteConfig } from '../../data/site.config';
 
-const title = "Tentang Kami";
-const description = "Mengenal lebih dekat Aseven Pile, penyedia jasa spesialis bore pile dan strauss pile terpercaya.";
+const title = "Tentang Kami | Aseven Pile";
+const description = "Pondasi tidak butuh dilihat. Ia hanya butuh dikerjakan dengan benar. Mengenal filosofi dan cara kerja Aseven Pile.";
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="hero">
-    <div class="container text-center">
-      <span class="eyebrow">Profil Perusahaan</span>
-      <h1>Tentang Aseven Pile</h1>
-      <p class="hero-sub" style="margin: 0 auto;">Spesialis pondasi bore pile dan strauss pile berpengalaman yang mengutamakan keamanan dan ketepatan waktu.</p>
-    </div>
-  </section>
-
-  <section style="padding-bottom: var(--space-12);">
-    <div class="container">
-      <div style="max-width: 800px; margin: 0 auto; background: var(--color-bg); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light);">
-        <h2>Visi & Misi Kami</h2>
-        <p>Aseven Pile hadir untuk memberikan solusi pondasi yang kuat dan stabil untuk berbagai jenis konstruksi bangunan. Kami berkomitmen memberikan layanan yang cepat, presisi, dan sesuai dengan standar keamanan SNI.</p>
-        <p>Dengan tenaga ahli yang telah mengerjakan ratusan proyek di seluruh Jabodetabek, kami menjamin kepuasan klien mulai dari survei lokasi hingga tahap pengecoran akhir.</p>
-        
-        <h3 style="margin-top: var(--space-6);">Mengapa Memilih Kami?</h3>
-        <ul style="margin-top: var(--space-2); padding-left: var(--space-4); line-height: 1.8;">
-          <li><strong>Berpengalaman:</strong> Tim lapangan yang terlatih menghadapi berbagai kontur tanah.</li>
-          <li><strong>Peralatan Lengkap:</strong> Menggunakan mesin mini crane modern.</li>
-          <li><strong>Harga Transparan:</strong> Perhitungan RAB yang jelas tanpa biaya tersembunyi.</li>
-          <li><strong>Tepat Waktu:</strong> Manajemen proyek yang disiplin.</li>
-        </ul>
+  
+  <div class="ttg-wrapper">
+    <!-- 1. HERO -->
+    <section class="ttg-hero">
+      <div class="ttg-container">
+        <h1 class="ttg-title">Pondasi tidak butuh dilihat.<br/>Ia hanya butuh dikerjakan dengan benar.</h1>
+        <p class="ttg-desc">
+          Aseven Pile melayani pembuatan pondasi bore pile dan strauss pile untuk rumah, ruko, gudang, dan proyek skala kecil hingga menengah. Kami bekerja di bagian yang tidak akan dilihat siapa pun setelah selesai.
+        </p>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- 2. SIAPA KAMI -->
+    <section class="ttg-section">
+      <div class="ttg-container">
+        <h2 class="ttg-heading">Tentang Kami</h2>
+        <div class="ttg-prose">
+          <p>Aseven Pile adalah jasa pondasi <strong>bore pile</strong> dan <strong>strauss pile</strong>.</p>
+          <p>Kami tahu posisi kami di dalam sebuah proyek. Kami bukan yang merancang bangunan, bukan yang memasang atap, bukan yang mengecat dinding. Kami mengerjakan bagian yang paling awal, paling jarang dilihat, dan paling menentukan.</p>
+          <p>Bagi kami, itu bukan posisi yang perlu dikeluhkan. Itu posisi yang harus dikerjakan dengan benar.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. MAKNA NAMA ASEVEN -->
+    <section class="ttg-section">
+      <div class="ttg-container">
+        <h2 class="ttg-heading">Makna Nama Aseven</h2>
+        <div class="ttg-prose">
+          <p><strong>A</strong> adalah awal. Huruf pertama, langkah pertama, bagian yang selalu berada di depan.</p>
+          <p>Bagi kami, itu bukan kebetulan. Pondasi adalah awal dari segalanya. Bangunan setinggi apa pun, sebagus apa pun desainnya, jika pondasinya salah, semuanya tidak berarti. Kami memilih berdiri di titik itu: di bagian yang paling jarang dilihat orang, tetapi paling menentukan.</p>
+          <br/>
+          <p><strong>Seven</strong> kami ambil dari tujuh hari dalam seminggu.</p>
+          <p>Hari demi hari berlalu, minggu berganti minggu, tahun demi tahun terlewati. Bangunan yang berdiri di atas pondasi yang benar tidak ikut berubah. Catnya boleh pudar, atapnya boleh diganti, pemiliknya boleh berganti. Namun pondasinya tetap di sana. Diam, tidak terlihat, tetapi itulah yang membuat semuanya tetap berdiri.</p>
+          <br/>
+          <p>Ada satu hal yang kami sadari sejak awal.</p>
+          <p>Selama sebuah bangunan berdiri kokoh, tidak ada yang bertanya siapa yang membuat pondasinya. Rumah, ruko, gudang, gedung mewah atau sederhana, semuanya berdiri di atas pekerjaan yang tidak pernah dilihat orang lagi. Nama kami tidak akan disebut. Tidak perlu disebut.</p>
+          <p>Tetapi ketika satu bangunan runtuh, pertanyaan pertama yang muncul selalu sama: siapa yang mengerjakan pondasinya?</p>
+          <p>Dari situlah kami bekerja. Kami tahu posisi kami. Kami tidak akan dikenang karena bangunan yang berdiri, tetapi kami akan dicari ketika ada yang gagal. Karena itu, satu-satunya cara kami bekerja adalah dengan menganggap setiap pondasi akan dipertanggungjawabkan.</p>
+          <p><strong>Aseven</strong> adalah cara kami mengingat itu. Tujuh hari dalam seminggu kami bekerja. Minggu berganti minggu, tahun berganti tahun. Yang kami kerjakan tidak ikut berubah. Ia hanya diam di bawah sana, membuat semuanya tetap berdiri.</p>
+          <p>Dari situ semuanya dimulai. Dan dari situ juga semuanya bertahan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. VISI & 5. MISI -->
+    <section class="ttg-section tbg-gray">
+      <div class="ttg-container">
+        
+        <div class="ttg-vm-block">
+          <h2 class="ttg-heading">Visi</h2>
+          <p class="ttg-vm-text">Menjadi jasa pondasi bore pile dan strauss pile yang dipercaya, bukan karena namanya paling sering disebut, tetapi karena pekerjaannya tidak pernah menjadi alasan sebuah bangunan gagal.</p>
+        </div>
+
+                <div class="ttg-vm-block" style="margin-top: 4rem;">
+          <h2 class="ttg-heading">Misi</h2>
+          <div class="ttg-mission-list">
+            <div class="ttg-mission-item">
+              <span class="ttg-mission-num">Satu.</span>
+              <p>Memastikan setiap titik bor dikerjakan sesuai kedalaman, diameter, dan posisi yang sudah direncanakan.</p>
+            </div>
+            <div class="ttg-mission-item">
+              <span class="ttg-mission-num">Dua.</span>
+              <p>Memberi penawaran yang jelas sejak awal, tanpa biaya yang muncul di tengah jalan.</p>
+            </div>
+            <div class="ttg-mission-item">
+              <span class="ttg-mission-num">Tiga.</span>
+              <p>Menjaga kerapian dan kebersihan lokasi kerja, karena pekerjaan yang benar juga terlihat dari caranya dikerjakan.</p>
+            </div>
+            <div class="ttg-mission-item">
+              <span class="ttg-mission-num">Empat.</span>
+              <p>Menghargai waktu klien sama seperti menghargai waktu kami sendiri.</p>
+            </div>
+            <div class="ttg-mission-item">
+              <span class="ttg-mission-num">Lima.</span>
+              <p>Menyampaikan kondisi lapangan apa adanya, termasuk kalau ada hal yang perlu diubah dari rencana awal.</p>
+            </div>
+            <div class="ttg-mission-item">
+              <span class="ttg-mission-num">Keenam.</span>
+              <p>Menerima bahwa pekerjaan ini tidak akan dikenang, dan tetap mengerjakannya dengan standar yang sama seperti kalau pekerjaan ini akan diperiksa selamanya.</p>
+            </div>
+            <div class="ttg-mission-item">
+              <span class="ttg-mission-num">Ketujuh.</span>
+              <p>Mengerjakan bagian yang paling awal dengan cara yang sama seperti mengerjakan bagian yang paling terlihat.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ttg-vm-block" style="margin-top: 4rem; padding-top: 3rem; border-top: 1px solid #e5e7eb;">
+          <p style="font-size: 1.125rem; line-height: 1.7; color: #111111;">
+            "Aseven" bukan nama yang kami pilih supaya terdengar bagus. Ia mengingatkan kami setiap hari: Kerjakan yang paling awal untuk sesuatu yang bertahan jangka panjang.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+        <!-- 6. CTA PENUTUP -->
+    <section class="ttg-section ttg-cta">
+      <div class="ttg-container text-center">
+        <p class="ttg-cta-text">
+          Jika cara berpikir itu sejalan dengan Anda, silakan menghubungi kami.
+        </p>
+        <div class="ttg-cta-btn-wrap">
+          <a href="https://wa.me/6285814173761" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">Hubungi Kami</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
 </BaseLayout>
+
+<style>
+  /* GLOBAL SCOPED RESETS FOR TENTANG KAMI */
+  .ttg-wrapper {
+    background-color: #ffffff;
+    color: #212529;
+    font-family: var(--font-sans);
+  }
+
+  .ttg-container {
+    max-width: 720px; /* Editorial width */
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  /* 1. HERO */
+  .ttg-hero {
+    /* Padding atas sangat besar (160px) agar terbebas dari navbar sticky */
+    padding-top: 160px;
+    padding-bottom: 60px;
+  }
+  
+  .ttg-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    font-weight: 800;
+    color: #111111;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  
+  .ttg-desc {
+    font-size: clamp(1.125rem, 3vw, 1.35rem);
+    line-height: 1.6;
+    color: #4b5563;
+    text-align: left;
+    max-width: 650px;
+  }
+
+  /* 2, 3. SECTIONS */
+  .ttg-section {
+    padding: 60px 0;
+  }
+
+  .ttg-heading {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+
+  .ttg-prose p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #374151;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+  
+  .ttg-prose strong {
+    color: #111111;
+    font-weight: 700;
+  }
+
+  /* 4, 5. VISI MISI */
+  .tbg-gray {
+    background-color: #f9fafb;
+    border-top: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .ttg-vm-text {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: #1f2937;
+    font-weight: 500;
+    text-align: left;
+    
+  }
+
+  .ttg-mission-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ttg-mission-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .ttg-mission-num {
+    font-weight: 800;
+    color: var(--color-primary);
+    font-size: 1.125rem;
+    text-align: left;
+  }
+
+  .ttg-mission-item p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #374151;
+    margin: 0;
+    text-align: left;
+  }
+
+  @media (max-width: 640px) {
+    .ttg-mission-item {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+
+  /* 6. CTA PENUTUP */
+  .ttg-cta {
+    padding: 80px 0 100px;
+  }
+  
+  .ttg-cta-text {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    line-height: 1.4;
+    color: #111111;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  
+  .ttg-cta-sub {
+    font-size: 1.125rem;
+    color: #4b5563;
+    margin-bottom: 40px;
+  }
+
+  .ttg-cta-btn-wrap {
+    margin-top: 32px;
+  }
+</style>
+
+
+
 

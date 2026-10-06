@@ -1,5 +1,8 @@
 ---
-// ServicesGrid.astro
+import { Image } from 'astro:assets';
+import imgStrauss from '../../assets/images/strauss-pile.png';
+import imgMiniCrane from '../../assets/images/mc-rig-2.webp';
+import imgGawangan from '../../assets/images/gawangan-ilustrasi.png';
 ---
 
 <section class="section section-bg-alt" id="layanan">
@@ -12,7 +15,7 @@
       
       <a href="/layanan/bore-pile-mesin/mini-crane" class="service-card">
         <div class="service-image">
-          <img src="/assets/images/layanan/mini-crane/mc-rig-2.webp" alt="Mesin Mini Crane Aseven Pile" loading="lazy" />
+          <Image src={imgMiniCrane} alt="Mesin Mini Crane Aseven Pile" width={600} height={400} loading="lazy" />
         </div>
         <div class="service-content">
           <h3>Bore Pile Mini Crane</h3>
@@ -23,7 +26,7 @@
 
       <a href="/layanan/bore-pile-mesin/gawangan-mesin" class="service-card">
         <div class="service-image">
-          <img src="https://placehold.co/600x400/eeeeee/999999?text=Foto+Gawangan+Belum+Ada" alt="Mesin Gawangan Aseven Pile" loading="lazy" />
+          <img src="/imgs/bore-pile-mesin-gawangan-aseven-pile.webp" alt="Mesin Gawangan Aseven Pile" width="600" height="400" loading="lazy" />
         </div>
         <div class="service-content">
           <h3>Bore Pile Gawangan</h3>
@@ -34,7 +37,7 @@
 
       <a href="/layanan/strauss-pile-manual" class="service-card">
         <div class="service-image">
-          <img src="https://placehold.co/600x400/eeeeee/999999?text=Foto+Strauss+Pile+Belum+Ada" alt="Strauss Pile Manual Aseven Pile" loading="lazy" />
+          <Image src={imgStrauss} alt="Pekerjaan Strauss Pile Manual oleh Aseven Pile" width={600} height={400} loading="lazy" />
         </div>
         <div class="service-content">
           <h3>Strauss Pile Manual</h3>
@@ -133,3 +136,16 @@
     gap: var(--space-3);
   }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+

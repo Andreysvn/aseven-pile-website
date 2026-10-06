@@ -14,7 +14,9 @@ const {
 } = Astro.props;
 
 // Filter out the current city and sub-regions (like jakarta-selatan)
+const allowedStrauss = ['jakarta', 'bekasi'];
 const otherCities = SERVICE_CITIES.filter(c => {
+  if (serviceType === 'strauss-pile' && !allowedStrauss.includes(c.slug)) return false;
   if (c.slug === currentSlug) return false;
   if (c.slug.startsWith('jakarta-')) return false;
   return true;

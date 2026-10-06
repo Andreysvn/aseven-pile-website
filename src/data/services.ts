@@ -24,10 +24,13 @@ export const CITY_SERVICES: CityService[] = [
     slug: "strauss-pile",
     name: "Strauss Pile Manual",
     description: "Bor pondasi manual tanpa suara bising dan getaran. Sangat aman dikerjakan di lokasi perumahan padat penduduk.",
-    image: "/imgs/wa-gallery-1.webp",
+    image: "/imgs/proses-strauss-pile-jakarta-aseven-pile.webp",
     imageAlt: "Pekerjaan Strauss Pile Manual",
     cityUrlPattern: "area-layanan/strauss-pile/{city}",
-    serviceUrl: "layanan/strauss-pile",
+    serviceUrl: "layanan/strauss-pile-manual",
     available: true,
   }
 ];
+
+
+

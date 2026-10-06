@@ -188,7 +188,8 @@
           "price": 85000
         }
       ]
-    }
+    },
+    "draft": false
   },
   {
     "slug": "bekasi",
@@ -243,7 +244,7 @@
     "terrain": "Datar, Kondisi Labil",
     "averageDepth": "12 - 20 meter",
     "soilDescription": "Karakteristik tanah Bekasi didominasi oleh lempung ekspansif yang mudah menyusut dan mengembang. Pengeboran pondasi di sini membutuhkan penanganan khusus agar dinding bor tidak runtuh akibat sifat tanah lempung yang lunak saat terkena air.",
-    "draft": true
+    "draft": false
   },
   {
     "slug": "bogor",
@@ -281,7 +282,7 @@
     "terrain": "Berbukit & Bergelombang",
     "averageDepth": "8 - 15 meter",
     "soilDescription": "Tanah di wilayah Bogor umumnya bertekstur gembur kemerahan dan sering ditemukan lapisan bebatuan (boulder) atau cadas. Penggunaan mata bor khusus (rock auger/core barrel) mutlak diperlukan untuk menembus lapisan keras yang dangkal ini.",
-    "draft": true
+    "draft": false
   },
   {
     "slug": "depok",
@@ -336,7 +337,7 @@
     "terrain": "Relatif Datar & Sedikit Bergelombang",
     "averageDepth": "10 - 18 meter",
     "soilDescription": "Kondisi tanah di Depok tergolong cukup stabil dengan kombinasi lempung pasiran dan lapisan padas di kedalaman sedang. Metode dry boring (bor kering) seringkali bisa diaplikasikan di sini sehingga proses kerja menjadi lebih bersih dan cepat.",
-    "draft": true
+    "draft": false
   },
   {
     "slug": "tangerang",
@@ -374,7 +375,7 @@
     "terrain": "Datar",
     "averageDepth": "15 - 22 meter",
     "soilDescription": "Wilayah Tangerang memiliki struktur tanah endapan (sedimen) yang bervariasi, dari lempung kaku hingga lapisan berpasir. Kedalaman tanah keras umumnya cukup bervariasi tergantung area (seperti BSD vs Cikupa), membutuhkan sistem bor basah untuk keamanan galian.",
-    "draft": true
+    "draft": false
   },
   {
     "slug": "tangerang-selatan",
@@ -404,7 +405,7 @@
     "terrain": "Bervariasi",
     "averageDepth": "10 - 20 meter",
     "soilDescription": "Secara umum, kondisi tanah di wilayah Tangerang Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering).",
-    "draft": true
+    "draft": false
   },
   {
     "slug": "jakarta-selatan",
@@ -434,6 +435,6 @@
     "terrain": "Bervariasi",
     "averageDepth": "10 - 20 meter",
     "soilDescription": "Secara umum, kondisi tanah di wilayah Jakarta Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering).",
-    "draft": true
+    "draft": false
   }
 ]

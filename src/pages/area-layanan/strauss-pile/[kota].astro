@@ -23,9 +23,13 @@ import { SERVICE_CITIES, getCityFaqs } from '../../../data/seo-data';
 import { getProjects } from '../../../data/projects';
 import { exampleForCity } from '../../../data/example';
 import { siteConfig } from '../../../data/site.config';
+import fs from 'node:fs';
+import path from 'node:path';
 
 export async function getStaticPaths() {
-  return SERVICE_CITIES.map((cityData) => {
+  const allowedCities = ['jakarta', 'bekasi'];
+  const straussCities = SERVICE_CITIES.filter(city => allowedCities.includes(city.slug));
+  return straussCities.map((cityData) => {
     return {
       params: { kota: cityData.slug },
       props: { cityData },
@@ -65,22 +69,24 @@ const getCalculatorLocation = (slug, province) => {
 };
 const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
 const hargaStraussPile = 70000;
+const expectedHeroImagePath = '/imgs/header-jasa-strauss-pile-' + cityData.slug + '-aseven-pile.webp';
+const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHeroImagePath));
 ---
 
 <LocalSEOLayout 
   title={`Harga Jasa Strauss Pile ${cityData.name} 2026`} 
-  description={`Jasa strauss pile manual di ${cityData.name}. Harga mulai Rp 70.000/m (O20cm). Cocok untuk gang sempit dan perumahan padat. Survei & konsultasi gratis.`}
+  description={`Jasa strauss pile manual di ${cityData.name}. Harga mulai Rp 70.000/m (Diameter 20cm). Cocok untuk gang sempit dan perumahan padat. Survei & konsultasi gratis.`}
   city={cityData.name}
   serviceName="Strauss Pile"
   pathContext="strauss-pile"
-  heroImage={cityData.slug === 'jakarta' ? '/imgs/header-jasa-strauss-pile-jakarta-aseven-pile.png' : undefined}
+  heroImage={hasHeroImage ? expectedHeroImagePath : undefined}
   faqs={cityFaqs}
 >
 
   <!-- ================================================ -->
   <!-- SECTION 1: Header / Intro                        -->
   <!-- ================================================ -->
-  <ServiceIntro service="strauss" cityName={cityData.name} hargaMulai={hargaStraussPile} />
+  <ServiceIntro service="strauss" cityName={cityData.name} hargaMulai={hargaStraussPile} foundingYear={siteConfig.foundingYear} />
 
     <!-- ================================================ -->
   <!-- SECTION 2: Tabel Harga Strauss Pile                 -->
@@ -124,9 +130,9 @@ const hargaStraussPile = 70000;
   <ServiceFeatures
     title={`Keunggulan jasa strauss pile Aseven Pile di ${cityData.name}`}
     features={[
-      { title: "Tanpa Alat Berat", desc: "Strauss pile kami dikerjakan sepenuhnya dengan tenaga manusia dan alat bor ringkas. Tidak ada mesin berat yang perlu masuk ke lokasi. Cukup diangkut mobil pick-up, dan bisa dikerjakan di dalam ruangan atau gang yang lebarnya kurang dari 1,5 meter.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>` },
-      { title: "Tanpa Getaran & Tanpa Suara", desc: "Karena tidak menggunakan mesin, strauss pile tidak menimbulkan getaran maupun suara bising. Sangat aman untuk proyek renovasi rumah di perumahan padat, atau pagar yang berbatasan langsung dengan bangunan tetangga.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v2"></path><path d="M11 20v2"></path><path d="M4.22 4.22l1.42 1.42"></path><path d="M18.36 18.36l1.42 1.42"></path><path d="M2 11h2"></path><path d="M20 11h2"></path><path d="M4.22 17.78l1.42-1.42"></path><path d="M18.36 5.64l1.42-1.42"></path></svg>` },
-      { title: "Berpengalaman", desc: "Tim kami sudah berpengalaman sejak 2015 dalam pekerjaan pondasi manual, khususnya strauss pile, dan terbiasa menangani berbagai kondisi tanah di lapangan, termasuk tanah berair dan akses yang sangat sempit.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>` },
+      { title: "Tanpa Alat Berat", desc: `Strauss pile kami dikerjakan sepenuhnya dengan tenaga manusia dan alat bor ringkas. Tidak ada mesin berat yang perlu masuk ke lokasi. Cukup diangkut mobil pick-up, dan bisa dikerjakan di dalam ruangan atau gang sempit di wilayah ${cityData.name} yang lebarnya kurang dari 1,5 meter.`, iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>` },
+      { title: "Tanpa Getaran & Tanpa Suara", desc: `Karena tidak menggunakan mesin, strauss pile tidak menimbulkan getaran maupun suara bising. Sangat aman untuk proyek renovasi di perumahan padat ${cityData.name}, atau pagar yang berbatasan langsung dengan tembok tetangga.`, iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v2"></path><path d="M11 20v2"></path><path d="M4.22 4.22l1.42 1.42"></path><path d="M18.36 18.36l1.42 1.42"></path><path d="M2 11h2"></path><path d="M20 11h2"></path><path d="M4.22 17.78l1.42-1.42"></path><path d="M18.36 5.64l1.42-1.42"></path></svg>` },
+      { title: "Berpengalaman", desc: `Tim kami sudah berpengalaman sejak 2015 dalam pekerjaan pondasi manual, khususnya strauss pile, dan terbiasa menangani berbagai kondisi tanah di ${cityData.name}, termasuk tanah berair dan akses yang sangat sempit.`, iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>` },
       { title: "Komitmen Kualitas", desc: "Layanan yang dihasilkan mengutamakan kualitas dan dikerjakan sesuai prosedur, spesifikasi yang disepakati, serta Standar Nasional Indonesia (SNI).", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path><path d="M8 18h.01"></path><path d="M16 18h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path></svg>` }
     ]}
   />
@@ -153,8 +159,8 @@ const hargaStraussPile = 70000;
     title={`Dokumentasi Proyek Strauss Pile ${cityData.name}`} 
     subtitle="Bukti pengerjaan lapangan pondasi strauss pile manual yang dikerjakan langsung oleh tim spesialis kami."
     images={[
-      { src: "/imgs/proses-strauss-pile-jakarta-aseven-pile.png", alt: `Proses Pengerjaan Strauss Pile di ${cityData.name}`, fallback: `Pengeboran+${cityData.name}` },
-      { src: "/imgs/proses-strauss-pile-2-jakarta-aseven-pile.png", alt: `Pemasangan Besi Tulangan Strauss Pile ${cityData.name}`, fallback: `Besi+Tulangan` }
+      { src: "/imgs/proses-strauss-pile-jakarta-aseven-pile.webp", alt: `Proses Pengerjaan Strauss Pile di ${cityData.name}`, fallback: `Pengeboran+${cityData.name}` },
+      { src: "/imgs/proses-strauss-pile-2-jakarta-aseven-pile.webp", alt: `Pemasangan Besi Tulangan Strauss Pile ${cityData.name}`, fallback: `Besi+Tulangan` }
     ]}
     />
   )}
@@ -211,3 +217,9 @@ const hargaStraussPile = 70000;
     <ServiceArea cityData={cityData} serviceName="Strauss Pile" />
   </Fragment>
 </LocalSEOLayout>
+
+
+
+
+
+

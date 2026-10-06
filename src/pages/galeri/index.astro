@@ -1,48 +1,86 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 
-// Database Foto Galeri
-// Bapak tinggal tambah/edit foto di sini.
-// Kategori yang tersedia: "Bore Pile", "Strauss Pile", "Gawangan"
 const photos = [
   {
-    id: 1,
-    title: 'Proyek Bore Pile Mesin Mini Crane',
+    id: 8,
+    title: 'Hasil Pengecoran Beton Bore Pile',
     category: 'Bore Pile',
-    altText: 'Foto alat berat bore pile mesin mini crane Aseven Pile',
-    imageUrl: '/assets/images/layanan/mini-crane/mini-crane-alat.webp'
+    altText: 'Hasil pengecoran beton bore pile mesin yang padat dan kokoh',
+    imageUrl: '/imgs/hasil-pengecoran-beton-bore-pile-mesin.webp'
+  },
+  {
+    id: 9,
+    title: 'Lubang Galian Persiapan Bore Pile',
+    category: 'Bore Pile',
+    altText: 'Lubang galian persiapan bore pile mesin mini crane',
+    imageUrl: '/imgs/lubang-galian-persiapan-bore-pile-mesin.webp'
+  },
+  {
+    id: 10,
+    title: 'Pra-hasil Pengeboran Bore Pile (2)',
+    category: 'Bore Pile',
+    altText: 'Pra-hasil pengeboran bore pile di Sunter',
+    imageUrl: '/imgs/prahasil-bore-pile-aseven-pile-sunter-september-2026(2).webp'
+  },
+  {
+    id: 11,
+    title: 'Persiapan Pipa Tremi Gawangan',
+    category: 'Bore Pile Gawangan',
+    altText: 'Persiapan pipa tremi untuk mesin gawangan di Bekasi',
+    imageUrl: '/imgs/persiapan-pipa-tremi-gawangan-aseven-pile-bekasi.webp'
+  },
+  {
+    id: 1,
+    title: 'Bore Pile Mesin Mini Crane - Sunter',
+    category: 'Bore Pile',
+    altText: 'Proyek bore pile mesin mini crane di Sunter, September 2026',
+    imageUrl: '/imgs/bore-pile-mini-crane-aseven-pile-sunter-september-2026.webp'
   },
   {
     id: 2,
-    title: 'Pengeboran Bore Pile di Gudang',
+    title: 'Bore Pile Mesin Mini Crane - Jelambar',
     category: 'Bore Pile',
-    altText: 'Proyek pengeboran bore pile mesin di area gudang',
-    imageUrl: '/assets/images/layanan/mini-crane/mc-gudang.webp'
+    altText: 'Proyek bore pile mesin mini crane di Jelambar',
+    imageUrl: '/imgs/bore-pile-mini-crane-aseven-pile-jelambar-september-2026.webp'
   },
   {
     id: 3,
-    title: 'Proyek Strauss Pile Manual - Tahap Pengeboran',
+    title: 'Proyek Strauss Pile Manual',
     category: 'Strauss Pile',
     altText: 'Foto pekerja melakukan pengeboran strauss pile manual',
-    imageUrl: '/assets/images/layanan/strauss-pile/sp-hero.jpg'
+    imageUrl: '/imgs/proses-strauss-pile-jakarta-aseven-pile.webp'
   },
   {
     id: 4,
-    title: 'Proyek Strauss Pile Manual - Penekanan Pipa',
-    category: 'Strauss Pile',
-    altText: 'Foto pekerja menekan pipa strauss pile manual di lokasi',
-    imageUrl: '/assets/images/layanan/strauss-pile/sp-2.jpg'
-  },
+    title: 'Bore Pile Mesin Mini Crane - Mangga Dua',
+    category: 'Bore Pile',
+    altText: 'Proyek bore pile mesin mini crane di Mangga Dua',
+    imageUrl: '/imgs/bore-pile-mini-crane-aseven-pile-mangga-dua-agustus-2026.webp'
+  },
   {
     id: 5,
-    title: 'Proyek Strauss Pile Manual - Pengangkatan Tanah',
-    category: 'Strauss Pile',
-    altText: 'Pekerja mengangkat tanah hasil pengeboran strauss pile manual',
-    imageUrl: '/assets/images/layanan/strauss-pile/sp-3.jpg'
-  }
-];
+    title: 'Bore Pile Mesin Mini Crane - Pulo Gadung',
+    category: 'Bore Pile',
+    altText: 'Proyek bore pile mesin mini crane di Pulo Gadung',
+    imageUrl: '/imgs/bore-pile-mini-crane-aseven-pile-pulo-gadung-agustus-2026.webp'
+  },
+  {
+    id: 6,
+    title: 'Persiapan Pipa Tremi - Cipete',
+    category: 'Bore Pile',
+    altText: 'Persiapan pipa tremi untuk pengecoran bore pile di Cipete',
+    imageUrl: '/imgs/persiapan-pipa-tremi-aseven-pile-cipete-juli-2026.webp'
+  },
+  {
+    id: 7,
+    title: 'Pra-hasil Pengeboran Bore Pile - Sunter',
+    category: 'Bore Pile',
+    altText: 'Hasil lubang bore pile di Sunter',
+    imageUrl: '/imgs/prahasil-bore-pile-aseven-pile-sunter-september-2026.webp'
+  }]
 
-const allTags = ["Bore Pile", "Strauss Pile"];
+const allTags = ["Bore Pile", "Strauss Pile", "Gawangan"];
 ---
 
 <BaseLayout title="Galeri Proyek | Aseven Pile" description="Dokumentasi hasil pekerjaan pondasi bore pile dan strauss pile dari Aseven Pile.">
@@ -351,20 +389,8 @@ const allTags = ["Bore Pile", "Strauss Pile"];
   
   
 
-  .gallery-item:hover 
-
-  /* Lightbox Styles */
-  .lightbox {
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: auto;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100vw;
-    max-height: 100vh;
-    overflow: hidden;
-  }
+  .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); } /* Lightbox Styles */
+    .lightbox { border: none !important; background: transparent !important; background-color: transparent !important; padding: 0 !important; margin: auto; width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; overflow: hidden; }
   
   .lightbox[open] {
     display: flex;
@@ -377,18 +403,16 @@ const allTags = ["Bore Pile", "Strauss Pile"];
     backdrop-filter: blur(8px);
   }
   
-  .lightbox-wrapper {
+      .lightbox-wrapper {
     position: relative;
     display: inline-block;
-    max-width: 90vw;
-    max-height: 90vh;
+    padding: 0;
   }
   
   .lightbox-img {
     display: block;
-    max-width: 100%;
+    max-width: 90vw;
     max-height: 90vh;
-    object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   }
@@ -397,6 +421,7 @@ const allTags = ["Bore Pile", "Strauss Pile"];
     position: absolute;
     top: -20px;
     right: -20px;
+    z-index: 10;
     background: var(--color-primary);
     color: white;
     border: none;
@@ -571,4 +596,14 @@ const allTags = ["Bore Pile", "Strauss Pile"];
     }
   }); // This closes the DOMContentLoaded block from the original script
 </script>
+
+
+
+
+
+
+
+
+
+
 

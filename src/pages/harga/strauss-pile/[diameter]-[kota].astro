@@ -8,7 +8,8 @@ export async function getStaticPaths() {
   const paths = [];
   
   for (const tier of straussTiers) {
-    for (const city of SERVICE_CITIES) {
+    const allowedCities = ['jakarta', 'bekasi'];
+    for (const city of SERVICE_CITIES.filter(c => allowedCities.includes(c.slug))) {
       paths.push({
         params: { diameter: tier.diameter.toString(), kota: city.slug },
         props: { 

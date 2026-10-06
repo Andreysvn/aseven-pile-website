@@ -23,6 +23,8 @@ import { SERVICE_CITIES, getCityFaqs } from '../../../data/seo-data';
 import { getProjects } from '../../../data/projects';
 import { exampleForCity } from '../../../data/example';
 import { siteConfig } from '../../../data/site.config';
+import fs from 'node:fs';
+import path from 'node:path';
 
 export async function getStaticPaths() {
   return SERVICE_CITIES.map((cityData) => {
@@ -64,6 +66,8 @@ const getCalculatorLocation = (slug, province) => {
   return 'other';
 };
 const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
+const expectedHeroImagePath = '/imgs/header-jasa-bore-pile-' + cityData.slug + '-aseven-pile.webp';
+const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHeroImagePath));
 ---
 
 <LocalSEOLayout 
@@ -72,7 +76,7 @@ const calcLoc = getCalculatorLocation(cityData.slug, cityData.province);
   city={cityData.name}
   serviceName="Bore Pile"
   pathContext="bore-pile"
-  heroImage={cityData.slug === 'jakarta' ? '/imgs/header-jasa-bore-pile-jakarta-aseven-pile.webp' : undefined}
+  heroImage={hasHeroImage ? expectedHeroImagePath : undefined}
   faqs={cityFaqs}
 >
 

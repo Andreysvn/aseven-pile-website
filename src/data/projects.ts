@@ -46,7 +46,7 @@ export const PROJECTS: Record<string, Project[]> = {
       service: 'borepile'
     },
     {
-      img: '/imgs/proses-strauss-pile-jakarta-aseven-pile.png',
+      img: '/imgs/proses-strauss-pile-jakarta-aseven-pile.webp',
       alt: 'Proyek Strauss Pile Manual di Jakarta',
       area: 'Jakarta',
         customSpec: 'Diameter 30 cm &bull; 22 titik &bull; Kedalaman 6 m',
@@ -55,6 +55,90 @@ export const PROJECTS: Record<string, Project[]> = {
     },
     
   ]
+,
+  bekasi: [
+    {
+      img: '/imgs/bore-pile-mesin-mini-crane-bekasi-aseven-pile.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Bekasi',
+      area: 'Bekasi',
+      diameterCm: 40,
+      depthM: 15,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    },
+    {
+      img: '/imgs/bore-pile-mesin-mini-crane-bekasi-2-aseven-pile.webp',
+      alt: 'Pekerjaan Bore Pile Mesin Mini Crane Area Perumahan di Bekasi',
+      area: 'Bekasi',
+      diameterCm: 30,
+      depthM: 12,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    }
+  ],
+  bogor: [
+    {
+      img: '/imgs/bore-pile-mesin-mini-crane-bogor-aseven-pile.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin di Bogor',
+      area: 'Bogor',
+      diameterCm: 30,
+      depthM: 10,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    },
+    {
+      img: '/imgs/bore-pile-mesin-mini-crane-bogor-2-aseven-pile.webp',
+      alt: 'Pekerjaan Bore Pile Mesin Mini Crane Area Lereng di Bogor',
+      area: 'Bogor',
+      diameterCm: 40,
+      depthM: 14,
+      method: 'Bor kering (dry boring)',
+      service: 'borepile'
+    }
+  ],
+  depok: [
+    {
+      img: '/imgs/bore-pile-mesin-mini-crane-depok-aseven-pile.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin di Depok',
+      area: 'Depok',
+      diameterCm: 30,
+      depthM: 14,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    },
+    {
+      img: '/imgs/bore-pile-mesin-mini-crane-depok-2-aseven-pile.webp',
+      alt: 'Pekerjaan Bore Pile Mesin Mini Crane di Depok',
+      area: 'Depok',
+      diameterCm: 40,
+      depthM: 16,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    }
+  ],
+  tangerang: [
+    {
+      img: '/imgs/bore-pile-mesin-mini-crane-tangerang-aseven-pile.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin di Tangerang',
+      area: 'Tangerang',
+      diameterCm: 40,
+      depthM: 18,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    }
+  ],
+  'tangerang-selatan': [
+    {
+      img: '/imgs/bore-pile-mesin-mini-crane-tangerang-aseven-pile.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin di Tangerang Selatan',
+      area: 'Tangerang Selatan',
+      diameterCm: 40,
+      depthM: 18,
+      method: 'Bor basah (wash boring)',
+      service: 'borepile'
+    }
+  ]
+
 };
 
 export function getProjects(slug: string, service: 'borepile' | 'strauss'): Project[] {

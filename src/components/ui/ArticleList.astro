@@ -1,4 +1,4 @@
-﻿---
+---
 import { getCollection } from 'astro:content';
 
 export interface Props {
@@ -17,7 +17,8 @@ const articlesToShow = sortedArticles.slice(0, limit);
   {articlesToShow.map(post => (
     <a href={`/artikel/${post.slug}`} class="ls-art-card hover-card">
       <div class="ls-art-media">
-        <div class="ls-art-badge ls-art-badge-blue">Info Teknis</div>
+        {post.data.heroImage && <img src={post.data.heroImage} alt={post.data.title} class="ls-art-img" loading="lazy" />}
+        
       </div>
       <div class="ls-art-body">
         <h3>{post.data.title}</h3>
@@ -52,6 +53,11 @@ const articlesToShow = sortedArticles.slice(0, limit);
     overflow: hidden;
     text-decoration: none;
     color: inherit;
+  }
+    .ls-art-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .ls-art-media {
     background-color: #f1f5f9;
@@ -89,4 +95,6 @@ const articlesToShow = sortedArticles.slice(0, limit);
     margin: 0;
   }
 </style>
+
+
 

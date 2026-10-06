@@ -2,7 +2,7 @@
 import BaseLayout from '../../../../components/layout/BaseLayout.astro';
 import CalculatorUI from '../../../../components/interactive/CalculatorUI.astro';
 import '../../../../styles/calculator.css';
-import { straussTiers, pricingTiers } from '../../../../data/pricing';
+import { straussTiers } from '../../../../data/pricing';
 import { siteConfig } from '../../../../data/site.config';
 
 export async function getStaticPaths() {
@@ -16,9 +16,6 @@ const { tier } = Astro.props;
 
 const otherDiameters = straussTiers.filter(t => t.diameter !== tier.diameter);
 
-const boreDiameters = pricingTiers.map((t) => t.diameter);
-const borePileDiameter = boreDiameters.find((d) => d >= tier.diameter + 10) ?? boreDiameters[boreDiameters.length - 1];
-
 const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
   ? `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")}`
   : `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")} - Rp ${tier.pricePerMeter.max.toLocaleString("id-ID")}`;
@@ -29,7 +26,7 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
   description={`Jasa strauss pile manual diameter ${tier.diameter}cm per meter. ${tier.notes} Hubungi ${siteConfig.brand} untuk survei gratis.`}
 >
 
-  <div class="hero-service hero-strauss">
+  <div class="hero-service">
     <div class="container text-center">
       <span class="badge">Strauss Pile Manual</span>
       <h1>Jasa Strauss Pile Diameter {tier.diameter}cm</h1>
@@ -40,7 +37,7 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
   <section class="section">
     <div class="container">
 
-      <div class="price-highlight price-strauss">
+      <div class="price-highlight">
         <p class="price-label">Harga per meter</p>
         <p class="price-value">{priceFormatted}</p>
         {tier.isEstimate && (
@@ -53,36 +50,18 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
         <ul>
           <li><strong>Diameter:</strong> {tier.diameter}cm</li>
           <li><strong>Metode:</strong> Manual (Strauss Pile)</li>
-          <li><strong>Maksimal Kedalaman:</strong> Hingga 12m</li>
+          <li><strong>Maksimal Kedalaman:</strong> Hingga 8m (tergantung tanah keras)</li>
           <li><strong>Cocok untuk:</strong> {tier.notes}</li>
         </ul>
-      </div>
-
-      <div class="content-block">
-        <h2>Bore Pile vs Strauss Pile?</h2>
-        <p>
-          <strong>Strauss Pile</strong> menggunakan tenaga manual manusia, cocok untuk area sempit dan perumahan padat.
-          Tidak menimbulkan getaran berlebih yang bisa merusak bangunan tetangga.
-        </p>
-        <p>
-          Jika proyek Anda membutuhkan diameter lebih besar dari {tier.diameter}cm atau kedalaman lebih dari 12m,
-          pertimbangkan menggunakan <a href={`/layanan/bore-pile/diameter/${borePileDiameter}`} class="text-blue-600 underline">Bore Pile Mesin</a>.
-        </p>
       </div>
 
       <div style="margin-bottom: var(--space-12);">
         
         <CalculatorUI
-          title={`Kalkulator Harga {service} ${tier.diameter}cm`}
+          title={`Kalkulator Harga Strauss Pile ${tier.diameter}cm`}
           description={`Hitung estimasi biaya strauss pile diameter ${tier.diameter}cm. Masukkan kedalaman dan jumlah titik bor.`}
-          defaults={{ method: 'strauss', diameter: tier.diameter, depth: 4, points: 30 }}
+          defaults={{ method: 'strauss', diameter: tier.diameter, depth: 6, points: 15 }}
         />
-      </div>
-
-      <div class="internal-link-box">
-        <h3>Butuh Bore Pile?</h3>
-        <p>Bore pile mesin untuk diameter lebih besar dan kedalaman lebih dari 12m.</p>
-        <a href={`/layanan/bore-pile/diameter/${borePileDiameter}`} class="internal-link link-bore">Lihat Jasa Bore Pile {borePileDiameter}cm →</a>
       </div>
 
       <div class="diameter-links">
@@ -106,11 +85,6 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
     padding: 160px 0 80px;
     background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
     border-bottom: 1px solid var(--color-border-light);
-  }
-
-  .hero-strauss {
-    background: linear-gradient(135deg, #f0fdf4 0%, var(--color-bg) 100%);
-    border-bottom: 1px solid #bbf7d0;
   }
 
   .badge {
@@ -145,11 +119,6 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
     margin-bottom: var(--space-12);
   }
 
-  .price-strauss {
-    background: #f0fdf4;
-    border-color: #bbf7d0;
-  }
-
   .price-label {
     font-size: var(--text-sm);
     color: #64748b;
@@ -159,7 +128,7 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
   .price-value {
     font-size: clamp(32px, 5vw, 48px);
     font-weight: 800;
-    color: #16a34a;
+    color: #1d4ed8;
     margin-bottom: var(--space-2);
   }
 
@@ -174,13 +143,6 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
 
   .content-block h2 {
     font-size: var(--text-2xl);
-    margin-bottom: var(--space-4);
-  }
-
-  .content-block p {
-    color: var(--color-text-muted);
-    font-size: var(--text-lg);
-    line-height: 1.8;
     margin-bottom: var(--space-4);
   }
 
@@ -240,10 +202,6 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
     opacity: 0.9;
   }
 
-  .link-bore {
-    background: #1d4ed8;
-  }
-
   .diameter-links {
     margin-top: var(--space-12);
   }
@@ -273,7 +231,7 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
   }
 
   .diameter-link:hover {
-    border-color: #22c55e;
+    border-color: #3b82f6;
     box-shadow: var(--shadow-sm);
   }
 
@@ -289,3 +247,4 @@ const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
     margin-top: var(--space-1);
   }
 </style>
+
