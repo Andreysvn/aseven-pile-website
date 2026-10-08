@@ -125,7 +125,7 @@
 
 /* Artikel terkait */
 .ls-art-heading { margin-bottom: var(--space-6); }
-.ls-art-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6); }
+.ls-art-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-6); }
 .ls-art-card {
   display: flex;
   flex-direction: column;
