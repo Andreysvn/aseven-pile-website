@@ -7,12 +7,10 @@ import PricingTable from '../../../components/ui/PricingTable.astro';
 import CostExample from '../../../components/ui/CostExample.astro';
 import CostAddons from '../../../components/ui/CostAddons.astro';
 import MachineSpec from '../../../components/ui/MachineSpec.astro';
-import MachineSpec from '../../../components/ui/MachineSpec.astro';
 import ArticleList from '../../../components/ui/ArticleList.astro';
 import ProjectGallery from '../../../components/ui/ProjectGallery.astro';
 import ComparisonSection from '../../../components/ui/ComparisonSection.astro';
 import ServiceFeatures from '../../../components/ui/ServiceFeatures.astro';
-
 import FAQSection from '../../../components/ui/FAQSection.astro';
 import ProcessSteps from '../../../components/ui/ProcessSteps.astro';
 import MiniGallery from '../../../components/ui/MiniGallery.astro';
@@ -45,16 +43,14 @@ const cityFaqs = getCityFaqs(cityData, 'strauss');
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
 
 // Contoh perhitungan biaya strauss pile (PINTAR per kota):
-// - Bila cities.json punya "caseStudy": { "isReal": true, "diameter":30, "depthM":12, "points":15 } â†’ tampil "Studi Kasus" (angka nyata).
-// - Bila tidak â†’ contoh digenerate dari data kota (kedalaman dari averageDepth, jumlah titik divariasikan) â†’ angka beda tiap wilayah.
 const ex = exampleForCity(cityData, 'strauss');
 const rupiah = (n) => `Rp ${n.toLocaleString('id-ID')}`;
 const projectTitle = ex.isReal
   ? `Rincian Biaya Asli Proyek Strauss Pile di ${cityData.name}`
   : `Contoh Perhitungan Biaya Strauss Pile di ${cityData.name}`;
-  const projectDesc = ex.isReal
-    ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
-    : `Sebagai gambaran, berikut contoh perhitungan biaya jasa strauss pile di ${cityData.name} untuk ${ex.items[0].points} titik pondasi sedalam ${ex.items[0].depthM} meter diameter ${ex.items[0].diameterCm} cm:`;
+const projectDesc = ex.isReal
+  ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
+  : `Sebagai gambaran, berikut contoh perhitungan biaya jasa strauss pile di ${cityData.name} untuk ${ex.items[0].points} titik pondasi sedalam ${ex.items[0].depthM} meter diameter ${ex.items[0].diameterCm} cm:`;
 const caseNote = ex.isReal
   ? `*Rincian dari proyek nyata. Harga jasa bor saja; belum termasuk material, pengiriman alat, dan pembuangan tanah galian.`
   : `*Contoh perhitungan (bukan proyek spesifik). Harga jasa bor saja; belum termasuk material, pengiriman alat, dan pembuangan tanah galian.`;
@@ -90,13 +86,21 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   <!-- ================================================ -->
   <ServiceIntro service="strauss" cityName={cityData.name} hargaMulai={hargaStraussPile} foundingYear={siteConfig.foundingYear} crossLink={{ url: `/area-layanan/bore-pile/${cityData.slug}`, text: `jasa bore pile mesin ${cityData.name}` }} />
 
-    <!-- ================================================ -->
-  <!-- SECTION 2: Tabel Harga Strauss Pile                 -->
+  <!-- ================================================ -->
+  <!-- SECTION 2: Tabel Harga Strauss Pile              -->
   <!-- ================================================ -->
   <PricingTable method="strauss" city={cityData.name} />
 
-  
-
+  <!-- ================================================ -->
+  <!-- SECTION 2b: Kalkulator Interaktif                -->
+  <!-- ================================================ -->
+  <section id="kalkulator" class="ls-section">
+    <CalculatorUI 
+      title={`Harga Jasa Strauss Pile ${cityData.name} 2026 | Aseven Pile`}
+      description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
+      defaults={{ method: 'strauss', location: calcLoc, depth: 6, points: 15 }} 
+    />
+  </section>
 
   <!-- ================================================ -->
   <!-- SECTION 5: Contoh Hitungan -->
@@ -109,10 +113,6 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   />
 
   <CostAddons service="strauss" />
-
-
-
-
 
   <!-- ================================================ -->
   <!-- SECTION 6: Keunggulan -->
@@ -139,7 +139,7 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   />
 
   <!-- ================================================ -->
-  <!-- SECTION: Karakteristik Tanah                     -->
+  <!-- SECTION: Karakteristik Tanah & Mesin             -->
   <!-- ================================================ -->
   <MachineSpec service="strauss" city={cityData} />
 
@@ -162,10 +162,10 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   <!-- ================================================ -->
   <!-- SECTION 9: SOP / Tahapan Pengerjaan              -->
   <!-- ================================================ -->
-    <ProcessSteps 
+  <ProcessSteps 
     title={`SOP Pengerjaan Strauss Pile di ${cityData.name}`} 
     subtitle="Standar kerja sistematis Aseven Pile untuk menjamin mutu dan keamanan struktur pondasi."
-        steps={[
+    steps={[
       { number: 1, title: `Persiapan Alat & Titik`, desc: `Tim membawa alat bor manual ke lokasi di ${cityData.name}. Sangat ringkas, cukup diangkut mobil pick-up kecil dan bisa masuk gang sempit atau di dalam ruangan.` },
       { number: 2, title: "Pengeboran Manual", desc: "Pengeboran dilakukan dengan memutar pipa dan mata bor secara manual oleh 2-3 orang pekerja hingga mencapai kedalaman tanah keras (rata-rata 6-8 meter)." },
       { number: 3, title: "Pemasangan Besi Tulangan", desc: "Penurunan keranjang besi tulangan SNI ke dalam lubang bor yang sudah dibersihkan." },
@@ -185,48 +185,28 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   <!-- ================================================ -->
   <!-- SECTION 11: Link Artikel / Blog                  -->
   <!-- ================================================ -->
-
-
-
-
-
-  <!-- ================================================ -->
-  <!-- ================================================ -->
-  <!-- SECTION 2b: Kalkulator Interaktif                -->
-  <!-- Tepat di bawah tabel harga                       -->
-  <!-- ================================================ -->
-  <section id="kalkulator" class="ls-section">
-    <CalculatorUI 
-      title={`Harga Jasa Strauss Pile ${cityData.name} 2026 | Aseven Pile`}
-      description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
-      defaults={{ method: 'strauss', location: calcLoc, depth: 6, points: 15 }} 
-    />
+  <section class="ls-section">
+    <h2 class="ls-art-heading">Artikel Terkait</h2>
+    <ArticleList limit={1} />
   </section>
 
+  <!-- ================================================ -->
   <!-- SECTION 12: Konsultasi & Jadwal Survei           -->
   <!-- ================================================ -->
   <PremiumCTA 
-      title="Konsultasi & Survei Lapangan"
-      subtitle={`Hubungi kami via WhatsApp untuk konsultasi proyek dan penjadwalan survei lokasi di ${cityData.name}.`}
-      buttonText="Konsultasi via WhatsApp"
-      waMessage={`Halo Aseven Pile, saya mau konsultasi jasa strauss pile untuk daerah ${cityData.name}`}
-    />
+    title="Konsultasi & Survei Lapangan"
+    subtitle={`Hubungi kami via WhatsApp untuk konsultasi proyek dan penjadwalan survei lokasi di ${cityData.name}.`}
+    buttonText="Konsultasi via WhatsApp"
+    waMessage={`Halo Aseven Pile, saya mau konsultasi jasa strauss pile untuk daerah ${cityData.name}`}
+  />
     
-    <CityCrossLinks currentSlug={cityData.slug} serviceType="strauss-pile" serviceName="Strauss Pile" />
+  <CityCrossLinks currentSlug={cityData.slug} serviceType="strauss-pile" serviceName="Strauss Pile" />
 
   <!-- ================================================ -->
   <!-- SECTION 13: Google Maps & Wilayah Kecamatan      -->
   <!-- ================================================ -->
   <Fragment slot="bottom-content">
     <LocationMap />
-
     <ServiceArea cityData={cityData} serviceName="Strauss Pile" />
   </Fragment>
 </LocalSEOLayout>
-
-
-
-
-
-
-
