@@ -6,11 +6,13 @@ import CalculatorUI from '../../../components/interactive/CalculatorUI.astro';
 import PricingTable from '../../../components/ui/PricingTable.astro';
 import CostExample from '../../../components/ui/CostExample.astro';
 import CostAddons from '../../../components/ui/CostAddons.astro';
-import SoilCharacter from '../../../components/ui/SoilCharacter.astro';
+import MachineSpec from '../../../components/ui/MachineSpec.astro';
+import MachineSpec from '../../../components/ui/MachineSpec.astro';
+import ArticleList from '../../../components/ui/ArticleList.astro';
 import ProjectGallery from '../../../components/ui/ProjectGallery.astro';
 import ComparisonSection from '../../../components/ui/ComparisonSection.astro';
 import ServiceFeatures from '../../../components/ui/ServiceFeatures.astro';
-import ArticleList from '../../../components/ui/ArticleList.astro';
+
 import FAQSection from '../../../components/ui/FAQSection.astro';
 import ProcessSteps from '../../../components/ui/ProcessSteps.astro';
 import MiniGallery from '../../../components/ui/MiniGallery.astro';
@@ -54,8 +56,8 @@ const projectTitle = ex.isReal
     ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
     : `Sebagai gambaran, berikut contoh perhitungan biaya jasa strauss pile di ${cityData.name} untuk ${ex.items[0].points} titik pondasi sedalam ${ex.items[0].depthM} meter diameter ${ex.items[0].diameterCm} cm:`;
 const caseNote = ex.isReal
-  ? `*Rincian dari proyek nyata. Harga jasa bor saja; belum termasuk material, mob/demob alat, dan bak sirkulasi air.`
-  : `*Contoh perhitungan (bukan proyek spesifik). Harga jasa bor saja; belum termasuk material, pengiriman alat, dan penampungan air.`;
+  ? `*Rincian dari proyek nyata. Harga jasa bor saja; belum termasuk material, pengiriman alat, dan pembuangan tanah galian.`
+  : `*Contoh perhitungan (bukan proyek spesifik). Harga jasa bor saja; belum termasuk material, pengiriman alat, dan pembuangan tanah galian.`;
 
 
 const getCalculatorLocation = (slug, province) => {
@@ -86,24 +88,14 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   <!-- ================================================ -->
   <!-- SECTION 1: Header / Intro                        -->
   <!-- ================================================ -->
-  <ServiceIntro service="strauss" cityName={cityData.name} hargaMulai={hargaStraussPile} foundingYear={siteConfig.foundingYear} />
+  <ServiceIntro service="strauss" cityName={cityData.name} hargaMulai={hargaStraussPile} foundingYear={siteConfig.foundingYear} crossLink={{ url: `/area-layanan/bore-pile/${cityData.slug}`, text: `jasa bore pile mesin ${cityData.name}` }} />
 
     <!-- ================================================ -->
   <!-- SECTION 2: Tabel Harga Strauss Pile                 -->
   <!-- ================================================ -->
   <PricingTable method="strauss" city={cityData.name} />
 
-  <!-- ================================================ -->
-  <!-- SECTION 2b: Kalkulator Interaktif                -->
-  <!-- Tepat di bawah tabel harga                       -->
-  <!-- ================================================ -->
-  <section class="ls-section">
-    <CalculatorUI 
-      title={`Harga Jasa Strauss Pile ${cityData.name} 2026 | Aseven Pile`}
-      description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
-      defaults={{ method: 'strauss', location: calcLoc, depth: 6, points: 15 }} 
-    />
-  </section>
+  
 
 
   <!-- ================================================ -->
@@ -118,10 +110,7 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
 
   <CostAddons service="strauss" />
 
-<!-- ================================================ -->
-  <!-- SECTION: Karakteristik Tanah                     -->
-  <!-- ================================================ -->
-  <SoilCharacter city={cityData} service="strauss" />
+
 
 
 
@@ -150,10 +139,15 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   />
 
   <!-- ================================================ -->
+  <!-- SECTION: Karakteristik Tanah                     -->
+  <!-- ================================================ -->
+  <MachineSpec service="strauss" city={cityData} />
+
+  <!-- ================================================ -->
   <!-- SECTION 8: Galeri / Portofolio Proyek            -->
   <!-- ================================================ -->
   {getProjects(cityData.slug, 'strauss').length ? (
-    <ProjectGallery city={cityData.name} projects={getProjects(cityData.slug, 'strauss')} />
+    <ProjectGallery city={cityData.name} projects={getProjects(cityData.slug, 'strauss')} subtitle={`Beberapa proyek pondasi strauss pile manual yang kami kerjakan di wilayah ${cityData.name}.`} />
   ) : (
     <MiniGallery 
     title={`Dokumentasi Proyek Strauss Pile ${cityData.name}`} 
@@ -191,12 +185,24 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   <!-- ================================================ -->
   <!-- SECTION 11: Link Artikel / Blog                  -->
   <!-- ================================================ -->
-  <section class="ls-section">
-    <h2 class="ls-art-heading">Artikel Terkait</h2>
-    <ArticleList limit={1} />
-  </section>
+
+
+
+
 
   <!-- ================================================ -->
+  <!-- ================================================ -->
+  <!-- SECTION 2b: Kalkulator Interaktif                -->
+  <!-- Tepat di bawah tabel harga                       -->
+  <!-- ================================================ -->
+  <section id="kalkulator" class="ls-section">
+    <CalculatorUI 
+      title={`Harga Jasa Strauss Pile ${cityData.name} 2026 | Aseven Pile`}
+      description="Gunakan kalkulator ini untuk menghitung total RAB pondasi strauss pile proyek Anda."
+      defaults={{ method: 'strauss', location: calcLoc, depth: 6, points: 15 }} 
+    />
+  </section>
+
   <!-- SECTION 12: Konsultasi & Jadwal Survei           -->
   <!-- ================================================ -->
   <PremiumCTA 
@@ -217,6 +223,7 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
     <ServiceArea cityData={cityData} serviceName="Strauss Pile" />
   </Fragment>
 </LocalSEOLayout>
+
 
 
 

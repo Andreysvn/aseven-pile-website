@@ -7,6 +7,7 @@ import PricingTable from '../../../components/ui/PricingTable.astro';
 import CostExample from '../../../components/ui/CostExample.astro';
 import CostAddons from '../../../components/ui/CostAddons.astro';
 import SoilCharacter from '../../../components/ui/SoilCharacter.astro';
+import MachineSpec from '../../../components/ui/MachineSpec.astro';
 import ProjectGallery from '../../../components/ui/ProjectGallery.astro';
 import ComparisonSection from '../../../components/ui/ComparisonSection.astro';
 import ServiceFeatures from '../../../components/ui/ServiceFeatures.astro';
@@ -39,6 +40,7 @@ export async function getStaticPaths() {
 const { cityData } = Astro.props;
 const cityFaqs = getCityFaqs(cityData, 'borepile');
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
+const straussUrl = ['jakarta', 'bekasi'].includes(cityData.slug) ? `/area-layanan/strauss-pile/${cityData.slug}` : '/layanan/strauss-pile-manual';
 
 // Contoh perhitungan biaya bore pile (PINTAR per kota):
 // - Bila cities.json punya "caseStudy": { "isReal": true, "diameter":30, "depthM":12, "points":15 } â†’ tampil "Studi Kasus" (angka nyata).
@@ -83,7 +85,7 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   <!-- ================================================ -->
   <!-- SECTION 1: Header / Intro                        -->
   <!-- ================================================ -->
-  <ServiceIntro service="borepile" cityName={cityData.name} hargaMulai={120000} foundingYear={siteConfig.foundingYear} />
+  <ServiceIntro service="borepile" cityName={cityData.name} hargaMulai={120000} foundingYear={siteConfig.foundingYear} crossLink={{ url: straussUrl, text: `jasa strauss pile manual ${cityData.name}` }} />
 
     <!-- ================================================ -->
   <!-- SECTION 2: Tabel Harga Bore Pile                 -->
@@ -92,9 +94,8 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
 
   <!-- ================================================ -->
   <!-- SECTION 2b: Kalkulator Interaktif                -->
-  <!-- Tepat di bawah tabel harga                       -->
   <!-- ================================================ -->
-  <section class="ls-section">
+  <section id="kalkulator" class="ls-section">
     <CalculatorUI 
       title={`Harga Jasa Bore Pile ${cityData.name} 2026 | Aseven Pile`}
       description="Gunakan kalkulator ini untuk menghitung total RAB pondasi bore pile proyek Anda."
@@ -102,8 +103,6 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
     />
   </section>
 
-
-  <!-- ================================================ -->
   <!-- SECTION 5: Contoh Hitungan -->
   <CostExample
     method="borepile"
@@ -115,10 +114,7 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
 
   <CostAddons service="borepile" />
 
-<!-- ================================================ -->
-  <!-- SECTION: Karakteristik Tanah                     -->
-  <!-- ================================================ -->
-  <SoilCharacter city={cityData} />
+
 
 
 
@@ -139,11 +135,19 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
     title={`Bore Pile Mesin vs Tiang Pancang di ${cityData.name}`}
     description={`Bingung antara pondasi bor (bore pile) atau tiang pancang? Berikut bedanya, disesuaikan dengan kondisi lapangan di ${cityData.name}:`}
     primaryTitle="Bore Pile Mesin"
-    primaryDesc={`Bore pile mesin merupakan metode <em>cast in-situ</em>, yaitu lubang dibor terlebih dahulu di lokasi, kemudian diisi besi tulangan dan dicor beton langsung di tempat. Karena tidak melalui proses pemancangan, getaran dan suara yang dihasilkan sangat minim sehingga aman diterapkan di lingkungan padat bangunan seperti ${cityData.name}. Diameternya fleksibel, mulai 30 hingga 80 cm, dengan kedalaman mencapai 30 meter tergantung kondisi tanah. Mini crane yang kami gunakan dirancang untuk masuk ke gang sempit dan jalan terbatas, sehingga bore pile dapat dikerjakan di lokasi yang tidak dapat dijangkau truk besar. Untuk area yang benar-benar sempit, metode alternatifnya adalah <a href="/area-layanan/strauss-pile/${cityData.slug}">Strauss Pile</a> yang menggunakan tenaga manual.`}
+    primaryDesc={`Bore pile mesin merupakan metode <em>cast in-situ</em>, yaitu lubang dibor terlebih dahulu di lokasi, kemudian diisi besi tulangan dan dicor beton langsung di tempat. Karena tidak melalui proses pemancangan, getaran dan suara yang dihasilkan sangat minim sehingga aman diterapkan di lingkungan padat bangunan seperti ${cityData.name}. Diameternya fleksibel, mulai 30 hingga 80 cm, dengan kedalaman mencapai 30 meter tergantung kondisi tanah. Mini crane yang kami gunakan dirancang untuk masuk ke gang sempit dan jalan terbatas, sehingga bore pile dapat dikerjakan di lokasi yang tidak dapat dijangkau truk besar. Untuk area yang benar-benar sempit, metode alternatifnya adalah <a href="${straussUrl}">Strauss Pile</a> yang menggunakan tenaga manual.`}
     secondaryTitle="Tiang Pancang (Paku Bumi)"
     secondaryDesc="Tiang pancang merupakan kebalikannya. Beton dicetak di pabrik secara <em>precast</em>, lalu dipancang ke dalam tanah menggunakan palu berat. Metode ini lebih cepat dan seringkali lebih ekonomis untuk tanah lunak, serta mutu betonnya lebih terkontrol karena dicetak di pabrik. Namun, ada konsekuensi yang perlu dipertimbangkan. Getaran yang ditimbulkan cukup besar sehingga berisiko meretakkan dinding bangunan tua di sekitarnya, suaranya bising, dan alat pancang membutuhkan akses jalan lebar minimal 4 sampai 5 meter sehingga tidak dapat masuk ke gang sempit. Tiang pancang baru menjadi pertimbangan apabila lokasi jauh dari bangunan tetangga, akses jalan lebar, dan tanahnya lunak homogen."
     conclusion={`<strong>Kesimpulan:</strong> Untuk mayoritas proyek di <strong>${cityData.name}</strong>, terutama ruko, rumah tinggal, dan gedung bertingkat di lingkungan padat, bore pile mesin hampir selalu menjadi pilihan yang lebih aman. Bukan karena lebih murah, sebab kadang justru lebih mahal, tetapi karena tidak berisiko merusak bangunan tetangga dan dapat masuk ke lokasi yang tidak dapat diakses alat pancang. Apabila masih ragu, tim kami dapat melakukan survei lapangan untuk menilai kondisi tanah dan akses, lalu merekomendasikan metode yang paling efisien untuk proyek Anda.`}
   />
+
+  <!-- ================================================ -->
+  <!-- SECTION: Karakteristik Tanah                     -->
+  <!-- ================================================ -->
+  
+
+  <!-- SECTION: Spesifikasi Alat & Kapasitas Mesin -->
+  <MachineSpec service="borepile" city={cityData} />
 
   <!-- ================================================ -->
   <!-- SECTION 8: Galeri / Portofolio Proyek            -->

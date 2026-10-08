@@ -28,21 +28,23 @@ export function exampleForCity(city: any, service: "borepile" | "strauss" = "bor
   
   if (isReal && cs.items && Array.isArray(cs.items)) {
     items = cs.items.map((i: any) => {
-      const tier = pricingTiers.find((t) => t.diameter === i.diameter) ?? pricingTiers[0];
+      const diameterCm = i.diameterCm ?? i.diameter;
+      const tier = pricingTiers.find((t) => t.diameter === diameterCm) ?? pricingTiers[0];
       const pricePerM = i.price ?? tier.pricePerMeter.min;
       return {
-        diameterCm: i.diameter,
+        diameterCm,
         depthM: i.depthM,
         points: i.points,
         pricePerM,
         subtotal: i.points * i.depthM * pricePerM
       };
     });
-  } else if (isReal && cs.diameter) {
-    const tier = pricingTiers.find((t) => t.diameter === cs.diameter) ?? pricingTiers[0];
+  } else if (isReal && (cs.diameter || cs.diameterCm)) {
+    const diameterCm = cs.diameterCm ?? cs.diameter;
+    const tier = pricingTiers.find((t) => t.diameter === diameterCm) ?? pricingTiers[0];
     const pricePerM = cs.price ?? tier.pricePerMeter.min;
     items = [{
-      diameterCm: cs.diameter,
+      diameterCm,
       depthM: cs.depthM,
       points: cs.points,
       pricePerM,

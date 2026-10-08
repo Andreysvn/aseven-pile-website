@@ -22,20 +22,8 @@
         "answer": "Sangat aman. Metode bore pile mesin tidak menimbulkan getaran seperti tiang pancang. Kami rutin mengerjakan proyek di perumahan padat di Tebet, Kebayoran, Cilandak, dan Kelapa Gading tanpa ada keluhan kerusakan dari bangunan sekitar."
       },
       {
-        "question": "Berapa lama proses pengerjaan bore pile untuk ruko 3 lantai di Jakarta?",
-        "answer": "Untuk ruko 3 lantai standar di Jakarta dengan kebutuhan sekitar 15-20 titik bore pile, pengerjaan rata-rata memakan waktu 4-7 hari kerja tergantung kondisi tanah dan cuaca. Tim kami bekerja dari pagi hingga sore hari."
-      },
-      {
         "question": "Apakah tanah di Jakarta Utara yang rawa bisa dipasang bore pile?",
         "answer": "Bisa. Jakarta Utara memang memiliki tanah rawa dengan muka air tanah yang tinggi. Kami menggunakan metode bor basah (wash boring) untuk menstabilkan dinding lubang, lalu pengecoran dilakukan dengan pipa tremi agar beton tidak bercampur lumpur."
-      },
-      {
-        "question": "Apa bedanya harga jasa saja dengan harga all-in bore pile?",
-        "answer": "Harga jasa saja hanya mencakup biaya pengeboran per meter lari. Sedangkan harga all-in sudah termasuk pengadaan material besi tulangan dan beton readymix. Gunakan kalkulator di halaman ini untuk menghitung estimasi biaya all-in proyek Anda."
-      },
-      {
-        "question": "Apakah Aseven Pile menyediakan jasa survei tanah sebelum pengeboran?",
-        "answer": "Ya, kami menyediakan layanan survei lokasi gratis untuk wilayah Jakarta dan sekitarnya. Tim teknis kami akan meninjau kondisi tanah, akses jalan, dan menentukan spesifikasi bore pile yang paling sesuai untuk proyek Anda."
       }
     ],
     "subAreas": [
@@ -158,8 +146,8 @@
     },
     "localFaqsStrauss": [
       {
-        "question": "Apa perbedaan Strauss Pile dan Bore Pile Mesin?",
-        "answer": "Strauss pile dikerjakan manual dengan tenaga manusia, kedalaman terbatas 6-8 meter, dan cocok untuk area sempit. Bore pile mesin menggunakan mini crane hidrolik, bisa mencapai 30 meter, dan cocok untuk bangunan berat."
+        "question": "Berapa minimal order titik untuk pengerjaan strauss pile di Jakarta?",
+        "answer": "Tidak ada batas minimal titik yang kaku, namun untuk mendapatkan efisiensi biaya per meter (mulai Rp 70.000/m), kami merekomendasikan jumlah pengerjaan minimum 10 hingga 15 titik bor."
       },
       {
         "question": "Berapa lama pengerjaan strauss pile untuk rumah 2 lantai di Jakarta?",
@@ -384,27 +372,35 @@
     "description": "Jasa bore pile dan strauss pile manual area Tangerang Selatan (Tangsel). Bebas polusi suara, aman untuk lingkungan padat.",
     "localFaqs": [
       {
-        "question": "Pilih bore pile atau strauss pile untuk renovasi rumah di Tangsel?",
-        "answer": "Jika akses jalan masuk ke perumahan Anda di Tangsel sangat sempit (kurang dari 2 meter) dan Anda ingin menghindari kebisingan, strauss pile (manual) adalah pilihan terbaik. Namun jika butuh pondasi lebih dalam dari 6 meter, kami sarankan bore pile mesin."
+        "question": "Apakah melayani jasa bore pile untuk perumahan di BSD dan Bintaro?",
+        "answer": "Ya, kami berpengalaman menangani pengeboran pondasi di cluster perumahan BSD City, Bintaro Jaya, Alam Sutera, Serpong, Pamulang, Ciputat, dan seluruh area Tangsel."
       },
       {
-        "question": "Berapa biaya bore pile untuk rumah di BSD atau Bintaro?",
-        "answer": "Untuk rumah 2-3 lantai di BSD atau Bintaro dengan kebutuhan 15-20 titik bore pile, estimasi biaya jasa mulai dari Rp 17-25 juta (tergantung diameter dan kedalaman), belum termasuk material."
+        "question": "Bagaimana kondisi tanah di Tangerang Selatan untuk pondasi bore pile?",
+        "answer": "Tanah Tangsel cenderung bervariasi antara lempung kaku hingga tanah merah latosol dengan kedalaman tanah keras rata-rata 10-18 meter. Hasil tes sondir akan menentukan metode bor basah atau kering yang paling efisien."
       },
       {
-        "question": "Apakah bore pile aman untuk cluster padat di Tangsel?",
-        "answer": "Sangat aman. Bore pile mesin tidak menimbulkan getaran keras sehingga tidak akan merusak tembok rumah tetangga. Kami rutin mengerjakan proyek di cluster-cluster padat di BSD, Bintaro, dan Pamulang."
+        "question": "Berapa estimasi biaya bore pile rumah 2-3 lantai di Tangsel?",
+        "answer": "Untuk rumah 2-3 lantai di Tangsel dengan kebutuhan 15-20 titik (D30/D40cm), estimasi biaya jasa berkisar Rp 17-25 Juta tergantung kedalaman target tanah keras."
       },
       {
-        "question": "Apakah melayani area Pamulang, Serpong, dan Ciputat?",
-        "answer": "Ya, kami melayani seluruh wilayah Tangerang Selatan termasuk Pamulang, Serpong, Ciputat, Pondok Aren, dan Setu."
+        "question": "Apakah bore pile mesin aman dari getaran untuk cluster padat di Tangsel?",
+        "answer": "Sangat aman. Mesin mini crane kami beroperasi tanpa menimbulkan getaran keras yang dapat merusak tembok rumah tetangga di cluster perumahan padat."
+      },
+      {
+        "question": "Apakah melayani proyek ruko dan gedung komersial di Serpong Tangsel?",
+        "answer": "Tentu. Kami melayani proyek ruko, sekolah, gedung kantor, hingga tempat ibadah di wilayah Tangsel dengan diameter bor hingga 80 cm."
+      },
+      {
+        "question": "Berapa biaya mobilisasi mesin bore pile ke lokasi di Tangsel?",
+        "answer": "Biaya mobilisasi alat dari pool kami ke wilayah Tangsel berkisar antara Rp 3.500.000 hingga Rp 4.500.000 tergantung kemudahan akses lokasi proyek Anda."
       }
     ],
     "subAreas": [],
-    "soilType": "Tanah Lempung/Pasir Standar",
-    "terrain": "Bervariasi",
-    "averageDepth": "10 - 20 meter",
-    "soilDescription": "Secara umum, kondisi tanah di wilayah Tangerang Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering).",
+    "soilType": "Tanah Lempung Kaku & Latosol",
+    "terrain": "Datar & Bergelombang",
+    "averageDepth": "10 - 18 meter",
+    "soilDescription": "Kondisi tanah di wilayah Tangerang Selatan (BSD City, Bintaro Jaya, Serpong, Pamulang, Ciputat) didominasi oleh perpaduan lempung kaku dan tanah merah latosol. Pengeboran disesuaikan dengan kontur lokasi, di mana metode bor basah (wash boring) diaplikasikan untuk area berair dan bor kering (dry boring) untuk lingkungan perumahan padat.",
     "draft": false
   },
   {
@@ -435,6 +431,6 @@
     "terrain": "Bervariasi",
     "averageDepth": "10 - 20 meter",
     "soilDescription": "Secara umum, kondisi tanah di wilayah Jakarta Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering).",
-    "draft": false
+    "draft": true
   }
 ]

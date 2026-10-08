@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
+import CalculatorUI from '../../components/interactive/CalculatorUI.astro';
 import { siteConfig } from '../../data/site.config';
 ---
 
@@ -137,6 +138,15 @@ import { siteConfig } from '../../data/site.config';
       <a href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent('Halo Aseven Pile, saya ingin konsultasi strauss pile manual untuk proyek saya.')}`} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Hubungi via WhatsApp</a>
     </div>
   </section>
+  <!-- Calculator RAB -->
+  <section id="kalkulator" class="section" style="background-color: #f8fafc; padding: var(--space-12) 0;">
+    <CalculatorUI 
+      title="Kalkulator RAB Strauss Pile"
+      description="Hitung estimasi anggaran biaya pondasi strauss pile untuk proyek Anda secara instan."
+      defaults={{ method: 'strauss', location: 'jabodetabek', depth: 6, points: 15 }} 
+    />
+  </section>
+
 </BaseLayout>
 
 <style>
@@ -476,6 +486,7 @@ o    border-radius: var(--radius-lg);
     customElements.define('image-lightbox', ImageLightbox);
   }
 </script>
+
 
 
 

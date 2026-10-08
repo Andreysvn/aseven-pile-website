@@ -16,8 +16,8 @@ export const CITY_SERVICES: CityService[] = [
     description: "Pondasi dalam super kuat pakai mesin mini crane. Solusi presisi untuk bangunan besar, ruko, hingga pabrik.",
     image: "/imgs/header-beranda-bore-pile-aseven-2.webp",
     imageAlt: "Pekerjaan Bore Pile Mesin",
-    cityUrlPattern: "area-layanan/bore-pile/{city}",
-    serviceUrl: "layanan/bore-pile",
+    cityUrlPattern: "/area-layanan/bore-pile/{city}",
+    serviceUrl: "/layanan/bore-pile-mesin",
     available: true,
   },
   {
@@ -26,8 +26,8 @@ export const CITY_SERVICES: CityService[] = [
     description: "Bor pondasi manual tanpa suara bising dan getaran. Sangat aman dikerjakan di lokasi perumahan padat penduduk.",
     image: "/imgs/proses-strauss-pile-jakarta-aseven-pile.webp",
     imageAlt: "Pekerjaan Strauss Pile Manual",
-    cityUrlPattern: "area-layanan/strauss-pile/{city}",
-    serviceUrl: "layanan/strauss-pile-manual",
+    cityUrlPattern: "/area-layanan/strauss-pile/{city}",
+    serviceUrl: "/layanan/strauss-pile-manual",
     available: true,
   }
 ];

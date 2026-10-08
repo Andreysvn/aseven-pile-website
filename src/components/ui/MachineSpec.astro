@@ -1,0 +1,74 @@
+---
+import SoilCharacter from './SoilCharacter.astro';
+
+interface Props {
+  service: 'borepile' | 'strauss';
+  city: any;
+}
+
+const { service, city } = Astro.props;
+const isBore = service === 'borepile';
+const cityName = typeof city === 'string' ? city : city.name;
+const cityObj = typeof city === 'string' ? { name: city, slug: city.toLowerCase() } : city;
+---
+
+<section class="ls-section machine-spec-section">
+  {isBore ? (
+    <>
+      <h2 class="ls-mach-title">Kapasitas Mesin & Karakteristik Tanah di {cityName}</h2>
+      <p class="ls-mach-p">
+        Banyak klien di <strong>{cityName}</strong> bertanya, "Berapa maksimal kedalaman pengeboran untuk bore pile menggunakan mesin ini (mini crane/gawangan)?" Jawabannya sangat bergantung pada kekerasan tanah di lokasi proyek, bukan sekadar panjang tiang atau pipa bor. Mesin bore pile mini crane yang kami gunakan dirancang untuk mampu mengebor hingga kedalaman 25 sampai 30 meter pada kondisi tanah normal seperti lempung atau aluvial lunak. Namun, pengeboran akan dihentikan saat mata bor telah mencapai atau menembus lapisan tanah keras, karena di titik itulah pondasi dianggap sudah mencapai daya dukung yang cukup.
+      </p>
+      <p class="ls-mach-p">
+        Faktor diameter lubang juga sangat menentukan. Semakin besar diameter, misalnya 60 cm, maka beban torsi dan putaran mesin akan semakin berat. Jika lapisan tanah sangat keras atau berbatu, putaran mesin untuk diameter besar mungkin sudah mencapai batas maksimalnya pada kedalaman kurang dari 25 meter. Sebaliknya, untuk diameter yang lebih kecil seperti 30 cm atau 40 cm, beban putar mesin lebih ringan sehingga lebih mudah mencapai elevasi yang lebih dalam apabila lapisan tanah kerasnya berada jauh di bawah permukaan. Karena itu, uji sondir wajib dilakukan sebelum pengeboran, sebab hasilnya menentukan seberapa dalam target pengeboran dan di mana lapisan tanah keras berada.
+      </p>
+      <p class="ls-mach-p">
+        Metode pengeboran menyesuaikan kondisi tanah. Pada tanah lunak berair atau muka air tanah tinggi, kami menggunakan bor basah atau <em>wash boring</em>. Sedangkan pada tanah lempung yang lengket dan stabil, bisa dipakai bor kering atau <em>dry boring</em> yang lebih bersih dan cepat. Keduanya dipadukan dengan pengecoran sistem Pipa Tremi agar adukan beton padat murni dari dasar lubang tanpa tercampur lumpur.
+      </p>
+
+      <SoilCharacter city={cityObj} service="borepile" standalone={false} />
+
+      <p class="ls-mach-p" style="margin-top: 16px;">
+        Karakteristik inilah yang membuat pemilihan metode pengeboran dan kedalaman pondasi tidak bisa disamaratakan antara satu lokasi dengan lokasi lainnya.
+      </p>
+    </>
+  ) : (
+    <>
+      <h2 class="ls-mach-title">Kapasitas & Karakteristik Tanah Strauss Pile di {cityName}</h2>
+      <p class="ls-mach-p">
+        Untuk pekerjaan strauss pile manual di <strong>{cityName}</strong>, pengeboran dilakukan menggunakan tenaga manusia dan peralatan tripod auger ringkas. Tanpa menggunakan mesin diesel maupun alat berat, prosesnya 100% bebas dari getaran tanah dan suara bising sehingga sangat cocok untuk proyek perumahan padat penduduk atau pagar yang berbatasan langsung dengan tembok tetangga.
+      </p>
+      <p class="ls-mach-p">
+        Kapasitas pengeboran strauss pile manual dapat mencapai kedalaman 6 hingga 8 meter (tergantung kedalaman lapisan tanah keras di lokasi) dengan pilihan diameter 20 cm, 25 cm, 30 cm, hingga 40 cm. Rangkaian alat tripod sangat mudah dibongkar-pasang sehingga dapat dibawa masuk melewati gang sempit berukuran 1 meter maupun pintu masuk rumah, dengan batas minimum order pekerjaan sebesar 100 meter lari (m&sup1;).
+      </p>
+
+      <SoilCharacter city={cityObj} service="strauss" standalone={false} />
+
+      <p class="ls-mach-p" style="margin-top: 16px;">
+        Karakteristik inilah yang membuat pemilihan metode pengeboran dan kedalaman pondasi tidak bisa disamaratakan antara satu lokasi dengan lokasi lainnya.
+      </p>
+    </>
+  )}
+</section>
+
+<style>
+  .machine-spec-section {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+  .ls-mach-title {
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+  }
+  .ls-mach-p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #64748b;
+    margin-bottom: var(--space-4);
+  }
+  .ls-mach-p strong {
+    color: var(--color-text-dark, #0f172a);
+  }
+</style>

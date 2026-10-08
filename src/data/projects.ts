@@ -129,7 +129,7 @@ export const PROJECTS: Record<string, Project[]> = {
   ],
   'tangerang-selatan': [
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-tangerang-aseven-pile.webp',
+      img: '/imgs/bore-pile-mesin-mini-crane-tangerang-selatan-aseven-pile.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin di Tangerang Selatan',
       area: 'Tangerang Selatan',
       diameterCm: 40,

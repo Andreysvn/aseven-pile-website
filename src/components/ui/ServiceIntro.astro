@@ -1,12 +1,13 @@
----
+﻿---
 export interface Props {
   service: 'borepile' | 'strauss';
   cityName: string;
   hargaMulai: number;
   foundingYear?: number;
+  crossLink?: { url: string; text: string };
 }
 
-const { service, cityName, hargaMulai, foundingYear = 2005 } = Astro.props;
+const { service, cityName, hargaMulai, foundingYear = 2005, crossLink } = Astro.props;
 
 const rupiah = (num: number) => 
   new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
@@ -29,6 +30,11 @@ const rupiah = (num: number) =>
           <strong>Ringkasan:</strong> Harga jasa bore pile mesin di {cityName} berkisar mulai dari <strong>{rupiah(hargaMulai)} / meter lari (m&sup1;)</strong>. Harga ini baru biaya jasa bor, belum termasuk material (besi dan beton), mob/demob alat, dan pembuatan bak sirkulasi air.
         </p>
       </div>
+      {crossLink && (
+        <div class="ls-summary-crosslink">
+          Mencari pondasi manual untuk area sangat sempit? Lihat <a href={crossLink.url}>{crossLink.text}</a>.
+        </div>
+      )}
       <p class="ls-intro-p">
         Membangun rumah tinggal, ruko, gedung bertingkat, pabrik, sampai jembatan skala kecil di <strong>{cityName}</strong> membutuhkan pondasi yang tepat. Perbedaannya hanya skala dan daya dukung, tetapi tantangannya mirip: kondisi tanah tidak selalu sama antar lokasi. Di sinilah peran bore pile, yang mampu menyesuaikan kedalaman dan diameter sesuai kondisi tanah masing-masing proyek.
       </p>
@@ -39,17 +45,22 @@ const rupiah = (num: number) =>
   ) : (
     <>
       <div class="ls-summary-box">
-        <div class="ls-summary-price">
-          <span class="ls-sp-label">Mulai dari</span>
-          <span class="ls-sp-value">{rupiah(hargaMulai)}<small>/m</small></span>
+        <div class="ls-summary-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
         </div>
-        <ul class="ls-summary-list">
-          <li><strong>Metode:</strong> Strauss Pile Manual (Tenaga Manusia)</li>
-          <li><strong>Diameter:</strong> 20cm, 25cm, 30cm</li>
-          <li><strong>Kedalaman:</strong> Max 6 - 8 meter (tergantung tanah)</li>
-          <li><strong>Keunggulan:</strong> Solusi area sangat sempit & tanpa kebisingan</li>
-        </ul>
+        <p class="ls-summary-text">
+          <strong>Ringkasan:</strong> Harga jasa strauss pile manual di {cityName} berkisar mulai dari <strong>{rupiah(hargaMulai)} / meter lari (m&sup1;)</strong> untuk diameter 20cm. Metode ini menggunakan tenaga manusia tanpa alat berat, sangat aman dari getaran, serta cocok untuk area sempit dan padat penduduk.
+        </p>
       </div>
+      {crossLink && (
+        <div class="ls-summary-crosslink">
+          Butuh pondasi untuk beban lebih berat atau tanah lebih dalam? Lihat <a href={crossLink.url}>{crossLink.text}</a>.
+        </div>
+      )}
       <p class="ls-intro-p">
         Mencari jasa pondasi strauss pile manual di <strong>{cityName}</strong>? Aseven Pile solusinya. Tim kami telah berpengalaman sejak {foundingYear} menangani berbagai kondisi tanah. 
         Kami melayani pengeboran pondasi secara manual tanpa alat berat, sangat cocok untuk perumahan padat, gang sempit, pembangunan rumah 2-3 lantai, atau pagar keliling di seluruh wilayah {cityName} dan sekitarnya.
@@ -58,3 +69,17 @@ const rupiah = (num: number) =>
   )}
 </section>
 
+<style>
+  .ls-summary-crosslink {
+    margin-top: 16px;
+    margin-bottom: 32px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+  .ls-summary-crosslink a {
+    color: var(--color-primary, #0ea5e9);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

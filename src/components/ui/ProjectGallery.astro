@@ -4,16 +4,17 @@ import type { Project } from '../../data/projects';
 interface Props {
   city: string;
   projects: Project[];
+  subtitle?: string;
 }
 
-const { city, projects } = Astro.props;
+const { city, projects, subtitle = `Beberapa proyek pondasi yang kami kerjakan di wilayah ini.` } = Astro.props;
 ---
 
 <section class="section" id="galeri">
   <div class="container">
     <div class="section-title text-center">
       <h2 class="pg-h2">Dokumentasi Proyek di {city}</h2>
-      <p>Beberapa proyek pondasi bore pile yang kami kerjakan di wilayah ini.</p>
+      <p>{subtitle}</p>
     </div>
 
     <project-lightbox>

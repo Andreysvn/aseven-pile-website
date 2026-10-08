@@ -26,8 +26,8 @@
 .ls-summary-text { margin: 0; font-size: 0.95rem; line-height: 1.6; color: #475569; }
 
 /* Paragraf intro */
-.ls-intro-p { font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px; }
-.ls-intro-p-flat { font-size: 1.05rem; line-height: 1.7; }
+.ls-intro-p { font-size: 1.05rem; line-height: 1.7; margin-bottom: 16px; color: var(--color-text-muted); }
+.ls-intro-p-flat { font-size: 1.05rem; line-height: 1.7; color: var(--color-text-muted); }
 
 /* Contoh hitungan */
 .ls-case-box {

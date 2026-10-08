@@ -9,19 +9,19 @@ const minOrder = service === 'strauss' ? '100 meter' : '200 meter (mini crane/ga
 const borePileItems = [
   {
     title: "Mobilisasi & Demobilisasi Alat",
-    desc: "Biaya pengiriman alat dari workshop kami ke lokasi dan kembali. Besarannya menyesuaikan jarak/zona lokasi — estimasi per wilayah bisa dilihat di kalkulator biaya pada halaman ini."
+    desc: "Biaya pengiriman alat dari workshop kami ke lokasi dan kembali. Besarannya menyesuaikan jarak/zona lokasi, estimasi per wilayah bisa dilihat di kalkulator biaya pada halaman ini."
   },
   {
     title: "Sedot & Pembuangan Lumpur",
-    desc: "Pada metode bor basah (wash boring), lumpur hasil pengeboran perlu disedot dan diangkut keluar. Biaya menyesuaikan volume lumpur dan jarak pembuangan."
+    desc: "Pada metode bor basah (wash boring), lumpur hasil pengeboran perlu disedot dan diangkut keluar. Biaya menyesuaikan jarak unit penyedot lumpur (sesuai jarak lokasi), kami bisa membantu menyediakan jasa buang lumpur dari area proyek."
   },
   {
-    title: "Bak Sirkulasi Air",
-    desc: "Bila diperlukan sebagai penampung sirkulasi air selama proses pengeboran berlangsung."
+    title: "Bak Sirkulasi Air/Lumpur",
+    desc: "Bila diperlukan pada metode bor basah (wash boring) sebagai penampung sirkulasi air/lumpur selama proses pengeboran berlangsung."
   },
   {
-    title: "Uji Tanah (Sondir / SPT)",
-    desc: "Uji sondir sangat disarankan untuk menentukan kedalaman target dan lapisan tanah keras. Bisa dilengkapi uji SPT. Kami dapat membantu merekomendasikan penyedia jasa uji tanah."
+    title: "Uji Tanah (Sondir Wajib / SPT)",
+    desc: "Uji tanah (sondir) wajib dilakukan sebelum pekerjaan dimulai untuk menentukan secara pasti titik kedalaman tanah keras (hard strata) dan memastikan kapasitas daya dukung pondasi aman."
   },
   {
     title: "Minimal Order Jasa",
@@ -29,7 +29,7 @@ const borePileItems = [
   },
   {
     title: "Material (Besi & Beton)",
-    desc: "Harga di tabel belum termasuk material (besi & beton). Kebutuhan besi & beton mengikuti desain struktur tiap proyek, jadi mengacu pada perhitungan perencana/struktur Anda."
+    desc: "Harga di tabel belum termasuk material (besi & beton). Kebutuhan material mengikuti desain struktur perencana proyek Anda. Namun jika Anda tidak ingin repot, kami melayani paket borong all-in material (besi & beton) sesuai standar teknis pondasi dalam."
   }
 ];
 
@@ -48,11 +48,11 @@ const straussPileItems = [
   },
   {
     title: "Material (Besi & Beton)",
-    desc: "Harga di tabel belum termasuk material (besi & beton). Kebutuhan material mengikuti desain struktur. Kami berfokus pada jasa pengeborannya."
+    desc: "Harga di tabel belum termasuk material (besi & beton). Kebutuhan material mengikuti desain struktur. Kami berfokus pada jasa pengeborannya, namun kami juga siap membantu paket all-in material jika dibutuhkan."
   },
   {
-    title: "Uji Tanah (Opsional)",
-    desc: "Untuk bangunan beban ringan, uji sondir seringkali di-skip. Namun untuk 2-3 lantai, uji sondir tetap disarankan agar kedalaman tiang tepat pada tanah penyokong yang stabil."
+    title: "Uji Tanah (Sondir Wajib)",
+    desc: "Uji tanah (sondir) wajib dilakukan untuk menentukan kedalaman target tanah keras dan memastikan daya dukung pondasi aman sesuai rekomendasi teknis."
   }
 ];
 
