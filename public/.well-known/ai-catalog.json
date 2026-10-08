@@ -1,1 +1,1 @@
-{"schemaVersion":"1.0","resources":[{"path":"/llms.txt","type":"documentation","description":"AI documentation for Aseven Pile"},{"path":"/sitemap-index.xml","type":"sitemap","description":"Sitemap"}]}
+{"specVersion":"1.0","host":{"displayName":"Aseven Pile"},"entries":[{"identifier":"urn:air:asevenpile.com:doc:llms","displayName":"LLMs Documentation","type":"text/markdown","url":"https://asevenpile.com/llms.txt","description":"AI agent instruction and site context documentation"}]}
