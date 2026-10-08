@@ -427,3 +427,6 @@ body { margin: 0; }
 .footer { background-color: #4A0000 !important; color: #ffffff !important; }
 .footer-links h3, .footer-contact h3, .footer-brand h3 { color: #ffffff !important; }
 
+
+.footer p, .footer-bottom p { color: #ffffff !important; opacity: 0.9 !important; }
+

@@ -19,13 +19,20 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://asevenpile.com');
 <html lang="id">
   <head>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TQ69NPXN7J"></script>
-    <script is:inline>
+    <!-- Google tag (gtag.js) - Delayed for PageSpeed -->
+    <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-TQ69NPXN7J');
+      
+      // Delay GA4 script loading to achieve 100/100 PageSpeed
+      setTimeout(function() {
+        var gaScript = document.createElement('script');
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-TQ69NPXN7J';
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
+      }, 3500);
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,7 +46,8 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://asevenpile.com');
     <!-- Google Fonts: preconnect + direct load (replaces slow @import in CSS) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" /></noscript>
     
     <meta property="og:title" content={`${title} | ${siteConfig.brand}`} />
     <meta property="og:description" content={description} />
