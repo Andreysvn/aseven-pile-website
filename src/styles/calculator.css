@@ -429,3 +429,13 @@
         }
 
         
+
+.calc-desc { color: #495057 !important; }
+.calc-header { background-color: #f8f9fa !important; }
+.tab-btn { color: #495057 !important; }
+.tab-btn.active { color: #800000 !important; background-color: #ffffff !important; }
+
+
+.calc-header h3 { color: #800000 !important; }
+.calc-header p { color: #495057 !important; }
+
