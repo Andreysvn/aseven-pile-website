@@ -41,8 +41,8 @@ const configPayload = JSON.stringify({
 
   <div class="calc-body">
     <div class="input-group">
-      <label>Lokasi Proyek</label>
-      <select class="select-input" data-c="location">
+      <label for="location-select">Lokasi Proyek</label>
+      <select id="location-select" class="select-input" data-c="location">
         {config.locations.map((opt) => (
           <option value={opt.value} selected={opt.value === state.location}>{opt.label}</option>
         ))}
@@ -58,19 +58,19 @@ const configPayload = JSON.stringify({
     <div class="input-row" data-c="dp">
       <div class="input-group">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <label style="margin:0">Kedalaman (m)</label>
+          <label for="depth-slider" style="margin:0">Kedalaman (m)</label>
           <span style="font-size:13px;font-weight:600;color:#800000" data-c="depth-label">{state.depth === '' ? 0 : state.depth} m</span>
         </div>
-        <input type="range" class="range-slider" data-c="depth-slider" value={sliderDepth} min="1" max={maxDepth} step="1" />
-        <input type="number" placeholder="cth: 12" class="text-input" style="display:none" value={state.depth} min="1" data-c="depth-number" />
+        <input id="depth-slider" type="range" class="range-slider" data-c="depth-slider" value={sliderDepth} min="1" max={maxDepth} step="1" />
+        <input type="number" placeholder="cth: 12" class="text-input" style="display:none" value={state.depth} min="1" data-c="depth-number" aria-label="Input Kedalaman Manual" />
       </div>
       <div class="input-group">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <label style="margin:0">Jumlah Titik</label>
+          <label for="points-slider" style="margin:0">Jumlah Titik</label>
           <span style="font-size:13px;font-weight:600;color:#800000" data-c="points-label">{state.points === '' ? 0 : state.points} titik</span>
         </div>
-        <input type="range" class="range-slider" data-c="points-slider" value={sliderPoints} min="1" max="200" step="1" />
-        <input type="number" placeholder="cth: 45" class="text-input" style="display:none" value={state.points} min="1" data-c="points-number" />
+        <input id="points-slider" type="range" class="range-slider" data-c="points-slider" value={sliderPoints} min="1" max="200" step="1" />
+        <input type="number" placeholder="cth: 45" class="text-input" style="display:none" value={state.points} min="1" data-c="points-number" aria-label="Input Jumlah Titik Manual" />
       </div>
     </div>
 
