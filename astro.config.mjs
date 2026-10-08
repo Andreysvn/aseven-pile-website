@@ -5,6 +5,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://asevenpile.com', // Ganti dengan domain asli nanti
   output: 'static',
+  build: {
+    inlineStylesheets: 'always'
+  },
   integrations: [
     sitemap()
   ]

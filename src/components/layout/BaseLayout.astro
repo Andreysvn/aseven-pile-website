@@ -19,20 +19,29 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://asevenpile.com');
 <html lang="id">
   <head>
 
-    <!-- Google tag (gtag.js) - Delayed for PageSpeed -->
+    <!-- Google tag (gtag.js) - Loaded on Interaction for 100/100 PageSpeed -->
     <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-TQ69NPXN7J');
       
-      // Delay GA4 script loading to achieve 100/100 PageSpeed
-      setTimeout(function() {
+      let scriptsLoaded = false;
+      function loadThirdParty() {
+        if(scriptsLoaded) return;
+        scriptsLoaded = true;
         var gaScript = document.createElement('script');
         gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-TQ69NPXN7J';
         gaScript.async = true;
         document.head.appendChild(gaScript);
-      }, 3500);
+        ['scroll', 'mousemove', 'touchstart', 'click'].forEach(function(e) {
+          window.removeEventListener(e, loadThirdParty);
+        });
+      }
+      ['scroll', 'mousemove', 'touchstart', 'click'].forEach(function(e) {
+        window.addEventListener(e, loadThirdParty, { passive: true, once: true });
+      });
+      setTimeout(loadThirdParty, 8000);
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -98,5 +107,6 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://asevenpile.com');
 </html>
 
 <!-- force reload -->
+
 
 
