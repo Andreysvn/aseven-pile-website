@@ -44,7 +44,7 @@
           border-bottom: 1px solid #dee2e6;
           background: #f8f9fa;
         }
-        .tab-btn {
+        .tab-btn { font-weight: 600; color: #495057; 
           flex: 1;
           padding: 12px 8px;
           border: none;
@@ -344,7 +344,7 @@
         .result-note {
           display: block;
           font-size: 10px;
-          color: #94a3b8;
+          color: #64748b;
           line-height: 1.4;
           text-align: left;
         }
@@ -381,7 +381,7 @@
         .material-box small {
           display: block;
           font-size: 10px;
-          color: #94a3b8;
+          color: #64748b;
           line-height: 1.4;
         }
 

@@ -26,7 +26,7 @@
   --color-bg-card: #FFFFFF;         /* Background card */
   
   --color-text: #212529;            /* Teks body utama - charcoal gelap (bukan hitam murni) */
-  --color-text-muted: #6C757D;      /* Teks sekunder/deskripsi */
+  --color-text-muted: #495057;      /* Teks sekunder/deskripsi (digelapkan untuk rasio kontras a11y) */
   --color-text-light: #F8F9FA;      /* Teks di atas background gelap */
   
   --color-border: #DEE2E6;          /* Border standard */
