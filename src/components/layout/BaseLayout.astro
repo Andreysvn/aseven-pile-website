@@ -12,37 +12,15 @@ interface Props {
 }
 
 const { title, description = siteConfig.tagline } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, 'https://asevenpile.com');
+const siteUrl = new URL(siteConfig.url || 'https://asevenpile.com');
+const canonicalURL = new URL(Astro.url.pathname.replace(/index\.html$/, ''), siteUrl);
 ---
 
 <!DOCTYPE html>
 <html lang="id">
   <head>
 
-    <!-- Google tag (gtag.js) - Loaded on Interaction for 100/100 PageSpeed -->
-    <script type="text/javascript">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-TQ69NPXN7J');
-      
-      let scriptsLoaded = false;
-      function loadThirdParty() {
-        if(scriptsLoaded) return;
-        scriptsLoaded = true;
-        var gaScript = document.createElement('script');
-        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-TQ69NPXN7J';
-        gaScript.async = true;
-        document.head.appendChild(gaScript);
-        ['scroll', 'mousemove', 'touchstart', 'click'].forEach(function(e) {
-          window.removeEventListener(e, loadThirdParty);
-        });
-      }
-      ['scroll', 'mousemove', 'touchstart', 'click'].forEach(function(e) {
-        window.addEventListener(e, loadThirdParty, { passive: true, once: true });
-      });
-      setTimeout(loadThirdParty, 8000);
-    </script>
+    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | {siteConfig.brand}</title>
@@ -73,8 +51,33 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://asevenpile.com');
 
     <link rel="icon" type="image/webp" href="/imgs/aseven-pile-logo-3.webp" />
     <link rel="apple-touch-icon" href="/imgs/aseven-pile-logo-3.webp" />
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": siteConfig.brand,
+      "url": siteConfig.url,
+      "logo": `${siteConfig.url}/imgs/aseven-pile-logo-3.webp`,
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": siteConfig.phone,
+        "contactType": "customer service",
+        "areaServed": "ID",
+        "availableLanguage": "Indonesian"
+      },
+      "sameAs": Object.values(siteConfig.socialMedia)
+    }).replace(/</g, "\\u003c")} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": siteConfig.brand,
+      "url": siteConfig.url
+    }).replace(/</g, "\\u003c")} />
   </head>
   <body>
+    <script is:inline>window.addEventListener('load',function(){let gtagLoaded=!1;function loadGtag(){if(gtagLoaded)return;gtagLoaded=!0;let script=document.createElement('script');script.src='https://www.googletagmanager.com/gtag/js?id=G-TQ69NPXN7J';script.async=!0;document.head.appendChild(script);}window.addEventListener('scroll',loadGtag,{once:!0});window.addEventListener('mousemove',loadGtag,{once:!0});window.addEventListener('touchstart',loadGtag,{once:!0});setTimeout(loadGtag,3500);});</script>
+    <script is:inline>window.addEventListener('load',function(){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TQ69NPXN7J');});</script>
     <Header />
 
     <main>

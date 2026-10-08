@@ -122,14 +122,14 @@ const serviceSchema = {
 
 <BaseLayout title={title} description={description}>
   <!-- LD+JSON Schemas -->
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
-  {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+  <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, "\\u003c")} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema).replace(/</g, "\\u003c")} />
+  {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema).replace(/</g, "\\u003c")} />}
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": breadcrumbItems
-  })} />
+  }).replace(/</g, "\\u003c")} />
 
   
   
@@ -172,6 +172,9 @@ const serviceSchema = {
               alt={`Proyek Jasa ${pathContext === 'strauss-pile' ? 'Strauss Pile' : 'Bore Pile'} ${city} oleh Aseven Pile`} 
               loading="eager"
               fetchpriority="high"
+              decoding="async"
+              width="900"
+              height="675"
             />
           </div>
           
@@ -265,13 +268,6 @@ const serviceSchema = {
   <slot name="calculator" />
   
   <slot name="bottom-content" />
-
-  <!-- PREMIUM CTA WhatsApp -->
-  <PremiumCTA 
-    title={`Butuh Jasa Pengeboran di ${city}?`}
-    subtitle="Hubungi kami untuk jadwal survei lokasi dan dapatkan penawaran harga secara gratis."
-    waMessage={`Halo Aseven Pile, saya butuh jasa ${serviceName} di ${city}`}
-  />
 
   <slot name="below-cta" />
 

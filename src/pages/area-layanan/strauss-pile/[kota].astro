@@ -6,6 +6,7 @@ import CalculatorUI from '../../../components/interactive/CalculatorUI.astro';
 import PricingTable from '../../../components/ui/PricingTable.astro';
 import CostExample from '../../../components/ui/CostExample.astro';
 import CostAddons from '../../../components/ui/CostAddons.astro';
+import SoilCharacter from '../../../components/ui/SoilCharacter.astro';
 import MachineSpec from '../../../components/ui/MachineSpec.astro';
 import ArticleList from '../../../components/ui/ArticleList.astro';
 import ProjectGallery from '../../../components/ui/ProjectGallery.astro';
@@ -141,6 +142,7 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   <!-- ================================================ -->
   <!-- SECTION: Karakteristik Tanah & Mesin             -->
   <!-- ================================================ -->
+  <SoilCharacter city={cityData} service="strauss" />
   <MachineSpec service="strauss" city={cityData} />
 
   <!-- ================================================ -->

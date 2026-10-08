@@ -12,16 +12,16 @@ export interface Project {
 export const PROJECTS: Record<string, Project[]> = {
   jakarta: [
     {
-      img: '/imgs/bore-pile-mini-crane-aseven-pile-sunter-september-2026.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane Area Mepet Tembok di Sunter, Jakarta Utara',
+      img: '/imgs/bore-pile-mesin-gawangan-aseven-pile.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan Area Mepet Tembok di Sunter, Jakarta Utara',
       area: 'Sunter, Jakarta Utara',
       customSpec: 'Diameter 30 cm &bull; 14 titik &bull; Kedalaman 15 m<br/>Diameter 50 cm &bull; 2 titik &bull; Kedalaman 15 m',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
     {
-      img: '/imgs/bore-pile-mini-crane-aseven-pile-mangga-dua-agustus-2026.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Mangga Dua, Jakarta',
+      img: '/imgs/persiapan-pipa-tremi-gawangan-aseven-pile-bekasi.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan di Mangga Dua, Jakarta',
       area: 'Mangga Dua, Jakarta',
       diameterCm: 30,
       depthM: 18,
@@ -29,8 +29,8 @@ export const PROJECTS: Record<string, Project[]> = {
       service: 'borepile'
     },
     {
-      img: '/imgs/bore-pile-mini-crane-aseven-pile-pulo-gadung-agustus-2026.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Pulo Gadung, Jakarta Timur',
+      img: '/imgs/bore-pile-mesin-gawangan-aseven-pile.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan di Pulo Gadung, Jakarta Timur',
       area: 'Pulo Gadung, Jakarta Timur',
       diameterCm: 40,
       depthM: 18,
@@ -38,8 +38,8 @@ export const PROJECTS: Record<string, Project[]> = {
       service: 'borepile'
     },
     {
-      img: '/imgs/bore-pile-mini-crane-aseven-pile-jelambar-september-2026.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane untuk Lokasi Sempit di Jelambar, Jakarta Barat',
+      img: '/imgs/persiapan-pipa-tremi-gawangan-aseven-pile-bekasi.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan untuk Lokasi Sempit di Jelambar, Jakarta Barat',
       area: 'Jelambar, Jakarta Barat',
       customSpec: 'Diameter 30 cm &bull; 24 titik &bull; Kedalaman 13 m',
       method: 'Bor basah (wash boring)',
@@ -58,8 +58,8 @@ export const PROJECTS: Record<string, Project[]> = {
 ,
   bekasi: [
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-bekasi-aseven-pile.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin Mini Crane di Bekasi',
+      img: '/imgs/bore-pile-mesin-gawangan-aseven-pile.webp',
+      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan di Bekasi',
       area: 'Bekasi',
       diameterCm: 40,
       depthM: 15,
@@ -67,8 +67,8 @@ export const PROJECTS: Record<string, Project[]> = {
       service: 'borepile'
     },
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-bekasi-2-aseven-pile.webp',
-      alt: 'Pekerjaan Bore Pile Mesin Mini Crane Area Perumahan di Bekasi',
+      img: '/imgs/persiapan-pipa-tremi-gawangan-aseven-pile-bekasi.webp',
+      alt: 'Pekerjaan Bore Pile Mesin Gawangan Area Perumahan di Bekasi',
       area: 'Bekasi',
       diameterCm: 30,
       depthM: 12,
@@ -78,7 +78,7 @@ export const PROJECTS: Record<string, Project[]> = {
   ],
   bogor: [
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-bogor-aseven-pile.webp',
+      img: '/imgs/bore-pile-mesin-gawangan-aseven-pile.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin di Bogor',
       area: 'Bogor',
       diameterCm: 30,
@@ -87,8 +87,8 @@ export const PROJECTS: Record<string, Project[]> = {
       service: 'borepile'
     },
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-bogor-2-aseven-pile.webp',
-      alt: 'Pekerjaan Bore Pile Mesin Mini Crane Area Lereng di Bogor',
+      img: '/imgs/persiapan-pipa-tremi-gawangan-aseven-pile-bekasi.webp',
+      alt: 'Pekerjaan Bore Pile Mesin Gawangan Area Lereng di Bogor',
       area: 'Bogor',
       diameterCm: 40,
       depthM: 14,
@@ -98,7 +98,7 @@ export const PROJECTS: Record<string, Project[]> = {
   ],
   depok: [
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-depok-aseven-pile.webp',
+      img: '/imgs/bore-pile-mesin-gawangan-aseven-pile.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin di Depok',
       area: 'Depok',
       diameterCm: 30,
@@ -107,8 +107,8 @@ export const PROJECTS: Record<string, Project[]> = {
       service: 'borepile'
     },
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-depok-2-aseven-pile.webp',
-      alt: 'Pekerjaan Bore Pile Mesin Mini Crane di Depok',
+      img: '/imgs/persiapan-pipa-tremi-gawangan-aseven-pile-bekasi.webp',
+      alt: 'Pekerjaan Bore Pile Mesin Gawangan di Depok',
       area: 'Depok',
       diameterCm: 40,
       depthM: 16,
@@ -118,7 +118,7 @@ export const PROJECTS: Record<string, Project[]> = {
   ],
   tangerang: [
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-tangerang-aseven-pile.webp',
+      img: '/imgs/bore-pile-mesin-gawangan-aseven-pile.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin di Tangerang',
       area: 'Tangerang',
       diameterCm: 40,
@@ -129,7 +129,7 @@ export const PROJECTS: Record<string, Project[]> = {
   ],
   'tangerang-selatan': [
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-tangerang-selatan-aseven-pile.webp',
+      img: '/imgs/persiapan-pipa-tremi-gawangan-aseven-pile-bekasi.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin di Tangerang Selatan',
       area: 'Tangerang Selatan',
       diameterCm: 40,
