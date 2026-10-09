@@ -140,10 +140,10 @@ export const PROJECTS: Record<string, Project[]> = {
     {
       img: '/imgs/bore-pile-mesin-mini-crane-tangerang-selatan-aseven-pile.webp',
       alt: 'Proyek Pondasi Bore Pile Mesin di Tangerang Selatan',
-      area: 'Tangerang Selatan',
+      area: 'Alam Sutera',
       diameterCm: 40,
       depthM: 18,
-      method: 'Bor basah (wash boring)',
+      method: 'Bor kering (dry boring)',
       service: 'borepile'
     }
   ],
