@@ -71,7 +71,7 @@ export const PROJECTS: Record<string, Project[]> = {
       alt: 'Pekerjaan Bore Pile Mesin Gawangan Area Perumahan di Bekasi',
       area: 'Bekasi',
       diameterCm: 30,
-      depthM: 12,
+      depthM: 16,
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
