@@ -87,21 +87,12 @@ export const PROJECTS: Record<string, Project[]> = {
   ],
   bogor: [
     {
-      img: '/imgs/bore-pile-mesin-mini-crane-bogor-aseven-pile.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin di Bogor',
-      area: 'Bogor',
-      diameterCm: 30,
-      depthM: 10,
-      method: 'Bor basah (wash boring)',
-      service: 'borepile'
-    },
-    {
       img: '/imgs/bore-pile-mesin-mini-crane-bogor-2-aseven-pile.webp',
       alt: 'Pekerjaan Bore Pile Mesin Gawangan Area Lereng di Bogor',
       area: 'Bogor',
       diameterCm: 40,
-      depthM: 14,
-      method: 'Bor kering (dry boring)',
+      depthM: 16,
+      method: 'Bor basah (wash boring)',
       service: 'borepile'
     }
   ],
