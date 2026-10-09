@@ -50,7 +50,7 @@ function getGlobalFaqs(city: any, service: ServiceKey) {
       },
       {
         question: "Apakah metode strauss pile manual berisik dan butuh banyak air?",
-        answer: `Tidak. Kami menggunakan metode dry boring (bor kering) tanpa sirkulasi air. Karena prosesnya 100% manual tanpa <a href="/area-layanan/bore-pile/${city.slug}" style="color: var(--color-primary); text-decoration: underline;">mesin bore pile diesel</a>, metode ini sama sekali tidak bising, bebas getaran, dan lokasi proyek lebih bersih dibandingkan metode bor basah.`
+        answer: `Tidak. Kami menggunakan metode dry boring (bor kering) tanpa sirkulasi air. Karena prosesnya 100% manual tanpa <a href="/area-layanan/bore-pile/${city.slug}" style="color: var(--color-primary); text-decoration: underline;">mesin bore pile</a>, metode ini sama sekali tidak bising, bebas getaran, dan lokasi proyek lebih bersih dibandingkan metode bor basah.`
       },
       {
         question: "Kapan saya harus memilih strauss pile dibanding bore pile mesin?",
