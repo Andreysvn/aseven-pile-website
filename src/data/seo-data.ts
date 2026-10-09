@@ -34,7 +34,7 @@ function getGlobalFaqs(city: any, service: ServiceKey) {
       },
       {
         question: "Apa bedanya bore pile mesin dan strauss pile manual?",
-        answer: `Bore pile digerakkan oleh mesin mini crane sehingga mampu menembus lapisan tanah keras dan mengebor jauh lebih dalam. Sedangkan <a href="${straussLink}" style="color: var(--color-primary); text-decoration: underline;">jasa strauss pile manual</a> digerakkan 100% oleh putaran tangan manusia, cocok untuk kedalaman dangkal dan jalan sempit.`
+        answer: `Bore pile digerakkan oleh mesin mini crane sehingga mampu menembus lapisan tanah keras dan mengebor jauh lebih dalam. Sedangkan <a href="${straussLink}" style="color: var(--color-primary); text-decoration: underline;">jasa strauss pile manual</a> digerakkan oleh putaran tangan manusia, cocok untuk kedalaman dangkal dan jalan sempit.`
       }
     ];
   } else {
@@ -50,7 +50,7 @@ function getGlobalFaqs(city: any, service: ServiceKey) {
       },
       {
         question: "Apakah metode strauss pile manual berisik dan butuh banyak air?",
-        answer: `Tidak. Kami menggunakan metode dry boring (bor kering) tanpa sirkulasi air. Karena prosesnya 100% manual tanpa <a href="/area-layanan/bore-pile/${city.slug}" style="color: var(--color-primary); text-decoration: underline;">mesin bore pile</a>, metode ini sama sekali tidak bising, bebas getaran, dan lokasi proyek lebih bersih dibandingkan metode bor basah.`
+        answer: `Tidak. Kami menggunakan metode dry boring (bor kering) tanpa sirkulasi air. Karena prosesnya manual tanpa <a href="/area-layanan/bore-pile/${city.slug}" style="color: var(--color-primary); text-decoration: underline;">mesin bore pile</a>, metode ini sama sekali tidak bising, bebas getaran, dan lokasi proyek lebih bersih dibandingkan metode bor basah.`
       },
       {
         question: "Kapan saya harus memilih strauss pile dibanding bore pile mesin?",
