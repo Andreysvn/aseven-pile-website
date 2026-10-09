@@ -257,13 +257,58 @@
     },
     "groupedAreas": [
       {
-        "groupName": "Kecamatan di Bekasi",
-        "groupSlug": "bekasi",
+        "groupName": "Bekasi Barat",
+        "groupSlug": "bekasi-barat",
         "areas": [
-          "Bekasi Barat",
-          "Bekasi Timur",
+          "Bintara",
+          "Kranji",
+          "Kota Baru",
+          "Jaka Sampurna",
+          "Bintara Jaya"
+        ]
+      },
+      {
+        "groupName": "Bekasi Timur",
+        "groupSlug": "bekasi-timur",
+        "areas": [
+          "Aren Jaya",
+          "Bekasi Jaya",
+          "Duren Jaya",
+          "Margahayu"
+        ]
+      },
+      {
+        "groupName": "Bekasi Selatan",
+        "groupSlug": "bekasi-selatan",
+        "areas": [
+          "Jaka Mulya",
+          "Jaka Setia",
+          "Kayuringin Jaya",
+          "Marga Jaya",
+          "Pekayon Jaya"
+        ]
+      },
+      {
+        "groupName": "Bekasi Utara",
+        "groupSlug": "bekasi-utara",
+        "areas": [
+          "Harapan Baru",
+          "Harapan Jaya",
+          "Kaliabang Tengah",
+          "Marga Mulya",
+          "Perwira"
+        ]
+      },
+      {
+        "groupName": "Cikarang & Kabupaten",
+        "groupSlug": "cikarang",
+        "areas": [
+          "Cikarang Pusat",
+          "Cikarang Selatan",
+          "Cikarang Barat",
+          "Cikarang Utara",
           "Tambun",
-          "Cikarang"
+          "Cibitung"
         ]
       }
     ]
@@ -332,15 +377,69 @@
     "draft": false,
     "groupedAreas": [
       {
-        "groupName": "Kecamatan di Bogor",
-        "groupSlug": "bogor",
+        "groupName": "Bogor Barat",
+        "groupSlug": "bogor-barat",
         "areas": [
-          "Bogor Barat",
-          "Bogor Selatan",
-          "Bogor Tengah",
-          "Bogor Timur",
-          "Bogor Utara",
-          "Tanah Sareal"
+          "Balungbangjaya",
+          "Bubulak",
+          "Cilendek Barat",
+          "Gunungbatu",
+          "Loji",
+          "Semplak"
+        ]
+      },
+      {
+        "groupName": "Bogor Selatan",
+        "groupSlug": "bogor-selatan",
+        "areas": [
+          "Batutulis",
+          "Bojongkerta",
+          "Cikaret",
+          "Empang",
+          "Pamoyanan"
+        ]
+      },
+      {
+        "groupName": "Bogor Tengah",
+        "groupSlug": "bogor-tengah",
+        "areas": [
+          "Babakan",
+          "Cibogor",
+          "Ciweudeuy",
+          "Gudang",
+          "Pabaton",
+          "Sempur"
+        ]
+      },
+      {
+        "groupName": "Bogor Timur",
+        "groupSlug": "bogor-timur",
+        "areas": [
+          "Baranangsiang",
+          "Katulampa",
+          "Sukasari",
+          "Tajur"
+        ]
+      },
+      {
+        "groupName": "Bogor Utara",
+        "groupSlug": "bogor-utara",
+        "areas": [
+          "Bantarjati",
+          "Cibuluh",
+          "Ciluar",
+          "Kedunghalang"
+        ]
+      },
+      {
+        "groupName": "Tanah Sareal",
+        "groupSlug": "tanah-sareal",
+        "areas": [
+          "Cibadak",
+          "Kayumanis",
+          "Kebonpedes",
+          "Kedungbadak",
+          "Tanahsareal"
         ]
       }
     ]
@@ -401,13 +500,62 @@
     "draft": false,
     "groupedAreas": [
       {
-        "groupName": "Kecamatan di Depok",
-        "groupSlug": "depok",
+        "groupName": "Pancoran Mas",
+        "groupSlug": "pancoran-mas",
         "areas": [
+          "Depok",
+          "Depok Jaya",
+          "Mampang",
           "Pancoran Mas",
-          "Margonda",
+          "Rangkapan Jaya"
+        ]
+      },
+      {
+        "groupName": "Beji",
+        "groupSlug": "beji",
+        "areas": [
           "Beji",
-          "Cimanggis"
+          "Beji Timur",
+          "Kemiri Muka",
+          "Kukusan",
+          "Pondok Cina",
+          "Tanah Baru"
+        ]
+      },
+      {
+        "groupName": "Cimanggis",
+        "groupSlug": "cimanggis",
+        "areas": [
+          "Cisalak Pasar",
+          "Curug",
+          "Harjamukti",
+          "Mekarsari",
+          "Pasir Gunung Selatan",
+          "Tugu"
+        ]
+      },
+      {
+        "groupName": "Sukmajaya",
+        "groupSlug": "sukmajaya",
+        "areas": [
+          "Abadijaya",
+          "Baktijaya",
+          "Cisalak",
+          "Mekarjaya",
+          "Sukmajaya",
+          "Tirtajaya"
+        ]
+      },
+      {
+        "groupName": "Limo & Cinere",
+        "groupSlug": "limo",
+        "areas": [
+          "Limo",
+          "Meruyung",
+          "Grogol",
+          "Krukut",
+          "Cinere",
+          "Pangkalan Jati"
         ]
       }
     ]
@@ -504,22 +652,58 @@
     "draft": false,
     "groupedAreas": [
       {
-        "groupName": "Kecamatan di Tangerang",
+        "groupName": "Tangerang Pusat",
         "groupSlug": "tangerang",
         "areas": [
-          "Batuceper",
-          "Benda",
-          "Cibodas",
-          "Ciledug",
-          "Cipondoh",
-          "Jatiuwung",
-          "Karangtengah",
+          "Tangerang",
+          "Sukaasih",
+          "Sukasari",
+          "Tanah Tinggi",
+          "Babakan"
+        ]
+      },
+      {
+        "groupName": "Karawaci & Cibodas",
+        "groupSlug": "karawaci",
+        "areas": [
           "Karawaci",
+          "Cimone",
+          "Pabuaran",
+          "Cibodas",
+          "Jatiuwung"
+        ]
+      },
+      {
+        "groupName": "Ciledug & Larangan",
+        "groupSlug": "ciledug",
+        "areas": [
+          "Ciledug",
+          "Sudimara",
+          "Tajur",
           "Larangan",
-          "Neglasari",
-          "Periuk",
+          "Cipadu"
+        ]
+      },
+      {
+        "groupName": "Cipondoh & Pinang",
+        "groupSlug": "cipondoh",
+        "areas": [
+          "Cipondoh",
+          "Poris Plawad",
+          "Gondrong",
           "Pinang",
-          "Tangerang"
+          "Kunciran"
+        ]
+      },
+      {
+        "groupName": "Benda & Batuceper",
+        "groupSlug": "benda",
+        "areas": [
+          "Benda",
+          "Jurumudi",
+          "Pajang",
+          "Batuceper",
+          "Kebon Besar"
         ]
       }
     ]
@@ -592,16 +776,60 @@
     "draft": false,
     "groupedAreas": [
       {
-        "groupName": "Kecamatan di Tangerang Selatan",
-        "groupSlug": "tangerang-selatan",
+        "groupName": "Serpong & Alam Sutera",
+        "groupSlug": "serpong",
         "areas": [
           "Serpong",
-          "Serpong Utara",
+          "Buaran",
+          "Ciater",
+          "Cilenggang",
+          "Rawa Buntu",
+          "Lengkong Gudang"
+        ]
+      },
+      {
+        "groupName": "Serpong Utara",
+        "groupSlug": "serpong-utara",
+        "areas": [
+          "Jelupang",
+          "Paku Jaya",
+          "Pakualam",
+          "Pakulonan",
+          "Pondok Jagung"
+        ]
+      },
+      {
+        "groupName": "Pondok Aren & Bintaro",
+        "groupSlug": "pondok-aren",
+        "areas": [
           "Pondok Aren",
+          "Jurangmangu",
+          "Pondok Kacang",
+          "Pondok Karya",
+          "Perigi"
+        ]
+      },
+      {
+        "groupName": "Ciputat & Pamulang",
+        "groupSlug": "ciputat",
+        "areas": [
           "Ciputat",
-          "Ciputat Timur",
+          "Jombang",
+          "Sawah Baru",
           "Pamulang",
-          "Setu"
+          "Pondok Cabe",
+          "Bambu Apus"
+        ]
+      },
+      {
+        "groupName": "Setu",
+        "groupSlug": "setu",
+        "areas": [
+          "Setu",
+          "Babakan",
+          "Bakti Jaya",
+          "Kademangan",
+          "Muncul"
         ]
       }
     ]

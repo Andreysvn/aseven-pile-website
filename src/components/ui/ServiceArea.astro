@@ -1,10 +1,18 @@
 ---
+import { SERVICE_CITIES } from '../../data/seo-data';
+
 export interface Props {
   cityData: any;
   serviceName: string;
 }
 
 const { cityData, serviceName } = Astro.props;
+const activeSlugs = SERVICE_CITIES.filter(c => !c.draft).map(c => c.slug);
+
+// Determine the service slug based on serviceName
+const sNameLower = serviceName.toLowerCase();
+let serviceSlug = 'bore-pile';
+if (sNameLower.includes('strauss')) serviceSlug = 'strauss-pile';
 ---
 
 {cityData.groupedAreas && cityData.groupedAreas.length > 0 ? (
@@ -16,7 +24,13 @@ const { cityData, serviceName } = Astro.props;
       {cityData.groupedAreas.map((group: any) => (
         <div class="ls-area-card">
           <h3>
-            <span>{group.groupName}</span>
+            {group.groupSlug && activeSlugs.includes(group.groupSlug) ? (
+              <a href={`/area-layanan/${serviceSlug}/${group.groupSlug}`} style="color: var(--color-primary); text-decoration: none; font-weight: 700;">
+                {group.groupName} &rarr;
+              </a>
+            ) : (
+              <span>{group.groupName}</span>
+            )}
           </h3>
           <div class="ls-area-chips">
             {group.areas.map((area: string) => (
