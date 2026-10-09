@@ -15,7 +15,7 @@ const articlesToShow = sortedArticles.slice(0, limit);
 
 <div class="ls-art-grid">
   {articlesToShow.map(post => (
-    <a href={`/artikel/${post.slug}`} class="ls-art-card hover-card">
+    <a href={`/artikel/${post.slug}`} class="ls-art-card hover-card" data-tags={(post.data.tags || []).join(',').toLowerCase()}>
       <div class="ls-art-media">
         {post.data.heroImage && <img src={post.data.heroImage} alt={post.data.title} class="ls-art-img" loading="lazy" />}
         

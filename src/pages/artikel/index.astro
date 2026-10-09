@@ -12,8 +12,14 @@ import ArticleList from '../../components/ui/ArticleList.astro';
       <h1 style="font-size: 2.5rem; color: #0f172a; margin-bottom: 16px;">Artikel Kami</h1>
       <p style="color: #64748b; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Baca panduan teknis, tips memilih kontraktor, dan studi kasus seputar pondasi bore pile langsung dari ahlinya.</p>
       
-      <!-- Search Bar -->
+      <!-- Filter Chips & Search Bar -->
       <div class="search-container" style="max-width: 600px; margin: 40px auto 0;">
+        <div class="filter-chips">
+          <button class="chip active" data-filter="all">Semua</button>
+          <button class="chip" data-filter="bore pile">Bore Pile</button>
+          <button class="chip" data-filter="strauss pile">Strauss Pile</button>
+          <button class="chip" data-filter="teknis">Teknis</button>
+        </div>
         <div class="search-box">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" id="artikelSearch" placeholder="Cari judul atau topik artikel..." autocomplete="off" />
@@ -26,6 +32,32 @@ import ArticleList from '../../components/ui/ArticleList.astro';
 </BaseLayout>
 
 <style>
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .chip {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .chip:hover {
+    background: #e2e8f0;
+  }
+  .chip.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
   .search-box {
     position: relative;
     display: flex;
@@ -62,21 +94,44 @@ import ArticleList from '../../components/ui/ArticleList.astro';
   document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('artikelSearch');
     const articles = document.querySelectorAll('.ls-art-card');
+    const chips = document.querySelectorAll('.chip');
+    
+    let currentSearch = '';
+    let currentFilter = 'all';
+
+    function filterArticles() {
+      articles.forEach(article => {
+        const textContent = article.textContent?.toLowerCase() || '';
+        const tags = article.getAttribute('data-tags') || '';
+        
+        const matchesSearch = textContent.includes(currentSearch);
+        const matchesFilter = currentFilter === 'all' || tags.includes(currentFilter);
+        
+        if (matchesSearch && matchesFilter) {
+          (article as HTMLElement).style.display = 'flex';
+        } else {
+          (article as HTMLElement).style.display = 'none';
+        }
+      });
+    }
     
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
-        const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
-        
-        articles.forEach(article => {
-          const textContent = article.textContent?.toLowerCase() || '';
-          if (textContent.includes(query)) {
-            (article as HTMLElement).style.display = 'flex';
-          } else {
-            (article as HTMLElement).style.display = 'none';
-          }
-        });
+        currentSearch = (e.target as HTMLInputElement).value.toLowerCase().trim();
+        filterArticles();
       });
     }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        chips.forEach(c => c.classList.remove('active'));
+        const target = e.target as HTMLElement;
+        target.classList.add('active');
+        
+        currentFilter = target.getAttribute('data-filter') || 'all';
+        filterArticles();
+      });
+    });
   });
 </script>
 

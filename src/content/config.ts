@@ -8,6 +8,7 @@ const artikel = defineCollection({
     pubDate: z.date(),
     author: z.string().default('Tim Aseven Pile'),
     heroImage: z.string().optional(),
+    tags: z.array(z.string()).optional(),
   }),
 });
 
