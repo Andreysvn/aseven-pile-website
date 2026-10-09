@@ -9,7 +9,7 @@ const minOrder = service === 'strauss' ? '100 meter' : '200 meter (mini crane/ga
 const borePileItems = [
   {
     title: "Mobilisasi & Demobilisasi Alat",
-    desc: "Biaya pengiriman alat dari workshop kami ke lokasi dan kembali. Besarannya menyesuaikan jarak/zona lokasi, estimasi per wilayah bisa dilihat di kalkulator biaya pada halaman ini."
+    desc: "Biaya pengiriman alat dari workshop kami ke lokasi dan kembali. Besarannya menyesuaikan jarak/zona lokasi, estimasi per wilayah bisa dilihat di <a href=\"#kalkulator\" style=\"color: var(--color-primary); text-decoration: underline; font-weight: 500;\">kalkulator</a> biaya pada halaman ini."
   },
   {
     title: "Sedot & Pembuangan Lumpur",
@@ -68,7 +68,7 @@ const items = service === 'strauss' ? straussPileItems : borePileItems;
     {items.map(item => (
       <div class="ca-item">
         <h3>{item.title}</h3>
-        <p>{item.desc}</p>
+        <p set:html={item.desc}></p>
       </div>
     ))}
   </div>
