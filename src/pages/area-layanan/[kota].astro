@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 const { cityData } = Astro.props;
 const activeCities = SERVICE_CITIES.filter(c => !c.draft);
 const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 6);
-const activeServices = CITY_SERVICES.filter(s => s.available);
+const activeServices = CITY_SERVICES.filter(s => s.available && ['bore-pile', 'strauss-pile'].includes(s.slug));
 ---
 
 <LocalSEOLayout 

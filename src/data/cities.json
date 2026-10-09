@@ -254,7 +254,19 @@
         }
       ],
       "isReal": true
-    }
+    },
+    "groupedAreas": [
+      {
+        "groupName": "Kecamatan di Bekasi",
+        "groupSlug": "bekasi",
+        "areas": [
+          "Bekasi Barat",
+          "Bekasi Timur",
+          "Tambun",
+          "Cikarang"
+        ]
+      }
+    ]
   },
   {
     "slug": "bogor",
@@ -288,18 +300,50 @@
       }
     ],
     "subAreas": [
-      {"name": "Bogor Barat", "slug": "bogor-barat"},
-      {"name": "Bogor Selatan", "slug": "bogor-selatan"},
-      {"name": "Bogor Tengah", "slug": "bogor-tengah"},
-      {"name": "Bogor Timur", "slug": "bogor-timur"},
-      {"name": "Bogor Utara", "slug": "bogor-utara"},
-      {"name": "Tanah Sareal", "slug": "tanah-sareal"}
+      {
+        "name": "Bogor Barat",
+        "slug": "bogor-barat"
+      },
+      {
+        "name": "Bogor Selatan",
+        "slug": "bogor-selatan"
+      },
+      {
+        "name": "Bogor Tengah",
+        "slug": "bogor-tengah"
+      },
+      {
+        "name": "Bogor Timur",
+        "slug": "bogor-timur"
+      },
+      {
+        "name": "Bogor Utara",
+        "slug": "bogor-utara"
+      },
+      {
+        "name": "Tanah Sareal",
+        "slug": "tanah-sareal"
+      }
     ],
     "soilType": "Tanah Merah (Latosol) & Berbatu",
     "terrain": "Berbukit & Bergelombang",
     "averageDepth": "8 - 15 meter",
     "soilDescription": "Tanah di wilayah Bogor umumnya bertekstur gembur kemerahan dan sering ditemukan lapisan bebatuan (boulder) atau cadas. Penggunaan mata bor khusus (rock auger/core barrel) mutlak diperlukan untuk menembus lapisan keras yang dangkal ini.",
-    "draft": false
+    "draft": false,
+    "groupedAreas": [
+      {
+        "groupName": "Kecamatan di Bogor",
+        "groupSlug": "bogor",
+        "areas": [
+          "Bogor Barat",
+          "Bogor Selatan",
+          "Bogor Tengah",
+          "Bogor Timur",
+          "Bogor Utara",
+          "Tanah Sareal"
+        ]
+      }
+    ]
   },
   {
     "slug": "depok",
@@ -354,7 +398,19 @@
     "terrain": "Relatif Datar & Sedikit Bergelombang",
     "averageDepth": "10 - 18 meter",
     "soilDescription": "Kondisi tanah di Depok tergolong cukup stabil dengan kombinasi lempung pasiran dan lapisan padas di kedalaman sedang. Metode dry boring (bor kering) seringkali bisa diaplikasikan di sini sehingga proses kerja menjadi lebih bersih dan cepat.",
-    "draft": false
+    "draft": false,
+    "groupedAreas": [
+      {
+        "groupName": "Kecamatan di Depok",
+        "groupSlug": "depok",
+        "areas": [
+          "Pancoran Mas",
+          "Margonda",
+          "Beji",
+          "Cimanggis"
+        ]
+      }
+    ]
   },
   {
     "slug": "tangerang",
@@ -388,25 +444,85 @@
       }
     ],
     "subAreas": [
-      {"name": "Batuceper", "slug": "batuceper"},
-      {"name": "Benda", "slug": "benda"},
-      {"name": "Cibodas", "slug": "cibodas"},
-      {"name": "Ciledug", "slug": "ciledug"},
-      {"name": "Cipondoh", "slug": "cipondoh"},
-      {"name": "Jatiuwung", "slug": "jatiuwung"},
-      {"name": "Karangtengah", "slug": "karangtengah"},
-      {"name": "Karawaci", "slug": "karawaci"},
-      {"name": "Larangan", "slug": "larangan"},
-      {"name": "Neglasari", "slug": "neglasari"},
-      {"name": "Periuk", "slug": "periuk"},
-      {"name": "Pinang", "slug": "pinang"},
-      {"name": "Tangerang", "slug": "tangerang"}
+      {
+        "name": "Batuceper",
+        "slug": "batuceper"
+      },
+      {
+        "name": "Benda",
+        "slug": "benda"
+      },
+      {
+        "name": "Cibodas",
+        "slug": "cibodas"
+      },
+      {
+        "name": "Ciledug",
+        "slug": "ciledug"
+      },
+      {
+        "name": "Cipondoh",
+        "slug": "cipondoh"
+      },
+      {
+        "name": "Jatiuwung",
+        "slug": "jatiuwung"
+      },
+      {
+        "name": "Karangtengah",
+        "slug": "karangtengah"
+      },
+      {
+        "name": "Karawaci",
+        "slug": "karawaci"
+      },
+      {
+        "name": "Larangan",
+        "slug": "larangan"
+      },
+      {
+        "name": "Neglasari",
+        "slug": "neglasari"
+      },
+      {
+        "name": "Periuk",
+        "slug": "periuk"
+      },
+      {
+        "name": "Pinang",
+        "slug": "pinang"
+      },
+      {
+        "name": "Tangerang",
+        "slug": "tangerang"
+      }
     ],
     "soilType": "Lempung Berpasir & Sedimen",
     "terrain": "Datar",
     "averageDepth": "15 - 22 meter",
     "soilDescription": "Wilayah Tangerang memiliki struktur tanah endapan (sedimen) yang bervariasi, dari lempung kaku hingga lapisan berpasir. Kedalaman tanah keras umumnya cukup bervariasi tergantung area (seperti BSD vs Cikupa), membutuhkan sistem bor basah untuk keamanan galian.",
-    "draft": false
+    "draft": false,
+    "groupedAreas": [
+      {
+        "groupName": "Kecamatan di Tangerang",
+        "groupSlug": "tangerang",
+        "areas": [
+          "Batuceper",
+          "Benda",
+          "Cibodas",
+          "Ciledug",
+          "Cipondoh",
+          "Jatiuwung",
+          "Karangtengah",
+          "Karawaci",
+          "Larangan",
+          "Neglasari",
+          "Periuk",
+          "Pinang",
+          "Tangerang"
+        ]
+      }
+    ]
   },
   {
     "slug": "tangerang-selatan",
@@ -440,19 +556,55 @@
       }
     ],
     "subAreas": [
-      {"name": "Serpong", "slug": "serpong"},
-      {"name": "Serpong Utara", "slug": "serpong-utara"},
-      {"name": "Pondok Aren", "slug": "pondok-aren"},
-      {"name": "Ciputat", "slug": "ciputat"},
-      {"name": "Ciputat Timur", "slug": "ciputat-timur"},
-      {"name": "Pamulang", "slug": "pamulang"},
-      {"name": "Setu", "slug": "setu"}
+      {
+        "name": "Serpong",
+        "slug": "serpong"
+      },
+      {
+        "name": "Serpong Utara",
+        "slug": "serpong-utara"
+      },
+      {
+        "name": "Pondok Aren",
+        "slug": "pondok-aren"
+      },
+      {
+        "name": "Ciputat",
+        "slug": "ciputat"
+      },
+      {
+        "name": "Ciputat Timur",
+        "slug": "ciputat-timur"
+      },
+      {
+        "name": "Pamulang",
+        "slug": "pamulang"
+      },
+      {
+        "name": "Setu",
+        "slug": "setu"
+      }
     ],
     "soilType": "Tanah Lempung Kaku & Latosol",
     "terrain": "Datar & Bergelombang",
     "averageDepth": "10 - 18 meter",
     "soilDescription": "Kondisi tanah di wilayah Tangerang Selatan (BSD City, Bintaro Jaya, Serpong, Pamulang, Ciputat) didominasi oleh perpaduan lempung kaku dan tanah merah latosol. Pengeboran disesuaikan dengan kontur lokasi, di mana metode bor basah (wash boring) diaplikasikan untuk area berair dan bor kering (dry boring) untuk lingkungan perumahan padat.",
-    "draft": false
+    "draft": false,
+    "groupedAreas": [
+      {
+        "groupName": "Kecamatan di Tangerang Selatan",
+        "groupSlug": "tangerang-selatan",
+        "areas": [
+          "Serpong",
+          "Serpong Utara",
+          "Pondok Aren",
+          "Ciputat",
+          "Ciputat Timur",
+          "Pamulang",
+          "Setu"
+        ]
+      }
+    ]
   },
   {
     "slug": "jakarta-selatan",
@@ -503,6 +655,18 @@
     "terrain": "Relatif Bergelombang & Bebas Banjir",
     "averageDepth": "12 - 20 meter",
     "soilDescription": "Kondisi tanah di Jakarta Selatan (seperti Kemang, Cilandak, Kebayoran) tergolong sangat baik untuk pondasi bore pile karena lapisan tanah keras (padas) bisa ditemukan di kedalaman yang lebih dangkal dibanding wilayah Jakarta lainnya. Metode dry boring seringkali efektif digunakan di area tertentu yang muka air tanahnya rendah, menjadikan proses pengeboran lebih bersih dan cepat.",
-    "draft": false
+    "draft": false,
+    "groupedAreas": [
+      {
+        "groupName": "Kecamatan di Jakarta Selatan",
+        "groupSlug": "jakarta-selatan",
+        "areas": [
+          "Tebet",
+          "Kebayoran Baru",
+          "Cilandak",
+          "Pancoran"
+        ]
+      }
+    ]
   }
 ]
