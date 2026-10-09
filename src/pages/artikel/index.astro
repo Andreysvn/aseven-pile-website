@@ -11,9 +11,72 @@ import ArticleList from '../../components/ui/ArticleList.astro';
     <div style="text-align: center; margin-bottom: 50px;">
       <h1 style="font-size: 2.5rem; color: #0f172a; margin-bottom: 16px;">Artikel Kami</h1>
       <p style="color: #64748b; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Baca panduan teknis, tips memilih kontraktor, dan studi kasus seputar pondasi bore pile langsung dari ahlinya.</p>
+      
+      <!-- Search Bar -->
+      <div class="search-container" style="max-width: 600px; margin: 40px auto 0;">
+        <div class="search-box">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="artikelSearch" placeholder="Cari judul atau topik artikel..." autocomplete="off" />
+        </div>
+      </div>
     </div>
 
     <ArticleList limit={99} />
   </div>
 </BaseLayout>
+
+<style>
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 50px;
+    padding: 8px 24px;
+    transition: all 0.2s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  }
+  .search-box:focus-within {
+    border-color: var(--color-primary);
+  }
+  .search-box svg {
+    color: #94a3b8;
+    margin-right: 12px;
+  }
+  .search-box input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    color: #0f172a;
+    outline: none;
+  }
+  .search-box input::placeholder {
+    color: #94a3b8;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('artikelSearch');
+    const articles = document.querySelectorAll('.ls-art-card');
+    
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+        
+        articles.forEach(article => {
+          const textContent = article.textContent?.toLowerCase() || '';
+          if (textContent.includes(query)) {
+            (article as HTMLElement).style.display = 'flex';
+          } else {
+            (article as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    }
+  });
+</script>
 
