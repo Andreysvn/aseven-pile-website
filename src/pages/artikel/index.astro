@@ -1,10 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../components/layout/BaseLayout.astro';
-
-const posts = await getCollection('artikel');
-// Sort by date descending
-posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+import ArticleList from '../../components/ui/ArticleList.astro';
 ---
 
 <BaseLayout 
@@ -17,25 +13,7 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
       <p style="color: #64748b; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Baca panduan teknis, tips memilih kontraktor, dan studi kasus seputar pondasi bore pile langsung dari ahlinya.</p>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
-      {posts.map(post => (
-        <a href={`/artikel/${post.slug}`} style="text-decoration: none; color: inherit; display: block; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; transition: transform 0.2s, box-shadow 0.2s; background: white;" class="hover-card">
-          <h2 style="font-size: 1.3rem; color: #1e293b; margin-top: 0; margin-bottom: 12px; line-height: 1.4;">{post.data.title}</h2>
-          <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">{post.data.description}</p>
-          <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 500;">
-            {post.data.pubDate.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </div>
-        </a>
-      ))}
-    </div>
+    <ArticleList limit={99} />
   </div>
 </BaseLayout>
-
-<style>
-  .hover-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    border-color: #cbd5e1;
-  }
-</style>
 
