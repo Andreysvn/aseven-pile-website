@@ -11,7 +11,7 @@ export interface Props {
 const { 
   title,
   subtitle,
-  buttonText = "Konsultasi via WA",
+  buttonText = "WhatsApp",
   waMessage = "Halo Aseven Pile, saya ingin konsultasi mengenai jasa pondasi bore pile."
 } = Astro.props;
 
@@ -42,10 +42,11 @@ const waLink = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(w
     margin-bottom: var(--space-2); 
     font-size: 1.5rem;
     font-weight: 700;
+    color: #0f172a;
   }
   
   .cta-subtitle {
-    color: var(--color-text-muted); 
+    color: #334155; 
     margin-bottom: var(--space-6); 
     max-width: 600px; 
     margin-left: auto; 
@@ -59,7 +60,6 @@ const waLink = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(w
     justify-content: center;
     gap: 8px;
     background-color: #0f7a6d !important;
-    color: #ffffff !important;
     color: #ffffff !important;
     padding: 12px 28px;
     border-radius: 50px;
@@ -81,7 +81,3 @@ const waLink = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(w
     height: 20px;
   }
 </style>
-
-
-<style> .cta-subtitle { color: #ffffff !important; opacity: 0.9 !important; } </style>
-

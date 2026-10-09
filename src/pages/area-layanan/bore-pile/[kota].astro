@@ -40,7 +40,7 @@ export async function getStaticPaths() {
 const { cityData } = Astro.props;
 const cityFaqs = getCityFaqs(cityData, 'borepile');
 const otherCities = SERVICE_CITIES.filter(c => c.slug !== cityData.slug).slice(0, 6);
-const straussUrl = ['jakarta', 'bekasi'].includes(cityData.slug) ? `/area-layanan/strauss-pile/${cityData.slug}` : '/layanan/strauss-pile-manual';
+const straussUrl = ['jakarta', 'bekasi'].includes(cityData.slug) ? `/area-layanan/strauss-pile/${cityData.slug}` : '/area-layanan/strauss-pile/jakarta';
 
 // Contoh perhitungan biaya bore pile (PINTAR per kota):
 // - Bila cities.json punya "caseStudy": { "isReal": true, "diameter":30, "depthM":12, "points":15 } â†’ tampil "Studi Kasus" (angka nyata).
@@ -141,11 +141,6 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
     conclusion={`<strong>Kesimpulan:</strong> Untuk mayoritas proyek di <strong>${cityData.name}</strong>, terutama ruko, rumah tinggal, dan gedung bertingkat di lingkungan padat, bore pile mesin hampir selalu menjadi pilihan yang lebih aman. Bukan karena lebih murah, sebab kadang justru lebih mahal, tetapi karena tidak berisiko merusak bangunan tetangga dan dapat masuk ke lokasi yang tidak dapat diakses alat pancang. Apabila masih ragu, tim kami dapat melakukan survei lapangan untuk menilai kondisi tanah dan akses, lalu merekomendasikan metode yang paling efisien untuk proyek Anda.`}
   />
 
-  <!-- ================================================ -->
-  <!-- SECTION: Karakteristik Tanah                     -->
-  <!-- ================================================ -->
-  <SoilCharacter city={cityData} service="borepile" />
-
   <!-- SECTION: Spesifikasi Alat & Kapasitas Mesin -->
   <MachineSpec service="borepile" city={cityData} />
 
@@ -203,7 +198,7 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
   <PremiumCTA 
       title="Konsultasi & Survei Lapangan"
       subtitle={`Hubungi kami via WhatsApp untuk konsultasi proyek dan penjadwalan survei lokasi di ${cityData.name}.`}
-      buttonText="Konsultasi via WhatsApp"
+      buttonText="WhatsApp"
       waMessage={`Halo Aseven Pile, saya mau konsultasi jasa bore pile untuk daerah ${cityData.name}`}
     />
     

@@ -39,7 +39,7 @@ const activeServices = CITY_SERVICES.filter(s => s.available);
       {activeServices.map((service, index) => {
         let url = service.cityUrlPattern.replace('{city}', cityData.slug);
         if (service.slug === 'strauss-pile' && !['jakarta', 'bekasi'].includes(cityData.slug)) {
-          url = '/layanan/strauss-pile-manual';
+          url = '/area-layanan/strauss-pile/jakarta';
         }
         
         // Cek apakah gambar SEO khusus kota (misal: jasa-bore-pile-jakarta.webp) sudah ada.

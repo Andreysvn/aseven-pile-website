@@ -4,6 +4,8 @@ import LastUpdated from '../ui/LastUpdated.astro';
 import PremiumCTA from '../ui/PremiumCTA.astro';
 import '../../styles/local-seo.css';
 import { siteConfig } from '../../data/site.config';
+import fs from 'node:fs';
+import path from 'node:path';
 
 export interface FAQ {
   question: string;
@@ -31,6 +33,15 @@ const {
   faqs = [], 
   pathContext = 'general' 
 } = Astro.props;
+
+// Check if heroImage actually exists on disk.
+let finalHeroImage = heroImage;
+if (heroImage) {
+  const localImagePath = path.join(process.cwd(), 'public', heroImage);
+  if (!fs.existsSync(localImagePath)) {
+    finalHeroImage = undefined;
+  }
+}
 
 // Compute canonical URL and breadcrumb path based on context
 const lowPrice = pathContext === 'strauss-pile' ? '70000' : '115000';
@@ -168,7 +179,7 @@ const serviceSchema = {
           
           <div class="header-image-wrapper">
             <img 
-              src={heroImage || "/imgs/header-beranda-bore-pile-aseven.webp"} 
+              src={finalHeroImage || (pathContext === 'strauss-pile' ? "/imgs/header-jasa-strauss-pile-jakarta-aseven-pile.webp" : "/imgs/header-beranda-bore-pile-aseven.webp")} 
               alt={`Proyek Jasa ${pathContext === 'strauss-pile' ? 'Strauss Pile' : 'Bore Pile'} ${city} oleh Aseven Pile`} 
               loading="eager"
               fetchpriority="high"

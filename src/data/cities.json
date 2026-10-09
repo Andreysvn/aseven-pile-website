@@ -232,7 +232,29 @@
     "terrain": "Datar, Kondisi Labil",
     "averageDepth": "12 - 20 meter",
     "soilDescription": "Karakteristik tanah Bekasi didominasi oleh lempung ekspansif yang mudah menyusut dan mengembang. Pengeboran pondasi di sini membutuhkan penanganan khusus agar dinding bor tidak runtuh akibat sifat tanah lempung yang lunak saat terkena air.",
-    "draft": false
+    "draft": false,
+    "caseStudy": {
+      "items": [
+        {
+          "depthM": 14,
+          "points": 18,
+          "diameter": 30,
+          "price": 120000
+        }
+      ],
+      "isReal": true
+    },
+    "caseStudyStrauss": {
+      "items": [
+        {
+          "depthM": 6,
+          "points": 12,
+          "diameter": 30,
+          "price": 75000
+        }
+      ],
+      "isReal": true
+    }
   },
   {
     "slug": "bogor",
@@ -265,7 +287,14 @@
         "answer": "Jika tanah di lokasi Anda berbatu atau Anda membangun lebih dari 2 lantai, gunakan bore pile mesin. Strauss pile hanya cocok untuk tanah lunak dan bangunan ringan 1-2 lantai di gang sempit."
       }
     ],
-    "subAreas": [],
+    "subAreas": [
+      {"name": "Bogor Barat", "slug": "bogor-barat"},
+      {"name": "Bogor Selatan", "slug": "bogor-selatan"},
+      {"name": "Bogor Tengah", "slug": "bogor-tengah"},
+      {"name": "Bogor Timur", "slug": "bogor-timur"},
+      {"name": "Bogor Utara", "slug": "bogor-utara"},
+      {"name": "Tanah Sareal", "slug": "tanah-sareal"}
+    ],
     "soilType": "Tanah Merah (Latosol) & Berbatu",
     "terrain": "Berbukit & Bergelombang",
     "averageDepth": "8 - 15 meter",
@@ -358,7 +387,21 @@
         "answer": "Untuk wilayah Tangerang, kedalaman bore pile umumnya berkisar 15-22 meter. Area dekat pesisir utara Tangerang mungkin membutuhkan kedalaman lebih karena muka air tanah tinggi."
       }
     ],
-    "subAreas": [],
+    "subAreas": [
+      {"name": "Batuceper", "slug": "batuceper"},
+      {"name": "Benda", "slug": "benda"},
+      {"name": "Cibodas", "slug": "cibodas"},
+      {"name": "Ciledug", "slug": "ciledug"},
+      {"name": "Cipondoh", "slug": "cipondoh"},
+      {"name": "Jatiuwung", "slug": "jatiuwung"},
+      {"name": "Karangtengah", "slug": "karangtengah"},
+      {"name": "Karawaci", "slug": "karawaci"},
+      {"name": "Larangan", "slug": "larangan"},
+      {"name": "Neglasari", "slug": "neglasari"},
+      {"name": "Periuk", "slug": "periuk"},
+      {"name": "Pinang", "slug": "pinang"},
+      {"name": "Tangerang", "slug": "tangerang"}
+    ],
     "soilType": "Lempung Berpasir & Sedimen",
     "terrain": "Datar",
     "averageDepth": "15 - 22 meter",
@@ -396,7 +439,15 @@
         "answer": "Biaya mobilisasi alat dari pool kami ke wilayah Tangsel berkisar antara Rp 3.500.000 hingga Rp 4.500.000 tergantung kemudahan akses lokasi proyek Anda."
       }
     ],
-    "subAreas": [],
+    "subAreas": [
+      {"name": "Serpong", "slug": "serpong"},
+      {"name": "Serpong Utara", "slug": "serpong-utara"},
+      {"name": "Pondok Aren", "slug": "pondok-aren"},
+      {"name": "Ciputat", "slug": "ciputat"},
+      {"name": "Ciputat Timur", "slug": "ciputat-timur"},
+      {"name": "Pamulang", "slug": "pamulang"},
+      {"name": "Setu", "slug": "setu"}
+    ],
     "soilType": "Tanah Lempung Kaku & Latosol",
     "terrain": "Datar & Bergelombang",
     "averageDepth": "10 - 18 meter",
@@ -407,8 +458,29 @@
     "slug": "jakarta-selatan",
     "name": "Jakarta Selatan",
     "province": "DKI Jakarta",
-    "description": "Layanan jasa bore pile dan strauss pile di wilayah Jakarta Selatan. Ahli menangani kontur tanah padas.",
-    "localFaqs": [],
+    "description": "Layanan jasa bore pile dan strauss pile di wilayah Jakarta Selatan. Solusi pondasi dalam bebas getaran untuk area padat seperti Tebet, Kemang, dan Kebayoran.",
+    "localFaqs": [
+      {
+        "question": "Apakah melayani bore pile untuk gang sempit di area Tebet atau Pancoran?",
+        "answer": "Ya, mesin mini crane kami dirancang untuk bisa masuk ke area dengan akses terbatas. Jika gang terlalu sempit untuk mesin (kurang dari 2 meter), kami menyediakan opsi strauss pile manual."
+      },
+      {
+        "question": "Bagaimana karakteristik tanah di Jakarta Selatan?",
+        "answer": "Tanah di Jakarta Selatan cenderung lebih stabil dan keras dibandingkan Jakarta Utara. Lapisan tanah keras (padas/cadas) umumnya bisa ditemukan di kedalaman 12-20 meter, tergantung lokasi spesifiknya seperti Cilandak atau Kemang."
+      },
+      {
+        "question": "Apakah pengerjaan bore pile di Jaksel aman untuk bangunan sebelah?",
+        "answer": "Sangat aman. Metode bore pile mesin kami bebas getaran sehingga tidak akan menyebabkan retakan pada tembok rumah tetangga di lingkungan padat penduduk Jakarta Selatan."
+      },
+      {
+        "question": "Apakah harus mengurus izin RT/RW untuk bore pile di perumahan Jaksel?",
+        "answer": "Ya, kami sangat menyarankan Anda untuk berkoordinasi dengan RT/RW setempat karena akan ada mobilisasi alat berat mini crane dan truk material ke lokasi proyek."
+      },
+      {
+        "question": "Berapa biaya jasa bore pile per meter di wilayah Jakarta Selatan?",
+        "answer": "Biaya jasa bor saja mulai dari Rp 120.000/meter untuk diameter 30cm. Biaya mobilisasi alat ke wilayah Jakarta Selatan mulai dari Rp 3.500.000."
+      }
+    ],
     "subAreas": [
       {
         "name": "Tebet",
@@ -427,10 +499,10 @@
         "slug": "pancoran"
       }
     ],
-    "soilType": "Tanah Lempung/Pasir Standar",
-    "terrain": "Bervariasi",
-    "averageDepth": "10 - 20 meter",
-    "soilDescription": "Secara umum, kondisi tanah di wilayah Jakarta Selatan membutuhkan survei N-SPT untuk memastikan kedalaman lapisan tanah keras (hard strata) sebelum menentukan metode pengeboran yang paling efisien (basah atau kering).",
-    "draft": true
+    "soilType": "Lempung Padat & Lapisan Padas Dangkal",
+    "terrain": "Relatif Bergelombang & Bebas Banjir",
+    "averageDepth": "12 - 20 meter",
+    "soilDescription": "Kondisi tanah di Jakarta Selatan (seperti Kemang, Cilandak, Kebayoran) tergolong sangat baik untuk pondasi bore pile karena lapisan tanah keras (padas) bisa ditemukan di kedalaman yang lebih dangkal dibanding wilayah Jakarta lainnya. Metode dry boring seringkali efektif digunakan di area tertentu yang muka air tanahnya rendah, menjadikan proses pengeboran lebih bersih dan cepat.",
+    "draft": false
   }
 ]
