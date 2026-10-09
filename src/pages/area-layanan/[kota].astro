@@ -87,11 +87,7 @@ const activeServices = CITY_SERVICES.filter(s => s.available && ['bore-pile', 's
         {cityData.groupedAreas.map((group: any) => (
           <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: var(--space-6); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s;" class="hover:shadow-lg hover:-translate-y-1">
             <h3 style="font-size: 1.25rem; margin-bottom: var(--space-4); border-bottom: 2px solid #f1f5f9; padding-bottom: 12px;">
-              {group.groupSlug && activeCities.some(c => c.slug === group.groupSlug) ? (
-                <a href={`/area-layanan/${group.groupSlug}`} style="color: var(--color-primary); font-weight: 700; text-decoration: none; display: inline-block; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">{group.groupName} &rarr;</a>
-              ) : (
-                <span style="color: var(--color-primary); font-weight: 700;">{group.groupName}</span>
-              )}
+              <span style="color: var(--color-primary); font-weight: 700;">{group.groupName}</span>
             </h3>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
               {group.areas.map((area: string) => (

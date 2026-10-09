@@ -24,13 +24,7 @@ if (sNameLower.includes('strauss')) serviceSlug = 'strauss-pile';
       {cityData.groupedAreas.map((group: any) => (
         <div class="ls-area-card">
           <h3>
-            {group.groupSlug && activeSlugs.includes(group.groupSlug) ? (
-              <a href={`/area-layanan/${serviceSlug}/${group.groupSlug}`} style="color: var(--color-primary); text-decoration: none; font-weight: 700;">
-                {group.groupName} &rarr;
-              </a>
-            ) : (
-              <span>{group.groupName}</span>
-            )}
+            <span>{group.groupName}</span>
           </h3>
           <div class="ls-area-chips">
             {group.areas.map((area: string) => (
