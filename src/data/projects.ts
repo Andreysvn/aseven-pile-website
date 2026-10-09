@@ -80,7 +80,7 @@ export const PROJECTS: Record<string, Project[]> = {
       alt: 'Proyek Pondasi Strauss Pile Manual di Bekasi',
       area: 'Bekasi',
       diameterCm: 30,
-      depthM: 6,
+      depthM: 5,
       method: 'Strauss pile manual',
       service: 'strauss'
     }
