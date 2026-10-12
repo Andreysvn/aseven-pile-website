@@ -44,7 +44,9 @@ if (heroImage) {
 }
 
 // Compute canonical URL and breadcrumb path based on context
-const lowPrice = pathContext === 'strauss-pile' ? '70000' : '115000';
+const lowPrice = pathContext === 'strauss-pile' ? '70000' : '139000';
+const highPrice = pathContext === 'strauss-pile' ? '110000' : '350000';
+const offerCount = pathContext === 'strauss-pile' ? '4' : '5';
 const citySlug = city.toLowerCase().replace(/\s+/g, "-");
 let pageUrl = `${siteConfig.url}/area-layanan/${citySlug}`;
 let breadcrumbItems = [
@@ -123,9 +125,33 @@ const serviceSchema = {
     "@type": "AggregateOffer",
     "priceCurrency": "IDR",
     "lowPrice": lowPrice,
-    "highPrice": "350000",
-    "offerCount": "5",
+    "highPrice": highPrice,
+    "offerCount": offerCount,
     "availability": "https://schema.org/InStock",
+    "url": pageUrl
+  }
+};
+
+// Product Schema (Official Google format to enable Price Rich Snippet / Badge)
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": `Jasa ${serviceName} ${city}`,
+  "description": description,
+  "image": finalHeroImage ? `${siteConfig.url}${finalHeroImage}` : `${siteConfig.url}/imgs/bore-pile-mesin-gawangan-aseven-pile.webp`,
+  "brand": {
+    "@type": "Brand",
+    "name": siteConfig.brand
+  },
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "IDR",
+    "lowPrice": lowPrice,
+    "highPrice": highPrice,
+    "price": lowPrice,
+    "offerCount": offerCount,
+    "availability": "https://schema.org/InStock",
+    "priceValidUntil": "2027-12-31",
     "url": pageUrl
   }
 };
@@ -135,6 +161,7 @@ const serviceSchema = {
   <!-- LD+JSON Schemas -->
   <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, "\\u003c")} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema).replace(/</g, "\\u003c")} />
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema).replace(/</g, "\\u003c")} />
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema).replace(/</g, "\\u003c")} />}
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
