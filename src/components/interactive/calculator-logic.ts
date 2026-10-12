@@ -64,13 +64,13 @@ export function computeCalculation(state: CalcState, config: CalculatorConfig): 
   const tier = tiers.find(t => t.diameter === state.diameter) || tiers[0];
   const minThreshold = config.lumpsumMinimum[state.activeTab];
   const isLumpsum = totalMeters > 0 && totalMeters < minThreshold;
-  const effectiveMeters = isLumpsum ? minThreshold : totalMeters;
+  const effectiveMeters = totalMeters;
 
-  const minJasa = effectiveMeters * tier.pricePerMeter.min;
-  const maxJasa = effectiveMeters * tier.pricePerMeter.max;
+  const minJasa = totalMeters * tier.pricePerMeter.min;
+  const maxJasa = totalMeters * tier.pricePerMeter.max;
 
   const matEstimate = tier.materialCostEstimate || 0;
-  const totalMaterial = state.packageType === 'allin' ? (effectiveMeters * matEstimate) : 0;
+  const totalMaterial = state.packageType === 'allin' ? (totalMeters * matEstimate) : 0;
 
   const locData = config.locations.find(l => l.value === state.location);
 
@@ -148,7 +148,7 @@ export function formatRupiah(num: number): string {
     const formatted = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 }).format(millions);
     return `Rp ${formatted} Juta`;
   }
-  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(num);
+  return `Rp ${new Intl.NumberFormat('id-ID').format(num)}`;
 }
 
 export function formatRangeShort(min: number, max: number, prefix = ''): string {
@@ -242,7 +242,7 @@ export function visualizerInner(state: CalcState): string {
     ? `<div style="position:absolute;top:0;bottom:0;left:0;right:0;background:#cbd5e1;display:flex;justify-content:center;box-shadow:inset 0 4px 10px rgba(0,0,0,0.1)"><div style="width:64%;height:100%;border-left:2px solid #334155;border-right:2px solid #334155;background-image:repeating-linear-gradient(0deg, transparent, transparent 12px, #475569 12px, #475569 14px)"></div></div>`
     : '';
 
-  return `<div style="text-align:center;margin-bottom:16px;font-size:14px;font-weight:700;color:#475569">Visualisasi Struktur Tiang</div><div style="position:relative;width:100%;max-width:320px;height:440px;margin:0 auto;background:#e0f2fe;border-radius:8px;overflow:hidden;border:1px solid #cbd5e1"><div style="position:absolute;bottom:0;left:0;width:100%;height:${groundHeight}px;background:#d6c4b4;border-top:2px solid #bba38f"><div style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:url(/images/visualizer/texture-dots.png);background-size:120px;opacity:0.12;mix-blend-mode:multiply"></div></div><div style="position:absolute;top:${440 - groundHeight}px;left:50%;transform:translateX(-50%);width:${holeWidth}px;height:${holeHeight}px;background:#7f1d1d;border-radius:0 0 4px 4px;overflow:hidden;display:flex;justify-content:center;box-shadow:inset 0 4px 6px rgba(0,0,0,0.3)">${allin}</div><img src="/images/visualizer/${tool}.webp" alt="Alat ${tool}" style="position:absolute;bottom:${tool === 'gawangan' ? groundHeight - 12 : groundHeight}px;left:${tool === 'mini-crane' ? '43%' : '50%'};transform:translateX(-50%);height:140px;object-fit:contain;mix-blend-mode:multiply;z-index:10"/><div style="position:absolute;bottom:${groundHeight}px;left:50%;margin-left:${tool === 'strauss' ? '110px' : '70px'};height:140px;border-right:1px dashed #475569;display:flex;align-items:center"><div style="position:absolute;top:0;right:-4px;width:8px;height:1px;background:#475569"></div><div style="position:absolute;bottom:0;right:-4px;width:8px;height:1px;background:#475569"></div><div style="position:absolute;right:-16px;top:50%;transform:translateY(-50%) rotate(90deg);color:#475569;font-size:11px;font-weight:bold;white-space:nowrap">${tool === 'strauss' ? 'Tinggi ± 2 Meter' : 'Tinggi ± 5 Meter'}</div></div><div style="position:absolute;top:${440 - groundHeight}px;left:50%;margin-left:-${(holeWidth / 2) + 25}px;height:${holeHeight}px;border-left:2px dashed #f59e0b;display:flex;align-items:center"><div style="position:absolute;top:0;left:-6px;width:10px;height:2px;background:#f59e0b"></div><div style="position:absolute;bottom:0;left:-6px;width:10px;height:2px;background:#f59e0b"></div><div style="position:absolute;left:-20px;top:50%;transform:translateY(-50%) rotate(-90deg);color:#d97706;font-size:12px;font-weight:bold;white-space:nowrap">${safeDepth} Meter</div></div><div style="position:absolute;top:${440 - groundHeight + holeHeight + 8}px;left:50%;transform:translateX(-50%);color:#475569;font-size:12px;font-weight:bold">Ø ${diameter} cm</div></div>`;
+  return `<div style="text-align:center;margin-bottom:16px;font-size:14px;font-weight:700;color:#475569">Visualisasi Struktur Tiang</div><div style="position:relative;width:100%;max-width:320px;height:440px;margin:0 auto;background:#e0f2fe;border-radius:8px;overflow:hidden;border:1px solid #cbd5e1"><div style="position:absolute;bottom:0;left:0;width:100%;height:${groundHeight}px;background:#d6c4b4;border-top:2px solid #bba38f"><div style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:url(/images/visualizer/texture-dots.png);background-size:120px;opacity:0.12;mix-blend-mode:multiply"></div></div><div style="position:absolute;top:${440 - groundHeight}px;left:50%;transform:translateX(-50%);width:${holeWidth}px;height:${holeHeight}px;background:#7f1d1d;border-radius:0 0 4px 4px;overflow:hidden;display:flex;justify-content:center;box-shadow:inset 0 4px 6px rgba(0,0,0,0.3)">${allin}</div><img src="/images/visualizer/${tool}.webp" alt="Alat ${tool}" style="position:absolute;bottom:${tool === 'gawangan' ? groundHeight - 12 : groundHeight}px;left:${tool === 'mini-crane' ? '43%' : '50%'};transform:translateX(-50%);height:140px;object-fit:contain;mix-blend-mode:multiply;z-index:10"/><div style="position:absolute;bottom:${groundHeight}px;left:50%;margin-left:${tool === 'strauss' ? '110px' : '70px'};height:140px;border-right:1px dashed #475569;display:flex;align-items:center"><div style="position:absolute;top:0;right:-4px;width:8px;height:1px;background:#475569"></div><div style="position:absolute;bottom:0;right:-4px;width:8px;height:1px;background:#475569"></div><div style="position:absolute;right:-16px;top:50%;transform:translateY(-50%) rotate(90deg);color:#475569;font-size:11px;font-weight:bold;white-space:nowrap">${tool === 'strauss' ? 'Tinggi ± 2 Meter' : 'Tinggi ± 9 Meter'}</div></div><div style="position:absolute;top:${440 - groundHeight}px;left:50%;margin-left:-${(holeWidth / 2) + 25}px;height:${holeHeight}px;border-left:2px dashed #f59e0b;display:flex;align-items:center"><div style="position:absolute;top:0;left:-6px;width:10px;height:2px;background:#f59e0b"></div><div style="position:absolute;bottom:0;left:-6px;width:10px;height:2px;background:#f59e0b"></div><div style="position:absolute;left:-20px;top:50%;transform:translateY(-50%) rotate(-90deg);color:#d97706;font-size:12px;font-weight:bold;white-space:nowrap">${safeDepth} Meter</div></div><div style="position:absolute;top:${440 - groundHeight + holeHeight + 8}px;left:50%;transform:translateX(-50%);color:#475569;font-size:12px;font-weight:bold">Ø ${diameter} cm</div></div>`;
 }
 
 export function footerInner(state: CalcState, config: CalculatorConfig): string {
@@ -267,12 +267,12 @@ export function footerInner(state: CalcState, config: CalculatorConfig): string 
     : '';
 
   const jasaSmall = calc.totalMeters > 0
-    ? `<small style="font-size:11px;color:#475569;margin-left:4px">(${calc.effectiveMeters}m¹ × ${formatRupiah(minPrice).replace(/\.000$/, 'rb')}${maxPrice > minPrice ? `-${formatRupiah(maxPrice).replace(/\.000$/, 'rb')}` : ''})</small>`
+    ? `<small style="font-size:11px;color:#475569;margin-left:4px">(${calc.totalMeters}m¹ × ${formatRupiah(minPrice).replace(/\.000$/, 'rb')}${maxPrice > minPrice ? `-${formatRupiah(maxPrice).replace(/\.000$/, 'rb')}` : ''})</small>`
     : '';
   const jasaRow = `<div class="breakdown-row" style="align-items:center;padding:0 12px"><span>Biaya ${packageType === 'allin' ? 'Jasa Pengeboran' : 'Jasa'}${jasaSmall}</span><strong>${formatRangeShort(calc.minJasa, calc.maxJasa)}</strong></div>`;
 
   const materialRow = packageType === 'allin'
-    ? `<div class="breakdown-row" style="align-items:center;padding:0 12px"><span>Estimasi Material${calc.totalMeters > 0 && matEst > 0 ? `<small style="font-size:11px;color:#475569;margin-left:4px">(${calc.effectiveMeters}m¹ × ${formatRupiah(matEst).replace(/\.000$/, 'rb')})</small>` : ''}</span><strong style="color:${matEst === 0 ? '#b91c1c' : '#0f172a'}">${matEst === 0 ? 'Hubungi Kami' : `+ ${formatRupiah(calc.totalMaterial)}`}</strong></div>`
+    ? `<div class="breakdown-row" style="align-items:center;padding:0 12px"><span>Estimasi Material${calc.totalMeters > 0 && matEst > 0 ? `<small style="font-size:11px;color:#475569;margin-left:4px">(${calc.totalMeters}m¹ × ${formatRupiah(matEst).replace(/\.000$/, 'rb')})</small>` : ''}</span><strong style="color:${matEst === 0 ? '#b91c1c' : '#0f172a'}">${matEst === 0 ? 'Hubungi Kami' : `+ ${formatRupiah(calc.totalMaterial)}`}</strong></div>`
     : '';
 
   const mobRow = state.activeTab === 'borepile'
