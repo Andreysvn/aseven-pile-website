@@ -13,21 +13,21 @@ export interface PricingData {
 export const pricingTiers: PricingData[] = [
   {
     diameter: 30,
-    pricePerMeter: { min: 120000, max: 120000 },
+    pricePerMeter: { min: 139000, max: 139000 },
     materialCostEstimate: 210000,
     isEstimate: false,
     notes: "Ideal untuk pondasi rumah tinggal 2-3 lantai."
   },
   {
     diameter: 40,
-    pricePerMeter: { min: 135000, max: 135000 },
+    pricePerMeter: { min: 175000, max: 175000 },
     materialCostEstimate: 370000,
     isEstimate: false,
     notes: "Standar untuk ruko dan gedung komersial menengah."
   },
   {
     diameter: 50,
-    pricePerMeter: { min: 190000, max: 190000 },
+    pricePerMeter: { min: 215000, max: 215000 },
     materialCostEstimate: 550000,
     isEstimate: false,
     notes: "Untuk struktur berat atau kondisi tanah butuh daya dukung tinggi."
@@ -82,7 +82,7 @@ export const straussTiers: PricingData[] = [
 
 // ===== CONFIG UMUM =====
 export const pricingConfig = {
-  lastUpdated: "2026-09-10",
+  lastUpdated: "2026-10-12",
   mobilizationFee: 3500000,
   minimumDepthLumpsum: 50,
 };

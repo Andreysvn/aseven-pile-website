@@ -15,7 +15,7 @@
       },
       {
         "question": "Berapa harga bore pile per meter di Jakarta tahun 2026?",
-        "answer": "Harga jasa bore pile mesin di Jakarta tahun 2026 berkisar antara Rp 115.000 hingga Rp 350.000 per meter lari, tergantung diameter yang dipilih (30cm, 40cm, 50cm, 60cm, atau 80cm). Harga tersebut adalah harga jasa bor saja, belum termasuk material besi dan beton."
+        "answer": "Harga jasa bore pile mesin di Jakarta tahun 2026 berkisar antara Rp 139.000 hingga Rp 350.000 per meter lari, tergantung diameter yang dipilih (30cm, 40cm, 50cm, 60cm, atau 80cm). Harga tersebut adalah harga jasa bor saja, belum termasuk material besi dan beton."
       },
       {
         "question": "Apakah bore pile aman untuk rumah di perumahan padat Jakarta?",
@@ -133,13 +133,13 @@
           "depthM": 15,
           "points": 14,
           "diameter": 30,
-          "price": 120000
+          "price": 140000
         },
         {
           "depthM": 15,
           "points": 2,
           "diameter": 50,
-          "price": 190000
+          "price": 215000
         }
       ],
       "isReal": true
@@ -191,7 +191,7 @@
       },
       {
         "question": "Berapa harga bore pile di Bekasi tahun 2026?",
-        "answer": "Harga jasa bore pile mesin di Bekasi berkisar Rp 115.000 - Rp 350.000 per meter lari tergantung diameter. Biaya mobilisasi alat dari pool kami ke Bekasi mulai dari Rp 3.500.000."
+        "answer": "Harga jasa bore pile mesin di Bekasi berkisar Rp 139.000 - Rp 350.000 per meter lari tergantung diameter. Biaya mobilisasi alat dari pool kami ke Bekasi mulai dari Rp 3.500.000."
       },
       {
         "question": "Apakah melayani area Cikarang dan Tambun?",
@@ -239,7 +239,7 @@
           "depthM": 16,
           "points": 18,
           "diameter": 30,
-          "price": 120000
+          "price": 140000
         }
       ],
       "isReal": true
@@ -325,7 +325,7 @@
       },
       {
         "question": "Berapa harga bore pile di Bogor?",
-        "answer": "Harga jasa bore pile mesin di Bogor berkisar Rp 115.000 - Rp 350.000 per meter lari. Biaya mobilisasi menyesuaikan jarak dari pool alat kami."
+        "answer": "Harga jasa bore pile mesin di Bogor berkisar Rp 139.000 - Rp 350.000 per meter lari. Biaya mobilisasi menyesuaikan jarak dari pool alat kami."
       },
       {
         "question": "Apakah bore pile bisa dikerjakan di area berbukit seperti Sentul atau Puncak?",
@@ -572,7 +572,7 @@
       },
       {
         "question": "Berapa harga bore pile di Tangerang?",
-        "answer": "Harga jasa bore pile mesin di Tangerang berkisar Rp 115.000 - Rp 350.000 per meter lari tergantung diameter. Masih termasuk wilayah Jabodetabek sehingga biaya mobilisasi mulai dari Rp 3.500.000."
+        "answer": "Harga jasa bore pile mesin di Tangerang berkisar Rp 139.000 - Rp 350.000 per meter lari tergantung diameter. Masih termasuk wilayah Jabodetabek sehingga biaya mobilisasi mulai dari Rp 3.500.000."
       },
       {
         "question": "Apakah melayani BSD, Alam Sutera, dan Cikupa?",
@@ -858,7 +858,7 @@
       },
       {
         "question": "Berapa biaya jasa bore pile per meter di wilayah Jakarta Selatan?",
-        "answer": "Biaya jasa bor saja mulai dari Rp 120.000/meter untuk diameter 30cm. Biaya mobilisasi alat ke wilayah Jakarta Selatan mulai dari Rp 3.500.000."
+        "answer": "Biaya jasa bor saja mulai dari Rp 139.000/meter untuk diameter 30cm. Biaya mobilisasi alat ke wilayah Jakarta Selatan mulai dari Rp 3.500.000."
       }
     ],
     "subAreas": [

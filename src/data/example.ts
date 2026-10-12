@@ -30,7 +30,7 @@ export function exampleForCity(city: any, service: "borepile" | "strauss" = "bor
     items = cs.items.map((i: any) => {
       const diameterCm = i.diameterCm ?? i.diameter;
       const tier = pricingTiers.find((t) => t.diameter === diameterCm) ?? pricingTiers[0];
-      const pricePerM = i.price ?? tier.pricePerMeter.min;
+      const pricePerM = i.price ?? (service === 'borepile' && diameterCm === 30 ? 140000 : tier.pricePerMeter.min);
       return {
         diameterCm,
         depthM: i.depthM,
@@ -42,7 +42,7 @@ export function exampleForCity(city: any, service: "borepile" | "strauss" = "bor
   } else if (isReal && (cs.diameter || cs.diameterCm)) {
     const diameterCm = cs.diameterCm ?? cs.diameter;
     const tier = pricingTiers.find((t) => t.diameter === diameterCm) ?? pricingTiers[0];
-    const pricePerM = cs.price ?? tier.pricePerMeter.min;
+    const pricePerM = cs.price ?? (service === 'borepile' && diameterCm === 30 ? 140000 : tier.pricePerMeter.min);
     items = [{
       diameterCm,
       depthM: cs.depthM,
@@ -61,7 +61,7 @@ export function exampleForCity(city: any, service: "borepile" | "strauss" = "bor
     const points = 12 + (hash(String(city.slug)) % 9); // 12-20
     const diameterCm = 30; // default example diameter
     const tier = pricingTiers.find((t) => t.diameter === diameterCm) ?? pricingTiers[0];
-    const pricePerM = tier.pricePerMeter.min;
+    const pricePerM = (service === 'borepile' && diameterCm === 30) ? 140000 : tier.pricePerMeter.min;
     
     items = [{
       diameterCm,
