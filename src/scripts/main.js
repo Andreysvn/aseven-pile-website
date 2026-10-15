@@ -1,4 +1,4 @@
-﻿// main.js - Global scripts for Aseven Pile
+// main.js - Global scripts for Aseven Pile
 document.addEventListener('DOMContentLoaded', () => {
   
   // Header Scroll Effect (Transparent to Solid)
@@ -37,5 +37,51 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileMenu.classList.toggle('is-open');
     });
   }
+
+  // Capture Google Ads Click ID (gclid) for Offline Conversion Tracking
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclid = urlParams.get('gclid');
+    if (gclid) {
+      sessionStorage.setItem('aseven_gclid', gclid);
+    }
+  } catch (err) {}
+
+  // Google Analytics & Google Ads Lead Conversion Tracking (WhatsApp & Phone)
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!target) return;
+    const link = target.closest('a');
+    if (!link) return;
+
+    const href = link.getAttribute('href') || '';
+    const isWhatsApp = href.includes('wa.me') || href.includes('whatsapp.com');
+    const isPhone = href.startsWith('tel:');
+
+    if (isWhatsApp || isPhone) {
+      const channel = isPhone ? 'Phone Call' : 'WhatsApp Chat';
+      const storedGclid = sessionStorage.getItem('aseven_gclid') || '';
+
+      if (typeof window.gtag === 'function') {
+        // Standard Google recommended lead event
+        window.gtag('event', 'generate_lead', {
+          event_category: 'Contact',
+          event_label: channel,
+          page_location: window.location.href,
+          page_path: window.location.pathname,
+          gclid: storedGclid || undefined,
+          transport_type: 'beacon'
+        });
+
+        // Custom event for granular reporting in GA4
+        window.gtag('event', isPhone ? 'click_call' : 'click_whatsapp', {
+          event_category: 'Contact',
+          event_label: channel,
+          page_path: window.location.pathname,
+          transport_type: 'beacon'
+        });
+      }
+    }
+  });
 });
 

@@ -76,8 +76,27 @@ const canonicalURL = new URL(Astro.url.pathname.replace(/index\.html$/, ''), sit
     }).replace(/</g, "\\u003c")} />
   </head>
   <body>
-    <script is:inline>window.addEventListener('load',function(){let gtagLoaded=!1;function loadGtag(){if(gtagLoaded)return;gtagLoaded=!0;let script=document.createElement('script');script.src='https://www.googletagmanager.com/gtag/js?id=G-TQ69NPXN7J';script.async=!0;document.head.appendChild(script);}window.addEventListener('scroll',loadGtag,{once:!0});window.addEventListener('mousemove',loadGtag,{once:!0});window.addEventListener('touchstart',loadGtag,{once:!0});setTimeout(loadGtag,3500);});</script>
-    <script is:inline>window.addEventListener('load',function(){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TQ69NPXN7J');});</script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', 'G-TQ69NPXN7J');
+      window.addEventListener('load', function(){
+        let gtagLoaded = !1;
+        function loadGtag(){
+          if (gtagLoaded) return;
+          gtagLoaded = !0;
+          let script = document.createElement('script');
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-TQ69NPXN7J';
+          script.async = !0;
+          document.head.appendChild(script);
+        }
+        window.addEventListener('scroll', loadGtag, {once: !0});
+        window.addEventListener('mousemove', loadGtag, {once: !0});
+        window.addEventListener('touchstart', loadGtag, {once: !0});
+        setTimeout(loadGtag, 3500);
+      });
+    </script>
     <Header />
 
     <main>
