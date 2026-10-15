@@ -21,6 +21,8 @@ interface Props {
   faqs?: FAQ[];
   pathContext?: 'general' | 'bore-pile' | 'strauss-pile';
   heroImage?: string;
+  pageUrl?: string;
+  customBreadcrumbs?: Array<{ name: string; item: string }>;
 }
 
 const { 
@@ -31,7 +33,9 @@ const {
   city, 
   serviceName, 
   faqs = [], 
-  pathContext = 'general' 
+  pathContext = 'general',
+  pageUrl: propPageUrl,
+  customBreadcrumbs
 } = Astro.props;
 
 // Check if heroImage actually exists on disk.
@@ -48,22 +52,31 @@ const lowPrice = pathContext === 'strauss-pile' ? '70000' : '139000';
 const highPrice = pathContext === 'strauss-pile' ? '110000' : '350000';
 const offerCount = pathContext === 'strauss-pile' ? '4' : '5';
 const citySlug = city.toLowerCase().replace(/\s+/g, "-");
-let pageUrl = `${siteConfig.url}/area-layanan/${citySlug}`;
-let breadcrumbItems = [
-  { "@type": "ListItem", "position": 1, "name": "Beranda", "item": siteConfig.url },
-  { "@type": "ListItem", "position": 2, "name": "Area Layanan", "item": `${siteConfig.url}/area-layanan` }
-];
+let pageUrl = propPageUrl || `${siteConfig.url}/area-layanan/${citySlug}`;
+let breadcrumbItems = customBreadcrumbs
+  ? customBreadcrumbs.map((b, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "name": b.name,
+      "item": b.item
+    }))
+  : [
+      { "@type": "ListItem", "position": 1, "name": "Beranda", "item": siteConfig.url },
+      { "@type": "ListItem", "position": 2, "name": "Area Layanan", "item": `${siteConfig.url}/area-layanan` }
+    ];
 
-if (pathContext === 'bore-pile') {
-  pageUrl = `${siteConfig.url}/area-layanan/bore-pile/${citySlug}`;
-  breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": "Bore Pile", "item": `${siteConfig.url}/area-layanan/bore-pile` });
-  breadcrumbItems.push({ "@type": "ListItem", "position": 4, "name": city, "item": pageUrl });
-} else if (pathContext === 'strauss-pile') {
-  pageUrl = `${siteConfig.url}/area-layanan/strauss-pile/${citySlug}`;
-  breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": "Strauss Pile", "item": `${siteConfig.url}/area-layanan/strauss-pile` });
-  breadcrumbItems.push({ "@type": "ListItem", "position": 4, "name": city, "item": pageUrl });
-} else {
-  breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": city, "item": pageUrl });
+if (!customBreadcrumbs) {
+  if (pathContext === 'bore-pile') {
+    pageUrl = propPageUrl || `${siteConfig.url}/area-layanan/bore-pile/${citySlug}`;
+    breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": "Bore Pile", "item": `${siteConfig.url}/area-layanan/bore-pile` });
+    breadcrumbItems.push({ "@type": "ListItem", "position": 4, "name": city, "item": pageUrl });
+  } else if (pathContext === 'strauss-pile') {
+    pageUrl = propPageUrl || `${siteConfig.url}/area-layanan/strauss-pile/${citySlug}`;
+    breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": "Strauss Pile", "item": `${siteConfig.url}/area-layanan/strauss-pile` });
+    breadcrumbItems.push({ "@type": "ListItem", "position": 4, "name": city, "item": pageUrl });
+  } else {
+    breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": city, "item": pageUrl });
+  }
 }
 
 const schema = {

@@ -1,20 +1,6 @@
 ---
 import BaseLayout from '../../../../components/layout/BaseLayout.astro';
-import LastUpdated from '../../../../components/ui/LastUpdated.astro';
-import PricingTable from '../../../../components/ui/PricingTable.astro';
 import CalculatorUI from '../../../../components/interactive/CalculatorUI.astro';
-import CostExample from '../../../../components/ui/CostExample.astro';
-import CostAddons from '../../../../components/ui/CostAddons.astro';
-import ServiceFeatures from '../../../../components/ui/ServiceFeatures.astro';
-import ComparisonSection from '../../../../components/ui/ComparisonSection.astro';
-import ProcessSteps from '../../../../components/ui/ProcessSteps.astro';
-import MiniGallery from '../../../../components/ui/MiniGallery.astro';
-import FAQSection from '../../../../components/ui/FAQSection.astro';
-import PremiumCTA from '../../../../components/ui/PremiumCTA.astro';
-import CityCrossLinks from '../../../../components/ui/CityCrossLinks.astro';
-import ArticleList from '../../../../components/ui/ArticleList.astro';
-
-import '../../../../styles/local-seo.css';
 import '../../../../styles/calculator.css';
 import { straussTiers } from '../../../../data/pricing';
 import { siteConfig } from '../../../../data/site.config';
@@ -28,844 +14,237 @@ export async function getStaticPaths() {
 
 const { tier } = Astro.props;
 
-const otherDiameters = straussTiers.filter((t) => t.diameter !== tier.diameter);
+const otherDiameters = straussTiers.filter(t => t.diameter !== tier.diameter);
 
-const priceFormatted =
-  tier.pricePerMeter.min === tier.pricePerMeter.max
-    ? `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")}`
-    : `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")} – Rp ${tier.pricePerMeter.max.toLocaleString("id-ID")}`;
-
-// Technical volume & rebar spec data
-const volumeMap: Record<number, { m3Theoritical: string; m3Actual: string; rebar: string; maxDepth: string }> = {
-  20: { m3Theoritical: "0,031", m3Actual: "0,035", rebar: "4 batang besi ulir D10 / D12 dengan sengkang spiral Ø6", maxDepth: "6 – 8 meter" },
-  25: { m3Theoritical: "0,049", m3Actual: "0,055", rebar: "4–5 batang besi ulir D10 / D13 dengan sengkang spiral Ø6/Ø8", maxDepth: "6 – 8 meter" },
-  30: { m3Theoritical: "0,071", m3Actual: "0,08", rebar: "5–6 batang besi ulir D13 / D16 dengan sengkang spiral Ø8", maxDepth: "6 – 8 meter" },
-  40: { m3Theoritical: "0,126", m3Actual: "0,14", rebar: "6–8 batang besi ulir D13 / D16 dengan sengkang spiral Ø8", maxDepth: "5 – 7 meter" },
-};
-const volumeData = volumeMap[tier.diameter] || {
-  m3Theoritical: "0,05",
-  m3Actual: "0,06",
-  rebar: "Besi ulir SNI mengikuti gambar perencana struktur",
-  maxDepth: "6 – 8 meter",
-};
-
-// Simulation calculation data (RAB example)
-const exampleConfigs: Record<number, { points: number; depthM: number }> = {
-  20: { points: 20, depthM: 6 },
-  25: { points: 20, depthM: 6 },
-  30: { points: 18, depthM: 6 },
-  40: { points: 15, depthM: 7 },
-};
-const sim = exampleConfigs[tier.diameter] || { points: 20, depthM: 6 };
-const exampleTotal = sim.points * sim.depthM * tier.pricePerMeter.min;
-const exampleData = {
-  isReal: false,
-  items: [
-    {
-      diameterCm: tier.diameter,
-      pricePerM: tier.pricePerMeter.min,
-      depthM: sim.depthM,
-      points: sim.points,
-      subtotal: exampleTotal,
-    },
-  ],
-  total: exampleTotal,
-};
-
-// FAQ Data tailored to diameter
-const diameterFaqs = [
-  {
-    question: `Berapa harga jasa strauss pile diameter ${tier.diameter}cm per meternya?`,
-    answer: `Harga jasa pengeboran strauss pile manual diameter ${tier.diameter}cm adalah <strong>${priceFormatted} per meter lari (m&sup1;)</strong>. Tarif ini murni biaya jasa tenaga bor manual, belum termasuk material (besi tulangan & cor beton), ongkos mobilisasi tenaga/alat, serta pembuangan tanah sisa galian.`,
-  },
-  {
-    question: `Berapa kedalaman maksimal strauss pile diameter ${tier.diameter}cm?`,
-    answer: `Pengeboran strauss pile manual mampu mencapai kedalaman <strong>${volumeData.maxDepth}</strong>. Batas kedalaman sangat ditentukan oleh letak lapisan tanah keras (hard strata) di lokasi Anda, karena putaran bor manual akan berhenti saat mata bor telah menyentuh tanah keras.`,
-  },
-  {
-    question: `Apakah alat strauss pile diameter ${tier.diameter}cm bisa masuk ke gang 1 meter?`,
-    answer: `<strong>Sangat bisa.</strong> Peralatan tripod strauss pile bersifat <em>knock-down</em> ringkas dan dioperasikan manual oleh tenaga manusia tanpa mesin berat. Alat dapat dengan leluasa dibawa melewati gang sempit 1 meter maupun pintu masuk dalam rumah.`,
-  },
-  {
-    question: `Berapa estimasi kebutuhan beton cor per meter untuk diameter ${tier.diameter}cm?`,
-    answer: `Kebutuhan beton teoritis diameter ${tier.diameter}cm adalah sekitar <strong>${volumeData.m3Theoritical} m&sup3;</strong> per meter lari. Dengan mempertimbangkan faktor toleransi tanah (waste) 10–15%, kebutuhan riil beton berkisar <strong>${volumeData.m3Actual} m&sup3; per meter lari</strong>.`,
-  },
-  {
-    question: `Berapa minimal order pengerjaan untuk strauss pile diameter ${tier.diameter}cm?`,
-    answer: `Minimal order pekerjaan jasa strauss pile manual adalah <strong>100 meter lari (m&sup1;)</strong>. Untuk proyek dengan volume di bawah 100 meter, pekerjaan tetap dapat dikerjakan dengan penyesuaian biaya minimum (lumpsum) setara 100 meter.`,
-  },
-  {
-    question: `Kapan sebaiknya memilih strauss pile dibanding bore pile mesin?`,
-    answer: `Strauss pile manual adalah pilihan terbaik jika akses lokasi Anda berada di gang sempit yang tidak bisa dilewati truk mini crane selebar 3 meter, atau untuk proyek bangunan 1–2 lantai, pagar keliling, dan renovasi rumah tinggal dengan anggaran yang lebih hemat.`,
-  },
-];
-
-// URLs and Breadcrumbs
-const pageUrl = `${siteConfig.url}/layanan/strauss-pile/diameter/${tier.diameter}`;
-const breadcrumbItems = [
-  { "@type": "ListItem", "position": 1, "name": "Beranda", "item": siteConfig.url },
-  { "@type": "ListItem", "position": 2, "name": "Layanan", "item": `${siteConfig.url}/layanan` },
-  { "@type": "ListItem", "position": 3, "name": "Strauss Pile Manual", "item": `${siteConfig.url}/layanan/strauss-pile-manual` },
-  { "@type": "ListItem", "position": 4, "name": `Diameter ${tier.diameter}cm`, "item": pageUrl },
-];
-
-// WhatsApp URL with lead prefilled text
-const waConsultUrl = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(`Halo Aseven Pile, saya ingin konsultasi harga dan survei strauss pile diameter ${tier.diameter}cm.`)}`;
-
-// Schema definitions
-const productSchema = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": `Jasa Strauss Pile Manual Diameter ${tier.diameter}cm`,
-  "description": `Jasa pengeboran strauss pile manual diameter ${tier.diameter}cm per meter lari. 100% tanpa alat berat, bebas getaran, akses gang sempit, dan tim berpengalaman sejak ${siteConfig.foundingYear}.`,
-  "image": `${siteConfig.url}/imgs/header-jasa-strauss-pile-jakarta-aseven-pile.webp`,
-  "brand": {
-    "@type": "Brand",
-    "name": siteConfig.brand,
-  },
-  "offers": {
-    "@type": "AggregateOffer",
-    "priceCurrency": "IDR",
-    "lowPrice": tier.pricePerMeter.min.toString(),
-    "highPrice": tier.pricePerMeter.max.toString(),
-    "price": tier.pricePerMeter.min.toString(),
-    "offerCount": "1",
-    "availability": "https://schema.org/InStock",
-    "priceValidUntil": "2027-12-31",
-    "url": pageUrl,
-  },
-};
-
-const serviceSchema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": `Jasa Strauss Pile Diameter ${tier.diameter}cm`,
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": siteConfig.brand,
-  },
-  "description": `Pondasi strauss pile manual diameter ${tier.diameter}cm untuk ${tier.notes}`,
-  "offers": {
-    "@type": "AggregateOffer",
-    "priceCurrency": "IDR",
-    "lowPrice": tier.pricePerMeter.min.toString(),
-    "highPrice": tier.pricePerMeter.max.toString(),
-    "availability": "https://schema.org/InStock",
-    "url": pageUrl,
-  },
-};
-
-const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": siteConfig.brand,
-  "description": `Spesialis jasa bore pile mesin dan strauss pile manual profesional. Alat milik sendiri.`,
-  "url": pageUrl,
-  "telephone": siteConfig.phone,
-  "email": siteConfig.email,
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": siteConfig.address.street,
-    "addressLocality": siteConfig.address.city,
-    "addressRegion": siteConfig.address.province,
-    "postalCode": siteConfig.address.postalCode,
-    "addressCountry": "ID",
-  },
-  "serviceType": ["Strauss Pile", `Strauss Pile Diameter ${tier.diameter}cm`, "Pondasi Manual"],
-  "priceRange": "Rp 70.000 - Rp 350.000",
-  "foundingDate": siteConfig.foundingYear.toString(),
-  "sameAs": Object.values(siteConfig.socialMedia),
-  "dateModified": new Date(siteConfig.contentUpdated).toISOString(),
-};
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": diameterFaqs.map((faq) => ({
-    "@type": "Question",
-    "name": faq.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.answer,
-    },
-  })),
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": breadcrumbItems,
-};
+const priceFormatted = tier.pricePerMeter.min === tier.pricePerMeter.max
+  ? `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")}`
+  : `Rp ${tier.pricePerMeter.min.toLocaleString("id-ID")} - Rp ${tier.pricePerMeter.max.toLocaleString("id-ID")}`;
 ---
 
 <BaseLayout
-  title={`Harga Jasa Strauss Pile Diameter ${tier.diameter}cm 2026`}
-  description={`Jasa strauss pile manual diameter ${tier.diameter}cm per meter mulai ${priceFormatted}. ${tier.notes} Bebas getaran, bisa masuk gang sempit 1m, hemat biaya. Konsultasi & survei gratis.`}
+  title={`Jasa Strauss Pile Diameter ${tier.diameter}cm | Harga & Konsultasi ${siteConfig.brand}`}
+  description={`Jasa strauss pile manual diameter ${tier.diameter}cm per meter. ${tier.notes} Hubungi ${siteConfig.brand} untuk survei gratis.`}
 >
-  <!-- LD+JSON Schemas -->
-  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c")} />
-  <script type="application/ld+json" set:html={JSON.stringify(productSchema).replace(/</g, "\\u003c")} />
-  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema).replace(/</g, "\\u003c")} />
-  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema).replace(/</g, "\\u003c")} />
-  <script type="application/ld+json" set:html={JSON.stringify(faqSchema).replace(/</g, "\\u003c")} />
 
-  <!-- ================================================ -->
-  <!-- HEADER & HERO                                    -->
-  <!-- ================================================ -->
-  <header class="section local-seo-header">
-    <div class="container local-seo-header-inner">
-      <!-- HTML Breadcrumbs with Microdata -->
-      <nav aria-label="Breadcrumb" class="breadcrumbs">
-        <ol itemscope itemtype="https://schema.org/BreadcrumbList">
-          {breadcrumbItems.map((item, index) => (
-            <>
-              {index > 0 && <li class="separator">&rsaquo;</li>}
-              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class={index === breadcrumbItems.length - 1 ? "active" : ""}>
-                {index === breadcrumbItems.length - 1 ? (
-                  <span itemprop="name">{item.name}</span>
-                ) : (
-                  <a itemprop="item" href={new URL(item.item as string).pathname}>
-                    <span itemprop="name">{item.name}</span>
-                  </a>
-                )}
-                <meta itemprop="position" content={item.position.toString()} />
-              </li>
-            </>
-          ))}
-        </ol>
-      </nav>
+  <div class="hero-service">
+    <div class="container text-center">
+      <span class="badge">Strauss Pile Manual</span>
+      <h1>Jasa Strauss Pile Diameter {tier.diameter}cm</h1>
+      <p class="subtitle">{tier.notes}</p>
+    </div>
+  </div>
 
-      <span class="badge-service-sp">Strauss Pile Manual</span>
+  <section class="section">
+    <div class="container">
 
-      <h1>Harga Jasa Strauss Pile Diameter {tier.diameter}cm 2026</h1>
-
-      <div class="last-updated-wrapper">
-        <LastUpdated prefix="Update" hideIcon={true} />
+      <div class="price-highlight">
+        <p class="price-label">Harga per meter</p>
+        <p class="price-value">{priceFormatted}</p>
+        {tier.isEstimate && (
+          <p class="price-note">⚠️ Harga estimasi (tergantung kondisi lapangan)</p>
+        )}
       </div>
 
-      <div class="header-image-wrapper">
-        <img
-          src="/imgs/header-jasa-strauss-pile-jakarta-aseven-pile.webp"
-          alt={`Pekerjaan Pondasi Strauss Pile Manual Diameter ${tier.diameter}cm oleh Aseven Pile`}
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          width="900"
-          height="675"
+      <div class="content-block">
+        <h2>Spesifikasi Strauss Pile {tier.diameter}cm</h2>
+        <ul>
+          <li><strong>Diameter:</strong> {tier.diameter}cm</li>
+          <li><strong>Metode:</strong> Manual (Strauss Pile)</li>
+          <li><strong>Maksimal Kedalaman:</strong> Hingga 8m (tergantung tanah keras)</li>
+          <li><strong>Cocok untuk:</strong> {tier.notes}</li>
+        </ul>
+      </div>
+
+      <div style="margin-bottom: var(--space-12);">
+        
+        <CalculatorUI
+          title={`Kalkulator Harga Strauss Pile ${tier.diameter}cm`}
+          description={`Hitung estimasi biaya strauss pile diameter ${tier.diameter}cm. Masukkan kedalaman dan jumlah titik bor.`}
+          defaults={{ method: 'strauss', diameter: tier.diameter, depth: 6, points: 15 }}
         />
       </div>
 
-      <!-- Google Ads High-Converting Above-The-Fold Trust & CTA Bar -->
-      <div class="hero-ads-cta-bar">
-        <div class="ads-trust-badges">
-          <span class="trust-pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Bisa Masuk Gang 1 Meter
-          </span>
-          <span class="trust-pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            100% Bebas Getaran
-          </span>
-          <span class="trust-pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Lebih Hemat Anggaran
-          </span>
-          <span class="trust-pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Berpengalaman Sejak {siteConfig.foundingYear}
-          </span>
-        </div>
-        <a href={waConsultUrl} class="btn-glow-wa" target="_blank" rel="noopener noreferrer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          <span>Konsultasi & Survei Gratis via WhatsApp</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <article class="container local-seo-article">
-    <!-- ================================================ -->
-    <!-- SECTION 1: Service Intro & Summary Box           -->
-    <!-- ================================================ -->
-    <section class="ls-section">
-      <div class="ls-summary-box">
-        <div class="ls-summary-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-          </svg>
-        </div>
-        <p class="ls-summary-text">
-          <strong>Ringkasan Biaya:</strong> Harga jasa strauss pile manual diameter {tier.diameter}cm berkisar mulai dari <strong>{priceFormatted} / meter lari (m&sup1;)</strong>. Biaya ini merupakan jasa bor tenaga manual saja; belum termasuk material (besi dan cor beton), transportasi alat/tenaga, serta pembuangan tanah galian.
-        </p>
-      </div>
-
-      <div class="ls-summary-crosslink-sp">
-        Butuh pondasi untuk gedung lebih berat atau tanah keras lebih dalam (&gt; 8 meter)? Lihat <a href={`/layanan/bore-pile/diameter/${Math.max(tier.diameter, 30)}`}>jasa bore pile mesin diameter {Math.max(tier.diameter, 30)}cm</a>.
-      </div>
-
-      <p class="ls-intro-p">
-        Pondasi <strong>strauss pile manual diameter {tier.diameter}cm</strong> adalah solusi pondasi tiang bor yang ramah lingkungan dan ekonomis untuk {tier.notes.toLowerCase()} Pengeboran dilakukan secara manual menggunakan tenaga manusia dan stang bor tripod praktis, sehingga tidak memerlukan akses jalan lebar untuk truk alat berat.
-      </p>
-
-      <p class="ls-intro-p-flat">
-        Karena dikerjakan tanpa mesin bermotor, metode ini menghasilkan <strong>nol getaran</strong> dan suara yang tenang. Sangat ideal diaplikasikan di lingkungan perumahan padat, pemukiman gang sempit, renovasi bangunan di dalam ruangan, maupun pondasi turap pagar yang menempel langsung pada tembok tetangga.
-      </p>
-    </section>
-
-    <!-- ================================================ -->
-    <!-- SECTION 2: Spesifikasi Teknis & Highlight Harga  -->
-    <!-- ================================================ -->
-    <section class="ls-section">
-      <div class="diameter-spec-card">
-        <div class="spec-card-header">
-          <div>
-            <span class="spec-badge-sp">Spesifikasi Diameter</span>
-            <h2 class="spec-title">Strauss Pile Diameter {tier.diameter} cm</h2>
-          </div>
-          <div class="spec-price-tag">
-            <span class="price-prefix">Harga Jasa Bor</span>
-            <span class="price-main-sp">{priceFormatted}</span>
-            <span class="price-suffix">/ meter lari (m&sup1;)</span>
-          </div>
-        </div>
-
-        <div class="spec-grid">
-          <div class="spec-item">
-            <span class="spec-label">Diameter Lubang</span>
-            <span class="spec-value">{tier.diameter} cm (0,{tier.diameter} m)</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">Metode Pengeboran</span>
-            <span class="spec-value">Manual Tenaga Manusia (Tripod & Auger)</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">Jangkauan Kedalaman</span>
-            <span class="spec-value">{volumeData.maxDepth} (Hingga Lapisan Tanah Keras)</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">Volume Beton / Meter</span>
-            <span class="spec-value">&plusmn; {volumeData.m3Actual} m&sup3; / m&sup1; (Termasuk faktor waste)</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">Kebutuhan Akses Jalan</span>
-            <span class="spec-value">Bisa masuk gang sempit 1 meter</span>
-          </div>
-          <div class="spec-item">
-            <span class="spec-label">Minimal Order Jasa</span>
-            <span class="spec-value">100 meter lari (m&sup1;)</span>
-          </div>
-          <div class="spec-item full-width">
-            <span class="spec-label">Peruntukan Bangunan</span>
-            <span class="spec-value">{tier.notes}</span>
-          </div>
-          <div class="spec-item full-width">
-            <span class="spec-label">Tipikal Pembesian (Besi Tulangan)</span>
-            <span class="spec-value">{volumeData.rebar} <small style="display:block; color:#64748b; font-weight:normal;">*Spesifikasi pembesian riil wajib mengikuti gambar kerja konsultan perencana struktur.</small></span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================================ -->
-    <!-- SECTION 2b: Tabel Daftar Harga Lengkap           -->
-    <!-- ================================================ -->
-    <PricingTable method="strauss" />
-
-    <!-- ================================================ -->
-    <!-- SECTION 3: Kalkulator Interaktif                 -->
-    <!-- ================================================ -->
-    <section id="kalkulator" class="ls-section">
-      <CalculatorUI
-        title={`Kalkulator Harga Strauss Pile Diameter ${tier.diameter}cm`}
-        description={`Hitung estimasi total RAB jasa strauss pile manual diameter ${tier.diameter}cm berdasarkan kedalaman dan jumlah titik proyek Anda.`}
-        defaults={{ method: 'strauss', diameter: tier.diameter, depth: sim.depthM, points: sim.points }}
-      />
-    </section>
-
-    <!-- ================================================ -->
-    <!-- SECTION 4: Contoh Perhitungan Biaya (Simulasi)   -->
-    <!-- ================================================ -->
-    <CostExample
-      method="strauss"
-      title={`Contoh Perhitungan Biaya Strauss Pile Diameter ${tier.diameter}cm`}
-      description={`Berikut simulasi perhitungan estimasi biaya jasa bor strauss pile manual diameter ${tier.diameter}cm untuk gambaran awal anggaran proyek Anda:`}
-      ex={exampleData}
-      note="*Contoh simulasi perhitungan jasa tenaga bor saja. Belum termasuk material (besi & beton), biaya transportasi tenaga/alat, dan pembuangan sisa galian."
-    />
-
-    <!-- ================================================ -->
-    <!-- SECTION 5: Biaya Tambahan di Luar Jasa           -->
-    <!-- ================================================ -->
-    <CostAddons service="strauss" />
-
-    <!-- ================================================ -->
-    <!-- SECTION 6: Keunggulan Layanan                    -->
-    <!-- ================================================ -->
-    <ServiceFeatures
-      title={`Keunggulan Jasa Strauss Pile Diameter ${tier.diameter}cm`}
-      features={[
-        {
-          title: "Bebas Getaran & Ramah Tetangga",
-          desc: "Digerakkan secara manual tanpa mesin dan tanpa tumbukan. Aman 100% dari komplain retak dinding rumah tetangga.",
-          iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
-        },
-        {
-          title: "Akses Gang Sempit 1 Meter",
-          desc: "Rangkaian tripod ringkas knock-down mudah dibawa masuk lewat gang sempit, pintu rumah, maupun area basement sempit.",
-          iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>`,
-        },
-        {
-          title: "Lebih Ekonomis & Efisien",
-          desc: "Tanpa biaya mobilisasi truk tronton berat dan tanpa pengadaan air sirkulasi masif, menghemat anggaran proyek rumah tinggal Anda.",
-          iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path><path d="M8 18h.01"></path><path d="M16 18h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path></svg>`,
-        },
-      ]}
-    />
-
-    <!-- ================================================ -->
-    <!-- SECTION 7: Strauss Pile vs Bore Pile Mesin       -->
-    <!-- ================================================ -->
-    <ComparisonSection
-      title={`Strauss Pile Diameter ${tier.diameter}cm vs Bore Pile Mesin`}
-      description={`Mempertimbangkan antara strauss pile manual diameter ${tier.diameter}cm atau bore pile mesin? Berikut perbandingannya:`}
-      primaryTitle={`Strauss Pile Manual Diameter ${tier.diameter}cm`}
-      primaryDesc={`Menggunakan tenaga manusia dengan sistem pipa tripod auger. Sangat praktis untuk gang sempit yang tidak bisa dimasuki mobil truk, biaya operasional lebih rendah, dan bersih tanpa cipratan sirkulasi air lumpur. Cocok untuk bangunan beban ringan hingga menengah (rumah 1–2 lantai, ruko kecil, pagar).`}
-      secondaryTitle="Bore Pile Mesin (Mini Crane)"
-      secondaryDesc="Menggunakan mesin mini crane diesel dengan torsi putar lebih tinggi. Mampu mengebor hingga kedalaman 25–30 meter dan menembus lapisan tanah yang lebih keras. Namun memerlukan akses jalan masuk minimal 3 meter untuk mobilisasi truk dan ketersediaan bak sirkulasi air."
-      conclusion={`<strong>Kesimpulan:</strong> Jika proyek Anda berada di pemukiman dengan gang sempit selebar 1–2 meter dan beban bangunan 1–2 lantai, strauss pile diameter ${tier.diameter}cm adalah opsi paling efisien dan tepat sasaran.`}
-    />
-
-    <!-- ================================================ -->
-    <!-- SECTION 8: Galeri / Portofolio Proyek            -->
-    <!-- ================================================ -->
-    <MiniGallery
-      title={`Dokumentasi Lapangan Strauss Pile Manual`}
-      subtitle="Bukti pengerjaan langsung pondasi strauss pile manual oleh tim berpengalaman Aseven Pile."
-      images={[
-        { src: "/imgs/proses-strauss-pile-jakarta-aseven-pile.webp", alt: `Pengeboran Manual Strauss Pile Diameter ${tier.diameter}cm`, fallback: `Strauss+Pile+${tier.diameter}cm` },
-        { src: "/imgs/proses-strauss-pile-2-jakarta-aseven-pile.webp", alt: `Pemasangan Besi Tulangan Strauss Pile ${tier.diameter}cm`, fallback: `Besi+Tulangan` },
-        { src: "/imgs/wa-gallery-1.webp", alt: `Pengecoran Beton Strauss Pile ${tier.diameter}cm`, fallback: `Pengecoran+Beton` },
-      ]}
-    />
-
-    <!-- ================================================ -->
-    <!-- SECTION 9: SOP / Tahapan Pengerjaan              -->
-    <!-- ================================================ -->
-    <ProcessSteps
-      title={`SOP Pengerjaan Strauss Pile Diameter ${tier.diameter}cm`}
-      subtitle="Standar pengerjaan rapi dan terukur untuk hasil pondasi yang padat dan kokoh."
-      steps={[
-        { number: 1, title: "Survei & Setting Titik", desc: "Penentuan koordinat titik as pondasi sesuai denah pondasi, serta penempatan alat tripod dan jalur buang tanah galian." },
-        { number: 2, title: `Pengeboran Manual Ø${tier.diameter}cm`, desc: "Pengeboran memutar pipa stang mata auger oleh tenaga ahli hingga mata bor mencapai elevasi tanah keras." },
-        { number: 3, title: "Penurunan Besi Tulangan", desc: `Memasukkan sangkar besi tulangan SNI diameter ${tier.diameter}cm yang telah diikat rapi ke dalam lubang bor yang bersih.` },
-        { number: 4, title: "Pengecoran Beton", desc: "Pengecoran adukan beton ke dalam lubang bor secara bertahap dan dipadatkan agar tidak terbentuk rongga keropos." },
-      ]}
-    />
-
-    <!-- ================================================ -->
-    <!-- SECTION 10: Pilihan Diameter Lainnya             -->
-    <!-- ================================================ -->
-    <section class="ls-section">
-      <div class="other-diameters-box">
-        <h2 class="other-diameters-title">Pilihan Diameter Strauss Pile Lainnya</h2>
-        <p class="other-diameters-sub">Pilih ukuran diameter manual yang sesuai dengan peruntukan beban pondasi Anda:</p>
-        <div class="diameter-grid">
+      <div class="diameter-links">
+        <h3>Diameter Lainnya</h3>
+        <div class="link-grid">
           {otherDiameters.map((t) => (
-            <a href={`/layanan/strauss-pile/diameter/${t.diameter}`} class="diameter-card-link-sp">
-              <span class="d-size">{t.diameter} cm</span>
-              <span class="d-price-sp">Rp {t.pricePerMeter.min.toLocaleString("id-ID")}/m&sup1;</span>
-              <span class="d-notes">{t.notes}</span>
-              <span class="d-action-sp">Lihat Detail &rarr;</span>
+            <a href={`/layanan/strauss-pile/diameter/${t.diameter}`} class="diameter-link">
+              <span class="diameter-value">{t.diameter}cm</span>
+              <span class="diameter-price">Rp {t.pricePerMeter.min.toLocaleString("id-ID")}/m</span>
             </a>
           ))}
         </div>
       </div>
-    </section>
 
-    <!-- ================================================ -->
-    <!-- SECTION 11: FAQ Seputar Diameter                 -->
-    <!-- ================================================ -->
-    <FAQSection
-      title={`Pertanyaan Umum Strauss Pile Diameter ${tier.diameter}cm`}
-      subtitle="Informasi lengkap seputar biaya, kapasitas kedalaman, dan akses alat."
-      faqs={diameterFaqs}
-    />
-
-    <!-- ================================================ -->
-    <!-- SECTION 12: Artikel Terkait                      -->
-    <!-- ================================================ -->
-    <section class="ls-section">
-      <h2 class="ls-art-heading">Artikel Terkait</h2>
-      <ArticleList limit={1} />
-    </section>
-
-    <!-- ================================================ -->
-    <!-- SECTION 13: Premium CTA & Area Layanan           -->
-    <!-- ================================================ -->
-    <PremiumCTA
-      title={`Konsultasi & Survei Strauss Pile Diameter ${tier.diameter}cm`}
-      subtitle="Hubungi tim Aseven Pile sekarang via WhatsApp untuk estimasi RAB, saran teknis, atau jadwal survei lokasi."
-      buttonText="Konsultasi via WhatsApp"
-      waMessage={`Halo Aseven Pile, saya mau konsultasi jasa strauss pile manual diameter ${tier.diameter}cm.`}
-    />
-
-    <CityCrossLinks currentSlug="" serviceType="strauss-pile" serviceName="Strauss Pile" />
-  </article>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  /* Header styling matching LocalSEOLayout.astro */
-  .local-seo-header {
-    background-color: #f8fafc;
-    padding-top: 120px;
-    padding-bottom: var(--space-6);
+  .hero-service {
+    padding: 160px 0 80px;
+    background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
     border-bottom: 1px solid var(--color-border-light);
   }
 
-  .container.local-seo-header-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: left;
-  }
-
-  .breadcrumbs ol {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-    list-style: none;
-    padding: 0;
-    margin: 0 0 var(--space-4) 0;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-  }
-
-  .breadcrumbs a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .breadcrumbs a:hover {
-    color: var(--color-primary);
-    text-decoration: underline;
-  }
-
-  .breadcrumbs .active {
-    color: var(--color-primary);
-    font-weight: 600;
-  }
-
-  .badge-service-sp {
+  .badge {
     display: inline-block;
-    padding: 6px 14px;
-    background: rgba(22, 163, 74, 0.1);
-    color: #16a34a;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: var(--space-3);
-  }
-
-  .local-seo-header h1 {
+    padding: 6px 12px;
+    background: rgba(139, 0, 0, 0.1);
     color: var(--color-primary);
-    font-size: clamp(28px, 4vw, 42px);
-    line-height: 1.25;
+    border-radius: 20px;
+    font-size: var(--text-sm);
+    font-weight: 600;
     margin-bottom: var(--space-4);
   }
 
-  .last-updated-wrapper {
-    margin-bottom: var(--space-6);
-    display: flex;
-    justify-content: flex-start;
+  .hero-service h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    margin-bottom: var(--space-4);
   }
 
-  .header-image-wrapper {
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .price-highlight {
+    text-align: center;
+    padding: var(--space-8);
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-12);
+  }
+
+  .price-label {
+    font-size: var(--text-sm);
+    color: #64748b;
+    margin-bottom: var(--space-2);
+  }
+
+  .price-value {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    color: #1d4ed8;
+    margin-bottom: var(--space-2);
+  }
+
+  .price-note {
+    font-size: var(--text-sm);
+    color: #ea580c;
+  }
+
+  .content-block {
+    margin-bottom: var(--space-12);
+  }
+
+  .content-block h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .content-block ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .content-block li {
+    padding-left: 1.5rem;
     position: relative;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    width: 100%;
+    color: var(--color-text-muted);
+    font-size: var(--text-md);
   }
 
-  .header-image-wrapper img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    display: block;
+  .content-block li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: bold;
   }
 
-  /* Google Ads Fast Conversion Hero Bar */
-  .hero-ads-cta-bar {
-    margin-top: 24px;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 20px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  .internal-link-box {
+    margin: var(--space-8) 0;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-align: center;
   }
 
-  @media (min-width: 768px) {
-    .hero-ads-cta-bar {
-      flex-direction: row;
-      justify-content: space-between;
-    }
+  .internal-link-box h3 {
+    margin-bottom: var(--space-2);
   }
 
-  .ads-trust-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
+  .internal-link-box p {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
   }
 
-  .trust-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #f1f5f9;
-    color: #334155;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.825rem;
-    font-weight: 500;
-  }
-
-  .trust-pill svg {
-    color: #16a34a;
-  }
-
-  .btn-glow-wa {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background-color: #0f7a6d !important;
-    color: #ffffff !important;
-    padding: 12px 24px;
-    border-radius: 50px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 8px 20px rgba(15, 122, 109, 0.3);
-    transition: all 0.25s ease;
-    white-space: nowrap;
-  }
-
-  .btn-glow-wa:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(15, 122, 109, 0.4);
-    color: #ffffff !important;
-  }
-
-  /* Summary cross link */
-  .ls-summary-crosslink-sp {
-    margin-top: -12px;
-    margin-bottom: 24px;
-    font-size: 0.95rem;
-    color: var(--color-text);
-    padding: 10px 14px;
-    background: #f0fdf4;
-    border-left: 4px solid #16a34a;
-    border-radius: 6px;
-  }
-
-  .ls-summary-crosslink-sp a {
-    color: #15803d;
-    font-weight: 600;
-    text-decoration: underline;
-  }
-
-  /* Diameter Specific Card */
-  .diameter-spec-card {
-    background: white;
-    border: 1px solid #cbd5e1;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-    margin-bottom: var(--space-8);
-  }
-
-  .spec-card-header {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-  }
-
-  @media (min-width: 640px) {
-    .spec-card-header {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-
-  .spec-badge-sp {
+  .internal-link {
     display: inline-block;
-    padding: 4px 10px;
-    background: #dcfce7;
-    color: #15803d;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-  }
-
-  .spec-title {
-    font-size: clamp(20px, 3vw, 26px);
-    font-weight: 700;
-    color: #0f172a;
-    margin: 0;
-  }
-
-  .spec-price-tag {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  @media (min-width: 640px) {
-    .spec-price-tag {
-      align-items: flex-end;
-    }
-  }
-
-  .price-prefix {
-    font-size: 0.8rem;
-    color: #64748b;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-
-  .price-main-sp {
-    font-size: clamp(24px, 3.5vw, 32px);
-    font-weight: 800;
-    color: #16a34a;
-    line-height: 1.1;
-  }
-
-  .price-suffix {
-    font-size: 0.85rem;
-    color: #64748b;
-  }
-
-  .spec-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-  }
-
-  .spec-item {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .spec-item.full-width {
-    grid-column: 1 / -1;
-  }
-
-  .spec-label {
-    font-size: 0.8rem;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
-  }
-
-  .spec-value {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #0f172a;
-    line-height: 1.4;
-  }
-
-  /* Other Diameters Box */
-  .other-diameters-box {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 28px 24px;
-  }
-
-  .other-diameters-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 6px;
-  }
-
-  .other-diameters-sub {
-    font-size: 0.95rem;
-    color: #64748b;
-    margin-bottom: 20px;
-  }
-
-  .diameter-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-  }
-
-  .diameter-card-link-sp {
-    background: white;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-    padding: 16px;
+    padding: 10px 24px;
+    background: var(--color-primary);
+    color: white;
     text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .internal-link:hover {
+    opacity: 0.9;
+  }
+
+  .diameter-links {
+    margin-top: var(--space-12);
+  }
+
+  .diameter-links h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-6);
+    text-align: center;
+  }
+
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .diameter-link {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    transition: all 0.2s ease;
+    align-items: center;
+    padding: var(--space-4);
+    background: white;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all 0.2s;
   }
 
-  .diameter-card-link-sp:hover {
-    border-color: #16a34a;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  .diameter-link:hover {
+    border-color: #3b82f6;
+    box-shadow: var(--shadow-sm);
   }
 
-  .d-size {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #0f172a;
-  }
-
-  .d-price-sp {
-    font-size: 0.9rem;
+  .diameter-value {
+    font-size: var(--text-lg);
     font-weight: 700;
-    color: #16a34a;
+    color: var(--color-text);
   }
 
-  .d-notes {
-    font-size: 0.8rem;
-    color: #64748b;
-    line-height: 1.4;
-    flex: 1;
-  }
-
-  .d-action-sp {
-    font-size: 0.825rem;
-    font-weight: 600;
-    color: #16a34a;
-    margin-top: 6px;
+  .diameter-price {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
   }
 </style>
+
