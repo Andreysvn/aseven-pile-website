@@ -47,10 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (err) {}
 
-  // Google Analytics & Google Ads Lead Conversion Tracking (WhatsApp & Phone)
+  const pushTrackingEvent = (event, parameters) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event, ...parameters });
+  };
+
   document.addEventListener('click', (e) => {
     const target = e.target;
-    if (!target) return;
+    if (!(target instanceof Element)) return;
     const link = target.closest('a');
     if (!link) return;
 
@@ -58,30 +62,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const isWhatsApp = href.includes('wa.me') || href.includes('whatsapp.com');
     const isPhone = href.startsWith('tel:');
 
-    if (isWhatsApp || isPhone) {
-      const channel = isPhone ? 'Phone Call' : 'WhatsApp Chat';
-      const storedGclid = sessionStorage.getItem('aseven_gclid') || '';
+    if (isWhatsApp) {
+      const location = link.classList.contains('fab-wa')
+        ? 'floating_button'
+        : link.closest('section')?.id || 'content';
 
-      if (typeof window.gtag === 'function') {
-        // Standard Google recommended lead event
-        window.gtag('event', 'generate_lead', {
-          event_category: 'Contact',
-          event_label: channel,
-          page_location: window.location.href,
-          page_path: window.location.pathname,
-          gclid: storedGclid || undefined,
-          transport_type: 'beacon'
-        });
+      pushTrackingEvent('generate_lead', {
+        contact_method: 'whatsapp',
+        cta_location: location
+      });
+    } else if (isPhone) {
+      pushTrackingEvent('phone_click', {
+        cta_location: link.closest('section')?.id || 'content'
+      });
+    }
+  });
 
-        // Custom event for granular reporting in GA4
-        window.gtag('event', isPhone ? 'click_call' : 'click_whatsapp', {
-          event_category: 'Contact',
-          event_label: channel,
-          page_path: window.location.pathname,
-          transport_type: 'beacon'
-        });
-      }
+  document.addEventListener('submit', (e) => {
+    const form = e.target;
+    if (form instanceof HTMLFormElement && form.id === 'wa-form') {
+      pushTrackingEvent('generate_lead', {
+        contact_method: 'whatsapp',
+        cta_location: 'contact_form'
+      });
     }
   });
 });
-

@@ -23,6 +23,9 @@ interface Props {
   heroImage?: string;
   pageUrl?: string;
   customBreadcrumbs?: Array<{ name: string; item: string }>;
+  lowPrice?: string;
+  highPrice?: string;
+  skipProductSchema?: boolean;
 }
 
 const { 
@@ -35,7 +38,10 @@ const {
   faqs = [], 
   pathContext = 'general',
   pageUrl: propPageUrl,
-  customBreadcrumbs
+  customBreadcrumbs,
+  lowPrice: propLowPrice,
+  highPrice: propHighPrice,
+  skipProductSchema = false
 } = Astro.props;
 
 // Check if heroImage actually exists on disk.
@@ -48,8 +54,8 @@ if (heroImage) {
 }
 
 // Compute canonical URL and breadcrumb path based on context
-const lowPrice = pathContext === 'strauss-pile' ? '70000' : '139000';
-const highPrice = pathContext === 'strauss-pile' ? '110000' : '350000';
+const lowPrice = propLowPrice || (pathContext === 'strauss-pile' ? '70000' : '139000');
+const highPrice = propHighPrice || (pathContext === 'strauss-pile' ? '110000' : '350000');
 const offerCount = pathContext === 'strauss-pile' ? '4' : '5';
 const citySlug = city.toLowerCase().replace(/\s+/g, "-");
 let pageUrl = propPageUrl || `${siteConfig.url}/area-layanan/${citySlug}`;
@@ -168,13 +174,14 @@ const productSchema = {
     "url": pageUrl
   }
 };
+
 ---
 
 <BaseLayout title={title} description={description}>
   <!-- LD+JSON Schemas -->
   <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, "\\u003c")} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema).replace(/</g, "\\u003c")} />
-  <script type="application/ld+json" set:html={JSON.stringify(productSchema).replace(/</g, "\\u003c")} />
+  {!skipProductSchema && <script type="application/ld+json" set:html={JSON.stringify(productSchema).replace(/</g, "\\u003c")} />}
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema).replace(/</g, "\\u003c")} />}
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
@@ -216,7 +223,9 @@ const productSchema = {
           <div class="last-updated-wrapper">
             <LastUpdated prefix="Update" hideIcon={true} />
           </div>
-          
+
+          <slot name="after-date" />
+
           <div class="header-image-wrapper">
             <img 
               src={finalHeroImage || (pathContext === 'strauss-pile' ? "/imgs/header-jasa-strauss-pile-jakarta-aseven-pile.webp" : "/imgs/header-beranda-bore-pile-aseven.webp")} 
@@ -323,11 +332,4 @@ const productSchema = {
   <slot name="below-cta" />
 
 </BaseLayout>
-
-
-
-
-
-
-
 

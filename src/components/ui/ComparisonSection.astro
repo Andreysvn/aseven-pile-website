@@ -1,4 +1,4 @@
-﻿---
+---
 export interface Props {
   title: string;
   description: string;
@@ -13,7 +13,7 @@ const { title, description, primaryTitle, primaryDesc, secondaryTitle, secondary
 
 <section class="ls-vs-section">
   <h2 class="ls-vs-title">{title}</h2>
-  <p class="ls-vs-desc">{description}</p>
+  {description && <p class="ls-vs-desc">{description}</p>}
   <div class="ls-modern-vs-wrap">
     <div class="ls-mvs-card ls-mvs-primary">
       <h3 class="ls-mvs-title">

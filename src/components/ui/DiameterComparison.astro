@@ -1,0 +1,51 @@
+---
+import type { DiameterComparisonSection } from '../../data/diameter-data';
+
+interface Props {
+  data: DiameterComparisonSection;
+}
+
+const { data } = Astro.props;
+---
+
+<section class="ls-section ls-upgrade-section">
+  <h2 class="ls-sec-title">{data.title}</h2>
+  <p class="ls-intro-p">{data.intro}</p>
+
+  {data.tableTitle && (
+    <h3 class="ls-subhead">{data.tableTitle}</h3>
+  )}
+
+  <div class="ls-upgrade-table-wrap">
+    <table class="ls-upgrade-table">
+      <thead>
+        <tr>
+          <th>Kriteria</th>
+          {data.columns.map((col) => (
+            <th><Fragment set:html={col} /></th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.rows.map((row) => (
+          <tr>
+            <td><strong>{row.label}</strong></td>
+            {row.cols.map((colVal) => (
+              <td><Fragment set:html={colVal} /></td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {data.guideHtml && (
+    <div class="ls-diameter-guide">
+      {data.guideTitle && (
+        <h3 class="ls-guide-title">{data.guideTitle}</h3>
+      )}
+      <Fragment set:html={data.guideHtml} />
+    </div>
+  )}
+</section>
+

@@ -13,9 +13,9 @@ export const PROJECTS: Record<string, Project[]> = {
   jakarta: [
     {
       img: '/imgs/bore-pile-mini-crane-aseven-pile-sunter-september-2026.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan Area Mepet Tembok di Sunter, Jakarta Utara',
+      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan di Sunter, Jakarta Utara',
       area: 'Sunter, Jakarta Utara',
-      customSpec: 'Diameter 30 cm &bull; 14 titik &bull; Kedalaman 15 m<br/>Diameter 50 cm &bull; 2 titik &bull; Kedalaman 15 m',
+      customSpec: 'Diameter 30 cm &bull; 14 titik &bull; Kedalaman 15 m',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
@@ -59,10 +59,9 @@ export const PROJECTS: Record<string, Project[]> = {
   bekasi: [
     {
       img: '/imgs/bore-pile-mesin-mini-crane-bekasi-aseven-pile.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan di Bekasi',
+      alt: 'Proyek Pondasi Bore Pile Mesin untuk Gudang di Bekasi',
       area: 'Bekasi',
-      diameterCm: 40,
-      depthM: 15,
+      customSpec: 'Diameter 40 cm &bull; 22 titik &bull; Kedalaman 15 m',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
@@ -72,6 +71,7 @@ export const PROJECTS: Record<string, Project[]> = {
       area: 'Bekasi',
       diameterCm: 30,
       depthM: 16,
+      customSpec: 'Diameter 30 cm &bull; 18 titik &bull; Kedalaman 16 m',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     },
@@ -88,10 +88,9 @@ export const PROJECTS: Record<string, Project[]> = {
   bogor: [
     {
       img: '/imgs/bore-pile-mesin-mini-crane-bogor-2-aseven-pile.webp',
-      alt: 'Pekerjaan Bore Pile Mesin Gawangan Area Lereng di Bogor',
+      alt: 'Proyek Pondasi Bore Pile Mesin di Bogor',
       area: 'Bogor',
-      diameterCm: 40,
-      depthM: 16,
+      customSpec: 'Diameter 40 cm &bull; 16 titik &bull; Kedalaman 17 m',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     }
@@ -108,10 +107,9 @@ export const PROJECTS: Record<string, Project[]> = {
     },
     {
       img: '/imgs/bore-pile-mesin-mini-crane-depok-2-aseven-pile.webp',
-      alt: 'Pekerjaan Bore Pile Mesin Gawangan di Depok',
+      alt: 'Pekerjaan Bore Pile Mesin untuk Bangunan Komersial di Depok',
       area: 'Depok',
-      diameterCm: 40,
-      depthM: 16,
+      customSpec: 'Diameter 40 cm &bull; 20 titik &bull; Kedalaman 14 m',
       method: 'Bor basah (wash boring)',
       service: 'borepile'
     }
@@ -119,11 +117,10 @@ export const PROJECTS: Record<string, Project[]> = {
   tangerang: [
     {
       img: '/imgs/bore-pile-mesin-mini-crane-tangerang-aseven-pile.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin di Tangerang',
-      area: 'Alam Sutera',
-      diameterCm: 40,
-      depthM: 18,
-      method: 'Bor kering (dry boring)',
+      alt: 'Proyek Pondasi Bore Pile Mesin Gawangan di Area Padat, Tangerang',
+      area: 'Tangerang',
+      customSpec: 'Diameter 40 cm &bull; 12 titik &bull; Kedalaman 16 m',
+      method: 'Bor basah (wash boring)',
       service: 'borepile'
     }
   ],
@@ -134,6 +131,7 @@ export const PROJECTS: Record<string, Project[]> = {
       area: 'Alam Sutera',
       diameterCm: 40,
       depthM: 18,
+      customSpec: 'Diameter 40 cm &bull; 36 titik &bull; Kedalaman 18 m',
       method: 'Bor kering (dry boring)',
       service: 'borepile'
     }
@@ -141,11 +139,10 @@ export const PROJECTS: Record<string, Project[]> = {
   'jakarta-selatan': [
     {
       img: '/imgs/persiapan-pipa-tremi-aseven-pile-cipete-juli-2026.webp',
-      alt: 'Proyek Pondasi Bore Pile Mesin di Cipete, Jakarta Selatan',
-      area: 'Cipete, Jakarta Selatan',
-      diameterCm: 40,
-      depthM: 15,
-      method: 'Bor kering (dry boring)',
+      alt: 'Proyek Pondasi Bore Pile Mesin di Ruko Kawasan Bisnis, Jakarta Selatan',
+      area: 'Jakarta Selatan',
+      customSpec: 'Diameter 40 cm &bull; 18 titik &bull; Kedalaman 18 m',
+      method: 'Bor basah (wash boring)',
       service: 'borepile'
     }
   ]
@@ -155,6 +152,16 @@ export function getProjects(slug: string, service: 'borepile' | 'strauss'): Proj
   return (PROJECTS[slug] || []).filter((p) => (p.service ?? 'borepile') === service);
 }
 
+export function getProjectsByDiameter(diameter: number, service: 'borepile' | 'strauss' = 'borepile'): Project[] {
+  const allProjects = Object.values(PROJECTS).flat();
+  const matched = allProjects.filter((p) => {
+    const isService = (p.service ?? 'borepile') === service;
+    const isDiameter = p.diameterCm === diameter || (p.customSpec && p.customSpec.includes(`${diameter} cm`));
+    return isService && isDiameter;
+  });
+  if (matched.length > 0) return matched;
+  return allProjects.filter((p) => (p.service ?? 'borepile') === service).slice(0, 3);
+}
 
 
 

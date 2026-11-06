@@ -1,0 +1,25 @@
+---
+import type { ChecklistData } from '../../data/diameter-data';
+
+interface Props {
+  data: ChecklistData;
+}
+
+const { data } = Astro.props;
+---
+
+<section class="ls-section">
+  <h2 class="ls-sec-title">{data.title}</h2>
+  {data.subtitle && <p class="ls-intro-p">{data.subtitle}</p>}
+  <div class="ls-checklist-box">
+    <ul class="ls-checklist-list">
+      {data.items.map((item) => (
+        <li><strong>{item.label}</strong> {item.text}</li>
+      ))}
+    </ul>
+    {data.conclusion && (
+      <p class="ls-checklist-conclusion">{data.conclusion}</p>
+    )}
+  </div>
+</section>
+

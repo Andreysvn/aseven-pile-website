@@ -1,4 +1,4 @@
-﻿---
+---
 export interface FeatureItem {
   title: string;
   desc: string;
@@ -10,16 +10,23 @@ export interface Props {
   features: FeatureItem[];
 }
 const { title, features } = Astro.props;
+
+const fallbackIcons = [
+  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path><path d="M8 18h.01"></path><path d="M16 18h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`
+];
 ---
 
 <section class="ls-section">
   <h2 class="ls-feat-title">{title}</h2>
   <div class="ls-feat-grid">
-    {features.map((item) => (
+    {features.map((item, idx) => (
       <div class="ls-feat-card">
-        <div class="ls-feat-icon" set:html={item.iconRawSvg || ''}></div>
+        <div class="ls-feat-icon" set:html={item.iconRawSvg || fallbackIcons[idx % fallbackIcons.length]}></div>
         <h3>{item.title}</h3>
-        <p>{item.desc}</p>
+        <p set:html={item.desc}></p>
       </div>
     ))}
   </div>

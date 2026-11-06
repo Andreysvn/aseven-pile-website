@@ -392,10 +392,415 @@
   color: #334155;
 }
 
+/* Lingkup Pekerjaan */
+.ls-scope-wrap {
+  overflow-x: auto;
+  margin: 20px 0 16px 0;
+  border-radius: var(--radius-lg);
+  border: none;
+  background: #f8fafc;
+  padding: 8px 12px;
+}
+.ls-scope-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: transparent;
+  border: none;
+}
+.ls-scope-table th {
+  background: transparent;
+  color: #0f172a;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  border: none;
+}
+.ls-scope-table td {
+  padding: 12px 16px;
+  border: none;
+  color: #475569;
+  line-height: 1.7;
+}
+.ls-scope-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+}
+.ls-scope-table td:first-child {
+  font-weight: 600;
+  color: #0f172a;
+  width: 28%;
+  background: transparent;
+}
+.ls-scope-note {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  line-height: 1.6;
+  margin-top: 12px;
+}
 
+/* Material Estimate Box under Calculator */
+.ls-mat-est-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-top: 24px;
+}
+.ls-mat-est-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+}
+.ls-mat-est-list {
+  margin: 0 0 14px 20px;
+  padding: 0;
+  font-size: 0.95rem;
+  color: #334155;
+  line-height: 1.7;
+}
+.ls-mat-est-note {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+}
 
+/* Preparation & Mistakes Checklist Box */
+.ls-checklist-box {
+  background: #f8fafc;
+  border: none;
+  border-radius: var(--radius-lg, 12px);
+  padding: 24px 28px;
+  box-shadow: none;
+  margin-top: 16px;
+}
+.ls-checklist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ls-checklist-list li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+}
+.ls-checklist-list li strong {
+  color: #0f172a;
+}
+.ls-checklist-list li::before {
+  content: "•";
+  position: absolute;
+  left: 6px;
+  top: -2px;
+  font-size: 1.4rem;
+  line-height: 1.4;
+  color: var(--color-primary);
+}
+.ls-checklist-conclusion {
+  font-size: 0.95rem;
+  color: #475569;
+  font-weight: 500;
+  margin: 16px 0 0 0;
+  padding-top: 12px;
+  border: none;
+  line-height: 1.6;
+}
 
+/* Current page tag in pricing table */
+.pt-current-page {
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.85rem;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
 
+.ls-subhead {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
 
+/* Upgrade / Comparison Table */
+.ls-upgrade-table-wrap {
+  overflow-x: hidden;
+  margin: 20px 0 24px;
+  border-radius: 12px;
+  border: none;
+  background: #f8fafc;
+  padding: 8px 12px;
+  box-shadow: none;
+}
 
+.ls-upgrade-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  text-align: left;
+  background: transparent;
+  border: none;
+}
 
+.ls-upgrade-table th,
+.ls-upgrade-table td {
+  padding: 12px 16px;
+  border: none;
+  vertical-align: middle;
+  overflow-wrap: break-word;
+}
+
+.ls-upgrade-table th {
+  background: transparent;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+}
+
+.ls-upgrade-table th a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ls-upgrade-table td {
+  color: #475569;
+  line-height: 1.6;
+}
+
+.ls-upgrade-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+}
+
+.ls-upgrade-table td:first-child {
+  font-weight: 600;
+  color: #0f172a;
+  background: transparent;
+  width: 25%;
+  border: none;
+}
+
+@media (max-width: 640px) {
+  .ls-upgrade-table-wrap {
+    padding: 6px;
+  }
+
+  .ls-upgrade-table {
+    font-size: 0.75rem;
+  }
+
+  .ls-upgrade-table th,
+  .ls-upgrade-table td {
+    padding: 8px 4px;
+    line-height: 1.4;
+  }
+
+  .ls-upgrade-table th {
+    font-size: 0.75rem;
+  }
+
+  .ls-upgrade-table td:first-child {
+    width: 27%;
+  }
+}
+
+/* Diameter Guidance Box (Abu-abu, Tanpa Border) */
+.ls-diameter-guide {
+  background: #f8fafc;
+  border: none;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-top: 16px;
+  box-shadow: none;
+}
+
+.ls-guide-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 14px 0;
+}
+
+.ls-diameter-guide p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.ls-diameter-guide p:last-child {
+  margin-bottom: 0;
+}
+
+.ls-diameter-guide a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Upgrade Cards Grid (Abu-abu, Tanpa Border) */
+.ls-upgrade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.ls-upgrade-card {
+  background: #f8fafc;
+  border: none;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: none;
+}
+
+.ls-upgrade-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--color-primary);
+}
+
+.ls-upgrade-card ul {
+  margin: 0 0 0 20px;
+  padding: 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+}
+
+.ls-upgrade-card li {
+  margin-bottom: 8px;
+}
+
+.ls-upgrade-conclusion {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+.ls-upgrade-cta {
+  text-align: center;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+/* Method Comparison Section (Bore Pile vs Tiang Pancang) */
+.ls-method-comparison-section {
+  border: none;
+  padding-top: 24px;
+}
+
+.ls-method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.ls-method-card {
+  border-radius: 12px;
+  padding: 24px 28px;
+  border: none;
+}
+
+.ls-method-card-primary {
+  background: #f8fafc;
+  border: none;
+  box-shadow: none;
+}
+
+.ls-method-card-secondary {
+  background: #f8fafc;
+  border: none;
+}
+
+.ls-method-card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.ls-method-card-primary .ls-method-card-title {
+  color: var(--color-primary);
+}
+
+.ls-method-card-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+}
+
+/* Sensible Scenario Box (Abu-abu, Tanpa Border) */
+.ls-sensible-box {
+  background: #f8fafc;
+  border: none;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 24px 0 0 0;
+  box-shadow: none;
+}
+
+.ls-sensible-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 16px 0;
+}
+
+.ls-sensible-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ls-sensible-list li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+}
+
+.ls-sensible-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.ls-sensible-conclusion {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+  padding-top: 12px;
+  border: none;
+}

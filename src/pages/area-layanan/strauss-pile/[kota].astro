@@ -74,7 +74,7 @@ const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHe
 
 <LocalSEOLayout 
   title={`Harga Jasa Strauss Pile ${cityData.name} 2026`} 
-  description={`Jasa strauss pile manual di ${cityData.name}. Harga mulai Rp 70.000/m (Diameter 20cm). Cocok untuk gang sempit dan perumahan padat. Survei & konsultasi gratis.`}
+  description={cityData.descriptionStrauss || `Jasa strauss pile manual ${cityData.name} untuk pondasi rumah tinggal & ruko. Diameter 20–40 cm, bebas getaran, cocok untuk akses gang sempit.`}
   city={cityData.name}
   serviceName="Strauss Pile"
   pathContext="strauss-pile"

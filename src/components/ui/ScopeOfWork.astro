@@ -1,0 +1,38 @@
+---
+import type { ScopeOfWorkData } from '../../data/diameter-data';
+
+interface Props {
+  data: ScopeOfWorkData;
+}
+
+const { data } = Astro.props;
+---
+
+<div>
+  <h2 class="ls-sec-title">{data.title}</h2>
+  <div class="ls-scope-wrap">
+    <table class="ls-scope-table">
+      <thead>
+        <tr>
+          <th>Komponen</th>
+          <th>Keterangan</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.items.map((item) => (
+          <tr>
+            <td>{item.component}</td>
+            <td>{item.description}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="ls-scope-note">{data.note}</p>
+  {data.extraNote && (
+    <p class="ls-intro-p" style="margin-top: 16px;">
+      <Fragment set:html={data.extraNote} />
+    </p>
+  )}
+</div>
+

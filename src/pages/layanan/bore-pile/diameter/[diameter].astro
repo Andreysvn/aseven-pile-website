@@ -1,29 +1,25 @@
 ---
 import LocalSEOLayout from '../../../../components/layout/LocalSEOLayout.astro';
-import ServiceArea from '../../../../components/ui/ServiceArea.astro';
-import ServiceIntro from '../../../../components/ui/ServiceIntro.astro';
-import CalculatorUI from '../../../../components/interactive/CalculatorUI.astro';
 import PricingTable from '../../../../components/ui/PricingTable.astro';
+import CalculatorUI from '../../../../components/interactive/CalculatorUI.astro';
 import CostExample from '../../../../components/ui/CostExample.astro';
 import CostAddons from '../../../../components/ui/CostAddons.astro';
-import MachineSpec from '../../../../components/ui/MachineSpec.astro';
-import ProjectGallery from '../../../../components/ui/ProjectGallery.astro';
-import ComparisonSection from '../../../../components/ui/ComparisonSection.astro';
 import ServiceFeatures from '../../../../components/ui/ServiceFeatures.astro';
-import ArticleList from '../../../../components/ui/ArticleList.astro';
-import FAQSection from '../../../../components/ui/FAQSection.astro';
-import ProcessSteps from '../../../../components/ui/ProcessSteps.astro';
+import ComparisonSection from '../../../../components/ui/ComparisonSection.astro';
+import DiameterComparison from '../../../../components/ui/DiameterComparison.astro';
+import ProjectGallery from '../../../../components/ui/ProjectGallery.astro';
 import MiniGallery from '../../../../components/ui/MiniGallery.astro';
-import LocationMap from '../../../../components/ui/LocationMap.astro';
+import ProcessSteps from '../../../../components/ui/ProcessSteps.astro';
+import FAQSection from '../../../../components/ui/FAQSection.astro';
+import ArticleList from '../../../../components/ui/ArticleList.astro';
 import PremiumCTA from '../../../../components/ui/PremiumCTA.astro';
-import CityCrossLinks from '../../../../components/ui/CityCrossLinks.astro';
+import LocationMap from '../../../../components/ui/LocationMap.astro';
+import AreaGrid from '../../../../components/ui/AreaGrid.astro';
 
 import '../../../../styles/calculator.css';
-import citiesData from '../../../../data/cities.json';
-import { getCityFaqs } from '../../../../data/seo-data';
-import { getProjects } from '../../../../data/projects';
-import { exampleForCity } from '../../../../data/example';
 import { pricingTiers } from '../../../../data/pricing';
+import { getDiameterData } from '../../../../data/diameter-data';
+import { getProjectsByDiameter } from '../../../../data/projects';
 import { siteConfig } from '../../../../data/site.config';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -36,148 +32,312 @@ export async function getStaticPaths() {
 }
 
 const { tier } = Astro.props;
-const cityData = citiesData.find((c: any) => c.slug === 'jakarta') || citiesData[0];
-const cityFaqs = getCityFaqs(cityData, 'borepile');
-const straussUrl = '/area-layanan/strauss-pile/jakarta';
+const dData = getDiameterData(tier.diameter);
+const diameterProjects = getProjectsByDiameter(tier.diameter, 'borepile');
 
-const ex = exampleForCity(cityData);
-const projectTitle = ex.isReal
-  ? `Rincian Biaya Asli Proyek Bore Pile di ${cityData.name}`
-  : `Contoh Perhitungan Biaya Bore Pile di ${cityData.name}`;
-const projectDesc = ex.isReal
-  ? `Berikut rincian biaya jasa dari salah satu proyek pondasi yang kami kerjakan di ${cityData.name}.`
-  : `Sebagai gambaran, berikut contoh perhitungan biaya jasa bore pile di ${cityData.name} untuk ${ex.items[0].points} titik pondasi sedalam ${ex.items[0].depthM} meter diameter ${ex.items[0].diameterCm} cm:`;
-const caseNote = ex.isReal
-  ? `*Rincian dari proyek nyata. Harga jasa bor saja; belum termasuk material, mob/demob alat, dan bak sirkulasi air.`
-  : `*Contoh perhitungan (bukan proyek spesifik). Harga jasa bor saja; belum termasuk material, pengiriman alat, dan penampungan air.`;
-
-const calcLoc = 'jabodetabek';
-const expectedHeroImagePath = '/imgs/header-jasa-bore-pile-jakarta-aseven-pile.webp';
-const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHeroImagePath));
-
-const pageUrl = `${siteConfig.url}/layanan/bore-pile/diameter/${tier.diameter}`;
+const pageUrl = `${siteConfig.url}/layanan/bore-pile/diameter/${tier.diameter}/`;
 const customBreadcrumbs = [
   { name: "Beranda", item: siteConfig.url },
-  { name: "Area Layanan", item: `${siteConfig.url}/area-layanan` },
-  { name: "Bore Pile", item: `${siteConfig.url}/area-layanan/bore-pile` },
-  { name: cityData.name, item: pageUrl },
+  { name: "Layanan", item: `${siteConfig.url}/layanan` },
+  { name: "Bore Pile Mesin", item: `${siteConfig.url}/layanan/bore-pile-mesin` },
+  { name: `Diameter ${tier.diameter} cm`, item: pageUrl },
+];
+
+const expectedHeroImage = '/imgs/header-beranda-bore-pile-aseven.webp';
+const hasHeroImage = fs.existsSync(path.join(process.cwd(), 'public', expectedHeroImage));
+const calcLoc = 'jabodetabek';
+
+const isSinglePrice = tier.pricePerMeter.min === tier.pricePerMeter.max;
+
+// Schema @graph: Service + BreadcrumbList
+const serviceSchema: Record<string, unknown> = {
+  "@type": "Service",
+  "name": `Jasa Bore Pile Diameter ${tier.diameter} cm`,
+  "serviceType": "Bore Pile",
+  "provider": { "@id": `${siteConfig.url}/#organization` },
+  "areaServed": ["Jakarta", "Bekasi", "Bogor", "Depok", "Tangerang"],
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "IDR",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": tier.pricePerMeter.min.toString(),
+      ...(isSinglePrice ? {} : { "minPrice": tier.pricePerMeter.min.toString(), "maxPrice": tier.pricePerMeter.max.toString() }),
+      "priceCurrency": "IDR",
+      "unitText": "meter"
+    },
+    "url": pageUrl
+  }
+};
+
+const productSchema = {
+  "@type": "Product",
+  "@id": `${pageUrl}#product`,
+  "name": `Jasa Bore Pile Diameter ${tier.diameter} cm per Meter`,
+  "description": `Jasa bore pile diameter ${tier.diameter} cm dengan harga jasa bor Rp ${tier.pricePerMeter.min.toLocaleString('id-ID')} per meter lari. Material dan biaya tambahan belum termasuk.`,
+  "image": `${siteConfig.url}${hasHeroImage ? expectedHeroImage : "/imgs/header-beranda-bore-pile-aseven.webp"}`,
+  "brand": {
+    "@type": "Brand",
+    "name": siteConfig.brand
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": pageUrl,
+    "priceCurrency": "IDR",
+    "price": tier.pricePerMeter.min.toString(),
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "priceCurrency": "IDR",
+      "price": tier.pricePerMeter.min.toString(),
+      "unitCode": "MTR",
+      "unitText": "meter lari"
+    }
+  }
+};
+
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "itemListElement": customBreadcrumbs.map((bc, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": bc.name,
+    ...(i < customBreadcrumbs.length - 1 ? { "item": bc.item } : {})
+  }))
+};
+
+const graphItems = [
+  serviceSchema,
+  ...(tier.diameter === 30 || tier.diameter === 40 ? [productSchema] : []),
+  breadcrumbSchema
+];
+
+const schemaGraph = {
+  "@context": "https://schema.org",
+  "@graph": graphItems
+};
+
+// Simulasi data untuk CostExample
+const simPoints = dData.simulation?.points || 20;
+const simDepth = dData.simulation?.depthM || 12;
+const simPrice = tier.pricePerMeter.min;
+const simTotal = simPoints * simDepth * simPrice;
+
+const costExampleData = {
+  isReal: false,
+  items: [
+    {
+      diameterCm: tier.diameter,
+      pricePerM: simPrice,
+      depthM: simDepth,
+      points: simPoints,
+      subtotal: simTotal
+    }
+  ],
+  total: simTotal
+};
+
+const defaultFeatures = [
+  {
+    title: "Minim Getaran & Aman",
+    desc: "Pengeboran berputar dengan mesin mini crane atau gawangan tanpa benturan palu pancang, sangat aman untuk bangunan tetangga di area pemukiman padat."
+  },
+  {
+    title: "Tim Berpengalaman",
+    desc: "Lebih dari 12 tahun spesialis mengerjakan pondasi bore pile di berbagai kondisi tanah dan medan proyek."
+  },
+  {
+    title: "Sesuai Standar SNI",
+    desc: "Pengerjaan mengacu pada spesifikasi gambar perencana struktur dan standar teknis SNI 8460:2017 serta metode pipa tremi."
+  }
+];
+
+const defaultSopSteps = [
+  { number: 1, title: "Survei Lapangan", desc: "Pemeriksaan akses jalan gang dan ruang manuver armada mini crane di titik pengeboran." },
+  { number: 2, title: "Setting Mesin & Pengeboran", desc: "Perakitan rig mini crane di titik awal. Pengeboran dilakukan hingga menyentuh elevasi tanah keras sesuai target sondir." },
+  { number: 3, title: "Pemasangan Besi Tulangan", desc: "Penurunan keranjang besi tulangan SNI ke dalam lubang bor yang telah dibersihkan dari endapan lumpur." },
+  { number: 4, title: "Pengecoran Pipa Tremi", desc: "Pengecoran beton ready mix dari dasar lubang menggunakan pipa tremi agar beton padat utuh tanpa tercampur lumpur." }
 ];
 ---
 
 <LocalSEOLayout 
-  title={`Harga Jasa Bore Pile ${cityData.name} 2026`} 
-  description={`Jasa bore pile mesin di ${cityData.name}. Harga mulai Rp 139.000/m (Ø30cm). Alat mini crane milik sendiri, berpengalaman sejak ${siteConfig.foundingYear}. Survei & konsultasi gratis.`}
-  city={cityData.name}
-  serviceName="Bore Pile"
+  title={dData.metaTitle}
+  h1={dData.h1}
+  description={dData.metaDescription}
+  city="Jabodetabek"
+  serviceName={`Bore Pile Diameter ${tier.diameter}cm`}
   pathContext="bore-pile"
-  heroImage={hasHeroImage ? expectedHeroImagePath : undefined}
-  faqs={cityFaqs}
+  heroImage={hasHeroImage ? expectedHeroImage : undefined}
+  faqs={dData.faqs}
   pageUrl={pageUrl}
   customBreadcrumbs={customBreadcrumbs}
+  lowPrice={tier.pricePerMeter.min.toString()}
+  highPrice={tier.pricePerMeter.max.toString()}
+  skipProductSchema={true}
 >
+  <!-- Schema @graph tunggal -->
+  <script type="application/ld+json" set:html={JSON.stringify(schemaGraph).replace(/</g, "\\u003c")} />
 
   <!-- ================================================ -->
-  <!-- SECTION 1: Header / Intro                        -->
+  <!-- 1. INTRO & RINGKASAN                             -->
   <!-- ================================================ -->
-  <ServiceIntro service="borepile" cityName={cityData.name} hargaMulai={139000} foundingYear={siteConfig.foundingYear} crossLink={{ url: straussUrl, text: `jasa strauss pile manual ${cityData.name}` }} />
+  <section class="ls-section">
+    <div class="ls-summary-box">
+      <div class="ls-summary-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary, #800000)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </div>
+      <p class="ls-summary-text">
+        <strong>Ringkasan:</strong> Harga jasa bore pile diameter <strong>{tier.diameter} cm</strong> mulai dari <strong>Rp {tier.pricePerMeter.min.toLocaleString('id-ID')} / meter lari (m&sup1;)</strong>. Biaya ini merupakan jasa bor saja (pengeboran, rakit besi tulangan, dan cor pipa tremi). Material besi/beton, mobilisasi alat, dan bak sirkulasi air belum termasuk. Minimal order pengerjaan 200 meter lari.
+      </p>
+    </div>
 
-  <!-- ================================================ -->
-  <!-- SECTION 2: Tabel Harga Bore Pile                 -->
-  <!-- ================================================ -->
-  <PricingTable method="borepile" city={cityData.name} />
+    {dData.crosslinkHtml && (
+      <div class="ls-summary-crosslink">
+        <Fragment set:html={dData.crosslinkHtml} />
+      </div>
+    )}
 
-  <!-- ================================================ -->
-  <!-- SECTION 2b: Kalkulator Interaktif                -->
-  <!-- ================================================ -->
-  <section id="kalkulator" class="ls-section">
-    <CalculatorUI 
-      title={`Harga Jasa Bore Pile ${cityData.name} 2026 | Aseven Pile`}
-      description="Gunakan kalkulator ini untuk menghitung total RAB pondasi bore pile proyek Anda."
-      defaults={{ method: 'borepile', location: calcLoc, depth: 12, points: 30 }} 
-    />
+    <p class="ls-intro-p">
+      <Fragment set:html={dData.introParagraph1} />
+    </p>
+
+    {dData.introParagraph2 && (
+      <p class="ls-intro-p-flat">
+        <Fragment set:html={dData.introParagraph2} />
+      </p>
+    )}
   </section>
 
-  <!-- SECTION 5: Contoh Hitungan -->
-  <CostExample
-    method="borepile"
-    title={projectTitle}
-    description={projectDesc}
-    ex={ex}
-    note={caseNote}
-  />
-
-  <CostAddons service="borepile" />
+  <!-- ================================================ -->
+  <!-- 2. DAFTAR HARGA                                   -->
+  <!-- ================================================ -->
+  <PricingTable method="borepile" currentDiameter={tier.diameter} />
 
   <!-- ================================================ -->
-  <!-- SECTION 6: Keunggulan -->
+  <!-- 3. KALKULATOR BIAYA                              -->
+  <!-- ================================================ -->
+  <div style="margin-top: var(--space-8); margin-bottom: var(--space-8);" id="kalkulator">
+    <CalculatorUI 
+      title={`Kalkulator Biaya Bore Pile Diameter ${tier.diameter} cm`}
+      description={`Hitung estimasi total biaya jasa pengeboran bore pile diameter ${tier.diameter} cm untuk proyek Anda. Masukkan jumlah titik dan kedalaman rencana.`}
+      defaults={{ method: 'borepile', location: calcLoc, diameter: tier.diameter, depth: simDepth, points: simPoints }} 
+    />
+  </div>
+
+  <!-- ================================================ -->
+  <!-- 4. CONTOH HITUNGAN BIAYA (CostExample)           -->
+  <!-- ================================================ -->
+  <CostExample
+    title={`Contoh Perhitungan Biaya Bore Pile ${tier.diameter} cm`}
+    description={`Sebagai gambaran, berikut simulasi perhitungan biaya jasa bore pile diameter ${tier.diameter} cm untuk bangunan bertingkat dengan ${simPoints} titik pondasi sedalam ${simDepth} meter:`}
+    ex={costExampleData}
+    note="*Contoh perhitungan estimasi jasa bor saja (total volume memenuhi minimal order 200 m). Belum termasuk material besi dan beton, mobilisasi alat, serta pembuatan bak sirkulasi air."
+  />
+
+  <!-- ================================================ -->
+  <!-- 5. BIAYA TAMBAHAN DI LUAR HARGA JASA             -->
+  <!-- ================================================ -->
+  <div id="biaya-tambahan">
+    <CostAddons service="borepile" materialDesc={dData.materialDesc} customItems={dData.costAddonsItems} />
+  </div>
+
+  <!-- ================================================ -->
+  <!-- 6. KEUNGGULAN                                    -->
   <!-- ================================================ -->
   <ServiceFeatures
-    title={`Keunggulan Jasa Bore Pile Aseven Pile di ${cityData.name}`}
-    features={[
-      { title: "Minim Getaran & Aman", desc: `Mesin bor kami dirancang bekerja tanpa menimbulkan getaran keras. Sangat aman diaplikasikan di lingkungan padat penduduk ${cityData.name} tanpa merusak tembok rumah tetangga.`, iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>` },
-      { title: "Berpengalaman", desc: "Tim kami sudah berpengalaman dalam pekerjaan pondasi, khususnya bore pile, dan terbiasa menangani berbagai kondisi tanah di lapangan.", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>` },
-      { title: "Komitmen Kualitas", desc: "Layanan yang dihasilkan mengutamakan kualitas dan dikerjakan sesuai prosedur, spesifikasi yang disepakati, serta Standar Nasional Indonesia (SNI).", iconRawSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path><path d="M8 18h.01"></path><path d="M16 18h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path></svg>` }
-    ]}
+    title={`Keunggulan Jasa Bore Pile Diameter ${tier.diameter} cm di ${siteConfig.brand}`}
+    features={dData.features || defaultFeatures}
   />
 
   <!-- ================================================ -->
-  <!-- SECTION 7: Bore Pile Mesin vs Tiang Pancang -->
+  <!-- 7. BORE PILE VS TIANG PANCANG                    -->
   <!-- ================================================ -->
-  <ComparisonSection
-    title={`Bore Pile Mesin vs Tiang Pancang di ${cityData.name}`}
-    description={`Bingung antara pondasi bor (bore pile) atau tiang pancang? Berikut bedanya, disesuaikan dengan kondisi lapangan di ${cityData.name}:`}
-    primaryTitle="Bore Pile Mesin"
-    primaryDesc={`Bore pile mesin merupakan metode <em>cast in-situ</em>, yaitu lubang dibor terlebih dahulu di lokasi, kemudian diisi besi tulangan dan dicor beton langsung di tempat. Karena tidak melalui proses pemancangan, getaran dan suara yang dihasilkan sangat minim sehingga aman diterapkan di lingkungan padat bangunan seperti ${cityData.name}. Diameternya fleksibel, mulai 30 hingga 80 cm, dengan kedalaman mencapai 30 meter tergantung kondisi tanah. Mini crane yang kami gunakan dirancang untuk masuk ke gang sempit dan jalan terbatas, sehingga bore pile dapat dikerjakan di lokasi yang tidak dapat dijangkau truk besar. Untuk area yang benar-benar sempit, metode alternatifnya adalah <a href="${straussUrl}">Strauss Pile</a> yang menggunakan tenaga manual.`}
-    secondaryTitle="Tiang Pancang (Paku Bumi)"
-    secondaryDesc="Tiang pancang merupakan kebalikannya. Beton dicetak di pabrik secara <em>precast</em>, lalu dipancang ke dalam tanah menggunakan palu berat. Metode ini lebih cepat dan seringkali lebih ekonomis untuk tanah lunak, serta mutu betonnya lebih terkontrol karena dicetak di pabrik. Namun, ada konsekuensi yang perlu dipertimbangkan. Getaran yang ditimbulkan cukup besar sehingga berisiko meretakkan dinding bangunan tua di sekitarnya, suaranya bising, dan alat pancang membutuhkan akses jalan lebar minimal 4 sampai 5 meter sehingga tidak dapat masuk ke gang sempit. Tiang pancang baru menjadi pertimbangan apabila lokasi jauh dari bangunan tetangga, akses jalan lebar, dan tanahnya lunak homogen."
-    conclusion={`<strong>Kesimpulan:</strong> Untuk mayoritas proyek di <strong>${cityData.name}</strong>, terutama ruko, rumah tinggal, dan gedung bertingkat di lingkungan padat, bore pile mesin hampir selalu menjadi pilihan yang lebih aman. Bukan karena lebih murah, sebab kadang justru lebih mahal, tetapi karena tidak berisiko merusak bangunan tetangga dan dapat masuk ke lokasi yang tidak dapat diakses alat pancang. Apabila masih ragu, tim kami dapat melakukan survei lapangan untuk menilai kondisi tanah dan akses, lalu merekomendasikan metode yang paling efisien untuk proyek Anda.`}
-  />
-
-  <!-- SECTION: Spesifikasi Alat & Kapasitas Mesin -->
-  <MachineSpec service="borepile" city={cityData} />
-
-  <!-- ================================================ -->
-  <!-- SECTION 8: Galeri / Portofolio Proyek            -->
-  <!-- ================================================ -->
-  {getProjects(cityData.slug, 'borepile').length ? (
-    <ProjectGallery city={cityData.name} projects={getProjects(cityData.slug, 'borepile')} />
+  {dData.comparisonData ? (
+    <ComparisonSection
+      title={dData.comparisonData.title}
+      description={dData.comparisonData.description}
+      primaryTitle={dData.comparisonData.primaryTitle}
+      primaryDesc={dData.comparisonData.primaryDesc}
+      secondaryTitle={dData.comparisonData.secondaryTitle}
+      secondaryDesc={dData.comparisonData.secondaryDesc}
+      conclusion={dData.comparisonData.conclusion}
+    />
   ) : (
-    <MiniGallery 
-      title={`Dokumentasi Proyek Bore Pile ${cityData.name}`} 
-      subtitle="Bukti pengerjaan lapangan pondasi bore pile mesin yang dikerjakan langsung oleh tim spesialis kami."
-      images={[
-        { src: "/imgs/header-beranda-bore-pile-aseven.webp", alt: `Proses Pengeboran Bore Pile Mesin di ${cityData.name}`, fallback: `Pengeboran+${cityData.name}` },
-        { src: "/imgs/header-beranda-bore-pile-aseven-2.webp", alt: `Pemasangan Besi Tulangan Bore Pile ${cityData.name}`, fallback: `Besi+Tulangan` },
-        { src: "/imgs/wa-gallery-1.webp", alt: `Pengecoran Pipa Tremi ${cityData.name}`, fallback: `Pengecoran+Tremi` }
-      ]}
+    <ComparisonSection
+      title={`Bore Pile ${tier.diameter} cm vs Tiang Pancang`}
+      description="Pertimbangan pemilihan antara metode bore pile mesin cor di tempat dengan tiang pancang pabrik."
+      primaryTitle={`Bore Pile ${tier.diameter} cm`}
+      primaryDesc="Pengeboran berputar dengan mesin mini crane minim getaran, sangat aman untuk lingkungan padat dan akses jalan 2,5–3 meter."
+      secondaryTitle="Tiang Pancang (Paku Bumi)"
+      secondaryDesc="Tiang beton cetak yang dipancang/dipukul. Menimbulkan getaran keras dan suara bising yang berisiko meretakkan bangunan sekitar."
+      conclusion="<strong>Kesimpulan:</strong> Untuk area pemukiman padat atau jalan sempit, bore pile mesin adalah solusi yang jauh lebih aman."
     />
   )}
 
   <!-- ================================================ -->
-  <!-- SECTION 9: SOP / Tahapan Pengerjaan              -->
+  <!-- 8. SPESIFIKASI ALAT & KEDALAMAN                  -->
+  <!-- ================================================ -->
+  <section class="ls-section machine-spec-section">
+    <h2 class="ls-mach-title">{dData.machineSpecTitle || `Seberapa Dalam Bore Pile ${tier.diameter} cm Bisa Dibor?`}</h2>
+    <p class="ls-mach-p">
+      <Fragment set:html={dData.machineSpec?.intro || `Kedalamannya tergantung kekerasan tanah di lokasi proyek, bukan sekadar panjang alat bor. Pada kondisi tanah lempung atau aluvial lunak, mesin mini crane kami mampu mengebor hingga kedalaman <strong>25 sampai 30 meter</strong>. Di tanah yang lebih padat atau berbatu, kedalaman efektif berkisar antara <strong>15 sampai 20 meter</strong>.`} />
+    </p>
+    <p class="ls-mach-p">
+      <Fragment set:html={dData.machineSpec?.maxDepth || `Beban torsi putaran mesin untuk diameter ${tier.diameter} cm tergolong ringan, sehingga mata bor lebih gesit menembus lapisan tanah sampai menemukan lapisan tanah keras (hard strata).`} />
+    </p>
+    <p class="ls-mach-p">
+      <Fragment set:html={dData.machineSpec?.diameterImpact || `Pengeboran selalu dihentikan saat mata bor telah mencapai elevasi tanah keras yang disyaratkan konsultan perencana struktur Anda berdasarkan hasil uji sondir.`} />
+    </p>
+  </section>
+
+  <!-- ================================================ -->
+  <!-- 9. PERBANDINGAN DIAMETER                         -->
+  <!-- ================================================ -->
+  {dData.diameterComparison && (
+    <DiameterComparison data={dData.diameterComparison} />
+  )}
+
+  <!-- ================================================ -->
+  <!-- 10. DOKUMENTASI PROYEK                           -->
+  <!-- ================================================ -->
+  {diameterProjects.length > 0 ? (
+    <ProjectGallery 
+      city={`Lapangan (Diameter ${tier.diameter} cm)`} 
+      projects={diameterProjects} 
+      subtitle={`Dokumentasi pengerjaan bore pile diameter ${tier.diameter} cm di berbagai lokasi proyek.`} 
+    />
+  ) : (
+    <MiniGallery 
+      title={`Proyek Bore Pile ${tier.diameter} cm yang Pernah Kami Kerjakan`} 
+      subtitle={`Dokumentasi pengerjaan bore pile diameter ${tier.diameter} cm di lapangan.`}
+    />
+  )}
+
+  <!-- ================================================ -->
+  <!-- 11. TAHAPAN PENGERJAAN (SOP)                     -->
   <!-- ================================================ -->
   <ProcessSteps 
-    title={`SOP Pengerjaan Bore Pile di ${cityData.name}`} 
+    title={`Tahapan Pengerjaan Bore Pile ${tier.diameter} cm`}
     subtitle="Standar kerja sistematis Aseven Pile untuk menjamin mutu dan keamanan struktur pondasi."
-    steps={[
-      { number: 1, title: `Survei Lapangan`, desc: `Tim meninjau kondisi tanah dan akses jalan masuk di ${cityData.name} untuk memastikan manuver alat berat mini crane aman.` },
-      { number: 2, title: "Setting Mesin & Pengeboran", desc: "Perakitan rig bore pile mesin di titik awal. Pengeboran dilakukan hingga mencapai kedalaman tanah keras yang diisyaratkan konsultan." },
-      { number: 3, title: "Pemasangan Besi Tulangan", desc: "Penurunan keranjang besi tulangan SNI ke dalam lubang bor yang sudah dibersihkan dari endapan lumpur." },
-      { number: 4, title: "Pengecoran Pipa Tremi", desc: "Pengecoran beton dilakukan menggunakan teknik pipa tremi dari dasar lubang, menekan lumpur dan air naik keluar sehingga beton murni utuh tanpa segregasi." }
-    ]}
+    ctaLink={`https://wa.me/${siteConfig.whatsapp}?text=Halo%20Aseven%20Pile,%20saya%20mau%20konsultasi%20bore%20pile%20diameter%20${tier.diameter}cm`}
+    ctaText={`Konsultasi Bore Pile ${tier.diameter} cm →`}
+    steps={dData.sopSteps || defaultSopSteps}
   />
 
   <!-- ================================================ -->
-  <!-- SECTION 10: FAQ Lokal                            -->
+  <!-- 12. FAQ SPESIFIK DIAMETER                        -->
   <!-- ================================================ -->
   <FAQSection 
-    title={`Pertanyaan Seputar Bore Pile di ${cityData.name}`} 
-    subtitle="Informasi lengkap biaya dan operasional."
-    faqs={cityFaqs} 
+    title={`Pertanyaan Seputar Bore Pile ${tier.diameter} cm`}
+    subtitle="Informasi lengkap biaya, spesifikasi teknis, dan operasional kerja."
+    faqs={dData.faqs}
   />
 
   <!-- ================================================ -->
-  <!-- SECTION 11: Link Artikel / Blog                  -->
+  <!-- 13. ARTIKEL TERKAIT                              -->
   <!-- ================================================ -->
   <section class="ls-section">
     <h2 class="ls-art-heading">Artikel Terkait</h2>
@@ -185,22 +345,44 @@ const customBreadcrumbs = [
   </section>
 
   <!-- ================================================ -->
-  <!-- SECTION 12: Konsultasi & Jadwal Survei           -->
+  <!-- 14. CTA WHATSAPP                                 -->
   <!-- ================================================ -->
   <PremiumCTA 
-    title="Konsultasi & Survei Lapangan"
-    subtitle={`Hubungi kami via WhatsApp untuk konsultasi proyek dan penjadwalan survei lokasi di ${cityData.name}.`}
-    buttonText="WhatsApp"
-    waMessage={`Halo Aseven Pile, saya mau konsultasi jasa bore pile untuk daerah ${cityData.name}`}
+    title={`Konsultasi Proyek Bore Pile ${tier.diameter} cm`}
+    subtitle="Kirimkan lokasi, perkiraan jumlah titik, dan kedalaman rencana. Tim kami bantu hitung estimasi biaya proyek Anda."
+    buttonText={`Konsultasi Bore Pile ${tier.diameter} cm`}
+    waMessage={`Halo Aseven Pile, saya mau konsultasi bore pile diameter ${tier.diameter}cm`}
   />
-  
-  <CityCrossLinks currentSlug={cityData.slug} serviceType="bore-pile" serviceName="Bore Pile" />
 
   <!-- ================================================ -->
-  <!-- SECTION 13: Google Maps & Wilayah Kecamatan      -->
+  <!-- 15. PETA LOKASI & JANGKAUAN WILAYAH              -->
   <!-- ================================================ -->
   <Fragment slot="bottom-content">
     <LocationMap />
-    <ServiceArea cityData={cityData} serviceName="Bore Pile" />
+    <AreaGrid 
+      title={`Wilayah Jangkauan Bore Pile Diameter ${tier.diameter} cm`}
+      description={`Layanan pengeboran bore pile diameter ${tier.diameter} cm Aseven Pile mencakup area di bawah ini. Tim dan armada mesin mini crane kami siap dimobilisasi langsung ke lokasi proyek Anda di Pulau Jawa.`}
+      hideSearch={true}
+    />
   </Fragment>
+
 </LocalSEOLayout>
+
+<style>
+  .ls-summary-crosslink {
+    margin-top: 16px;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+  .ls-summary-crosslink a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .machine-spec-section {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+</style>

@@ -1,9 +1,11 @@
 ---
 interface Props {
   service?: 'borepile' | 'strauss';
+  materialDesc?: string;
+  customItems?: { title: string; desc: string }[];
 }
 
-const { service = 'borepile' } = Astro.props;
+const { service = 'borepile', materialDesc, customItems } = Astro.props;
 const minOrder = service === 'strauss' ? '100 meter' : '200 meter (mini crane/gawangan)';
 
 const borePileItems = [
@@ -29,7 +31,7 @@ const borePileItems = [
   },
   {
     title: "Material (Besi & Beton)",
-    desc: "Harga di tabel belum termasuk material (besi & beton). Kebutuhan material mengikuti desain struktur perencana proyek Anda. Namun jika Anda tidak ingin repot, kami melayani paket borong all-in material (besi & beton) sesuai standar teknis pondasi dalam."
+    desc: materialDesc || "Harga di tabel belum termasuk material (besi & beton). Kebutuhan material mengikuti desain struktur perencana proyek Anda. Namun jika Anda tidak ingin repot, kami melayani paket borong all-in material (besi & beton) sesuai standar teknis pondasi dalam."
   }
 ];
 
@@ -56,7 +58,7 @@ const straussPileItems = [
   }
 ];
 
-const items = service === 'strauss' ? straussPileItems : borePileItems;
+const items = customItems || (service === 'strauss' ? straussPileItems : borePileItems);
 ---
 
 <section class="ls-section">

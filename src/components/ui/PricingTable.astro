@@ -4,9 +4,10 @@ import { pricingTiers, straussTiers, pricingConfig } from '../../data/pricing';
 interface Props {
   method?: 'borepile' | 'strauss' | 'all';
   city?: string;
+  currentDiameter?: number;
 }
 
-const { method = 'all', city } = Astro.props;
+const { method = 'all', city, currentDiameter } = Astro.props;
 const showBore = method === 'all' || method === 'borepile';
 const showStrauss = method === 'all' || method === 'strauss';
 const year = new Date().getFullYear();
@@ -39,15 +40,29 @@ const cityLabel = city ? ` ${city}` : '';
                 </thead>
               <tbody>
                 {pricingTiers.map((tier) => (
-                  <tr>
-                    <td><strong>{tier.diameter} cm</strong></td>
+                  <tr class="pt-row">
+                    <td>
+                      {currentDiameter === tier.diameter ? (
+                        <strong>{tier.diameter} cm</strong>
+                      ) : (
+                        <a href={`/layanan/bore-pile/diameter/${tier.diameter}/`} class="pt-name-link">
+                          <strong>{tier.diameter} cm</strong>
+                        </a>
+                      )}
+                    </td>
                     <td>
                       {tier.pricePerMeter.min === tier.pricePerMeter.max
                         ? `Rp ${tier.pricePerMeter.min.toLocaleString('id-ID')}`
                         : `Rp ${tier.pricePerMeter.min.toLocaleString('id-ID')} – ${tier.pricePerMeter.max.toLocaleString('id-ID')}`}
                       {tier.isEstimate && <span class="badge-est">est.</span>}
                     </td>
-                    <td class="pt-td-right"><a href={`/layanan/bore-pile/diameter/${tier.diameter}`} class="pt-detail-link">Lihat Detail &rarr;</a></td>
+                    <td class="pt-td-right">
+                      {currentDiameter === tier.diameter ? (
+                        <span class="pt-current-page">Halaman ini</span>
+                      ) : (
+                        <a href={`/layanan/bore-pile/diameter/${tier.diameter}/`} class="pt-detail-link">Lihat Detail &rarr;</a>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -70,10 +85,24 @@ const cityLabel = city ? ` ${city}` : '';
                 </thead>
               <tbody>
                 {straussTiers.map((tier) => (
-                  <tr>
-                    <td><strong>{tier.diameter} cm</strong></td>
+                  <tr class="pt-row">
+                    <td>
+                      {currentDiameter === tier.diameter ? (
+                        <strong>{tier.diameter} cm</strong>
+                      ) : (
+                        <a href={`/layanan/strauss-pile/diameter/${tier.diameter}/`} class="pt-name-link">
+                          <strong>{tier.diameter} cm</strong>
+                        </a>
+                      )}
+                    </td>
                     <td>Rp {tier.pricePerMeter.min.toLocaleString('id-ID')}</td>
-                    <td class="pt-td-right"><a href={`/layanan/strauss-pile/diameter/${tier.diameter}`} class="pt-detail-link">Lihat Detail &rarr;</a></td>
+                    <td class="pt-td-right">
+                      {currentDiameter === tier.diameter ? (
+                        <span class="pt-current-page">Halaman ini</span>
+                      ) : (
+                        <a href={`/layanan/strauss-pile/diameter/${tier.diameter}/`} class="pt-detail-link">Lihat Detail &rarr;</a>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -156,8 +185,26 @@ const cityLabel = city ? ` ${city}` : '';
   .price-table td.pt-td-right {
     text-align: right;
   }
+  .price-table td a.pt-name-link {
+    color: var(--color-primary);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .price-table td a.pt-name-link:hover {
+    text-decoration: underline;
+  }
   .price-table td a.pt-detail-link {
     color: var(--color-primary);
+    font-weight: 600;
+  }
+  .pt-current-page {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 11px;
     font-weight: 600;
   }
   .pricing-note {

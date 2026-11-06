@@ -10,28 +10,50 @@ const { service, city } = Astro.props;
 const isBore = service === 'borepile';
 const cityName = typeof city === 'string' ? city : city.name;
 const cityObj = typeof city === 'string' ? { name: city, slug: city.toLowerCase() } : city;
+const isJakartaBore = isBore && cityObj.slug === 'jakarta';
 ---
 
 <section class="ls-section machine-spec-section">
   {isBore ? (
-    <>
-      <h2 class="ls-mach-title">Kapasitas Mesin & Karakteristik Tanah di {cityName}</h2>
-      <p class="ls-mach-p">
-        Banyak klien di <strong>{cityName}</strong> bertanya, "Berapa maksimal kedalaman pengeboran untuk bore pile menggunakan mesin ini (mini crane/gawangan)?" Jawabannya sangat bergantung pada kekerasan tanah di lokasi proyek, bukan sekadar panjang tiang atau pipa bor. Mesin bore pile mini crane yang kami gunakan dirancang untuk mampu mengebor hingga kedalaman 25 sampai 30 meter pada kondisi tanah normal seperti lempung atau aluvial lunak. Namun, pengeboran akan dihentikan saat mata bor telah mencapai atau menembus lapisan tanah keras, karena di titik itulah pondasi dianggap sudah mencapai daya dukung yang cukup.
-      </p>
-      <p class="ls-mach-p">
-        Faktor diameter lubang juga sangat menentukan. Semakin besar diameter, misalnya 60 cm, maka beban torsi dan putaran mesin akan semakin berat. Jika lapisan tanah sangat keras atau berbatu, putaran mesin untuk diameter besar mungkin sudah mencapai batas maksimalnya pada kedalaman kurang dari 25 meter. Sebaliknya, untuk diameter yang lebih kecil seperti 30 cm atau 40 cm, beban putar mesin lebih ringan sehingga lebih mudah mencapai elevasi yang lebih dalam apabila lapisan tanah kerasnya berada jauh di bawah permukaan. Karena itu, uji sondir wajib dilakukan sebelum pengeboran, sebab hasilnya menentukan seberapa dalam target pengeboran dan di mana lapisan tanah keras berada.
-      </p>
-      <p class="ls-mach-p">
-        Metode pengeboran menyesuaikan kondisi tanah. Pada tanah lunak berair atau muka air tanah tinggi, kami menggunakan bor basah atau <em>wash boring</em>. Sedangkan pada tanah lempung yang lengket dan stabil, bisa dipakai bor kering atau <em>dry boring</em> yang lebih bersih dan cepat. Keduanya dipadukan dengan pengecoran sistem Pipa Tremi agar adukan beton padat murni dari dasar lubang tanpa tercampur lumpur.
-      </p>
+    isJakartaBore ? (
+      <>
+        <h2 class="ls-mach-title">Metode Pengeboran & Karakteristik Tanah di Jakarta</h2>
+        <p class="ls-mach-p">
+          Target pengeboran tidak dapat ditentukan hanya dari diameter tiang atau jenis alat. Kedalaman dan spesifikasi pondasi mengikuti hasil penyelidikan tanah serta gambar kerja yang ditetapkan perencana struktur. Kesesuaian alat dan akses lokasi juga dikonfirmasi sebelum pekerjaan.
+        </p>
+        <p class="ls-mach-p">
+          Uji sondir wajib dilakukan sesuai persyaratan perencana struktur. Sampaikan hasilnya sebelum penawaran dan pelaksanaan; jika belum tersedia, diskusikan kebutuhan pemeriksaan tanah dengan perencana agar target pondasi tidak ditentukan berdasarkan perkiraan umum.
+        </p>
+        <p class="ls-mach-p">
+          Metode pengeboran disesuaikan dengan kondisi lapangan. <em>Wash boring</em> (bor basah) menggunakan sirkulasi air untuk kondisi tanah berair, sedangkan <em>dry boring</em> (bor kering) digunakan untuk tanah lempung yang lengket. Pelaksanaan dan pengecoran mengikuti spesifikasi pekerjaan yang disepakati.
+        </p>
 
-      <SoilCharacter city={cityObj} service="borepile" standalone={false} />
+        <SoilCharacter city={cityObj} service="borepile" standalone={false} />
 
-      <p class="ls-mach-p" style="margin-top: 16px;">
-        Karakteristik inilah yang membuat pemilihan metode pengeboran dan kedalaman pondasi tidak bisa disamaratakan antara satu lokasi dengan lokasi lainnya.
-      </p>
-    </>
+        <p class="ls-mach-p" style="margin-top: 16px;">
+          Karakteristik tanah dapat berbeda antar lokasi, sehingga pemilihan metode dan spesifikasi pondasi perlu merujuk pada data proyek, bukan digeneralisasi untuk seluruh Jakarta.
+        </p>
+      </>
+    ) : (
+      <>
+        <h2 class="ls-mach-title">Kapasitas Mesin & Karakteristik Tanah di {cityName}</h2>
+        <p class="ls-mach-p">
+          Banyak klien di <strong>{cityName}</strong> bertanya, "Berapa maksimal kedalaman pengeboran untuk bore pile menggunakan mesin ini (mini crane/gawangan)?" Jawabannya sangat bergantung pada kekerasan tanah di lokasi proyek, bukan sekadar panjang tiang atau pipa bor. Mesin bore pile mini crane yang kami gunakan dirancang untuk mampu mengebor hingga kedalaman 25 sampai 30 meter pada kondisi tanah normal seperti lempung atau aluvial lunak. Namun, pengeboran akan dihentikan saat mata bor telah mencapai atau menembus lapisan tanah keras, karena di titik itulah pondasi dianggap sudah mencapai daya dukung yang cukup.
+        </p>
+        <p class="ls-mach-p">
+          Faktor diameter lubang juga sangat menentukan. Semakin besar diameter, misalnya 60 cm, maka beban torsi dan putaran mesin akan semakin berat. Jika lapisan tanah sangat keras atau berbatu, putaran mesin untuk diameter besar mungkin sudah mencapai batas maksimalnya pada kedalaman kurang dari 25 meter. Sebaliknya, untuk diameter yang lebih kecil seperti 30 cm atau 40 cm, beban putar mesin lebih ringan sehingga lebih mudah mencapai elevasi yang lebih dalam apabila lapisan tanah kerasnya berada jauh di bawah permukaan. Karena itu, uji sondir wajib dilakukan sebelum pengeboran, sebab hasilnya menentukan seberapa dalam target pengeboran dan di mana lapisan tanah keras berada.
+        </p>
+        <p class="ls-mach-p">
+          Metode pengeboran menyesuaikan kondisi tanah. Pada tanah lunak berair atau muka air tanah tinggi, kami menggunakan bor basah atau <em>wash boring</em>. Sedangkan pada tanah lempung yang lengket dan stabil, bisa dipakai bor kering atau <em>dry boring</em> yang lebih bersih dan cepat. Keduanya dipadukan dengan pengecoran sistem Pipa Tremi agar adukan beton padat murni dari dasar lubang tanpa tercampur lumpur.
+        </p>
+
+        <SoilCharacter city={cityObj} service="borepile" standalone={false} />
+
+        <p class="ls-mach-p" style="margin-top: 16px;">
+          Karakteristik inilah yang membuat pemilihan metode pengeboran dan kedalaman pondasi tidak bisa disamaratakan antara satu lokasi dengan lokasi lainnya.
+        </p>
+      </>
+    )
   ) : (
     <>
       <h2 class="ls-mach-title">Kapasitas & Karakteristik Tanah Strauss Pile di {cityName}</h2>

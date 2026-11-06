@@ -12,8 +12,8 @@ export interface CityService {
 export const CITY_SERVICES: CityService[] = [
   {
     slug: "bore-pile",
-    name: "Bore Pile Mesin (Mini Crane)",
-    description: "Pondasi dalam super kuat pakai mesin mini crane. Solusi presisi untuk bangunan besar, ruko, hingga pabrik.",
+    name: "Jasa Bore Pile Mesin",
+    description: "Pondasi dalam super kuat untuk bangunan besar, ruko, gudang, hingga pabrik. Solusi presisi dengan kapasitas daya dukung tinggi.",
     image: "/imgs/header-beranda-bore-pile-aseven-2.webp",
     imageAlt: "Pekerjaan Bore Pile Mesin",
     cityUrlPattern: "/area-layanan/bore-pile/{city}",
@@ -32,7 +32,7 @@ export const CITY_SERVICES: CityService[] = [
   },
   {
     slug: "strauss-pile",
-    name: "Strauss Pile Manual",
+    name: "Jasa Strauss Pile",
     description: "Bor pondasi manual tanpa suara bising dan getaran. Sangat aman dikerjakan di lokasi perumahan padat penduduk.",
     image: "/imgs/proses-strauss-pile-jakarta-aseven-pile.webp",
     imageAlt: "Pekerjaan Strauss Pile Manual",

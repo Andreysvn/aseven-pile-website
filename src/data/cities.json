@@ -10,8 +10,8 @@
         "answer": "Ya, kami melayani proyek pengeboran pondasi di seluruh wilayah DKI Jakarta meliputi Jakarta Pusat, Jakarta Selatan, Jakarta Barat, Jakarta Timur, hingga Jakarta Utara."
       },
       {
-        "question": "Bagaimana izin kerja malam untuk proyek di Jakarta?",
-        "answer": "Untuk proyek di jalan protokol atau area komersial Jakarta yang mengharuskan kerja malam, mesin bor kami dilengkapi dengan peredam suara (low noise) sehingga minim gangguan dan aman dari keluhan warga."
+        "question": "Apakah pekerjaan bore pile bisa dilakukan pada malam hari di Jakarta?",
+        "answer": "Jadwal kerja malam bergantung pada aturan lokasi, izin yang diperlukan, dan kesepakatan proyek. Konfirmasikan kondisi tersebut saat meminta penawaran."
       },
       {
         "question": "Berapa harga bore pile per meter di Jakarta tahun 2026?",
@@ -19,11 +19,11 @@
       },
       {
         "question": "Apakah bore pile aman untuk rumah di perumahan padat Jakarta?",
-        "answer": "Sangat aman. Metode bore pile mesin tidak menimbulkan getaran seperti tiang pancang. Kami rutin mengerjakan proyek di perumahan padat di Tebet, Kebayoran, Cilandak, dan Kelapa Gading tanpa ada keluhan kerusakan dari bangunan sekitar."
+        "answer": "Bore pile dikerjakan dengan pengeboran, bukan pemancangan, sehingga getarannya umumnya lebih rendah daripada tiang pancang. Kondisi bangunan sekitar, akses, dan metode kerja tetap perlu diperiksa sebelum pekerjaan."
       },
       {
         "question": "Apakah tanah di Jakarta Utara yang rawa bisa dipasang bore pile?",
-        "answer": "Bisa. Jakarta Utara memang memiliki tanah rawa dengan muka air tanah yang tinggi. Kami menggunakan metode bor basah (wash boring) untuk menstabilkan dinding lubang, lalu pengecoran dilakukan dengan pipa tremi agar beton tidak bercampur lumpur."
+        "answer": "Kondisi tanah tidak dapat disamaratakan untuk seluruh Jakarta Utara. Data tanah dan kondisi lokasi perlu diperiksa terlebih dahulu; metode pengeboran ditentukan berdasarkan kondisi lapangan dan spesifikasi perencana."
       }
     ],
     "subAreas": [
@@ -134,12 +134,6 @@
           "points": 14,
           "diameter": 30,
           "price": 140000
-        },
-        {
-          "depthM": 15,
-          "points": 2,
-          "diameter": 50,
-          "price": 215000
         }
       ],
       "isReal": true
@@ -236,10 +230,9 @@
     "caseStudy": {
       "items": [
         {
-          "depthM": 16,
-          "points": 18,
-          "diameter": 30,
-          "price": 140000
+          "depthM": 15,
+          "points": 22,
+          "diameter": 40
         }
       ],
       "isReal": true
@@ -375,6 +368,16 @@
     "averageDepth": "8 - 15 meter",
     "soilDescription": "Tanah di wilayah Bogor umumnya bertekstur gembur kemerahan dan sering ditemukan lapisan bebatuan (boulder) atau cadas. Penggunaan mata bor khusus (rock auger/core barrel) mutlak diperlukan untuk menembus lapisan keras yang dangkal ini.",
     "draft": false,
+    "caseStudy": {
+      "items": [
+        {
+          "depthM": 17,
+          "points": 16,
+          "diameter": 40
+        }
+      ],
+      "isReal": true
+    },
     "groupedAreas": [
       {
         "groupName": "Bogor Barat",
@@ -498,6 +501,16 @@
     "averageDepth": "10 - 18 meter",
     "soilDescription": "Kondisi tanah di Depok tergolong cukup stabil dengan kombinasi lempung pasiran dan lapisan padas di kedalaman sedang. Metode dry boring (bor kering) seringkali bisa diaplikasikan di sini sehingga proses kerja menjadi lebih bersih dan cepat.",
     "draft": false,
+    "caseStudy": {
+      "items": [
+        {
+          "depthM": 14,
+          "points": 20,
+          "diameter": 40
+        }
+      ],
+      "isReal": true
+    },
     "groupedAreas": [
       {
         "groupName": "Pancoran Mas",
@@ -650,6 +663,16 @@
     "averageDepth": "15 - 22 meter",
     "soilDescription": "Wilayah Tangerang memiliki struktur tanah endapan (sedimen) yang bervariasi, dari lempung kaku hingga lapisan berpasir. Kedalaman tanah keras umumnya cukup bervariasi tergantung area (seperti BSD vs Cikupa), membutuhkan sistem bor basah untuk keamanan galian.",
     "draft": false,
+    "caseStudy": {
+      "items": [
+        {
+          "depthM": 16,
+          "points": 12,
+          "diameter": 40
+        }
+      ],
+      "isReal": true
+    },
     "groupedAreas": [
       {
         "groupName": "Tangerang Pusat",
@@ -774,6 +797,16 @@
     "averageDepth": "10 - 18 meter",
     "soilDescription": "Kondisi tanah di wilayah Tangerang Selatan (BSD City, Bintaro Jaya, Serpong, Pamulang, Ciputat) didominasi oleh perpaduan lempung kaku dan tanah merah latosol. Pengeboran disesuaikan dengan kontur lokasi, di mana metode bor basah (wash boring) diaplikasikan untuk area berair dan bor kering (dry boring) untuk lingkungan perumahan padat.",
     "draft": false,
+    "caseStudy": {
+      "items": [
+        {
+          "depthM": 18,
+          "points": 36,
+          "diameter": 40
+        }
+      ],
+      "isReal": true
+    },
     "groupedAreas": [
       {
         "groupName": "Serpong & Alam Sutera",

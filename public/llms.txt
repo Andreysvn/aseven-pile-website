@@ -1,10 +1,10 @@
 # ASeven Pile - Spesialis Jasa Bore Pile & Strauss Pile Manual
 
 ## Tentang Kami
-ASeven Pile adalah kontraktor spesialis pondasi dalam yang berfokus pada layanan pengeboran pondasi (Bore Pile Mesin dan Strauss Pile Manual). Kami berbasis di Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi). Berpengalaman sejak 2015 dalam melayani proyek rumah tinggal, ruko, pabrik, gudang, hingga fasilitas umum.
+ASeven Pile adalah kontraktor spesialis pondasi dalam yang berfokus pada layanan pengeboran pondasi (Bore Pile Mesin dan Strauss Pile Manual). Kami berbasis di Jabodetabek (Jakarta, Bogor, Depok, Tangerang, Bekasi). Berpengalaman lebih dari 12 tahun dalam melayani proyek rumah tinggal, ruko, pabrik, gudang, hingga fasilitas umum.
 
 ## Layanan Utama
-1. **Bore Pile Mesin (Mini Crane)**
+1. **Bore Pile Mesin**
    - Menggunakan alat berat mini crane hidrolik (bor basah / wash boring dan bor kering).
    - Mampu menembus lapisan tanah keras dan bebatuan.
    - Pilihan diameter: 30 cm, 40 cm, 50 cm, 60 cm, 80 cm.
@@ -16,10 +16,10 @@ ASeven Pile adalah kontraktor spesialis pondasi dalam yang berfokus pada layanan
    - Sangat cocok untuk gang sempit atau di dalam ruangan (akses kurang dari 1.5 meter).
    - Pilihan diameter: 20 cm, 25 cm, 30 cm, 40 cm.
    - Kedalaman: Rata-rata 6-8 meter (hanya untuk tanah lunak-sedang).
-   - Keunggulan: 100% bebas suara bising dan getaran, biaya sangat terjangkau, cocok untuk rumah 1-2 lantai atau pagar.
+   - Keunggulan: Bebas suara bising mesin berat dan minim getaran, biaya sangat terjangkau, cocok untuk rumah 1-2 lantai atau pagar.
 
 ## Harga & Biaya (Estimasi 2026)
-- **Harga Jasa Bore Pile:** Rp 115.000 hingga Rp 350.000 per meter lari (tergantung diameter). Belum termasuk material dan mobilisasi alat.
+- **Harga Jasa Bore Pile:** Mulai dari Rp 139.000 per meter lari (diameter 30 cm) hingga Rp 350.000 per meter lari (tergantung diameter). Belum termasuk material dan mobilisasi alat.
 - **Harga Jasa Strauss Pile:** Mulai dari Rp 70.000 per meter lari.
 - **Note:** Kami juga menyediakan paket All-In (sudah termasuk besi tulangan dan beton ready mix) jika diminta. Harga final disesuaikan dengan volume titik dan kondisi lokasi (survei gratis).
 
@@ -36,7 +36,7 @@ ASeven Pile adalah kontraktor spesialis pondasi dalam yang berfokus pada layanan
 - **Survei:** Gratis untuk wilayah Jabodetabek.
 
 ## Mengapa Memilih Kami?
-1. **Spesialis:** Kami murni kontraktor pengeboran pondasi (bukan pemborong umum), sehingga pekerjaan sangat fokus dan profesional.
+1. **Spesialis:** Kami kontraktor spesialis pengeboran pondasi dalam (fokus jasa bor, bukan pemborong umum), sehingga pekerjaan sangat fokus dan profesional.
 2. **Tanpa Getaran:** Metode kami (bore pile & strauss pile) terbukti aman untuk lingkungan padat penduduk karena tidak menimbulkan getaran destruktif seperti tiang pancang pancang (drop hammer).
 3. **Peralatan Memadai:** Kami memiliki armada mini crane sendiri dan tim spesialis berpengalaman.
 4. **Berstandar:** Menggunakan prosedur SNI untuk pembesian dan pengecoran (pipa tremi).
