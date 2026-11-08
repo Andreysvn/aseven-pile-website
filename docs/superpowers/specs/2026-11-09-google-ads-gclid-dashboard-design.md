@@ -12,6 +12,8 @@ Capture real Google Ads click identifiers and WhatsApp click events, link the ri
 
 The final Google Ads conversion value should represent ASeven Pile's final service revenue for the completed project. Material revenue that does not belong to ASeven Pile is excluded.
 
+The existing seven-tab dashboard and its current interactions remain available. This scope connects the Ads/traffic event trail and related CRM lead/conversion workflow to shared data. Other tabs and metrics without a real data source remain as preview/demo functionality and must not be presented as live reporting.
+
 ## Confirmed decisions
 
 - WhatsApp message text stays unchanged and contains no tracking code.
@@ -46,6 +48,8 @@ The existing WhatsApp text remains unchanged. A click event is labeled as a clic
 
 Deploy the dashboard as an Apps Script HtmlService web app restricted to the owner's Google account. The dashboard reads and writes operational data through server-side Apps Script functions and the Google Sheet. Public event ingestion and private dashboard operations must be separate deployments with separate permissions; the public receiver cannot call private read/write functions.
 
+Preserve all seven existing tabs—Ads, SEO, Konten, CRM, Armada, Traffic, and Overview—and their current layout/interactions where practical. In this implementation, only the captured Ads/traffic event data and the CRM fields needed for lead matching and conversion lifecycle become shared, live data. Existing SEO, roadmap, fleet, and unrelated overview demo metrics remain visible as preview data until separately integrated; label them clearly so they cannot be mistaken for live business measurements.
+
 Google Sheet tabs:
 
 - `Events`: immutable event ID, timestamp, page, source/UTMs, GCLID, IP, device/referrer, and event type; admin-controlled lead link and review state are separate fields.
@@ -74,6 +78,7 @@ IP is an internal event-log field only, is not used to assert a person's identit
 ## User experience
 
 - Dashboard shows connection/sync errors clearly and never reports a successful save/import when the server call failed.
+- All seven existing dashboard tabs remain available. Sections whose data is still demo/preview are visibly distinguished from the connected Ads/traffic and CRM records.
 - The event picker shows event time, page, campaign/UTM, and GCLID. IP is a secondary internal clue, not the primary matching key.
 - Lead details show DP status/time/value separately from project completion time/final value.
 - Conversion preparation displays whether it is an initial DP conversion or an update to an existing transaction.
@@ -93,11 +98,12 @@ IP is an internal event-log field only, is not used to assert a person's identit
 2. The public receiver can append validated events but cannot read leads, GCLIDs, IP history, or conversion records.
 3. WhatsApp message text is unchanged.
 4. The owner can open the same dashboard and see the same events/leads on laptop and phone after signing in with the authorized Google account.
-5. The owner can manually link a click to a lead; a linked event cannot be accidentally reused for another lead.
-6. DP creates one initial conversion record. Project completion produces an update with the same transaction ID/action and final service value, not a second conversion. Google Ads import timestamps reflect the actual event being initially recorded; value restatement preserves the original conversion identity.
-7. An unlinked lead, missing GCLID, invalid amount/date, failed save, or uncertain Ads update is surfaced and is not presented as a successful attributed conversion.
-8. The tutorial documents setup and day-to-day steps, including the boundary between the click timestamp, DP timestamp, and project completion timestamp.
-9. Validate the website build, internal links, dashboard JavaScript, the two browser viewport classes (phone and desktop), and Apps Script logic with mocks. Deployment and Google Ads import must be verified by the owner in their Google account because credentials and account configuration are not available in the repository.
+5. All seven original tabs remain present; only agreed Ads/traffic and CRM records are presented as connected live data, and the remaining preview data is labeled as such.
+6. The owner can manually link a click to a lead; a linked event cannot be accidentally reused for another lead.
+7. DP creates one initial conversion record. Project completion produces an update with the same transaction ID/action and final service value, not a second conversion. Google Ads import timestamps reflect the actual event being initially recorded; value restatement preserves the original conversion identity.
+8. An unlinked lead, missing GCLID, invalid amount/date, failed save, or uncertain Ads update is surfaced and is not presented as a successful attributed conversion.
+9. The tutorial documents setup and day-to-day steps, including the boundary between the click timestamp, DP timestamp, and project completion timestamp.
+10. Validate the website build, internal links, dashboard JavaScript, the two browser viewport classes (phone and desktop), and Apps Script logic with mocks. Deployment and Google Ads import must be verified by the owner in their Google account because credentials and account configuration are not available in the repository.
 
 ## Risks and mitigations
 
