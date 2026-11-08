@@ -85,7 +85,7 @@ test('accepts a WhatsApp click with an original case-sensitive GCLID', () => {
   assert.equal(event.event, 'CLICK_WA');
 });
 
-test('rejects unknown event types and missing event IDs', () => {
+test('rejects unknown event types, missing IDs, and overlong fields', () => {
   const { context } = loadAppsScript('apps-script/event-ingest/Code.gs');
   assert.throws(() => context.validateEvent_({ eventId: 'evt-2', event: 'MAKE_LEAD' }));
   assert.throws(() => context.validateEvent_({ event: 'CLICK_WA' }));
@@ -148,7 +148,35 @@ Do not create a lead from `CLICK_WA`. Do not implement fraud verdicts in the pub
 
 - [ ] **Step 5: Add mocked append/deduplication tests and run them**
 
-Mock `LockService`, `PropertiesService`, `SpreadsheetApp`, and `ContentService`. Verify that a repeated event ID appends exactly one row, a valid event creates no `Leads`/`CRM_Deals` sheet, and a missing `SHEET_ID` returns an explicit failure.
+Mock `LockService`, `PropertiesService`, `SpreadsheetApp`, and `ContentService`. Verify that a request with each field individually within its bound but with a serialized UTF-8 body over 8,192 bytes returns an explicit oversized-body error; a repeated event ID appends exactly one row; a valid event creates no `Leads`/`CRM_Deals` sheet; and a missing `SHEET_ID` returns an explicit failure.
+
+Use this oversized-body case; every supplied value respects its individual field limit:
+
+```js
+const payload = {
+  eventId: 'e'.repeat(128),
+  event: 'CLICK_WA',
+  timestamp: '2026-11-09T01:00:00.000Z',
+  page: `/${'p'.repeat(2047)}`,
+  gclid: 'g'.repeat(512),
+  utmSource: 's'.repeat(256),
+  utmMedium: 'm'.repeat(256),
+  utmCampaign: 'c'.repeat(256),
+  utmTerm: 't'.repeat(256),
+  utmContent: 'c'.repeat(256),
+  ip: '1'.repeat(64),
+  referrer: 'r'.repeat(4096),
+  device: 'd'.repeat(128)
+};
+const { context } = loadAppsScript('apps-script/event-ingest/Code.gs', {
+  ContentService: {
+    MimeType: { JSON: 'application/json' },
+    createTextOutput: (text) => ({ getContent: () => text })
+  }
+});
+const output = context.doPost({ postData: { contents: JSON.stringify(payload) } });
+assert.match(output.getContent(), /too large/i);
+```
 
 Run: `node --test tests/apps-script/event-ingest.test.cjs`
 
