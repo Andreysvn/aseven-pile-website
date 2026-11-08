@@ -16,10 +16,24 @@ function createServices({ sheetId = 'configured-sheet-id', existingSheets = {} }
     constructor(name, rows = []) {
       this.name = name;
       this.rows = rows.map((row) => row.slice());
+      this.appendInputs = [];
+      this.formulaCells = this.rows.map((row) => row.map(() => false));
     }
 
     appendRow(row) {
-      this.rows.push(row.slice());
+      this.appendInputs.push(row.slice());
+      const formulaRow = [];
+      const storedRow = row.map((value, index) => {
+        if (typeof value !== 'string') return value;
+        if (value.startsWith("'")) {
+          formulaRow[index] = false;
+          return value.slice(1);
+        }
+        formulaRow[index] = /^\s*[=+\-@]/.test(value);
+        return value;
+      });
+      this.rows.push(storedRow);
+      this.formulaCells.push(formulaRow);
       return this;
     }
 
@@ -198,6 +212,41 @@ test('creates only Events and appends the exact shared row with dashboard cells 
     'google', '', '', '', '', event.ip, '', 'mobile', '', ''
   ]);
   assert.deepEqual([...services.sheets.keys()], ['Events']);
+});
+
+test('stores formula-like event strings as literal text without changing visible values', () => {
+  const services = createServices();
+  const { context } = loadAppsScript('apps-script/event-ingest/Code.gs', services.mocks);
+  const event = validEvent({
+    page: '=HYPERLINK("https://example.invalid","click")',
+    gclid: '\t@SUM(1,1)',
+    utmSource: '+1',
+    utmMedium: '-1',
+    utmCampaign: 'ordinary campaign',
+    referrer: '  =IMPORTXML("https://example.invalid","//data")'
+  });
+  const result = post(context, event);
+  const sheet = services.sheets.get('Events');
+  const submitted = sheet.appendInputs[1];
+  assert.equal(result.status, 'accepted');
+  assert.equal(submitted[3], "'" + event.page);
+  assert.equal(submitted[4], "'" + event.gclid);
+  assert.equal(submitted[5], "'" + event.utmSource);
+  assert.equal(submitted[6], "'" + event.utmMedium);
+  assert.equal(submitted[11], "'" + event.referrer);
+  assert.equal(sheet.rows[1][3], event.page);
+  assert.equal(sheet.rows[1][4], event.gclid);
+  assert.equal(sheet.rows[1][5], event.utmSource);
+  assert.equal(sheet.rows[1][6], event.utmMedium);
+  assert.equal(sheet.rows[1][11], event.referrer);
+  assert.equal(sheet.formulaCells[1][3], false);
+  assert.equal(sheet.formulaCells[1][4], false);
+  assert.equal(sheet.formulaCells[1][5], false);
+  assert.equal(sheet.formulaCells[1][6], false);
+  assert.equal(sheet.formulaCells[1][11], false);
+  assert.equal(submitted[0], event.eventId);
+  assert.equal(submitted[7], event.utmCampaign);
+  assert.equal(submitted[1], event.event);
 });
 
 test('deduplicates event IDs while holding the script lock', () => {

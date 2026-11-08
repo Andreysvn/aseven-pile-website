@@ -145,7 +145,7 @@ function doPost(e) {
       event.device,
       '',
       ''
-    ]);
+    ].map(sheetLiteral_));
     return jsonOutput_({ status: 'accepted', eventId: event.eventId });
   } catch (error) {
     return jsonOutput_({
@@ -215,4 +215,10 @@ function requestError_(message) {
   var error = new Error(message);
   error.isRequestError = true;
   return error;
+}
+function sheetLiteral_(value) {
+  if (typeof value === 'string' && /^\s*[=+\-@]/.test(value)) {
+    return "'" + value;
+  }
+  return value;
 }
