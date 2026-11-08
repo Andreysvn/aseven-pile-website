@@ -4,7 +4,7 @@ Date: 2026-11-09
 
 ## Status
 
-Draft for owner review. No application code changes are included in this design phase.
+Approved for implementation planning after owner review on 2026-11-09. No application code changes are included in this design phase.
 
 ## Goal
 
@@ -33,20 +33,21 @@ The existing seven-tab dashboard and its current interactions remain available. 
 - The website has a WhatsApp contact flow, but WhatsApp clicks do not identify whether a message was actually sent or received.
 - `preview-dashboard.html` is a standalone HTML file with in-memory CRM/demo events and localStorage state. That state does not synchronize between devices.
 - The dashboard currently offers simulated GCLID generation and an export using a legacy-shaped CSV and the export time as conversion time. These behaviors must be replaced for real offline conversion use.
+- The supplied AI-generated `Code.gs` currently places public `doPost` and HTML `doGet` in one script, returns the dashboard with `ALLOWALL`, and exposes `getDashboardData`/`saveCrmLead` as server functions. Its `doPost` also creates a CRM lead automatically for each WhatsApp click, although a click is not a confirmed conversation or a qualified lead. Its fraud label is inferred from a small recent IP sample. The implementation must split public ingestion from private dashboard access, stop auto-creating qualified CRM leads on clicks, and treat IP repetition as an investigation clue rather than a fraud verdict.
 
 ## Proposed architecture
 
-### 1. Public, write-only website event receiver
+### 1. Public, write-only website event receiver (Apps Script project A)
 
-Deploy a small Apps Script web app dedicated to receiving website events and appending them to an `Events` tab in the owner's Google Sheet. It accepts only an allowlist of event types such as landing, WhatsApp click, and phone click. Each event has a unique ID and event timestamp, and may include the original GCLID, UTM values, page path, referrer, device label, and IP for internal investigation.
+Deploy a small, separate Apps Script project as a web app dedicated to receiving website events and appending them to an `Events` tab in the owner's Google Sheet. This project has no dashboard HTML and no functions for reading leads, GCLIDs, IP history, or conversions. It accepts only an allowlist of event types such as landing, WhatsApp click, and phone click. Each event has a unique ID and event timestamp, and may include the original GCLID, UTM values, page path, referrer, device label, and IP for internal investigation.
 
 The receiver must not expose spreadsheet reads, lead data, or conversion exports. It must validate and bound payload size and fields, deduplicate event IDs, and use a lock when appending rows. Because its URL is public and the browser is not a trusted client, any rate limit or origin check is best-effort abuse mitigation, not authentication. No secret embedded in the static website is treated as a security boundary.
 
 The existing WhatsApp text remains unchanged. A click event is labeled as a click only; it is not represented as a confirmed WhatsApp conversation or qualified lead.
 
-### 2. Private shared dashboard
+### 2. Private shared dashboard (Apps Script project B)
 
-Deploy the dashboard as an Apps Script HtmlService web app restricted to the owner's Google account. The dashboard reads and writes operational data through server-side Apps Script functions and the Google Sheet. Public event ingestion and private dashboard operations must be separate deployments with separate permissions; the public receiver cannot call private read/write functions.
+Deploy the dashboard in a second, separate Apps Script project as an HtmlService web app restricted to the owner's Google account. The dashboard reads and writes operational data through server-side Apps Script functions and the same Google Sheet used by project A. The owner operates one dashboard URL; the public website receiver is a separate background endpoint and is not another dashboard. Do not combine the public receiver and private dashboard in one publicly accessible deployment: the provided Code.gs places `doPost` beside `doGet`, `getDashboardData`, and `saveCrmLead`, which would expose sensitive read/write surfaces if deployed with public access.
 
 Preserve all seven existing tabs—Ads, SEO, Konten, CRM, Armada, Traffic, and Overview—and their current layout/interactions where practical. In this implementation, only the captured Ads/traffic event data and the CRM fields needed for lead matching and conversion lifecycle become shared, live data. Existing SEO, roadmap, fleet, and unrelated overview demo metrics remain visible as preview data until separately integrated; label them clearly so they cannot be mistaken for live business measurements.
 
