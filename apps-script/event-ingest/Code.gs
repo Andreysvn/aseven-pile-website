@@ -217,7 +217,7 @@ function requestError_(message) {
   return error;
 }
 function sheetLiteral_(value) {
-  if (typeof value === 'string' && /^\s*[=+\-@]/.test(value)) {
+  if (typeof value === 'string' && (value.charAt(0) === "'" || /^\s*[=+\-@]/.test(value))) {
     return "'" + value;
   }
   return value;

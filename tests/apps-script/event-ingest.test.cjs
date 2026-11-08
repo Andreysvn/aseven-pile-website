@@ -223,6 +223,8 @@ test('stores formula-like event strings as literal text without changing visible
     utmSource: '+1',
     utmMedium: '-1',
     utmCampaign: 'ordinary campaign',
+    utmContent: "'=SUM(1,1)",
+    device: "'mobile",
     referrer: '  =IMPORTXML("https://example.invalid","//data")'
   });
   const result = post(context, event);
@@ -233,16 +235,22 @@ test('stores formula-like event strings as literal text without changing visible
   assert.equal(submitted[4], "'" + event.gclid);
   assert.equal(submitted[5], "'" + event.utmSource);
   assert.equal(submitted[6], "'" + event.utmMedium);
+  assert.equal(submitted[9], "'" + event.utmContent);
+  assert.equal(submitted[12], "'" + event.device);
   assert.equal(submitted[11], "'" + event.referrer);
   assert.equal(sheet.rows[1][3], event.page);
   assert.equal(sheet.rows[1][4], event.gclid);
   assert.equal(sheet.rows[1][5], event.utmSource);
   assert.equal(sheet.rows[1][6], event.utmMedium);
+  assert.equal(sheet.rows[1][9], event.utmContent);
+  assert.equal(sheet.rows[1][12], event.device);
   assert.equal(sheet.rows[1][11], event.referrer);
   assert.equal(sheet.formulaCells[1][3], false);
   assert.equal(sheet.formulaCells[1][4], false);
   assert.equal(sheet.formulaCells[1][5], false);
   assert.equal(sheet.formulaCells[1][6], false);
+  assert.equal(sheet.formulaCells[1][9], false);
+  assert.equal(sheet.formulaCells[1][12], false);
   assert.equal(sheet.formulaCells[1][11], false);
   assert.equal(submitted[0], event.eventId);
   assert.equal(submitted[7], event.utmCampaign);
