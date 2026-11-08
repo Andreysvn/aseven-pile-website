@@ -1,6 +1,9 @@
 // main.js - Global scripts for Aseven Pile
+import { siteConfig } from '../data/site.config';
+import { captureAttribution, createTrackingEvent } from './gclid-attribution.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-  
+
   // Header Scroll Effect (Transparent to Solid)
   const header = document.querySelector('.header');
   if (header) {
@@ -22,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
       btn.classList.toggle('visible', window.scrollY > 300);
     }, { passive: true });
-    
+
     btn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -38,20 +41,146 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Capture Google Ads Click ID (gclid) for Offline Conversion Tracking
-  try {
-    const urlParams = new URLSearchParams(window.location.search);
-    const gclid = urlParams.get('gclid');
-    if (gclid) {
-      sessionStorage.setItem('aseven_gclid', gclid);
-    }
-  } catch (err) {}
+  // Helper to determine page topic for contextual WhatsApp messages
+  const getPageTopic = () => {
+    const path = window.location.pathname.replace(/\/$/, '');
 
+    // 1. Diameter pages
+    const diameterMatch = path.match(/\/diameter\/(\d+)/);
+    if (diameterMatch) {
+      return `Jasa Bore Pile Diameter ${diameterMatch[1]} cm`;
+    }
+
+    // 2. Bore pile city pages
+    if (path.includes('/bore-pile/jakarta-selatan')) return 'Jasa Bore Pile Jakarta Selatan';
+    if (path.includes('/bore-pile/tangerang-selatan')) return 'Jasa Bore Pile Tangerang Selatan';
+    if (path.includes('/bore-pile/jakarta')) return 'Jasa Bore Pile Jakarta';
+    if (path.includes('/bore-pile/bekasi')) return 'Jasa Bore Pile Bekasi';
+    if (path.includes('/bore-pile/bogor')) return 'Jasa Bore Pile Bogor';
+    if (path.includes('/bore-pile/depok')) return 'Jasa Bore Pile Depok';
+    if (path.includes('/bore-pile/tangerang')) return 'Jasa Bore Pile Tangerang';
+
+    // 3. Strauss pile city pages
+    if (path.includes('/strauss-pile/jakarta')) return 'Jasa Strauss Pile Jakarta';
+    if (path.includes('/strauss-pile/bekasi')) return 'Jasa Strauss Pile Bekasi';
+
+    // 4. Layanan spesifik
+    if (path.includes('/bore-pile-mesin')) return 'Jasa Bore Pile Mesin (Mini Crane)';
+    if (path.includes('/bore-pile-gawangan')) return 'Jasa Bore Pile Gawangan';
+    if (path.includes('/strauss-pile-manual')) return 'Jasa Strauss Pile Manual';
+    if (path.includes('/area-layanan/jakarta')) return 'Jasa Bore Pile Jakarta';
+    if (path.includes('/area-layanan')) return 'Area Layanan Jasa Bore Pile';
+    if (path.includes('/harga')) return 'Biaya & Harga Jasa Bore Pile';
+    if (path.includes('/galeri')) return 'Dokumentasi Proyek Bore Pile';
+    if (path.includes('/tentang-kami')) return 'Layanan Aseven Pile';
+    if (path.includes('/kontak')) return 'Jasa Bore Pile & Strauss Pile';
+
+    return 'jasa pondasi bore pile & strauss pile';
+  };
+
+  // Dynamically set floating WhatsApp button message based on current page
+  const fabWa = document.querySelector('.fab-wa');
+  if (fabWa) {
+    const topic = getPageTopic();
+    const text = `Halo Aseven Pile, saya dari website ingin menanyakan terkait ${topic}.`;
+    fabWa.setAttribute('href', `https://wa.me/6285814173761?text=${encodeURIComponent(text)}`);
+  }
+
+  const endpoint = siteConfig.gclidEventEndpoint;
+  const attributionStorageKey = 'aseven_attribution';
+  const readAttribution = () => {
+    try {
+      return JSON.parse(localStorage.getItem(attributionStorageKey) || 'null');
+    } catch (_) {
+      return null;
+    }
+  };
+  const now = Date.now();
+  const attribution = captureAttribution(window.location.search, now, readAttribution());
+  try {
+    if (attribution.gclid || attribution.capturedAt) {
+      localStorage.setItem(attributionStorageKey, JSON.stringify(attribution));
+    } else {
+      localStorage.removeItem(attributionStorageKey);
+    }
+  } catch (_) {}
+
+  const params = new URLSearchParams(window.location.search);
+  const hasCurrentAttribution = Boolean(params.get('gclid')) ||
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
+      .some((key) => Boolean(params.get(key)));
+  const landingAttribution = hasCurrentAttribution
+    ? attribution
+    : { gclid: '', utmSource: '', utmMedium: '', utmCampaign: '', utmTerm: '', utmContent: '' };
+
+  const getDeviceLabel = () => {
+    const ua = navigator.userAgent;
+    let type = 'Desktop';
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) type = 'Tablet';
+    else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle/i.test(ua)) type = 'Mobile';
+    return `${type} (${window.innerWidth}x${window.innerHeight})`;
+  };
+
+  const getEventId = () => {
+    if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+
+    // Older browsers use cryptographic bytes where available, with a timestamp/random fallback.
+    if (globalThis.crypto?.getRandomValues) {
+      const bytes = globalThis.crypto.getRandomValues(new Uint8Array(16));
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+      const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+      return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+    }
+    return `evt-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+  };
+
+  const getCachedSameOriginIP = () => {
+    try {
+      return sessionStorage.getItem('aseven_same_origin_visitor_ip') || '-';
+    } catch (_) {
+      return '-';
+    }
+  };
+
+  const createEventDetails = () => ({
+    page: window.location.pathname,
+    ip: getCachedSameOriginIP(),
+    referrer: document.referrer || '',
+    device: getDeviceLabel(),
+  });
+
+  const sendTrackingEvent = (event, eventAttribution = attribution) => {
+    if (!endpoint) return;
+    const payload = createTrackingEvent(
+      event,
+      createEventDetails(),
+      eventAttribution,
+      Date.now(),
+      getEventId(),
+    );
+    const body = JSON.stringify(payload);
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(endpoint, new Blob([body], { type: 'text/plain' }));
+      return;
+    }
+    fetch(endpoint, {
+      method: 'POST',
+      body,
+      headers: { 'Content-Type': 'text/plain' },
+      keepalive: true,
+    }).catch(() => {});
+  };
+
+  sendTrackingEvent('LANDING', landingAttribution);
+
+  // GTM DataLayer Push
   const pushTrackingEvent = (event, parameters) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event, ...parameters });
   };
 
+  // 4. Deteksi Klik Tombol WhatsApp & Telepon
   document.addEventListener('click', (e) => {
     const target = e.target;
     if (!(target instanceof Element)) return;
@@ -63,28 +192,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const isPhone = href.startsWith('tel:');
 
     if (isWhatsApp) {
+      // Debounce klik WA dalam 3 detik untuk mencegah duplicate log saat double-click
+      const lastWaClick = Number(sessionStorage.getItem('aseven_last_wa_click') || 0);
+      const now = Date.now();
+      if (now - lastWaClick < 3000) return;
+      sessionStorage.setItem('aseven_last_wa_click', String(now));
+
       const location = link.classList.contains('fab-wa')
         ? 'floating_button'
         : link.closest('section')?.id || 'content';
 
       pushTrackingEvent('generate_lead', {
         contact_method: 'whatsapp',
-        cta_location: location
+        cta_location: location,
+        lead_stage: 'click_intent',
+        confirmed_conversation: false,
       });
+
+      sendTrackingEvent('CLICK_WA');
     } else if (isPhone) {
       pushTrackingEvent('phone_click', {
         cta_location: link.closest('section')?.id || 'content'
       });
+
+      sendTrackingEvent('CLICK_PHONE');
     }
   });
 
+  // 5. Deteksi Form Submit Kontak
   document.addEventListener('submit', (e) => {
     const form = e.target;
     if (form instanceof HTMLFormElement && form.id === 'wa-form') {
       pushTrackingEvent('generate_lead', {
         contact_method: 'whatsapp',
-        cta_location: 'contact_form'
+        cta_location: 'contact_form',
+        lead_stage: 'click_intent',
+        confirmed_conversation: false,
       });
+
+      sendTrackingEvent('CLICK_WA');
     }
   });
 });
