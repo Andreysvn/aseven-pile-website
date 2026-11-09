@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { captureAttribution, createTrackingEvent } from '../../src/scripts/gclid-attribution.js';
+import {
+  captureAttribution,
+  createTrackingEvent,
+  isRecentWhatsAppClick,
+  queueTrackingPayload,
+} from '../../src/scripts/gclid-attribution.js';
 
 test('captures only an actual GCLID and preserves its case', () => {
   const result = captureAttribution('?gclid=AbC123&utm_source=google', 1000, null);
@@ -59,4 +64,47 @@ test('does not fabricate click identifiers for organic traffic', () => {
   const event = createTrackingEvent('LANDING', {}, result, 1000, 'evt-organic');
   assert.equal(event.gclid, '');
   assert.equal(event.ip, '-');
+});
+
+test('falls back to keepalive fetch when sendBeacon is unavailable or refuses the payload', () => {
+  let fetchCalls = 0;
+  const fetchKeepalive = (url, body) => {
+    fetchCalls += 1;
+    assert.equal(url, '/events');
+    assert.equal(body, 'payload');
+    return Promise.resolve();
+  };
+
+  assert.equal(queueTrackingPayload('/events', 'payload', {
+    sendBeacon: () => false,
+    fetchKeepalive,
+  }), true);
+  assert.equal(queueTrackingPayload('/events', 'payload', {
+    fetchKeepalive,
+  }), true);
+  assert.equal(fetchCalls, 2);
+});
+
+test('does not use keepalive fetch when sendBeacon queues the payload', () => {
+  let fetchCalled = false;
+  assert.equal(queueTrackingPayload('/events', 'payload', {
+    sendBeacon: () => true,
+    fetchKeepalive: () => { fetchCalled = true; },
+  }), true);
+  assert.equal(fetchCalled, false);
+});
+
+test('WhatsApp click debounce fails open if session storage is unavailable', () => {
+  assert.equal(isRecentWhatsAppClick(5000, {
+    getItem() { throw new Error('storage disabled'); },
+    setItem() { throw new Error('storage disabled'); },
+  }), false);
+  assert.equal(isRecentWhatsAppClick(5000, {
+    getItem() { return '1000'; },
+    setItem() { throw new Error('storage disabled'); },
+  }), false);
+  assert.equal(isRecentWhatsAppClick(5000, {
+    getItem() { return '4500'; },
+    setItem() {},
+  }), true);
 });

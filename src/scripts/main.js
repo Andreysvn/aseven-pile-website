@@ -1,6 +1,11 @@
 // main.js - Global scripts for Aseven Pile
 import { siteConfig } from '../data/site.config';
-import { captureAttribution, createTrackingEvent } from './gclid-attribution.js';
+import {
+  captureAttribution,
+  createTrackingEvent,
+  isRecentWhatsAppClick,
+  queueTrackingPayload,
+} from './gclid-attribution.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -39,51 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileMenuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('is-open');
     });
-  }
-
-  // Helper to determine page topic for contextual WhatsApp messages
-  const getPageTopic = () => {
-    const path = window.location.pathname.replace(/\/$/, '');
-
-    // 1. Diameter pages
-    const diameterMatch = path.match(/\/diameter\/(\d+)/);
-    if (diameterMatch) {
-      return `Jasa Bore Pile Diameter ${diameterMatch[1]} cm`;
-    }
-
-    // 2. Bore pile city pages
-    if (path.includes('/bore-pile/jakarta-selatan')) return 'Jasa Bore Pile Jakarta Selatan';
-    if (path.includes('/bore-pile/tangerang-selatan')) return 'Jasa Bore Pile Tangerang Selatan';
-    if (path.includes('/bore-pile/jakarta')) return 'Jasa Bore Pile Jakarta';
-    if (path.includes('/bore-pile/bekasi')) return 'Jasa Bore Pile Bekasi';
-    if (path.includes('/bore-pile/bogor')) return 'Jasa Bore Pile Bogor';
-    if (path.includes('/bore-pile/depok')) return 'Jasa Bore Pile Depok';
-    if (path.includes('/bore-pile/tangerang')) return 'Jasa Bore Pile Tangerang';
-
-    // 3. Strauss pile city pages
-    if (path.includes('/strauss-pile/jakarta')) return 'Jasa Strauss Pile Jakarta';
-    if (path.includes('/strauss-pile/bekasi')) return 'Jasa Strauss Pile Bekasi';
-
-    // 4. Layanan spesifik
-    if (path.includes('/bore-pile-mesin')) return 'Jasa Bore Pile Mesin (Mini Crane)';
-    if (path.includes('/bore-pile-gawangan')) return 'Jasa Bore Pile Gawangan';
-    if (path.includes('/strauss-pile-manual')) return 'Jasa Strauss Pile Manual';
-    if (path.includes('/area-layanan/jakarta')) return 'Jasa Bore Pile Jakarta';
-    if (path.includes('/area-layanan')) return 'Area Layanan Jasa Bore Pile';
-    if (path.includes('/harga')) return 'Biaya & Harga Jasa Bore Pile';
-    if (path.includes('/galeri')) return 'Dokumentasi Proyek Bore Pile';
-    if (path.includes('/tentang-kami')) return 'Layanan Aseven Pile';
-    if (path.includes('/kontak')) return 'Jasa Bore Pile & Strauss Pile';
-
-    return 'jasa pondasi bore pile & strauss pile';
-  };
-
-  // Dynamically set floating WhatsApp button message based on current page
-  const fabWa = document.querySelector('.fab-wa');
-  if (fabWa) {
-    const topic = getPageTopic();
-    const text = `Halo Aseven Pile, saya dari website ingin menanyakan terkait ${topic}.`;
-    fabWa.setAttribute('href', `https://wa.me/6285814173761?text=${encodeURIComponent(text)}`);
   }
 
   const endpoint = siteConfig.gclidEventEndpoint;
@@ -160,16 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
       getEventId(),
     );
     const body = JSON.stringify(payload);
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(endpoint, new Blob([body], { type: 'text/plain' }));
-      return;
-    }
-    fetch(endpoint, {
-      method: 'POST',
-      body,
-      headers: { 'Content-Type': 'text/plain' },
-      keepalive: true,
-    }).catch(() => {});
+    queueTrackingPayload(endpoint, new Blob([body], { type: 'text/plain' }), {
+      sendBeacon: navigator.sendBeacon?.bind(navigator),
+      fetchKeepalive: (url, payload) => fetch(url, {
+        method: 'POST',
+        body: payload,
+        headers: { 'Content-Type': 'text/plain' },
+        keepalive: true,
+      }),
+    });
   };
 
   sendTrackingEvent('LANDING', landingAttribution);
@@ -193,10 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isWhatsApp) {
       // Debounce klik WA dalam 3 detik untuk mencegah duplicate log saat double-click
-      const lastWaClick = Number(sessionStorage.getItem('aseven_last_wa_click') || 0);
       const now = Date.now();
-      if (now - lastWaClick < 3000) return;
-      sessionStorage.setItem('aseven_last_wa_click', String(now));
+      if (isRecentWhatsAppClick(now, sessionStorage)) return;
 
       const location = link.classList.contains('fab-wa')
         ? 'floating_button'

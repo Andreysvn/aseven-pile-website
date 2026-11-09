@@ -70,3 +70,35 @@ export function createTrackingEvent(event, details = {}, attribution = {}, now, 
     device: stringValue(details.device),
   };
 }
+
+export function queueTrackingPayload(endpoint, body, { sendBeacon, fetchKeepalive }) {
+  if (typeof sendBeacon === 'function') {
+    try {
+      if (sendBeacon(endpoint, body)) return true;
+    } catch (_) {}
+  }
+
+  if (typeof fetchKeepalive !== 'function') return false;
+  try {
+    const request = fetchKeepalive(endpoint, body);
+    if (request && typeof request.catch === 'function') request.catch(() => {});
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+export function isRecentWhatsAppClick(nowMs, storage) {
+  let lastClick;
+  try {
+    lastClick = Number(storage.getItem('aseven_last_wa_click') || 0);
+  } catch (_) {
+    return false;
+  }
+
+  if (nowMs - lastClick < 3000) return true;
+  try {
+    storage.setItem('aseven_last_wa_click', String(nowMs));
+  } catch (_) {}
+  return false;
+}

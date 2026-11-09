@@ -27,9 +27,9 @@ deployment or account changes were made.
   - Uses `sendBeacon` synchronously (with a `fetch` keepalive fallback), without
     a network IP lookup. It includes only a cached same-origin IP from
     `aseven_same_origin_visitor_ip`, or `-`.
-  - Keeps the existing page-topic WhatsApp copy behavior and does not add
-    tracking identifiers to WhatsApp URLs or messages. Webhook payloads do not
-    include `topic` or `cta_location`.
+  - Does not change the existing floating WhatsApp message or add tracking
+    identifiers to WhatsApp URLs or messages. Webhook payloads do not include
+    `topic` or `cta_location`.
   - Retains the existing GTM `generate_lead` event for compatibility while
     marking it as `lead_stage: 'click_intent'` and
     `confirmed_conversation: false`; it is not evidence of a conversation.
@@ -96,3 +96,22 @@ The separately modified Task 1 report was not changed or staged by this task.
 ## Commit
 
 `feat: capture real GCLID on website events`
+
+## Review round 1 fixes
+
+- Removed the floating WhatsApp link rewrite from `main.js`; the exact message
+  configured by `BaseLayout.astro` remains in effect.
+- Added `queueTrackingPayload`; a false/throwing/unavailable `sendBeacon`
+  falls back to keepalive `fetch`, while a successfully queued beacon does not
+  duplicate the request.
+- Added `isRecentWhatsAppClick` to guard session-storage reads and writes. If
+  storage is unavailable, the click proceeds and tracking is not blocked.
+
+Validation after these fixes:
+
+```text
+node --test tests/tracking/gclid-attribution.test.mjs tests/apps-script/event-ingest.test.cjs
+```
+
+Result: **21 tests passed, 0 failed**, including coverage for beacon fallback,
+successful beacon queueing, and fail-open WhatsApp click debouncing.

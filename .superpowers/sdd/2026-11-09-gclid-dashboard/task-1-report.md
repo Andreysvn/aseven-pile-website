@@ -108,3 +108,34 @@ Command: `node --test tests/apps-script/event-ingest.test.cjs`
 ℹ todo 0
 ℹ duration_ms 231.019
 ```
+
+## Fix round 2
+
+- Updated `sheetLiteral_` to add a text-entry apostrophe when an event string begins with an apostrophe, as well as for the existing dangerous formula prefixes. This doubles the leading apostrophe passed to Sheets so the entry marker is consumed while the original apostrophe remains visible. Formula-like values continue to receive the same literal-text protection.
+- Extended the append-boundary regression test with a standalone leading-apostrophe value and an apostrophe-prefixed formula-like value. The mocked sheet confirms the exact submitted text marker, exact visible stored values, and no formula interpretation. Receiver schema and append-only behavior are unchanged.
+
+Command: `node --test tests/apps-script/event-ingest.test.cjs`
+
+```text
+✔ accepts a WhatsApp click with an original case-sensitive GCLID (7.5751ms)
+✔ rejects unknown event types, missing IDs, unknown keys, and overlong fields (3.6709ms)
+✔ enforces every string field maximum (3.9771ms)
+✔ requires bounded strings and a parseable ISO timestamp with explicit timezone (3.436ms)
+✔ rejects malformed, non-object, and oversized UTF-8 request bodies explicitly (4.9489ms)
+✔ rejects requests containing keys outside the event-field allowlist (3.9512ms)
+✔ creates only Events and appends the exact shared row with dashboard cells blank (3.5744ms)
+✔ stores formula-like event strings as literal text without changing visible values (5.104ms)
+✔ deduplicates event IDs while holding the script lock (4.245ms)
+✔ does not rewrite an incompatible Events header (3.1013ms)
+✔ does not expose internal spreadsheet errors to the public caller (2.7099ms)
+✔ returns an explicit configuration error when SHEET_ID is absent (2.8095ms)
+✔ never exposes read, dashboard, or CRM endpoint methods (2.5905ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 236.9275
+```
