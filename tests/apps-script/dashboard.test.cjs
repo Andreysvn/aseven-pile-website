@@ -1,5 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
 const { loadAppsScript } = require('./helpers/load-apps-script.cjs');
 
 const EVENT_HEADERS = [
@@ -158,6 +160,48 @@ test('returns explicit errors for invalid leads and never reports success', () =
   const result = services.context.saveCrmLead({ name: '', phone: '0812' });
   assert.equal(result.ok, false);
   assert.match(result.error, /nama|prospek/i);
+});
+
+test('classifies paid, organic, referral, campaign, and direct events from available evidence', () => {
+  const { context } = loadDashboard();
+  const classify = (event) => context.eventToDashboard_({
+    eventId: 'evt-1',
+    event: 'CLICK_WA',
+    timestamp: '2026-11-09T08:00:00+07:00',
+    page: '/area-layanan/bore-pile/jakarta',
+    ...event
+  });
+
+  assert.equal(classify({ gclid: 'AbC123', referrer: 'https://google.com/' }).source, 'ADS');
+  assert.equal(classify({ referrer: 'https://www.google.com/' }).source, 'SEO');
+  assert.equal(classify({ utmMedium: 'organic', utmSource: 'google' }).source, 'SEO');
+  assert.equal(classify({ utmMedium: 'organic', utmSource: 'facebook' }).source, 'CAMPAIGN');
+  assert.equal(classify({ utmSource: 'google', utmMedium: 'cpc' }).source, 'ADS');
+  assert.equal(classify({ utmSource: 'newsletter', utmMedium: 'email' }).source, 'CAMPAIGN');
+  assert.equal(classify({ referrer: 'https://example.com/article' }).source, 'REFERRAL');
+  assert.equal(classify({ referrer: '-' }).source, 'DIRECT');
+});
+
+test('hosted traffic dashboard counts CLICK_WA rows and exposes Direct/referral source filters', () => {
+  const html = fs.readFileSync('apps-script/dashboard/Index.html', 'utf8');
+  const renderTraffic = html.match(/function renderTraffic\(\) \{[\s\S]*?\n\}/)?.[0] || '';
+  const sourceStats = html.match(/function sourceStats\(source\) \{[\s\S]*?\n\}/)?.[0] || '';
+  const renderTrafficTable = html.match(/function renderTrafficTable\(\) \{[\s\S]*?\n\}/)?.[0] || '';
+  const whatsappHelper = html.match(/function isWhatsAppTrafficEvent\(event\) \{[\s\S]*?\n\}/)?.[0] || '';
+  assert.ok(whatsappHelper, 'Expected a WhatsApp event classifier');
+  const context = vm.createContext({});
+  vm.runInContext(`${whatsappHelper}; this.isWhatsAppTrafficEvent = isWhatsAppTrafficEvent;`, context);
+
+  assert.match(renderTraffic, /tr\.filter\(isWhatsAppTrafficEvent\)/);
+  assert.match(sourceStats, /tr\.filter\(isWhatsAppTrafficEvent\)/);
+  assert.match(renderTrafficTable, /list = list\.filter\(isWhatsAppTrafficEvent\)/);
+  assert.match(renderTraffic, /key:'DIRECT'/);
+  assert.match(renderTraffic, /key:'REFERRAL'/);
+  assert.match(renderTraffic, /key:'CAMPAIGN'/);
+  assert.match(renderTrafficTable, /sourceMeta/);
+  assert.equal(context.isWhatsAppTrafficEvent({ eventType: 'CLICK_WA', event: 'Klik WhatsApp' }), true);
+  assert.equal(context.isWhatsAppTrafficEvent({ event: 'Chat WhatsApp' }), true);
+  assert.equal(context.isWhatsAppTrafficEvent({ eventType: 'CLICK_PHONE', event: 'Klik Telepon' }), false);
 });
 
 test('links an event once and rejects reassignment to another lead', () => {

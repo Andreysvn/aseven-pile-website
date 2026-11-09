@@ -2,6 +2,7 @@
 import { siteConfig } from '../data/site.config';
 import {
   captureAttribution,
+  captureSessionReferrer,
   createTrackingEvent,
   isRecentWhatsAppClick,
   queueTrackingPayload,
@@ -95,18 +96,25 @@ document.addEventListener('DOMContentLoaded', () => {
     return `evt-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
   };
 
-  const getCachedSameOriginIP = () => {
+  const getSessionReferrer = () => {
+    const referrerKey = 'aseven_external_referrer';
     try {
-      return sessionStorage.getItem('aseven_same_origin_visitor_ip') || '-';
-    } catch (_) {
-      return '-';
+      const previous = sessionStorage.getItem(referrerKey) || '';
+      const referrer = captureSessionReferrer(
+        document.referrer,
+        window.location.hostname,
+        previous,
+      );
+      if (referrer && referrer !== previous) sessionStorage.setItem(referrerKey, referrer);
+      return referrer;
+    } catch (error) {
+      return captureSessionReferrer(document.referrer, window.location.hostname);
     }
   };
 
   const createEventDetails = () => ({
     page: window.location.pathname,
-    ip: getCachedSameOriginIP(),
-    referrer: document.referrer || '',
+    referrer: getSessionReferrer(),
     device: getDeviceLabel(),
   });
 

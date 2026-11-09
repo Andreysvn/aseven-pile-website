@@ -7,19 +7,25 @@ Panduan ini menyiapkan pencatatan event website dan CRM privat berbasis Google S
 1. Buat satu Google Sheet baru di akun pemilik.
 2. Salin ID dari URL Sheet, tetapi jangan menaruhnya di website, repositori, atau dokumen publik.
 3. Biarkan proyek Apps Script membuat tab `Events`, `Leads`, dan `Audit` beserta header yang diperlukan. Jika membuat header secara manual, jangan mengubah nama atau urutannya.
-4. Batasi akses Sheet hanya kepada pemilik dan operator yang memang berwenang. Sheet menyimpan informasi kontak, GCLID, alamat IP, dan catatan operasional.
-5. Tetapkan masa retensi data yang sesuai kebutuhan dan kebijakan privasi; tinjau dan hapus data yang tidak lagi diperlukan secara berkala.
+4. Batasi akses Sheet hanya kepada pemilik dan operator yang memang berwenang. Sheet menyimpan informasi kontak, GCLID, subnet IP tersamarkan, dan catatan operasional.
+5. Tetapkan dan terapkan masa retensi data yang sesuai kebutuhan dan kebijakan privasi; tinjau dan hapus data yang tidak lagi diperlukan secara berkala. Subnet IP tersamarkan tetap merupakan data yang perlu dijaga.
 
 Jangan menghapus atau mengurutkan ulang kolom header. API akan menolak header yang tidak cocok agar data tidak tertulis ke kolom yang salah.
 
-## 2. Deploy penerima event publik
+## 2. Deploy penerima event dan Cloudflare Worker
 
 1. Buat proyek Apps Script **terpisah** dari dashboard privat.
 2. Salin `apps-script/event-ingest/Code.gs` dan `apps-script/event-ingest/appsscript.json` ke proyek tersebut.
 3. Di **Project Settings → Script Properties**, tambahkan `SHEET_ID` dengan ID Sheet yang dibuat di atas.
 4. Deploy sebagai **Web app**, pilih **Execute as: Me**, dan atur akses agar website dapat mengirim request tanpa login. Penerima ini hanya menyediakan `doPost`; ia tidak menyediakan API baca atau CRM.
-5. Salin URL deployment `/exec` dan isi `gclidEventEndpoint` di `src/data/site.config.ts`. Biarkan kosong sampai deployment siap. Build dan deploy website setelah URL ditetapkan.
-6. Jangan mengirim URL deployment bersama Sheet ID atau data pengguna ke pihak yang tidak berwenang. Jika URL perlu diganti, perbarui konfigurasi website dan deploy ulang.
+5. Simpan URL deployment `/exec` untuk dipakai sebagai secret `APPS_SCRIPT_URL`. Jangan menaruh URL tersebut di frontend atau log publik.
+6. Dari root repo, pasang secret Worker dengan `npx wrangler secret put APPS_SCRIPT_URL --config cloudflare/wrangler.toml`, lalu tempel URL `/exec` saat diminta.
+7. Deploy Worker memakai `npx wrangler deploy --config cloudflare/wrangler.toml`. Rute `asevenpile.com/api/events*` akan meneruskan event ke Apps Script setelah Worker tersedia.
+8. Uji event sampai terlihat di tab `Events` dan pastikan kolom `ip` berisi subnet `/24` (IPv4) atau `/48` (IPv6), bukan alamat penuh. Jika header IP Cloudflare tidak ada, nilai `-` tidak menghentikan pencatatan event.
+9. Setelah Worker diuji, build dan deploy website. `gclidEventEndpoint` memakai rute satu-origin `/api/events`; jangan deploy website lebih dulu dari Worker.
+10. Sebelum mengaktifkan pencatatan IP, tetapkan masa retensi dan perbarui pemberitahuan privasi situs. URL Apps Script tetap rahasia dan tidak boleh dikirim bersama Sheet ID atau data pengguna kepada pihak tak berwenang.
+
+Worker hanya mempercayai header IP yang ditambahkan Cloudflare, menimpa nilai `ip` dari browser, memotong IPv4 ke `/24` dan IPv6 ke `/48`, serta tidak meneruskan header IP mentah ke Apps Script. Worker gratis Cloudflare mencakup hingga 100.000 request per hari dan batas CPU 10 ms per request; pemakaian di atas batas atau perubahan paket dapat mengubah biaya. Lihat [harga resmi Workers](https://developers.cloudflare.com/workers/platform/pricing/) sebelum deploy.
 
 Penerima hanya menerima jenis event yang diizinkan, menolak field tak dikenal, dan tidak membuat lead otomatis. GCLID harus berasal dari URL landing yang benar-benar diterima; sistem tidak membuat GCLID simulasi. Teks WhatsApp tidak ditambahi kode tracking.
 
@@ -41,7 +47,7 @@ Inisialisasi hanya membuat tab atau header yang belum ada dan tidak menghapus ba
 Contoh berikut memakai data fiktif:
 
 1. Pengunjung mendarat pada URL Google Ads dengan GCLID nyata, lalu menekan tombol WhatsApp. Website mengirim event `CLICK_WA`; klik ini **bukan bukti** bahwa pesan benar-benar terkirim atau percakapan terjadi.
-2. Setelah prospek benar-benar masuk, pemilik membuat lead CRM dan memilih event WhatsApp yang sesuai. Pencocokan dilakukan manual. IP hanya petunjuk internal dan tidak dipakai sebagai pengenal konversi.
+2. Setelah prospek benar-benar masuk, pemilik membuat lead CRM dan memilih event WhatsApp yang sesuai. Pencocokan dilakukan manual. Subnet IP tersamarkan hanya untuk analisis dashboard, bukan untuk menebak sumber, mengidentifikasi konversi, atau mencocokkan Google Ads.
 3. Kolom **Total Nilai Proyek / Omset Closing** dapat diisi langsung, misalnya `45000000`. Rincian teknis dan kalkulator add-on bersifat opsional. Jika kalkulator dipakai, pilih biaya yang relevan lalu tekan **Terapkan ke Total**; jika dilewati, total yang diketik tetap dipakai.
 4. Saat DP benar-benar diterima, isi nominal DP dan waktu DP yang sebenarnya, lalu simpan status `DP Masuk`. Dashboard menyiapkan satu konversi awal berisi nilai DP dan timestamp DP; Order ID dibuat stabil untuk lead tersebut.
 5. Saat proyek selesai, simpan status `Selesai`, total nilai proyek final, dan waktu penyelesaian yang sebenarnya. Jika ada konversi DP awal, dashboard menyiapkan penyesuaian `RESTATE` memakai conversion action dan Order ID yang sama, bukan konversi hitungan kedua. Jika tidak ada DP yang dicatat, proyek selesai membuat satu konversi awal pada waktu penyelesaian.
@@ -58,7 +64,7 @@ Pastikan alur impor yang dipakai di akun mendukung penyesuaian nilai (restatemen
 
 ## 5. Periksa status dan pulihkan kegagalan
 
-- **Event tidak muncul:** periksa URL deployment penerima di konfigurasi website, status deployment, dan `SHEET_ID` pada proyek event-ingest. Buat satu klik uji dari website; duplikat `eventId` sengaja tidak ditambahkan dua kali.
+- **Event tidak muncul:** periksa route Cloudflare Worker, secret `APPS_SCRIPT_URL`, deployment Apps Script, dan `SHEET_ID` pada proyek event-ingest. Buat satu klik uji dari website; duplikat `eventId` sengaja tidak ditambahkan dua kali.
 - **Dashboard menolak akses:** gunakan akun Google pemilik yang benar dan cocokkan dengan `OWNER_EMAIL`. Pastikan web app privat hanya tersedia untuk akun tersebut.
 - **Event belum tertaut:** pilih prospek dan event `CLICK_WA` yang tepat secara manual. Event tanpa GCLID nyata tidak dapat membuat konversi Ads.
 - **Konversi tidak tersedia:** periksa bahwa lead memiliki event tertaut dengan GCLID nyata, nominal DP/nilai final lebih besar dari nol, timestamp memiliki zona waktu, dan `CONVERSION_ACTION` sudah diatur.

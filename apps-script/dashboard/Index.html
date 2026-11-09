@@ -1575,7 +1575,7 @@ function sourceStats(source) {
   const leads = filteredLeads().filter(l => l.source === source);
   const tr = filteredTraffic().filter(t => t.source === source);
   const visits = tr.filter(t => t.event === 'Lihat Halaman').length;
-  const chats = tr.filter(t => t.event === 'Chat WhatsApp' || t.event === 'Chat WA').length;
+  const chats = tr.filter(isWhatsAppTrafficEvent).length;
   const closed = leads.filter(isClosed);
   return {
     visits, chats, leads: leads.length,
@@ -1589,7 +1589,7 @@ function computeCampaigns() {
   return DATA.campaigns.map(c => {
     const tr = filteredTraffic().filter(t => t.campaign === c.name);
     const visits = tr.filter(t => t.event === 'Lihat Halaman').length;
-    const chats = tr.filter(t => t.event === 'Klik WhatsApp' || t.event === 'Chat WhatsApp').length;
+    const chats = tr.filter(isWhatsAppTrafficEvent).length;
     const closed = filteredLeads().filter(l => l.source === 'ADS' && l.campaign === c.name && isClosed(l));
     return { ...c, visits, chats, deals: closed.length, revenue: closed.reduce((s,l)=>s+(l.dealVal||0),0) };
   });
@@ -3258,8 +3258,9 @@ function renderTraffic() {
   const tr = filteredTraffic();
   const ads = tr.filter(t => t.source === 'ADS').length;
   const seo = tr.filter(t => t.source === 'SEO').length;
+  const direct = tr.filter(t => t.source === 'DIRECT').length;
   const fraud = tr.filter(t => t.fraud).length;
-  const chats = tr.filter(t => t.event === 'Chat WhatsApp').length;
+  const chats = tr.filter(isWhatsAppTrafficEvent).length;
 
   $('#traffic-kpis').innerHTML = `
     <div class="kpi-item">
@@ -3268,14 +3269,19 @@ function renderTraffic() {
       <div class="kpi-sub">Semua event</div>
     </div>
     <div class="kpi-item">
-      <div class="kpi-label">Klik Ads</div>
+      <div class="kpi-label">Log Ads</div>
       <div class="kpi-value accent">${ads}</div>
-      <div class="kpi-sub">Berbayar</div>
+      <div class="kpi-sub">Kunjungan & aksi</div>
     </div>
     <div class="kpi-item">
-      <div class="kpi-label">Organik SEO</div>
+      <div class="kpi-label">Log SEO</div>
       <div class="kpi-value blue">${seo}</div>
-      <div class="kpi-sub">Gratis</div>
+      <div class="kpi-sub">Kunjungan & aksi</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">Direct</div>
+      <div class="kpi-value">${direct}</div>
+      <div class="kpi-sub">Tanpa sumber terdeteksi</div>
     </div>
     <div class="kpi-item">
       <div class="kpi-label">Klik WA</div>
@@ -3294,6 +3300,9 @@ function renderTraffic() {
     { key:'WA', label:'Chat WA' },
     { key:'ADS', label:'Google Ads' },
     { key:'SEO', label:'SEO' },
+    { key:'DIRECT', label:'Direct' },
+    { key:'REFERRAL', label:'Referral' },
+    { key:'CAMPAIGN', label:'Kampanye UTM' },
     { key:'FRAUD', label:'Fraud' }
   ];
   $('#traffic-filters').innerHTML = filters.map(f =>
@@ -3308,9 +3317,12 @@ function renderTrafficTable() {
   const q = State.trafficSearch.toLowerCase().trim();
 
   let list = filteredTraffic();
-  if (State.trafficFilter === 'WA') list = list.filter(t => t.event === 'Klik WhatsApp' || t.event === 'Chat WhatsApp');
+  if (State.trafficFilter === 'WA') list = list.filter(isWhatsAppTrafficEvent);
   else if (State.trafficFilter === 'ADS') list = list.filter(t => t.source === 'ADS');
   else if (State.trafficFilter === 'SEO') list = list.filter(t => t.source === 'SEO');
+  else if (State.trafficFilter === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
+  else if (State.trafficFilter === 'REFERRAL') list = list.filter(t => t.source === 'REFERRAL');
+  else if (State.trafficFilter === 'CAMPAIGN') list = list.filter(t => t.source === 'CAMPAIGN');
   else if (State.trafficFilter === 'FRAUD') list = list.filter(t => t.fraud);
 
   if (q) {
@@ -3334,11 +3346,15 @@ function renderTrafficTable() {
       : (t.event === 'Klik Kalkulator'
         ? '<span class="badge amber" style="font-size:9px"><span class="badge-dot"></span>Kalkulator</span>'
         : '<span class="badge neutral" style="font-size:9px"><span class="badge-dot"></span>View</span>');
-    const sourceBadge = t.source === 'ADS'
-      ? '<span class="badge maroon mono" style="font-size:9px;padding:1px 5px">Ads</span>'
-        : (t.source === 'SEO'
-          ? '<span class="badge blue mono" style="font-size:9px;padding:1px 5px">SEO</span>'
-          : '<span class="badge neutral mono" style="font-size:9px;padding:1px 5px">Direct</span>');
+    const sourceMeta = {
+      ADS: { label: 'Google Ads', className: 'maroon' },
+      SEO: { label: 'SEO', className: 'blue' },
+      DIRECT: { label: 'Direct', className: 'neutral' },
+      REFERRAL: { label: 'Referral', className: 'amber' },
+      CAMPAIGN: { label: 'Kampanye UTM', className: 'neutral' }
+    }[t.source] || { label: 'Sumber lain', className: 'neutral' };
+    const sourceBadge = '<span class="badge ' + sourceMeta.className + ' mono" style="font-size:9px;padding:1px 5px">' +
+      esc(sourceMeta.label) + '</span>';
 
     const linkControl = IS_HOSTED_DASHBOARD && t.eventId && !t.leadId
       ? '<select class="event-link-select" aria-label="Hubungkan event dengan prospek" onchange="linkTrafficEvent(\'' + esc(t.eventId) + '\', this.value)">' +
@@ -3366,6 +3382,13 @@ function renderTrafficTable() {
       '</td>' +
     '</tr>';
   }).join('');
+}
+
+function isWhatsAppTrafficEvent(event) {
+  return event?.eventType === 'CLICK_WA' ||
+    event?.event === 'Klik WhatsApp' ||
+    event?.event === 'Chat WhatsApp' ||
+    event?.event === 'Chat WA';
 }
 
 /* ============================================================

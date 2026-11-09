@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   captureAttribution,
+  captureSessionReferrer,
   createTrackingEvent,
   isRecentWhatsAppClick,
   queueTrackingPayload,
@@ -34,6 +35,17 @@ test('does not reuse expired attribution', () => {
   const old = { gclid: 'OldClick', capturedAt: 1 };
   assert.equal(captureAttribution('', 1 + 90 * 86400000, old).gclid, 'OldClick');
   assert.equal(captureAttribution('', 1000 + 91 * 86400000, old).gclid, '');
+});
+
+test('preserves the first external referrer throughout a site session', () => {
+  const searchReferrer = 'https://www.google.com/';
+  assert.equal(captureSessionReferrer(searchReferrer, 'asevenpile.com'), searchReferrer);
+  assert.equal(
+    captureSessionReferrer('https://asevenpile.com/layanan', 'asevenpile.com', searchReferrer),
+    searchReferrer,
+  );
+  assert.equal(captureSessionReferrer('https://asevenpile.com/layanan', 'asevenpile.com'), '');
+  assert.equal(captureSessionReferrer('not a URL', 'asevenpile.com'), '');
 });
 
 test('does not add IP to an Ads conversion payload', () => {

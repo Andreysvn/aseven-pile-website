@@ -14,7 +14,7 @@
 
 - “WhatsApp message text stays unchanged and contains no tracking code.”
 - “GCLID must be captured from an actual landing URL; the application must not generate simulated GCLIDs.”
-- “IP is internal event-log information only. It is not sent to Google Ads or used as the conversion identifier.”
+- “A masked IP may be stored for internal dashboard analysis only after a server-side collection path, privacy controls, and retention are verified. Never collect IP from browser-side lookup services, send it to Google Ads, or use it as a conversion identifier.”
 - “The owner manually matches a lead to a recorded WhatsApp click.”
 - “A Google Sheet is the shared source of truth for events and lead/conversion state.”
 - “The dashboard must be available from both laptop and phone.”
@@ -25,6 +25,7 @@
 - “The existing seven-tab dashboard and its current interactions remain available.”
 - “Other tabs and metrics without a real data source remain as preview/demo functionality and must not be presented as live reporting.”
 - Google Ads spend, impressions, platform clicks, and bidding metrics have no live source in this scope; label those metrics `PREVIEW DATA`. Only website event attribution and CRM conversion preparation are live.
+- Keep website traffic analysis separate from Google Ads conversion exports. Ads exports contain only fields needed by the selected import workflow; IP and general traffic events are never included.
 - Keep the public event receiver in its own Apps Script project with append-only event behavior; keep the dashboard in a separate owner-restricted Apps Script project.
 - Use the exact shared Sheet headers below in both projects; event fields are immutable after receiver append, while `linkedLeadId` and `reviewState` are dashboard-managed fields.
 - `Events` headers, in order: `eventId,event,timestamp,page,gclid,utmSource,utmMedium,utmCampaign,utmTerm,utmContent,ip,referrer,device,linkedLeadId,reviewState`.
@@ -241,7 +242,7 @@ Add pure functions with an explicit 90-day expiry and injected current time. Pre
 
 - [ ] **Step 4: Wire website tracking to the public receiver**
 
-Add `gclidEventEndpoint: ''` to `siteConfig`. Replace the hard-coded blank local constant in `main.js` with that setting. Store captured attribution with its timestamp; replace it only on a new actual paid click, and ignore it after 90 days. Send `LANDING`, `CLICK_WA`, and `CLICK_PHONE` events with unique IDs. Queue click events with `navigator.sendBeacon` without waiting for a network IP lookup; use the cached IP when available and `'-'` otherwise. Keep the existing WhatsApp text unchanged. Remove the campaign behavior that labels an old stored GCLID as a new paid landing. The receiver URL stays empty in source until the owner deploys the public project.
+Add `gclidEventEndpoint: ''` to `siteConfig`. Replace the hard-coded blank local constant in `main.js` with that setting. Store captured attribution with its timestamp; replace it only on a new actual paid click, and ignore it after 90 days. Send `LANDING`, `CLICK_WA`, and `CLICK_PHONE` events with unique IDs. Do not perform a browser-side IP lookup. Until a separately approved and verified server-side collection path exists, use `'-'` for IP. Keep the existing WhatsApp text unchanged. Remove the campaign behavior that labels an old stored GCLID as a new paid landing. The receiver URL stays empty in source until the owner deploys the public project.
 
 - [ ] **Step 5: Run focused tests and Astro validation**
 
@@ -465,3 +466,40 @@ docs: add GCLID dashboard setup tutorial
 - Placeholder scan: no `TODO`, `TBD`, or unassigned implementation step.
 - Type/interface consistency: website sends only event names accepted by Task 1; dashboard calls only private project APIs from Task 3; conversion actions in Task 5 use the same lead transaction ID and action.
 - Deployment boundary: Apps Script deployment permissions and actual Google Ads/Data Manager acceptance require owner verification; repository tests cannot prove the owner's Google account configuration.
+
+## Follow-up Plan: Traffic Attribution and IP Analysis
+
+This follow-up captures the owner's decision to keep richer visitor analysis in the private dashboard while limiting Google Ads imports to conversion data only. It does not authorize an Ads campaign, a data upload, or an IP collection deployment.
+
+### Stage 1: Finish and verify the offline conversion import path
+
+- [ ] Confirm the Google Ads Data Manager connection is for offline conversions and uses the existing `offline (Upload)` conversion action.
+- [ ] Match the dashboard's initial-conversion CSV to the selected Google Ads import schema: GCLID, conversion action/name, conversion date and time, conversion value, currency, and order/transaction ID when available.
+- [ ] Keep IP, referrer, device details, and non-conversion traffic events out of every Google Ads export. Do not upload until a real eligible conversion with a real GCLID exists and the mapped row has been reviewed.
+- [ ] Verify acceptance using a real eligible conversion; an exported file or connected source alone does not prove that Google Ads recorded the conversion.
+
+### Stage 2: Correct traffic source labels and WhatsApp KPI
+
+- [x] Determine the source using reliable precedence: actual GCLID as Google Ads; otherwise classify recognized organic-search referrers as SEO; classify explicit UTMs using their source/medium; classify other external referrers separately; use Direct only when there is no usable campaign or external-referrer evidence.
+- [x] Preserve the original referrer and UTM values for review; do not overwrite source evidence with a guessed label.
+- [x] Reconcile the dashboard's WhatsApp-click KPI with the filtered `CLICK_WA` event rows and date range so the summary and event table agree.
+- [x] Validate automated cases for Google Ads GCLID, Google organic referrer, another external referrer, tagged campaign, direct visit, and missing referrer; also cover the WhatsApp event label used by the live receiver.
+- [ ] Confirm source labels against new live Sheet events from real Google Ads, SEO, Direct, and referral visits; do not create fake GCLIDs or click paid ads just to test.
+
+### Stage 3: Evaluate masked IP collection for dashboard analysis
+
+- [x] Verify public DNS for `asevenpile.com` resolves to Cloudflare edge IPv4 and IPv6 addresses. This confirms traffic reaches Cloudflare, but does not confirm the Worker route has been deployed.
+- [x] Select the Cloudflare Worker Free plan for the relay. Official pricing currently lists 100,000 Worker requests/day and 10 ms CPU per request on Free; monitor account quotas and recheck pricing before deployment.
+- [x] Implement the Worker route and masking: trust Cloudflare IP headers, prefer `CF-Connecting-IPv6` when present, mask IPv4 to `/24` and IPv6 to `/48`, overwrite browser-provided `ip`, and forward no raw IP headers to Apps Script. Missing/invalid IP headers use `'-'` without dropping the event.
+- [x] Keep IP out of Google Ads payloads and exports. Existing tests verify no IP is included in the conversion export.
+- [ ] Choose and publish a retention period for masked IP and update the website privacy notice before activating IP collection. No automatic purge is implemented yet.
+- [ ] Deploy the Worker with the Apps Script `/exec` URL stored only as the `APPS_SCRIPT_URL` Cloudflare secret. The URL and Cloudflare account access are not available in this worktree.
+- [ ] Deploy the website only after the Worker route is live, then confirm a real website event arrives in the Sheet with a masked subnet. Do not test by clicking live paid ads.
+
+### Current handoff status
+
+- Traffic-source classification and WhatsApp KPI changes are implemented in the current worktree. Latest validation: 50 automated tests pass, Astro builds 41 pages, and the internal link checker reports `NO BROKEN INTERNAL LINKS`.
+- Cloudflare Worker files are now in `cloudflare/traffic-worker.js` and `cloudflare/wrangler.toml`; Worker tests are in `tests/cloudflare/traffic-worker.test.mjs`. The site endpoint is configured as same-origin `/api/events`; the old browser-side IP placeholder has been removed.
+- Current combined validation after Worker implementation: 59 automated tests pass. Re-run `npm run build` and `node scripts/linkcheck.mjs dist` after final edits.
+- DNS resolves to Cloudflare edge addresses. Worker and website changes are not deployed; the Apps Script `/exec` URL and Cloudflare login must be supplied by the owner at deploy time.
+- The owner approved masked IP for dashboard analysis: IPv4 `/24`, IPv6 `/48`; never send IP to Google Ads. The owner also approved implementing the Worker, but retention duration and privacy-notice update are still pending.

@@ -52,6 +52,27 @@ export function captureAttribution(search, nowMs, previous) {
   return readStoredAttribution(previous, nowMs);
 }
 
+export function captureSessionReferrer(referrer, hostname, previous = '') {
+  if (typeof previous === 'string' && previous.trim()) return previous.trim();
+  if (typeof referrer !== 'string' || !referrer.trim()) return '';
+
+  let parsed;
+  try {
+    parsed = new URL(referrer);
+  } catch (error) {
+    return '';
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '';
+
+  const currentHost = String(hostname || '').toLowerCase().replace(/^www\./, '');
+  const referrerHost = parsed.hostname.toLowerCase().replace(/^www\./, '');
+  if (!referrerHost || !currentHost ||
+      referrerHost === currentHost || referrerHost.endsWith(`.${currentHost}`)) {
+    return '';
+  }
+  return referrer;
+}
+
 export function createTrackingEvent(event, details = {}, attribution = {}, now, id) {
   const stringValue = (value) => typeof value === 'string' ? value : '';
   return {

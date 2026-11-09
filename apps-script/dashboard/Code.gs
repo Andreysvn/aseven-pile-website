@@ -597,9 +597,7 @@ function leadToDashboard_(lead) {
 function eventToDashboard_(event) {
   var time = isoString_(event.timestamp);
   var eventType = String(event.event || '');
-  var source = event.gclid && !isDummyGclid_(event.gclid)
-    ? 'ADS'
-    : (/organic/i.test(String(event.utmMedium || '')) ? 'SEO' : 'DIRECT');
+  var source = classifyTrafficSource_(event);
   return {
     eventId: String(event.eventId || ''),
     timestamp: time,
@@ -620,6 +618,52 @@ function eventToDashboard_(event) {
     fraud: false,
     daysAgo: daysAgo_(time)
   };
+}
+
+function classifyTrafficSource_(event) {
+  var gclid = String(event.gclid || '').trim();
+  if (gclid && !isDummyGclid_(gclid)) return 'ADS';
+
+  var utmSource = String(event.utmSource || '').trim().toLowerCase();
+  var utmMedium = String(event.utmMedium || '').trim().toLowerCase();
+  var hasCampaign = Boolean(
+    utmSource || utmMedium || event.utmCampaign || event.utmTerm || event.utmContent
+  );
+  if (utmMedium === 'organic' && (!utmSource || isSearchEngineName_(utmSource))) return 'SEO';
+
+  var paidMedium = /^(cpc|ppc|paid|paidsearch|paid-search)$/.test(utmMedium);
+  if (utmSource === 'google' && paidMedium) return 'ADS';
+  if (hasCampaign) return 'CAMPAIGN';
+
+  var host = referrerHost_(event.referrer);
+  if (!host || host === 'asevenpile.com' || /\.asevenpile\.com$/.test(host)) return 'DIRECT';
+  if (isSearchEngineHost_(host)) return 'SEO';
+  return 'REFERRAL';
+}
+
+function referrerHost_(referrer) {
+  var match = /^https?:\/\/([^/?#]+)/i.exec(String(referrer || '').trim());
+  if (!match) return '';
+  return match[1].toLowerCase().replace(/:\d+$/, '').replace(/^www\./, '');
+}
+
+function isSearchEngineHost_(host) {
+  return /(^|\.)google\.[a-z.]+$/.test(host) ||
+    /(^|\.)bing\.com$/.test(host) ||
+    /(^|\.)yahoo\.[a-z.]+$/.test(host) ||
+    /(^|\.)duckduckgo\.com$/.test(host) ||
+    /(^|\.)ecosia\.org$/.test(host) ||
+    /(^|\.)yandex\.[a-z.]+$/.test(host) ||
+    /(^|\.)baidu\.com$/.test(host) ||
+    /(^|\.)search\.brave\.com$/.test(host) ||
+    /(^|\.)startpage\.com$/.test(host);
+}
+
+function isSearchEngineName_(source) {
+  return source === 'google' || source === 'bing' || source === 'yahoo' ||
+    source === 'duckduckgo' || source === 'ecosia' || source === 'yandex' ||
+    source === 'baidu' || source === 'brave' || source === 'startpage' ||
+    isSearchEngineHost_(source);
 }
 
 function auditToDashboard_(entry) {
