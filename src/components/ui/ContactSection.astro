@@ -110,16 +110,15 @@ const { hideLink = false } = Astro.props;
 
 <script define:vars={{ whatsappNumber: siteConfig.whatsapp }}>
   const form = document.getElementById('wa-form');
-  if(form) {
+  if (form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      const name = document.getElementById('name').value;
-      const location = document.getElementById('location').value;
-      const service = document.getElementById('service').value;
-      const message = document.getElementById('message').value;
+      const location = document.getElementById('location')?.value || '';
+      const service = document.getElementById('service')?.value || 'Jasa Bore Pile';
+      const message = document.getElementById('message')?.value || '';
       
-      const text = \Halo Aseven Pile, saya \.\n\n*Detail Proyek:*\n?? Lokasi: \\n?? Layanan: \\n\n*Spesifikasi/Pesan:*\n\\;
-      const url = \https://wa.me/\?text=\\;
+      const text = `Halo Aseven Pile, saya dari website ingin menanyakan terkait ${service}${location ? ' di ' + location : ''}.\n\nSpesifikasi/Pesan:\n${message}`;
+      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
       
       window.open(url, '_blank');
     });

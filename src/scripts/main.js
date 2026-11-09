@@ -1,6 +1,16 @@
 // main.js - Global scripts for Aseven Pile
+import { siteConfig } from '../data/site.config';
+import {
+  captureAttribution,
+  createTrackingEvent,
+  isRecentWhatsAppClick,
+  queueTrackingPayload,
+} from './gclid-attribution.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-  
+
+  const TRACKING_WEBHOOK_URL = siteConfig.gclidEventEndpoint;
+
   // Header Scroll Effect (Transparent to Solid)
   const header = document.querySelector('.header');
   if (header) {
@@ -38,20 +48,134 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Capture Google Ads Click ID (gclid) for Offline Conversion Tracking
+  // Helper to determine page topic for contextual WhatsApp messages
+  const getPageTopic = () => {
+    const path = window.location.pathname.replace(/\/$/, '');
+    
+    // 1. Diameter pages
+    const diameterMatch = path.match(/\/diameter\/(\d+)/);
+    if (diameterMatch) {
+      return `Jasa Bore Pile Diameter ${diameterMatch[1]} cm`;
+    }
+    
+    // 2. Bore pile city pages
+    if (path.includes('/bore-pile/jakarta-selatan')) return 'Jasa Bore Pile Jakarta Selatan';
+    if (path.includes('/bore-pile/tangerang-selatan')) return 'Jasa Bore Pile Tangerang Selatan';
+    if (path.includes('/bore-pile/jakarta')) return 'Jasa Bore Pile Jakarta';
+    if (path.includes('/bore-pile/bekasi')) return 'Jasa Bore Pile Bekasi';
+    if (path.includes('/bore-pile/bogor')) return 'Jasa Bore Pile Bogor';
+    if (path.includes('/bore-pile/depok')) return 'Jasa Bore Pile Depok';
+    if (path.includes('/bore-pile/tangerang')) return 'Jasa Bore Pile Tangerang';
+    
+    // 3. Strauss pile city pages
+    if (path.includes('/strauss-pile/jakarta')) return 'Jasa Strauss Pile Jakarta';
+    if (path.includes('/strauss-pile/bekasi')) return 'Jasa Strauss Pile Bekasi';
+    
+    // 4. Layanan spesifik
+    if (path.includes('/bore-pile-mesin')) return 'Jasa Bore Pile Mesin (Mini Crane)';
+    if (path.includes('/bore-pile-gawangan')) return 'Jasa Bore Pile Gawangan';
+    if (path.includes('/strauss-pile-manual')) return 'Jasa Strauss Pile Manual';
+    if (path.includes('/area-layanan/jakarta')) return 'Jasa Bore Pile Jakarta';
+    if (path.includes('/area-layanan')) return 'Area Layanan Jasa Bore Pile';
+    if (path.includes('/harga')) return 'Biaya & Harga Jasa Bore Pile';
+    if (path.includes('/galeri')) return 'Dokumentasi Proyek Bore Pile';
+    if (path.includes('/tentang-kami')) return 'Layanan Aseven Pile';
+    if (path.includes('/kontak')) return 'Jasa Bore Pile & Strauss Pile';
+    
+    return 'jasa pondasi bore pile & strauss pile';
+  };
+
+  // Dynamically set floating WhatsApp button message based on current page
+  const fabWa = document.querySelector('.fab-wa');
+  if (fabWa) {
+    const topic = getPageTopic();
+    const text = `Halo Aseven Pile, saya dari website ingin menanyakan terkait ${topic}.`;
+    fabWa.setAttribute('href', `https://wa.me/6285814173761?text=${encodeURIComponent(text)}`);
+  }
+
+  const getDeviceLabel = () => {
+    const ua = navigator.userAgent;
+    let type = 'Desktop';
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) type = 'Tablet';
+    else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle/i.test(ua)) type = 'Mobile';
+    return `${type} (${window.innerWidth}x${window.innerHeight})`;
+  };
+
+  const readStoredAttribution = () => {
+    try {
+      const saved = localStorage.getItem('aseven_attribution');
+      if (saved) return JSON.parse(saved);
+
+      const legacy = {
+        gclid: localStorage.getItem('aseven_gclid') || '',
+        utmSource: localStorage.getItem('aseven_utm_source') || '',
+        utmMedium: localStorage.getItem('aseven_utm_medium') || '',
+        utmCampaign: localStorage.getItem('aseven_utm_campaign') || '',
+        utmTerm: localStorage.getItem('aseven_utm_term') || '',
+        utmContent: localStorage.getItem('aseven_utm_content') || '',
+      };
+      if (Object.values(legacy).some(Boolean)) {
+        const savedDate = Date.parse(localStorage.getItem('aseven_gclid_date') || '');
+        return { ...legacy, capturedAt: Number.isFinite(savedDate) ? savedDate : Date.now() };
+      }
+    } catch (_) {}
+    return null;
+  };
+
+  const initTrafficParams = () => {
+    const now = Date.now();
+    const attribution = captureAttribution(window.location.search, now, readStoredAttribution());
+    try {
+      localStorage.setItem('aseven_attribution', JSON.stringify(attribution));
+      if (document.referrer && !document.referrer.includes(window.location.hostname)) {
+        sessionStorage.setItem('aseven_referrer', document.referrer);
+      }
+    } catch (_) {}
+    return attribution;
+  };
+  const attribution = initTrafficParams();
+
+  const sendTrackingLog = (event) => {
+    try {
+      const payload = createTrackingEvent(event, {
+        page: window.location.pathname,
+        ip: '-',
+        referrer: sessionStorage.getItem('aseven_referrer') || document.referrer || '-',
+        device: getDeviceLabel(),
+      }, attribution, Date.now(), window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+      const payloadString = JSON.stringify(payload);
+      queueTrackingPayload(TRACKING_WEBHOOK_URL, payloadString, {
+        sendBeacon: navigator.sendBeacon
+          ? (url, body) => navigator.sendBeacon(url, body)
+          : null,
+        fetchKeepalive: (url, body) => fetch(url, {
+          method: 'POST',
+          body,
+          headers: { 'Content-Type': 'text/plain' },
+          keepalive: true,
+          mode: 'no-cors',
+        }),
+      });
+    } catch (_) {}
+  };
+
+  // Catat landing dengan GCLID atau kampanye UTM sekali per sesi.
   try {
-    const urlParams = new URLSearchParams(window.location.search);
-    const gclid = urlParams.get('gclid');
-    if (gclid) {
-      sessionStorage.setItem('aseven_gclid', gclid);
+    const hasAdsOrCampaign = Boolean(attribution.gclid || attribution.utmCampaign);
+    const alreadyLoggedLanding = sessionStorage.getItem('aseven_landed_logged');
+    if (hasAdsOrCampaign && !alreadyLoggedLanding) {
+      sessionStorage.setItem('aseven_landed_logged', '1');
+      sendTrackingLog('LANDING');
     }
   } catch (err) {}
 
+  // GTM DataLayer Push
   const pushTrackingEvent = (event, parameters) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event, ...parameters });
   };
 
+  // 4. Deteksi Klik Tombol WhatsApp & Telepon
   document.addEventListener('click', (e) => {
     const target = e.target;
     if (!(target instanceof Element)) return;
@@ -63,21 +187,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const isPhone = href.startsWith('tel:');
 
     if (isWhatsApp) {
+      // Debounce klik WA dalam 3 detik untuk mencegah duplicate log saat double-click
+      if (isRecentWhatsAppClick(Date.now(), sessionStorage)) return;
+
       const location = link.classList.contains('fab-wa')
         ? 'floating_button'
         : link.closest('section')?.id || 'content';
 
+      // Push GTM
       pushTrackingEvent('generate_lead', {
         contact_method: 'whatsapp',
         cta_location: location
       });
+
+      // Kirim Log Siluman ke Google Sheet Webhook (sendBeacon)
+      sendTrackingLog('CLICK_WA');
     } else if (isPhone) {
       pushTrackingEvent('phone_click', {
         cta_location: link.closest('section')?.id || 'content'
       });
+
+      sendTrackingLog('CLICK_PHONE');
     }
   });
 
+  // 5. Deteksi Form Submit Kontak
   document.addEventListener('submit', (e) => {
     const form = e.target;
     if (form instanceof HTMLFormElement && form.id === 'wa-form') {
@@ -85,6 +219,8 @@ document.addEventListener('DOMContentLoaded', () => {
         contact_method: 'whatsapp',
         cta_location: 'contact_form'
       });
+
+      sendTrackingLog('CLICK_WA');
     }
   });
 });

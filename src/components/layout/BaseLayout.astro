@@ -104,7 +104,7 @@ const canonicalURL = new URL(Astro.url.pathname.replace(/index\.html$/, ''), sit
 
     <!-- Floating WhatsApp -->
     <a
-      href={`https://wa.me/${siteConfig.whatsapp}?text=Halo%20ASEVEN%20PILE,%20saya%20ingin%20konsultasi%20mengenai%20kebutuhan%20pondasi.`}
+      href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent('Halo Aseven Pile, saya dari website ingin menanyakan terkait jasa pondasi bore pile & strauss pile.')}`}
       target="_blank"
       rel="noopener noreferrer"
       class="fab fab-wa"

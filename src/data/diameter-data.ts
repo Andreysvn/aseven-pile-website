@@ -1056,7 +1056,7 @@ export const BORE_PILE_DIAMETERS: Record<number, DiameterData> = {
       ],
       conclusion: "Jika proyek Anda membutuhkan tiang pondasi kokoh diameter 80 cm namun terkendala akses atau efisiensi anggaran mobdemob, armada mini crane Aseven Pile adalah solusi paling tepat.",
       ctaText: "Konsultasi Teknis Diameter 80 cm →",
-      ctaLink: "https://wa.me/6285814173761?text=Halo%20Aseven%20Pile,%20saya%20mau%20konsultasi%20bore%20pile%20diameter%2080cm"
+      ctaLink: "https://wa.me/6285814173761?text=Halo%20Aseven%20Pile,%20saya%20dari%20website%20ingin%20menanyakan%20terkait%20Jasa%20Bore%20Pile%20Diameter%2080%20cm"
     },
     machineSpecTitle: "Seberapa Dalam Bore Pile 80 cm Bisa Dibor?",
     machineSpec: {
