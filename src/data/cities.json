@@ -11,7 +11,7 @@
       },
       {
         "question": "Apakah pekerjaan bore pile bisa dilakukan pada malam hari di Jakarta?",
-        "answer": "Jadwal kerja malam bergantung pada aturan lokasi, izin yang diperlukan, dan kesepakatan proyek. Konfirmasikan kondisi tersebut saat meminta penawaran."
+        "answer": "Bisa, terutama untuk lokasi di jalan protokol, kawasan perkantoran, atau area komersial Jakarta yang memiliki pembatasan jam operasional siang hari. Jadwal dan izin kerja malam dikoordinasikan terlebih dahulu sesuai peraturan lingkungan dan kesepakatan proyek."
       },
       {
         "question": "Berapa harga bore pile per meter di Jakarta tahun 2026?",
@@ -19,11 +19,11 @@
       },
       {
         "question": "Apakah bore pile aman untuk rumah di perumahan padat Jakarta?",
-        "answer": "Bore pile dikerjakan dengan pengeboran, bukan pemancangan, sehingga getarannya umumnya lebih rendah daripada tiang pancang. Kondisi bangunan sekitar, akses, dan metode kerja tetap perlu diperiksa sebelum pekerjaan."
+        "answer": "Sangat aman. Pengeboran bore pile mesin menggunakan sistem putar (rotary) tanpa tumbukan keras palu seperti tiang pancang, sehingga minim getaran dan aman untuk dinding rumah tetangga di perumahan padat Jakarta seperti Tebet, Kebayoran, Kelapa Gading, dan sekitarnya."
       },
       {
         "question": "Apakah tanah di Jakarta Utara yang rawa bisa dipasang bore pile?",
-        "answer": "Kondisi tanah tidak dapat disamaratakan untuk seluruh Jakarta Utara. Data tanah dan kondisi lokasi perlu diperiksa terlebih dahulu; metode pengeboran ditentukan berdasarkan kondisi lapangan dan spesifikasi perencana."
+        "answer": "Bisa. Untuk kawasan Jakarta Utara dengan tanah lunak dan muka air tanah tinggi, kami menerapkan metode bor basah (wash boring) dengan sirkulasi air untuk menjaga kestabilan dinding lubang bor. Pengecoran dilakukan memakai pipa tremi dari dasar lubang agar adukan beton padat murni tanpa tercampur lumpur."
       }
     ],
     "subAreas": [
@@ -177,7 +177,7 @@
     "slug": "bekasi",
     "name": "Bekasi",
     "province": "Jawa Barat",
-    "description": "Kontraktor pondasi paku bumi, bore pile, dan strauss pile terpercaya di Bekasi. Harga transparan dan survei gratis.",
+    "description": "Kontraktor spesialis pondasi bore pile mesin dan strauss pile terpercaya di Bekasi. Harga transparan dan survei gratis.",
     "localFaqs": [
       {
         "question": "Bagaimana penanganan lumpur bor di daerah rawa/tanah liat Bekasi?",
@@ -451,7 +451,7 @@
     "slug": "depok",
     "name": "Depok",
     "province": "Jawa Barat",
-    "description": "Layanan spesialis jasa pengeboran pondasi bore pile mesin dan strauss pile manual di Depok. Harga murah, kualitas terjamin.",
+    "description": "Layanan spesialis jasa pengeboran pondasi bore pile mesin dan strauss pile manual di Depok. Harga kompetitif dan transparan, mutu terjamin.",
     "localFaqs": [
       {
         "question": "Berapa lama proses pengerjaan bore pile untuk satu rumah di Depok?",

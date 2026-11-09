@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Diameter pages
     const diameterMatch = path.match(/\/diameter\/(\d+)/);
     if (diameterMatch) {
+      if (path.includes('strauss-pile')) {
+        return `Jasa Strauss Pile Diameter ${diameterMatch[1]} cm`;
+      }
       return `Jasa Bore Pile Diameter ${diameterMatch[1]} cm`;
     }
     
@@ -70,12 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Strauss pile city pages
     if (path.includes('/strauss-pile/jakarta')) return 'Jasa Strauss Pile Jakarta';
     if (path.includes('/strauss-pile/bekasi')) return 'Jasa Strauss Pile Bekasi';
+    if (path.includes('/strauss-pile')) return 'Jasa Strauss Pile Manual';
     
     // 4. Layanan spesifik
     if (path.includes('/bore-pile-mesin')) return 'Jasa Bore Pile Mesin (Mini Crane)';
     if (path.includes('/bore-pile-gawangan')) return 'Jasa Bore Pile Gawangan';
     if (path.includes('/strauss-pile-manual')) return 'Jasa Strauss Pile Manual';
-    if (path.includes('/area-layanan/jakarta')) return 'Jasa Bore Pile Jakarta';
+    const areaCityMatch = path.match(/\/area-layanan\/([a-z-]+)$/);
+    if (areaCityMatch) {
+      const formattedCity = areaCityMatch[1].split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+      return `Layanan Pondasi di ${formattedCity}`;
+    }
     if (path.includes('/area-layanan')) return 'Area Layanan Jasa Bore Pile';
     if (path.includes('/harga')) return 'Biaya & Harga Jasa Bore Pile';
     if (path.includes('/galeri')) return 'Dokumentasi Proyek Bore Pile';

@@ -29,10 +29,6 @@ const {
   </div>
 </section>
 
-<!-- Leaflet CSS dimuat asinkron biar gak nge-block render -->
-<link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin=""/>
-<noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/></noscript>
-
 <style>
   .lm-overlay {
     position: absolute;
@@ -119,6 +115,16 @@ const {
       
       // Hapus text loading
       const loadingDiv = document.getElementById('location-loading'); if(loadingDiv) loadingDiv.remove();
+
+      // Load CSS dinamis saat peta dibutuhkan
+      if (!document.getElementById('leaflet-css')) {
+        const link = document.createElement('link');
+        link.id = 'leaflet-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        link.crossOrigin = '';
+        document.head.appendChild(link);
+      }
 
       // Load JS
       const script = document.createElement('script');

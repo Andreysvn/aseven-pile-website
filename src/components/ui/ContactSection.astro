@@ -3,9 +3,10 @@ import { siteConfig } from '../../data/site.config';
 
 interface Props {
   hideLink?: boolean;
+  isH1?: boolean;
 }
 
-const { hideLink = false } = Astro.props;
+const { hideLink = false, isH1 = false } = Astro.props;
 ---
 
 <section class="section section-bg-alt" id="kontak">
@@ -14,7 +15,7 @@ const { hideLink = false } = Astro.props;
       
       <!-- Kiri: Info Kontak -->
       <div class="contact-info">
-        <h2>Hubungi Aseven Pile</h2>
+        {isH1 ? <h1>Hubungi Aseven Pile</h1> : <h2>Hubungi Aseven Pile</h2>}
         <p>Hubungi kami, kirimkan detail kebutuhan Anda.</p>
         
         <ul class="contact-list">

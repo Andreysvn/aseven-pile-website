@@ -83,6 +83,7 @@ const canonicalURL = new URL(Astro.url.pathname.replace(/index\.html$/, ''), sit
       "name": siteConfig.brand,
       "url": siteConfig.url
     }).replace(/</g, "\\u003c")} />
+    <slot name="head" />
   </head>
   <body>
     <noscript>

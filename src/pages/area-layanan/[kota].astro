@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 const { cityData } = Astro.props;
 const activeCities = SERVICE_CITIES.filter(c => !c.draft);
 const otherCities = activeCities.filter(c => c.slug !== cityData.slug).slice(0, 6);
-const activeServices = CITY_SERVICES.filter(s => s.available && s.slug === 'bore-pile');
+const activeServices = CITY_SERVICES.filter(s => s.available && ['bore-pile', 'strauss-pile'].includes(s.slug));
 ---
 
 <LocalSEOLayout 
@@ -33,13 +33,13 @@ const activeServices = CITY_SERVICES.filter(s => s.available && s.slug === 'bore
 
   <!-- SERVICE DIRECTORY -->
   <section class="services-directory">
-    <p class="hub-intro">Layanan spesialis pondasi bore pile mesin untuk proyek konstruksi Anda di {cityData.name}.</p>
+    <p class="hub-intro">Pilih jenis layanan pondasi yang sesuai dengan kebutuhan proyek Anda di {cityData.name}.</p>
 
     <div class={`directory-grid ${activeServices.length > 1 ? 'multi-item' : ''}`}>
       {activeServices.map((service, index) => {
         let url = service.cityUrlPattern.replace('{city}', cityData.slug);
         if (service.slug === 'strauss-pile' && !['jakarta', 'bekasi'].includes(cityData.slug)) {
-          url = '/area-layanan/strauss-pile/jakarta';
+          url = '/layanan/strauss-pile-manual';
         }
         
         // Cek apakah gambar SEO khusus kota (misal: jasa-bore-pile-jakarta.webp) sudah ada.

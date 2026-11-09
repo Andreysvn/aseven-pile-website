@@ -178,6 +178,16 @@ const productSchema = {
 ---
 
 <BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    {pathContext !== 'general' && (
+      <link 
+        rel="preload" 
+        as="image" 
+        href={finalHeroImage || (pathContext === 'strauss-pile' ? "/imgs/header-jasa-strauss-pile-jakarta-aseven-pile.webp" : "/imgs/header-beranda-bore-pile-aseven.webp")} 
+        fetchpriority="high" 
+      />
+    )}
+  </Fragment>
   <!-- LD+JSON Schemas -->
   <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, "\\u003c")} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema).replace(/</g, "\\u003c")} />
