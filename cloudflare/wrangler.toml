@@ -1,0 +1,8 @@
+name = "asevenpile-traffic-ingest"
+main = "traffic-worker.js"
+compatibility_date = "2026-11-10"
+workers_dev = false
+
+[[routes]]
+pattern = "asevenpile.com/api/events*"
+zone_name = "asevenpile.com"

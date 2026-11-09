@@ -17,7 +17,7 @@ export const siteConfig = {
   foundingYear: 2015,
   url: "https://asevenpile.com",
   googleTagManagerId: "GTM-MW8S73VT",
-  gclidEventEndpoint: "https://script.google.com/macros/s/AKfycbyXIDPOoVKa3Ekmpeum5fJApEh8jMpwMjBpb_ep5WQS6slLe0PN9p2I5jrejPyFS35X/exec",
+  gclidEventEndpoint: "/api/events",
   // Tanggal konten benar-benar diperbarui (manual). Bukan tanggal build.
   // Update nilai ini HANYA saat konten/penawaran berubah, agar sinyal "freshness" jujur.
   contentUpdated: "2026-10-31",
