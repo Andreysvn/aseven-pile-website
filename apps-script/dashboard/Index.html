@@ -4530,8 +4530,13 @@ function renderCmd(q) {
    EXPORTS
    ============================================================ */
 function downloadCSV(rows, filename) {
-  const csv = '\uFEFF' + rows.map(r=>r.join(',')).join('\n');
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const csv = '\uFEFF' + rows.map(r => r.map(cell => {
+    const str = String(cell === undefined || cell === null ? '' : cell);
+    return str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')
+      ? '"' + str.replace(/"/g, '""') + '"'
+      : str;
+  }).join(',')).join('\r\n');
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -4542,17 +4547,24 @@ function downloadCSV(rows, filename) {
 
 function exportAdsCSV() {
   const deals = filteredLeads().filter(isAdsLeadExportable);
-  if (!deals.length) { toast('Tidak ada deal Ads', 'warn'); return; }
-  const rows = [['Google Click Id','Conversion Name','Conversion Time','Conversion Value','Conversion Currency']];
-  deals.forEach(d => rows.push([
-    d.gclid,
-    'Deal Closing Bore Pile',
-    formatAdsConversionTimestamp(d),
-    d.finalServiceValue || d.dealVal,
-    d.currency || 'IDR'
-  ]));
-  downloadCSV(rows, `Google_Ads_${new Date().toISOString().slice(0,10)}.csv`);
-  toast(`${deals.length} deal Ads di-export`, 'success');
+  if (!deals.length) { toast('Tidak ada deal Ads untuk diekspor', 'warn'); return; }
+  const rows = [['Google Click ID', 'Conversion Name', 'Conversion Time', 'Conversion Value', 'Conversion Currency', 'Order ID']];
+  deals.forEach(d => {
+    const isCompleted = d.status === 'Selesai';
+    const actionName = d.conversionAction || (isCompleted ? 'Proyek Selesai' : 'DP Proyek Masuk');
+    const convVal = isCompleted ? (d.finalServiceValue || d.dealVal) : (d.dpVal || d.dealVal);
+    const orderId = d.adsTransactionId || (d.id ? 'TX-' + d.id : '');
+    rows.push([
+      d.gclid,
+      actionName,
+      formatAdsConversionTimestamp(d),
+      convVal,
+      d.currency || 'IDR',
+      orderId
+    ]);
+  });
+  downloadCSV(rows, `Google_Ads_Conversions_${new Date().toISOString().slice(0, 10)}.csv`);
+  toast(`${deals.length} konversi Google Ads siap diimpor`, 'success');
 }
 
 function isAdsLeadExportable(lead) {
