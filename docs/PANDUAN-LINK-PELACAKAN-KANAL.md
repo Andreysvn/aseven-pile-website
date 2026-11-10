@@ -10,28 +10,32 @@ Dokumen ini berisi **daftar link resmi berlabel pelacakan (UTM Tagging)** untuk 
 
 ## 📌 Ringkasan Cepat: Tabel Link Copy-Paste
 
-| No | Platform / Kanal | Lokasi Pemasangan | Link Resmi yang Dipasang (Tinggal Copy) |
-| :---: | :--- | :--- | :--- |
-| **1** | **Google Maps (GMB)** | Profil Bisnis > Kolom "Situs Web" | `https://asevenpile.com/?utm_source=google_maps&utm_medium=organic` |
-| **2** | **Instagram** | Edit Profil > Tautan > Tautan Eksternal | `https://asevenpile.com/?utm_source=instagram&utm_medium=bio` |
-| **3** | **TikTok** | Edit Profil > Situs Web (Bio TikTok) | `https://asevenpile.com/?utm_source=tiktok&utm_medium=bio` |
-| **4** | **Facebook Page** | Edit Halaman > Tombol Aksi / Info Web | `https://asevenpile.com/?utm_source=facebook&utm_medium=page` |
-| **5** | **WhatsApp Business** | Pesan Sambutan / Broadcast / Katalog | `https://asevenpile.com/?utm_source=whatsapp&utm_medium=chat` |
-| **6** | **YouTube** | Deskripsi Video Proyek / Tentang Channel | `https://asevenpile.com/?utm_source=youtube&utm_medium=video` |
-| **7** | **QR Code Cetak** | Spanduk Proyek / Brosur Lapangan | `https://asevenpile.com/?utm_source=banner&utm_medium=offline&utm_campaign=spanduk_proyek` |
-| **8** | **Google Ads** | Kolom "Final URL" di Iklan Google Ads | `https://asevenpile.com/area-layanan/bore-pile/jakarta/` *(Polos, otomatis GCLID)* |
+| No | Platform / Kanal | Lokasi Pemasangan | Link Resmi yang Dipasang (Tinggal Copy) | Rekomendasi Halaman Tujuan |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Google Maps (GMB Bekasi)** | Profil Bisnis > Kolom "Situs Web" | `https://asevenpile.com/area-layanan/bore-pile/bekasi/?utm_source=google_maps&utm_medium=organic` | **Halaman Bekasi** (Kesesuaian alamat fisik pool Tarumajaya) |
+| **2** | **Google Maps (GMB Jakarta)** | Profil Bisnis Jakarta (jika ada) | `https://asevenpile.com/area-layanan/bore-pile/jakarta/?utm_source=google_maps&utm_medium=organic` | **Halaman Jakarta** (Khusus cabang/area Jakarta) |
+| **3** | **Instagram** | Edit Profil > Tautan > Tautan Eksternal | `https://asevenpile.com/?utm_source=instagram&utm_medium=bio` | **Beranda Utama** (Mencakup seluruh Jabodetabek & ada kalkulator) |
+| **4** | **TikTok** | Edit Profil > Situs Web (Bio TikTok) | `https://asevenpile.com/?utm_source=tiktok&utm_medium=bio` | **Beranda Utama** (Visual cepat, profil armada & kontak) |
+| **5** | **Facebook Page** | Edit Halaman > Tombol Aksi / Info Web | `https://asevenpile.com/?utm_source=facebook&utm_medium=page` | **Beranda Utama** (Company profile & kredibilitas) |
+| **6** | **WhatsApp Business** | Pesan Sambutan / Broadcast / Katalog | `https://asevenpile.com/harga?utm_source=whatsapp&utm_medium=chat` | **Kalkulator Biaya** (Klien WA suka langsung cek estimasi harga) |
+| **7** | **YouTube** | Deskripsi Video Proyek / Tentang Channel | `https://asevenpile.com/?utm_source=youtube&utm_medium=video` | **Beranda Utama** (Portofolio & galeri mesin) |
+| **8** | **QR Code Cetak** | Spanduk Proyek / Brosur Lapangan | `https://asevenpile.com/?utm_source=banner&utm_medium=offline&utm_campaign=spanduk_proyek` | **Beranda Utama** |
+| **9** | **Google Ads** | Kolom "Final URL" di Iklan Google Ads | `https://asevenpile.com/area-layanan/bore-pile/jakarta/` | **Halaman Kota Target** (Polos, otomatis ditempeli GCLID) |
 
 ---
 
 ## 1. Google Maps (Google Profil Bisnis / GMB)
-### Link yang Dipasang:
+Karena lokasi pool dan workshop fisik ASeven Pile berada di **Setia Asih, Kec. Tarumajaya, Kabupaten Bekasi**, maka link website di profil Google Maps **WAJIB diarahkan ke halaman Bekasi**:
+
+### Link Resmi GMB Bekasi (Tinggal Copy):
 ```text
-https://asevenpile.com/?utm_source=google_maps&utm_medium=organic
+https://asevenpile.com/area-layanan/bore-pile/bekasi/?utm_source=google_maps&utm_medium=organic
 ```
-*(Atau jika diarahkan langsung ke halaman Jakarta):*
-```text
-https://asevenpile.com/area-layanan/bore-pile/jakarta/?utm_source=google_maps&utm_medium=organic
-```
+
+> **Catatan:** Jika kelak Mas Andrey memiliki listing profil Google Maps terpisah khusus cabang Jakarta, gunakan link ini:
+> ```text
+> https://asevenpile.com/area-layanan/bore-pile/jakarta/?utm_source=google_maps&utm_medium=organic
+> ```
 
 ### Cara Memasang di Google Maps:
 1. Buka Google Search atau aplikasi Google Maps saat login dengan akun Google pemilik profil ASeven Pile.
