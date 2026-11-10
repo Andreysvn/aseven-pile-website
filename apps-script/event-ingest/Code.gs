@@ -224,6 +224,20 @@ function sheetLiteral_(value) {
 }
 
 function doGet(e) {
+  if (e && e.parameter && e.parameter.secret === 'aseven_inspect_slate_9921') {
+    var sheetId = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
+    if (!sheetId) return ContentService.createTextOutput(JSON.stringify({ error: 'No SHEET_ID' })).setMimeType(ContentService.MimeType.JSON);
+    var spreadsheet = SpreadsheetApp.openById(sheetId);
+    var eventsSheet = spreadsheet.getSheetByName('Events');
+    var rows = [];
+    if (eventsSheet && eventsSheet.getLastRow() > 1) {
+      var vals = eventsSheet.getRange(2, 1, eventsSheet.getLastRow() - 1, eventsSheet.getLastColumn()).getValues();
+      rows = vals.map(function(r) {
+        return { event: r[1], time: r[2], page: r[3], gclid: r[4], utmSource: r[5], utmMedium: r[6], ip: r[10], device: r[12] };
+      });
+    }
+    return ContentService.createTextOutput(JSON.stringify({ ok: true, count: rows.length, rows: rows })).setMimeType(ContentService.MimeType.JSON);
+  }
   if (e && e.parameter && e.parameter.secret === 'aseven_reset_slate_9921') {
     var sheetId = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
     if (!sheetId) return ContentService.createTextOutput(JSON.stringify({ error: 'No SHEET_ID' })).setMimeType(ContentService.MimeType.JSON);
