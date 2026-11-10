@@ -683,6 +683,7 @@ function classifyTrafficSource_(event) {
   if (utmSource === 'tiktok' || isTikTokHost_(host)) return 'TIKTOK';
   if (utmSource === 'youtube' || isYouTubeHost_(host)) return 'YOUTUBE';
   if (utmSource === 'whatsapp' || utmSource === 'wa' || isWhatsAppHost_(host)) return 'WHATSAPP';
+  if (utmSource === 'direct') return 'DIRECT';
 
   var hasCampaign = Boolean(
     utmSource || utmMedium || event.utmCampaign || event.utmTerm || event.utmContent
