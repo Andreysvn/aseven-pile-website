@@ -3659,8 +3659,7 @@ function groupEventsIntoSessions(events) {
   sorted.forEach(ev => {
     const evTime = ev.timestamp ? new Date(ev.timestamp).getTime() : 0;
     const ip = ev.ip || '-';
-    const deviceBase = String(ev.device || '').split('·')[0].trim();
-    const url = ev.url || '/';
+    const url = (ev.url || '/').replace(/\/+$/, '') || '/';
     const gclid = String(ev.gclid || '').trim();
     const pct = getScrollPctFromEvent(ev);
     const isWa = isWhatsAppTrafficEvent(ev);
@@ -3668,11 +3667,15 @@ function groupEventsIntoSessions(events) {
     let matched = null;
     for (let i = sessions.length - 1; i >= 0; i--) {
       const s = sessions[i];
+      const sUrl = (s.url || '/').replace(/\/+$/, '') || '/';
+      // 1. Jika ada gclid yang sama -> pasti sesi yang sama
       if (gclid && s.gclid && gclid === s.gclid) {
         matched = s;
         break;
       }
-      if (ip !== '-' && s.ip === ip && s.deviceBase === deviceBase && s.url === url && s.source === ev.source) {
+      // 2. Jika IP sama, URL sama, dan Sumber sama dalam jendela 30 menit:
+      // PASTI SESI YANG SAMA! (Jangan mengecek pixel layar karena saat user resize window, pixel berubah)
+      if (s.ip === ip && sUrl === url && s.source === ev.source) {
         const timeDiff = Math.abs(evTime - s.lastTime);
         if (timeDiff <= 30 * 60 * 1000) {
           matched = s;
@@ -3691,6 +3694,7 @@ function groupEventsIntoSessions(events) {
       if (ev.keyword && !matched.keyword) matched.keyword = ev.keyword;
       if (ev.campaign && !matched.campaign) matched.campaign = ev.campaign;
       if (ev.gclid && !matched.gclid) matched.gclid = ev.gclid;
+      if (ev.device) matched.device = ev.device;
       if (pct > 0 && !matched.milestones.includes(pct)) {
         matched.milestones.push(pct);
         matched.milestones.sort((a, b) => a - b);
@@ -3703,7 +3707,6 @@ function groupEventsIntoSessions(events) {
         ip: ip,
         loc: ev.loc || '',
         device: ev.device || '',
-        deviceBase: deviceBase,
         url: url,
         source: ev.source,
         campaign: ev.campaign || '',
@@ -3937,8 +3940,10 @@ function renderScrollTable(sessionList) {
     let outcomeBadge = '<span class="badge neutral" style="font-size:9px"><span class="badge-dot"></span>Skimming (0%)</span>';
     if (isWa) {
       outcomeBadge = '<span class="badge emerald" style="font-size:9px;font-weight:700"><span class="badge-dot"></span>Klik WA</span>';
+    } else if (pct >= 100) {
+      outcomeBadge = '<span class="badge emerald" style="font-size:9px;font-weight:700;border:1px solid rgba(16,185,129,.4)"><span class="badge-dot"></span>Tuntas Footer (100%)</span>';
     } else if (pct >= 90) {
-      outcomeBadge = '<span class="badge emerald" style="font-size:9px;font-weight:700;border:1px solid rgba(16,185,129,.4)"><span class="badge-dot"></span>Tuntas Footer (90%+)</span>';
+      outcomeBadge = `<span class="badge emerald" style="font-size:9px;font-weight:700;border:1px solid rgba(16,185,129,.4)"><span class="badge-dot"></span>Tuntas Footer (${pct}%)</span>`;
     } else if (pct >= 75) {
       outcomeBadge = '<span class="badge accent" style="font-size:9px"><span class="badge-dot"></span>Hampir Tuntas (75%+)</span>';
     } else if (pct >= 50) {
@@ -3955,7 +3960,7 @@ function renderScrollTable(sessionList) {
       <tr>
         <td>
           <span class="badge mono neutral" style="font-size:11px;font-weight:700;padding:2px 6px">${esc(t.ip)}</span>
-          <div style="font-size:9.5px;color:var(--fg-3);margin-top:2px;line-height:1.2">${esc(t.loc || '-')} · ${esc(t.deviceBase || t.device)}</div>
+          <div style="font-size:9.5px;color:var(--fg-3);margin-top:2px;line-height:1.2">${esc(t.loc || '-')} · ${esc(String(t.device || '').split('·')[0].trim())}</div>
         </td>
         <td>
           <div style="display:flex;align-items:center;gap:4px">
@@ -3993,7 +3998,7 @@ function exportScrollCSV() {
       `"${s.time}"`,
       `"${s.ip}"`,
       `"${s.loc}"`,
-      `"${s.deviceBase || s.device}"`,
+      `"${String(s.device || '').split('·')[0].trim()}"`,
       s.source,
       `"${s.url}"`,
       `"${s.keyword || s.campaign || '-'}"`,

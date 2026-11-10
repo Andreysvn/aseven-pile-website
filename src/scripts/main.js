@@ -148,9 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const docEl = document.documentElement;
     const scrollHeight = docEl.scrollHeight - window.innerHeight;
     if (scrollHeight > 0) {
-      const isAtBottom = (window.innerHeight + window.scrollY) >= (docEl.scrollHeight - 20);
+      const footerEl = document.querySelector('footer, .footer');
+      const footerInView = footerEl ? (footerEl.getBoundingClientRect().top <= window.innerHeight) : false;
+      const isAtBottom = (window.innerHeight + window.scrollY) >= (docEl.scrollHeight - 100);
       let pct = Math.min(100, Math.round((window.scrollY / scrollHeight) * 100));
-      if (isAtBottom || pct >= 97) pct = 100;
+      if (isAtBottom || footerInView || pct >= 95) pct = 100;
       if (pct > maxScrollPct) maxScrollPct = pct;
     }
   };
@@ -207,10 +209,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollHeight = docEl.scrollHeight - window.innerHeight;
     if (scrollHeight <= 0) return;
     
-    // Hitung persentase scroll, jika sudah mentok paling bawah (selisih <= 15px) jadikan 100%
-    const isAtBottom = (window.innerHeight + window.scrollY) >= (docEl.scrollHeight - 15);
+    // Hitung persentase scroll, jika sudah menyentuh footer atau mentok bawah jadikan 100%
+    const footerEl = document.querySelector('footer, .footer');
+    const footerInView = footerEl ? (footerEl.getBoundingClientRect().top <= window.innerHeight) : false;
+    const isAtBottom = (window.innerHeight + window.scrollY) >= (docEl.scrollHeight - 100);
     let currentPercent = Math.min(100, Math.round((window.scrollY / scrollHeight) * 100));
-    if (isAtBottom || currentPercent >= 98) currentPercent = 100;
+    if (isAtBottom || footerInView || currentPercent >= 95) currentPercent = 100;
 
     for (let i = 0; i < scrollThresholds.length; i++) {
       const threshold = scrollThresholds[i];
