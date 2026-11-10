@@ -226,14 +226,30 @@ document.addEventListener('DOMContentLoaded', () => {
           page_path: window.location.pathname
         });
 
-        if (threshold === 50) {
+        if (threshold === 25) {
+          pushTrackingEvent('scroll_25', {
+            percent: 25,
+            page_path: window.location.pathname
+          });
+          sendTrackingLog('SCROLL_25');
+        } else if (threshold === 50) {
           pushTrackingEvent('scroll_50', {
             percent: 50,
             page_path: window.location.pathname
           });
           sendTrackingLog('SCROLL_50');
         } else if (threshold === 75) {
+          pushTrackingEvent('scroll_75', {
+            percent: 75,
+            page_path: window.location.pathname
+          });
           sendTrackingLog('SCROLL_75');
+        } else if (threshold === 90) {
+          pushTrackingEvent('scroll_100', {
+            percent: 100,
+            page_path: window.location.pathname
+          });
+          sendTrackingLog('SCROLL_100');
         }
       }
     }

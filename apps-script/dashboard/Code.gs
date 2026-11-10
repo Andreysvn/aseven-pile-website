@@ -620,20 +620,27 @@ function eventToDashboard_(event) {
   var scrollMatch = String(event.device || '').match(/Scroll\s*(\d+)%/i);
   var scrollPct = scrollMatch ? parseInt(scrollMatch[1], 10) : 0;
   if (!scrollPct) {
-    if (eventType === 'SCROLL_90') scrollPct = 90;
+    if (eventType === 'SCROLL_100') scrollPct = 100;
+    else if (eventType === 'SCROLL_90') scrollPct = 90;
     else if (eventType === 'SCROLL_75') scrollPct = 75;
     else if (eventType === 'SCROLL_50') scrollPct = 50;
+    else if (eventType === 'SCROLL_25') scrollPct = 25;
   }
+
+  var eventLabel = 'Lihat Halaman';
+  if (eventType === 'CLICK_WA') eventLabel = 'Klik WhatsApp';
+  else if (eventType === 'CLICK_PHONE') eventLabel = 'Klik Telepon';
+  else if (eventType === 'SCROLL_100') eventLabel = 'Scroll 100%';
+  else if (eventType === 'SCROLL_90') eventLabel = 'Scroll 90%+';
+  else if (eventType === 'SCROLL_75') eventLabel = 'Scroll 75%+';
+  else if (eventType === 'SCROLL_50') eventLabel = 'Scroll 50%+';
+  else if (eventType === 'SCROLL_25') eventLabel = 'Scroll 25%+';
 
   return {
     eventId: String(event.eventId || ''),
     timestamp: time,
     time: time,
-    event: eventType === 'CLICK_WA' ? 'Klik WhatsApp' :
-      (eventType === 'CLICK_PHONE' ? 'Klik Telepon' :
-      (eventType === 'SCROLL_50' ? 'Scroll 50%+' :
-      (eventType === 'SCROLL_75' ? 'Scroll 75%+' :
-      (eventType === 'SCROLL_90' ? 'Scroll 90%+' : 'Lihat Halaman')))),
+    event: eventLabel,
     eventType: eventType,
     scrollPct: scrollPct,
     url: String(event.page || ''),

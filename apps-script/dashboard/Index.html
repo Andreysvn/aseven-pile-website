@@ -3636,9 +3636,11 @@ function getScrollPctFromEvent(t) {
   if (typeof t.scrollPct === 'number' && t.scrollPct > 0) return t.scrollPct;
   const match = String(t.device || '').match(/Scroll\s*(\d+)%/i);
   if (match) return parseInt(match[1], 10);
+  if (t.event === 'Scroll 100%' || t.eventType === 'SCROLL_100') return 100;
   if (t.event === 'Scroll 90%+' || t.eventType === 'SCROLL_90') return 90;
   if (t.event === 'Scroll 75%+' || t.eventType === 'SCROLL_75') return 75;
   if (t.event === 'Scroll 50%+' || t.eventType === 'SCROLL_50') return 50;
+  if (t.event === 'Scroll 25%+' || t.eventType === 'SCROLL_25') return 25;
   return 0;
 }
 
