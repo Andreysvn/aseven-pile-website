@@ -3519,6 +3519,7 @@ function renderTraffic() {
     { key:'WA', label:'Chat WA' },
     { key:'ADS', label:'Google Ads' },
     { key:'SEO', label:'SEO Google' },
+    { key:'MAPS', label:'Google Maps' },
     { key:'MEDSOS', label:'Medsos (IG/FB/TikTok)' },
     { key:'DIRECT', label:'Direct' },
     { key:'REFERRAL', label:'Referral' },
@@ -3549,6 +3550,7 @@ function renderTrafficTable() {
   if (State.trafficFilter === 'WA') list = list.filter(isWhatsAppTrafficEvent);
   else if (State.trafficFilter === 'ADS') list = list.filter(t => t.source === 'ADS');
   else if (State.trafficFilter === 'SEO') list = list.filter(t => t.source === 'SEO');
+  else if (State.trafficFilter === 'MAPS') list = list.filter(t => t.source === 'MAPS');
   else if (State.trafficFilter === 'MEDSOS') list = list.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source));
   else if (State.trafficFilter === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
   else if (State.trafficFilter === 'REFERRAL') list = list.filter(t => t.source === 'REFERRAL');
@@ -3581,6 +3583,7 @@ function renderTrafficTable() {
     const sourceMeta = {
       ADS: { label: 'Google Ads', className: 'maroon' },
       SEO: { label: 'SEO Google', className: 'blue' },
+      MAPS: { label: 'Google Maps (GMB)', className: 'emerald' },
       INSTAGRAM: { label: 'Instagram', className: 'rose' },
       FACEBOOK: { label: 'Facebook', className: 'blue' },
       TIKTOK: { label: 'TikTok', className: 'neutral' },
@@ -3730,13 +3733,16 @@ function setScrollSourceFilter(src) {
 function renderScrollSection() {
   const allEvents = filteredTraffic();
   
-  // Render Filter Tabs (Pisahkan Instagram & TikTok agar analisa tajam)
+  // Render Filter Tabs (Mencakup semua 8 sumber trafik)
   const filters = [
     { key: 'all', label: 'Semua Sumber' },
     { key: 'ADS', label: 'Google Ads' },
     { key: 'SEO', label: 'SEO Google' },
+    { key: 'MAPS', label: 'Google Maps' },
     { key: 'INSTAGRAM', label: 'Instagram' },
     { key: 'TIKTOK', label: 'TikTok' },
+    { key: 'FACEBOOK', label: 'Facebook' },
+    { key: 'WHATSAPP', label: 'Link WA' },
     { key: 'DIRECT', label: 'Direct' }
   ];
   const filterContainer = $('#scroll-filters');
@@ -3753,8 +3759,11 @@ function renderScrollSection() {
   let sessionList = allSessions.slice();
   if (State.scrollSourceFilter === 'ADS') sessionList = sessionList.filter(s => s.source === 'ADS');
   else if (State.scrollSourceFilter === 'SEO') sessionList = sessionList.filter(s => s.source === 'SEO');
+  else if (State.scrollSourceFilter === 'MAPS') sessionList = sessionList.filter(s => s.source === 'MAPS');
   else if (State.scrollSourceFilter === 'INSTAGRAM') sessionList = sessionList.filter(s => s.source === 'INSTAGRAM');
   else if (State.scrollSourceFilter === 'TIKTOK') sessionList = sessionList.filter(s => s.source === 'TIKTOK');
+  else if (State.scrollSourceFilter === 'FACEBOOK') sessionList = sessionList.filter(s => s.source === 'FACEBOOK');
+  else if (State.scrollSourceFilter === 'WHATSAPP') sessionList = sessionList.filter(s => s.source === 'WHATSAPP');
   else if (State.scrollSourceFilter === 'DIRECT') sessionList = sessionList.filter(s => s.source === 'DIRECT');
 
   // Metrik per sesi pengunjung
@@ -3902,6 +3911,7 @@ function renderScrollTable(sessionList) {
   const sourceMeta = {
     ADS: { label: 'Google Ads', className: 'maroon' },
     SEO: { label: 'SEO Google', className: 'blue' },
+    MAPS: { label: 'Google Maps (GMB)', className: 'emerald' },
     INSTAGRAM: { label: 'Instagram', className: 'rose' },
     FACEBOOK: { label: 'Facebook', className: 'blue' },
     TIKTOK: { label: 'TikTok', className: 'neutral' },

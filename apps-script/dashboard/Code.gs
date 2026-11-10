@@ -562,7 +562,7 @@ function validateLeadInput_(data) {
   if (['Baru', 'Diskusi', 'Survei', 'DP Masuk', 'Selesai', 'Batal'].indexOf(input.status) === -1) {
     throw publicError_('Status prospek tidak valid.');
   }
-  if (['ADS', 'SEO', 'DIRECT'].indexOf(input.source) === -1) {
+  if (['ADS', 'SEO', 'MAPS', 'INSTAGRAM', 'TIKTOK', 'FACEBOOK', 'WHATSAPP', 'DIRECT', 'REFERRAL', 'CAMPAIGN'].indexOf(input.source) === -1) {
     throw publicError_('Sumber prospek tidak valid.');
   }
   FORM_NOTE_FIELDS_.forEach(function (field) {
@@ -669,12 +669,15 @@ function classifyTrafficSource_(event) {
   var utmMedium = String(event.utmMedium || '').trim().toLowerCase();
   var host = referrerHost_(event.referrer);
 
+  // Deteksi Google Maps / Google Business Profile (GMB)
+  if (utmSource === 'google_maps' || utmSource === 'maps' || utmSource === 'gmb' || utmSource === 'googlemaps' || isGoogleMapsHost_(host)) return 'MAPS';
+
   if (utmMedium === 'organic' && (!utmSource || isSearchEngineName_(utmSource))) return 'SEO';
 
   var paidMedium = /^(cpc|ppc|paid|paidsearch|paid-search)$/.test(utmMedium);
   if (utmSource === 'google' && paidMedium) return 'ADS';
 
-  // Deteksi Media Sosial spesifik (lewat utm_source maupun referrer host)
+  // Deteksi Media Sosial & Chat spesifik (lewat utm_source maupun referrer host)
   if (utmSource === 'instagram' || utmSource === 'ig' || isInstagramHost_(host)) return 'INSTAGRAM';
   if (utmSource === 'facebook' || utmSource === 'fb' || isFacebookHost_(host)) return 'FACEBOOK';
   if (utmSource === 'tiktok' || isTikTokHost_(host)) return 'TIKTOK';
@@ -687,8 +690,13 @@ function classifyTrafficSource_(event) {
   if (hasCampaign) return 'CAMPAIGN';
 
   if (!host || host === 'asevenpile.com' || /\.asevenpile\.com$/.test(host)) return 'DIRECT';
+  if (isGoogleMapsHost_(host)) return 'MAPS';
   if (isSearchEngineHost_(host)) return 'SEO';
   return 'REFERRAL';
+}
+
+function isGoogleMapsHost_(host) {
+  return /(^|\.)maps\.google\.[a-z.]+$/.test(host);
 }
 
 function isInstagramHost_(host) {
