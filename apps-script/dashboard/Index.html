@@ -3629,7 +3629,7 @@ function isWhatsAppTrafficEvent(event) {
 }
 
 /* ============================================================
-   RENDER SCROLL DEPTH ANALYTICS
+   RENDER SCROLL DEPTH ANALYTICS (SESSION-DEDUPLICATED)
    ============================================================ */
 
 function getScrollPctFromEvent(t) {
@@ -3642,6 +3642,84 @@ function getScrollPctFromEvent(t) {
   if (t.event === 'Scroll 50%+' || t.eventType === 'SCROLL_50') return 50;
   if (t.event === 'Scroll 25%+' || t.eventType === 'SCROLL_25') return 25;
   return 0;
+}
+
+function groupEventsIntoSessions(events) {
+  const sorted = (events || []).slice().sort((a, b) => {
+    const tA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+    const tB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+    return tA - tB;
+  });
+
+  const sessions = [];
+
+  sorted.forEach(ev => {
+    const evTime = ev.timestamp ? new Date(ev.timestamp).getTime() : 0;
+    const ip = ev.ip || '-';
+    const deviceBase = String(ev.device || '').split('·')[0].trim();
+    const url = ev.url || '/';
+    const gclid = String(ev.gclid || '').trim();
+    const pct = getScrollPctFromEvent(ev);
+    const isWa = isWhatsAppTrafficEvent(ev);
+
+    let matched = null;
+    for (let i = sessions.length - 1; i >= 0; i--) {
+      const s = sessions[i];
+      if (gclid && s.gclid && gclid === s.gclid) {
+        matched = s;
+        break;
+      }
+      if (ip !== '-' && s.ip === ip && s.deviceBase === deviceBase && s.url === url && s.source === ev.source) {
+        const timeDiff = Math.abs(evTime - s.lastTime);
+        if (timeDiff <= 30 * 60 * 1000) {
+          matched = s;
+          break;
+        }
+      }
+    }
+
+    if (matched) {
+      matched.lastTime = Math.max(matched.lastTime, evTime);
+      matched.timestamp = new Date(matched.lastTime).toISOString();
+      matched.time = ev.time || matched.time;
+      matched.daysAgo = ev.daysAgo !== undefined ? ev.daysAgo : matched.daysAgo;
+      matched.maxScrollPct = Math.max(matched.maxScrollPct, pct);
+      if (isWa) matched.hasWa = true;
+      if (ev.keyword && !matched.keyword) matched.keyword = ev.keyword;
+      if (ev.campaign && !matched.campaign) matched.campaign = ev.campaign;
+      if (ev.gclid && !matched.gclid) matched.gclid = ev.gclid;
+      if (pct > 0 && !matched.milestones.includes(pct)) {
+        matched.milestones.push(pct);
+        matched.milestones.sort((a, b) => a - b);
+      }
+      matched.events.push(ev);
+    } else {
+      const milestones = pct > 0 ? [pct] : [];
+      sessions.push({
+        sessionId: gclid ? ('gclid_' + gclid) : ('sess_' + ip + '_' + evTime),
+        ip: ip,
+        loc: ev.loc || '',
+        device: ev.device || '',
+        deviceBase: deviceBase,
+        url: url,
+        source: ev.source,
+        campaign: ev.campaign || '',
+        keyword: ev.keyword || '',
+        gclid: gclid,
+        startTime: evTime,
+        lastTime: evTime,
+        timestamp: ev.timestamp,
+        time: ev.time || '',
+        daysAgo: ev.daysAgo !== undefined ? ev.daysAgo : 0,
+        maxScrollPct: pct,
+        hasWa: isWa,
+        milestones: milestones,
+        events: [ev]
+      });
+    }
+  });
+
+  return sessions;
 }
 
 function setScrollSourceFilter(src) {
@@ -3667,16 +3745,19 @@ function renderScrollSection() {
     ).join('');
   }
 
-  // Filter list by selected source
-  let list = allEvents.slice();
-  if (State.scrollSourceFilter === 'ADS') list = list.filter(t => t.source === 'ADS');
-  else if (State.scrollSourceFilter === 'SEO') list = list.filter(t => t.source === 'SEO');
-  else if (State.scrollSourceFilter === 'MEDSOS') list = list.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source));
-  else if (State.scrollSourceFilter === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
+  // Kelompokkan event ke dalam sesi pengunjung unik (Deduplikasi Sesi)
+  const allSessions = groupEventsIntoSessions(allEvents);
 
-  // Compute metrics
-  const total = list.length;
-  const scrolls = list.map(getScrollPctFromEvent);
+  // Filter sesi berdasarkan sumber yang dipilih
+  let sessionList = allSessions.slice();
+  if (State.scrollSourceFilter === 'ADS') sessionList = sessionList.filter(s => s.source === 'ADS');
+  else if (State.scrollSourceFilter === 'SEO') sessionList = sessionList.filter(s => s.source === 'SEO');
+  else if (State.scrollSourceFilter === 'MEDSOS') sessionList = sessionList.filter(s => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(s.source));
+  else if (State.scrollSourceFilter === 'DIRECT') sessionList = sessionList.filter(s => s.source === 'DIRECT');
+
+  // Metrik per sesi pengunjung
+  const total = sessionList.length;
+  const scrolls = sessionList.map(s => s.maxScrollPct);
   const avgScroll = total > 0 ? Math.round(scrolls.reduce((a, b) => a + b, 0) / total) : 0;
   
   const count25 = scrolls.filter(p => p >= 25).length;
@@ -3687,7 +3768,7 @@ function renderScrollSection() {
   const pct50 = total > 0 ? Math.round((count50 / total) * 100) : 0;
   const pct75 = total > 0 ? Math.round((count75 / total) * 100) : 0;
   
-  const waChats = list.filter(isWhatsAppTrafficEvent).length;
+  const waChats = sessionList.filter(s => s.hasWa).length;
   const waRate = total > 0 ? Math.round((waChats / total) * 100) : 0;
 
   // Render KPIs
@@ -3717,14 +3798,19 @@ function renderScrollSection() {
     `;
   }
 
-  // Render Funnel Bars
+  // Render Funnel Bars (distribusi kedalaman maksimal per sesi)
   const funnelContainer = $('#scroll-funnel-bars');
   if (funnelContainer) {
+    const tier0_25 = sessionList.filter(s => s.maxScrollPct < 25).length;
+    const tier25_50 = sessionList.filter(s => s.maxScrollPct >= 25 && s.maxScrollPct < 50).length;
+    const tier50_75 = sessionList.filter(s => s.maxScrollPct >= 50 && s.maxScrollPct < 75).length;
+    const tier75_100 = sessionList.filter(s => s.maxScrollPct >= 75).length;
+
     const tiers = [
-      { label: '0 - 25% (Skimming)', count: total - count25, color: '#94a3b8', desc: 'Baru buka halaman' },
-      { label: '25 - 50% (Mulai Baca)', count: count25 - count50, color: '#38bdf8', desc: 'Baca intro & layanan' },
-      { label: '50 - 75% (Micro GAds)', count: count50 - count75, color: '#6366f1', desc: 'Lolos target 50% Ads' },
-      { label: '75 - 100% (High Intent)', count: count75, color: '#10b981', desc: 'Baca tuntas sampai harga' }
+      { label: '0 - 25% (Skimming)', count: tier0_25, color: '#94a3b8', desc: 'Baru buka halaman' },
+      { label: '25 - 50% (Mulai Baca)', count: tier25_50, color: '#38bdf8', desc: 'Baca intro & layanan' },
+      { label: '50 - 75% (Micro GAds)', count: tier50_75, color: '#6366f1', desc: 'Lolos target 50% Ads' },
+      { label: '75 - 100% (High Intent)', count: tier75_100, color: '#10b981', desc: 'Baca tuntas sampai harga' }
     ];
 
     funnelContainer.innerHTML = tiers.map(t => {
@@ -3750,10 +3836,10 @@ function renderScrollSection() {
   // Summary badges by source
   const badgeContainer = $('#scroll-source-summary-badges');
   if (badgeContainer) {
-    const adsAvg = calcSourceAvgScroll(allEvents, 'ADS');
-    const seoAvg = calcSourceAvgScroll(allEvents, 'SEO');
-    const medsosAvg = calcSourceAvgScroll(allEvents, 'MEDSOS');
-    const directAvg = calcSourceAvgScroll(allEvents, 'DIRECT');
+    const adsAvg = calcSourceAvgScroll(allSessions, 'ADS');
+    const seoAvg = calcSourceAvgScroll(allSessions, 'SEO');
+    const medsosAvg = calcSourceAvgScroll(allSessions, 'MEDSOS');
+    const directAvg = calcSourceAvgScroll(allSessions, 'DIRECT');
     badgeContainer.innerHTML = `
       <span class="badge maroon mono" style="font-size:9.5px">Ads: ${adsAvg}% avg</span>
       <span class="badge blue mono" style="font-size:9.5px">SEO: ${seoAvg}% avg</span>
@@ -3762,35 +3848,28 @@ function renderScrollSection() {
     `;
   }
 
-  renderScrollTable();
+  renderScrollTable(sessionList);
 }
 
-function calcSourceAvgScroll(events, src) {
-  let list = events.slice();
+function calcSourceAvgScroll(sessions, src) {
+  let list = (sessions || []).slice();
   if (src === 'ADS') list = list.filter(t => t.source === 'ADS');
   else if (src === 'SEO') list = list.filter(t => t.source === 'SEO');
   else if (src === 'MEDSOS') list = list.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source));
   else if (src === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
   if (!list.length) return 0;
-  const sum = list.map(getScrollPctFromEvent).reduce((a, b) => a + b, 0);
+  const sum = list.map(s => s.maxScrollPct || 0).reduce((a, b) => a + b, 0);
   return Math.round(sum / list.length);
 }
 
-function renderScrollTable() {
+function renderScrollTable(sessionList) {
   const tbody = $('#scroll-tbody');
   if (!tbody) return;
   const q = ($('#scroll-search')?.value || '').toLowerCase().trim();
 
-  let list = filteredTraffic().slice().sort((a, b) => {
-    const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
-    const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
-    return timeB - timeA;
+  let list = (sessionList || []).slice().sort((a, b) => {
+    return (b.lastTime || 0) - (a.lastTime || 0);
   });
-
-  if (State.scrollSourceFilter === 'ADS') list = list.filter(t => t.source === 'ADS');
-  else if (State.scrollSourceFilter === 'SEO') list = list.filter(t => t.source === 'SEO');
-  else if (State.scrollSourceFilter === 'MEDSOS') list = list.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source));
-  else if (State.scrollSourceFilter === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
 
   if (q) {
     list = list.filter(t =>
@@ -3803,7 +3882,7 @@ function renderScrollTable() {
   }
 
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="4" class="empty"><div class="empty-title">Belum ada log scroll</div><div class="empty-desc">Pengunjung yang melakukan scroll akan otomatis tercatat di sini</div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="4" class="empty"><div class="empty-title">Belum ada sesi scroll</div><div class="empty-desc">Pengunjung yang melakukan scroll akan otomatis tercatat per sesi di sini</div></td></tr>`;
     return;
   }
 
@@ -3821,7 +3900,7 @@ function renderScrollTable() {
   };
 
   tbody.innerHTML = list.map(t => {
-    const pct = getScrollPctFromEvent(t);
+    const pct = t.maxScrollPct || 0;
     const meta = sourceMeta[t.source] || { label: 'Lainnya', className: 'neutral' };
     const srcBadge = `<span class="badge ${meta.className} mono" style="font-size:9px;padding:1px 5px">${esc(meta.label)}</span>`;
 
@@ -3830,21 +3909,27 @@ function renderScrollTable() {
     else if (pct >= 50) barColor = '#6366f1';
     else if (pct >= 25) barColor = '#0284c7';
 
-    const isWa = isWhatsAppTrafficEvent(t);
-    let outcomeBadge = '<span class="badge neutral" style="font-size:9px"><span class="badge-dot"></span>Skimming</span>';
+    const isWa = t.hasWa;
+    let outcomeBadge = '<span class="badge neutral" style="font-size:9px"><span class="badge-dot"></span>Skimming (0%)</span>';
     if (isWa) {
       outcomeBadge = '<span class="badge emerald" style="font-size:9px;font-weight:700"><span class="badge-dot"></span>Klik WA</span>';
     } else if (pct >= 75) {
       outcomeBadge = '<span class="badge accent" style="font-size:9px"><span class="badge-dot"></span>Minat Tinggi</span>';
     } else if (pct >= 50) {
       outcomeBadge = '<span class="badge blue" style="font-size:9px"><span class="badge-dot"></span>Lolos 50%</span>';
+    } else if (pct >= 25) {
+      outcomeBadge = '<span class="badge info" style="font-size:9px"><span class="badge-dot"></span>Mulai Baca</span>';
     }
+
+    const milestoneBadges = (t.milestones && t.milestones.length > 1)
+      ? `<div style="font-size:9px;color:var(--fg-3);margin-top:3px;font-family:monospace">Tahapan: ${t.milestones.map(m => m + '%').join(' → ')}</div>`
+      : '';
 
     return `
       <tr>
         <td>
           <span class="badge mono neutral" style="font-size:11px;font-weight:700;padding:2px 6px">${esc(t.ip)}</span>
-          <div style="font-size:9.5px;color:var(--fg-3);margin-top:2px;line-height:1.2">${esc(t.loc || '-')} · ${esc(t.device)}</div>
+          <div style="font-size:9.5px;color:var(--fg-3);margin-top:2px;line-height:1.2">${esc(t.loc || '-')} · ${esc(t.deviceBase || t.device)}</div>
         </td>
         <td>
           <div style="display:flex;align-items:center;gap:4px">
@@ -3860,6 +3945,7 @@ function renderScrollTable() {
             </div>
             <span style="font-family:monospace;font-size:11.5px;font-weight:700;color:${barColor};min-width:34px;text-align:right">${pct}%</span>
           </div>
+          ${milestoneBadges}
         </td>
         <td class="num">
           <div class="cell-mono" style="font-size:10px;color:var(--fg-2)">${t.daysAgo===0?'Hari ini':t.daysAgo+'d lalu'} · ${esc(t.time)}</div>
@@ -3871,24 +3957,27 @@ function renderScrollTable() {
 }
 
 function exportScrollCSV() {
-  const rows = [['Waktu', 'IP', 'Lokasi', 'Device', 'Sumber', 'URL', 'Keyword_Campaign', 'Scroll_Pct', 'Action']];
-  filteredTraffic().forEach(t => {
-    const pct = getScrollPctFromEvent(t);
-    const action = isWhatsAppTrafficEvent(t) ? 'KLIK_WA' : (pct >= 50 ? 'SCROLL_50_PLUS' : 'VIEW');
+  const allSessions = groupEventsIntoSessions(filteredTraffic());
+  const rows = [['Waktu', 'IP', 'Lokasi', 'Device', 'Sumber', 'URL', 'Keyword_Campaign', 'Max_Scroll_Pct', 'Milestones', 'Action']];
+  allSessions.forEach(s => {
+    const pct = s.maxScrollPct || 0;
+    const action = s.hasWa ? 'KLIK_WA' : (pct >= 50 ? 'SCROLL_50_PLUS' : 'VIEW');
+    const milestonesStr = (s.milestones || []).join(' > ');
     rows.push([
-      `"${t.time}"`,
-      `"${t.ip}"`,
-      `"${t.loc}"`,
-      `"${t.device}"`,
-      t.source,
-      `"${t.url}"`,
-      `"${t.keyword || t.campaign || '-'}"`,
+      `"${s.time}"`,
+      `"${s.ip}"`,
+      `"${s.loc}"`,
+      `"${s.deviceBase || s.device}"`,
+      s.source,
+      `"${s.url}"`,
+      `"${s.keyword || s.campaign || '-'}"`,
       pct,
+      `"${milestonesStr}"`,
       action
     ]);
   });
-  downloadCSV(rows, `ScrollDepth_${new Date().toISOString().slice(0,10)}.csv`);
-  toast(`${filteredTraffic().length} data scroll di-export`, 'success');
+  downloadCSV(rows, `ScrollDepth_Sessions_${new Date().toISOString().slice(0,10)}.csv`);
+  toast(`${allSessions.length} sesi scroll di-export`, 'success');
 }
 
 /* ============================================================

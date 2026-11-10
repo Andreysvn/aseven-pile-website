@@ -180,12 +180,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
   };
 
-  // Catat landing dengan GCLID atau kampanye UTM sekali per sesi.
+  // Catat landing (0% baru buka) untuk semua sumber (Ads, SEO, Medsos, Direct) sekali per halaman per sesi browser.
   try {
-    const hasAdsOrCampaign = Boolean(attribution.gclid || attribution.utmCampaign);
-    const alreadyLoggedLanding = sessionStorage.getItem('aseven_landed_logged');
-    if (hasAdsOrCampaign && !alreadyLoggedLanding) {
-      sessionStorage.setItem('aseven_landed_logged', '1');
+    const pageKey = 'aseven_landed_' + (window.location.pathname || '/');
+    const alreadyLoggedLanding = sessionStorage.getItem(pageKey);
+    if (!alreadyLoggedLanding) {
+      sessionStorage.setItem(pageKey, '1');
       sendTrackingLog('LANDING');
     }
   } catch (err) {}
