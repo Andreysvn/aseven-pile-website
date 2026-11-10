@@ -20,7 +20,7 @@ var EVENT_FIELD_LIMITS_ = {
   device: 128
 };
 
-var ALLOWED_EVENTS_ = ['LANDING', 'CLICK_WA', 'CLICK_PHONE'];
+var ALLOWED_EVENTS_ = ['LANDING', 'CLICK_WA', 'CLICK_PHONE', 'SCROLL_50', 'SCROLL_75', 'SCROLL_90', 'SCROLL'];
 var MAX_BODY_BYTES_ = 8192;
 
 function validateEvent_(data) {

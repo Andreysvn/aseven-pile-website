@@ -617,13 +617,25 @@ function eventToDashboard_(event) {
   var time = isoString_(event.timestamp);
   var eventType = String(event.event || '');
   var source = classifyTrafficSource_(event);
+  var scrollMatch = String(event.device || '').match(/Scroll\s*(\d+)%/i);
+  var scrollPct = scrollMatch ? parseInt(scrollMatch[1], 10) : 0;
+  if (!scrollPct) {
+    if (eventType === 'SCROLL_90') scrollPct = 90;
+    else if (eventType === 'SCROLL_75') scrollPct = 75;
+    else if (eventType === 'SCROLL_50') scrollPct = 50;
+  }
+
   return {
     eventId: String(event.eventId || ''),
     timestamp: time,
     time: time,
     event: eventType === 'CLICK_WA' ? 'Klik WhatsApp' :
-      (eventType === 'CLICK_PHONE' ? 'Klik Telepon' : 'Lihat Halaman'),
+      (eventType === 'CLICK_PHONE' ? 'Klik Telepon' :
+      (eventType === 'SCROLL_50' ? 'Scroll 50%+' :
+      (eventType === 'SCROLL_75' ? 'Scroll 75%+' :
+      (eventType === 'SCROLL_90' ? 'Scroll 90%+' : 'Lihat Halaman')))),
     eventType: eventType,
+    scrollPct: scrollPct,
     url: String(event.page || ''),
     source: source,
     campaign: String(event.utmCampaign || ''),

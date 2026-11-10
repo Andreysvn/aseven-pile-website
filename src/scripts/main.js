@@ -231,6 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
             percent: 50,
             page_path: window.location.pathname
           });
+          sendTrackingLog('SCROLL_50');
+        } else if (threshold === 75) {
+          sendTrackingLog('SCROLL_75');
         }
       }
     }
