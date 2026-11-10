@@ -1,65 +1,114 @@
 # Panduan Peluncuran Iklan Google Ads ASeven Pile
-**SOP Pre-Flight, Strategi Bidding Anti-Boncos, Negative Keywords, & Offline Conversion**
+**SOP Pre-Flight, Strategi Bidding Anti-Boncos 2026, Roadmap Transisi Konversi, & Offline Conversion Tracking**
 
-Dokumen ini adalah panduan praktis untuk Mas Andrey sebelum menyalakan iklan Google Ads berbayar dan mengoperasikan sistem Offline Conversion ASeven Pile.
+Dokumen ini adalah panduan praktis dan komprehensif untuk Mas Andrey sebelum menyalakan iklan Google Ads berbayar dan mengoperasikan sistem Offline Conversion ASeven Pile.
 
 ---
 
-## 1. Strategi Bidding Anti-Boncos (2 Fase)
+## 1. Filosofi & Strategi Bidding Anti-Boncos 2026
 
-Jangan menyalakan **Smart Bidding (Maximize Conversion Value / Target ROAS)** di hari pertama. Algoritma Google membutuhkan data historis minimal **15–30 konversi** dalam 30 hari terakhir agar bisa memprediksi lelang secara akurat.
+Di era digital marketing modern (2025/2026), banyak pengiklan yang mengalami **"boncos"** karena hanya mengandalkan satu metrik: **Klik WhatsApp**.
+
+### Mengapa Mengandalkan "Klik WA Saja" Bisa Bikin Boncos?
+Jika algoritma Google Ads disetel untuk memburu **Klik WhatsApp** sebagai Konversi Utama selamanya:
+* AI Google akan mencari siapa saja yang gemar menekan tombol WhatsApp.
+* Di lapangan, yang masuk ke WA Mas Andrey sering kali adalah:
+  * Sales yang menawarkan oli, solar, alat berat, atau material.
+  * Pencari kerja yang menanyakan lowongan operator bor atau kuli.
+  * Kompetitor yang sekadar mengecek harga pasaran (*mystery shopper*).
+  * Pemilik rumah dengan proyek sangat kecil (1–2 titik) yang tidak masuk nilai minimum borongan (*minimum order*).
+* **Hasilnya:** Google merasa sukses ("Nih Mas Andrey, kami kirim 50 chat WA dengan biaya murah!"), padahal di rekening Mas Andrey tidak ada yang transfer DP sama sekali.
+
+### Solusi Modern: Offline Conversion Tracking (OCT)
+Dengan sistem Dashboard ASeven Pile:
+1. Calon klien mengklik iklan $\rightarrow$ Sistem otomatis mengunci nomor identitas unik iklan (**GCLID**).
+2. Klien menghubungi via WhatsApp, melakukan survei lokasi, lalu **Mentransfer DP Proyek (misal Rp 25.000.000 – Rp 50.000.000)**.
+3. Mas Andrey mencatat deal tersebut di Dashboard dan menekan tombol **"Export CSV"**.
+4. File CSV diunggah ke Google Ads.
+5. **AI Google Ads belajar secara presisi:**  
+   *"Ternyata profil orang seperti inilah yang benar-benar mentransfer puluhan juta rupiah ke ASeven Pile. Mulai sekarang, anggaran iklan diprioritaskan KHUSUS ke tipe orang seperti ini!"*
+
+---
+
+## 2. Roadmap Transisi 2 Fase (Dari Nol Menuju Offline Conversion)
+
+Karena di hari pertama peluncuran iklan Mas Andrey **belum memiliki data historis closing di akun Google Ads**, kita menerapkan strategi transisi bertahap:
 
 ```
-[Minggu 1 - 2: Fase Kumpul Data]
-Bidding: Maximize Clicks (Batas Max CPC Rp 15.000 - Rp 25.000)
-Tujuan: Jaring klik pencari riil, kumpulkan data konversi, saring kata kunci negatif.
-                    ↓ (Setelah terkumpul ≥ 15 konversi)
-[Minggu 3+: Fase Smart Bidding]
-Bidding: Maximize Conversion Value (Target ROAS)
-Tujuan: AI Google mengoptimasi lelang khusus untuk mendatangkan deal puluhan juta.
+[Minggu 1 - 2: Fase Kumpul Data / Start]
+• Bidding: Maximize Clicks (Batas Max CPC Rp 15.000 - Rp 25.000)
+• Konversi Primer (Primary): Klik WhatsApp (generate_lead)
+• Konversi Sekunder (Secondary): Scroll Depth 50% & Kunjungan Halaman
+• Goal: Jaring klik pencari riil, kumpulkan bahan bakar data, filter kata kunci negatif.
+                     ↓ 
+       (Setelah terkumpul minimal 15 deal closing)
+                     ↓ 
+[Minggu 3+: Fase Anti-Boncos / Value-Based Bidding]
+• Bidding: Maximize Conversion Value (Target ROAS)
+• Konversi Primer (Primary): Deal Closing / DP Proyek (Offline Conversion via CSV)
+• Konversi Sekunder (Secondary): Klik WhatsApp (Diturunkan agar AI tidak memburu sampah)
+• Goal: Google HANYA memburu klien berduit yang berpotensi transfer DP puluhan juta.
 ```
 
-### Fase 1: Minggu ke-1 s/d ke-2 (Data Gathering & Stabilisasi)
-* **Strategi Bidding:** **Maksimalkan Klik (*Maximize Clicks*)** dengan **Batas Tawaran CPC Maksimum (*Max CPC Bid Limit*)**.
-* **Rekomendasi Batas CPC:** Pasang di kisaran **Rp 15.000 – Rp 25.000** per klik.
-  * *Tujuan:* Mencegah algoritma Google memasang bid liar (misal Rp 60.000/klik) saat awal lelang.
-* **Tugas Harian Operator:**
-  1. Pantau tab **Search Terms (Istilah Penelusuran)** di Google Ads 2 hari sekali.
-  2. Tambahkan pencarian yang tidak relevan ke daftar **Kata Kunci Negatif**.
-  3. Setiap ada yang transfer DP/deal, masukkan ke Dashboard dan ekspor CSV konversinya ke Google Ads.
+### Tabel Status Konversi per Fase di Google Ads:
 
-### Fase 2: Minggu ke-3 dan Seterusnya (Smart Bidding Aktif)
-* **Kapan beralih?** Setelah akun memiliki minimal **15–30 data konversi offline** yang terunggah.
-* **Ubah Bidding ke:** **Maksimalkan Nilai Konversi (*Maximize Conversion Value*)**.
-* **Hasil:** Google akan otomatis memprioritaskan penayangan iklan kepada orang-orang yang profilnya mirip dengan klien yang sudah pernah transfer deal puluhan juta rupiah.
+| Nama Konversi | Tipe / Event | Status di Fase 1 (Minggu 1-2) | Status di Fase 2 (Minggu 3+) |
+| :--- | :--- | :--- | :--- |
+| **Klik WhatsApp** | `CE - generate_lead` (Website) | 🟢 **PRIMARY** (Bahan bakar awal) | 🟡 **SECONDARY** (Hanya observasi) |
+| **Scroll Depth 50%** | `Scroll Depth 50%` (Website) | 🟡 **SECONDARY** (Observasi minat) | 🟡 **SECONDARY** (Observasi minat) |
+| **Kunjungan Halaman** | `All Pages` (Website) | 🟡 **SECONDARY** (Traffic monitor) | 🟡 **SECONDARY** (Traffic monitor) |
+| **Deal Closing / DP Proyek** | `Import from Clicks` (Offline CSV) | ⚪ *Belum ada data* | 🟢 **PRIMARY** (Target bid utama Google) |
 
 ---
 
-## 2. Pilihan Alur Pelaporan Konversi Offline
+## 3. Langkah Teknis di Akun Google Ads
 
-Mas Andrey bebas memilih alur yang paling nyaman di lapangan:
+### A. Cara Membuat Conversion Action untuk Offline Conversion (1x di Awal)
+1. Buka akun **Google Ads** $\rightarrow$ klik menu **Goals (Sasaran)** $\rightarrow$ **Conversions (Konversi)** $\rightarrow$ **Summary (Ringkasan)**.
+2. Klik tombol biru **+ New conversion action (+ Tindakan konversi baru)**.
+3. Pilih opsi **Import (Impor)** $\rightarrow$ pilih **CRMs, files, or other data sources (CRM, file, atau sumber data lain)** $\rightarrow$ pilih **Track conversions from clicks (Lacak konversi dari klik)**.
+4. Setelan tindakan konversi:
+   * **Goal category:** Pilih *Qualified Lead* atau *Converted Lead*.
+   * **Conversion name:** Beri nama persis: `Closing Proyek` (atau `Deal Closing`).
+   * **Value:** Pilih *Use different values for each conversion* (Gunakan nilai berbeda untuk setiap konversi), mata uang pilih **IDR (Rp)**, nilai default isi `0`.
+   * **Count:** Pilih *One* (Satu) untuk setiap lead/proyek.
+   * **Attribution model:** *Data-driven* (bawaan Google).
+5. Pada setelan **Action optimization**:
+   * Di **Fase 1**: Pilih **Secondary action (not used for bidding optimization)**.
+   * Di **Fase 2**: Ubah menjadi **Primary action (used for bidding optimization)**.
+6. Klik **Create and continue** $\rightarrow$ **Done**.
 
-### Opsi A: Alur 1 Langkah (Paling Santai & Cepat — Pilihan Mas Andrey)
-* **Saat klien transfer DP 30%:**
-  1. Buka drawer prospek di Dashboard.
-  2. Masukkan nama & nomor WA, klik **"Ambil dari log"** untuk menarik GCLID.
-  3. Masukkan total nilai proyek (misal Rp 31.000.000).
-  4. Klik tombol **`100%`** (Status jadi Lunas/Selesai).
-  5. Simpan $\rightarrow$ Klik **"Export CSV"**.
-  6. Upload file CSV ke Google Ads Data Manager.
-* **Kelebihan:** Cukup **1 kali upload per deal**. Google langsung mencatat nilai proyek penuh (**Rp 31 Jt**) sejak awal. **Tidak perlu mikirin RESTATE lagi.**
-
-### Opsi B: Alur 2 Tahap (Pencatatan Kas Riil Bertahap)
-* **Tahap 1 (Saat DP Masuk):**
-  * Masukkan nilai DP (misal Rp 9.300.000) $\rightarrow$ Status **DP Masuk** $\rightarrow$ Export CSV $\rightarrow$ Upload ke Google Ads.
-* **Tahap 2 (Saat Pengeboran Selesai & Pelunasan Diterima):**
-  * Ubah status prospek jadi **Selesai** $\rightarrow$ Export CSV $\rightarrow$ Sistem otomatis membuat file `RESTATE` berisi Order ID yang sama dengan nilai akhir Rp 31.000.000 $\rightarrow$ Upload ke Google Ads untuk menimpa nilai DP lama.
+### B. Cara Mengunggah CSV Konversi dari Dashboard ASeven Pile
+Setiap kali ada klien yang mentransfer DP atau melunasi proyek:
+1. Buka **Dashboard ASeven Pile** di browser.
+2. Buka tab **CRM Prospek** $\rightarrow$ klik prospek yang bersangkutan $\rightarrow$ pastikan total nilai proyek / DP sudah terisi dan GCLID sudah terhubung (klik tombol *"Ambil dari log"*).
+3. Buka tab **Kinerja Google Ads** di Dashboard $\rightarrow$ klik tombol merah **`Export CSV`**.
+4. File CSV resmi Google Ads akan otomatis terunduh ke komputer Mas Andrey.
+5. Buka **Google Ads** $\rightarrow$ **Goals** $\rightarrow$ **Conversions** $\rightarrow$ **Uploads (Unggahan)**.
+6. Klik tanda tambah biru (**+**) $\rightarrow$ pilih **Source: Upload a file** $\rightarrow$ pilih file CSV yang baru diunduh tadi $\rightarrow$ klik **Apply (Terapkan)**.
+7. Dalam beberapa menit, Google Ads akan menampilkan status: *"Successful uploads"*.
 
 ---
 
-## 3. Daftar Kata Kunci Target (High Buying Intent)
+## 4. Alur Kerja Harian Mas Andrey (SOP Lapangan)
 
-Gunakan jenis pencocokan **Phrase Match (`"..."`)** atau **Exact Match (`[...]`)**. Hindari *Broad Match* tanpa tanda baca di awal agar budget tidak bocor.
+Mas Andrey tidak perlu repot dengan hal rumit. SOP operasional sehari-hari sangat sederhana:
+
+### Alur 1 Langkah (Paling Santai & Cepat — Rekomendasi):
+* **Saat klien transfer DP 30% atau deal disepakati:**
+  1. Buka drawer prospek di Dashboard ASeven Pile.
+  2. Masukkan nama & nomor WA klien.
+  3. Klik tombol **"Ambil dari log"** $\rightarrow$ sistem otomatis mengaitkan log trafik klik iklan Google Ads (`gclid`) milik klien tersebut.
+  4. Masukkan total nilai proyek (misal `Rp 35.000.000`).
+  5. Klik tombol **`100%`** (Status otomatis jadi Lunas/Selesai).
+  6. Simpan $\rightarrow$ Klik tombol **"Export CSV"**.
+  7. Unggah file CSV tersebut ke menu *Google Ads > Uploads* (cukup 1 minggu sekali atau tiap ada deal masuk).
+
+---
+
+## 5. Daftar Kata Kunci Target (High Buying Intent)
+
+Gunakan jenis pencocokan **Phrase Match (`"..."`)** atau **Exact Match (`[...]`)**. Hindari *Broad Match* tanpa tanda petik di awal agar anggaran tidak boros.
 
 ### Kategori Bore Pile (Mesin & Mini Crane)
 * `"jasa bore pile jakarta"`
@@ -82,9 +131,9 @@ Gunakan jenis pencocokan **Phrase Match (`"..."`)** atau **Exact Match (`[...]`)
 
 ---
 
-## 4. Daftar Kata Kunci Negatif Wajib (Negative Keywords)
+## 6. Daftar Kata Kunci Negatif Wajib (Negative Keywords)
 
-Masukkan daftar ini ke menu **Kata Kunci Negatif Kampanye (*Campaign Negative Keywords*)** di Google Ads sebelum kampanye dinyalakan:
+Masukkan daftar kata kunci ini ke menu **Kata Kunci Negatif Kampanye (*Campaign Negative Keywords*)** di Google Ads sebelum kampanye dinyalakan:
 
 ### A. Lowongan Kerja & Karir (Paling Sering Menguras Budget)
 ```
@@ -119,7 +168,7 @@ cara membuat
 sejarah
 ```
 
-### C. Jual Beli / Sewa Alat Bekas (Bukan Pengguna Jasa)
+### C. Jual Beli / Sewa Alat Bekas (Bukan Pengguna Jasa Konstruksi)
 ```
 jual
 beli
@@ -136,7 +185,7 @@ olx
 lazada
 ```
 
-### D. DIY & Non-Target
+### D. DIY & Non-Target (Bukan Kategori Pondasi)
 ```
 diy
 buat sendiri
@@ -144,16 +193,16 @@ manual tanpa tukang
 murahan
 gratis
 free
-alat bor sumur air (jika tidak melayani sumur bor air minum)
+alat bor sumur air
 service pompa air
 bor sumur jet pump
 ```
 
 ---
 
-## 5. Setelan Otomatisasi URL Iklan (Final URL Suffix — 1x Pasang Selamanya)
+## 7. Setelan Otomatisasi URL Iklan (Final URL Suffix — 1x Pasang)
 
-Agar nama kampanye dan kata kunci yang dicari orang di Google **otomatis tertangkap tanpa perlu diketik manual satu-satu**:
+Agar nama kampanye dan kata kunci yang diketik calon klien di Google **otomatis tertangkap di Dashboard tanpa perlu diketik manual**:
 
 1. Di akun Google Ads, buka menu:  
    **Setelan Akun** (atau di **Setelan Kampanye**) $\rightarrow$ **Opsi URL Kampanye** $\rightarrow$ cari kolom **Akhiran URL Final (*Final URL Suffix*)**.
@@ -164,23 +213,24 @@ Agar nama kampanye dan kata kunci yang dicari orang di Google **otomatis tertang
 3. Klik **Simpan**.
 
 ### Cara Kerjanya di Lapangan:
-* **`{_campaign}`:** Google Ads otomatis mengganti bagian ini dengan nama kampanye yang Mas Andrey buat (misal: *"Bore Pile Jakarta"*).
-* **`{keyword}`:** Google Ads otomatis mengganti bagian ini dengan kata kunci asli yang diketik calon klien saat mencari di Google.
-* **Hasil di Dashboard:** Nama kampanye, kata kunci pencarian, klik, chat WA, dan omzet closing akan otomatis terkelompokkan rapi tanpa Mas Andrey utak-atik apa pun lagi!
+* **`{_campaign}`:** Google Ads otomatis mengganti parameter ini dengan nama kampanye yang Mas Andrey buat (misal: *"Bore Pile Jakarta"*).
+* **`{keyword}`:** Google Ads otomatis mengganti parameter ini dengan kata kunci asli yang diketik calon klien saat mencari di Google.
+* **Hasil di Dashboard:** Nama kampanye, kata kunci pencarian, klik, chat WA, dan omzet closing akan otomatis terkelompokkan rapi di tabel Dashboard ASeven Pile.
 
 ---
 
-## 6. Ceklist Sebelum Iklan Dijalankan (Pre-Flight Checklist)
+## 8. Ceklist Sebelum Iklan Dijalankan (Pre-Flight Checklist)
 
-Pastikan langkah berikut sudah dicentang sebelum menekan tombol *Publish Campaign*:
+Pastikan semua poin berikut sudah diperiksa sebelum menekan tombol *Publish Campaign*:
 
 - [ ] **1. Akhiran URL Final (*Final URL Suffix*):** Sudah dipasang `utm_source=google&utm_medium=cpc&utm_campaign={_campaign}&utm_term={keyword}` di setelan Google Ads.
-- [ ] **2. Koneksi Data Manager Google Ads:** Upload perdana CSV sudah pernah dicoba dan kolom terpetakan (`Conversion_Time`, `Order_ID`, `GCLID`, `Conversion_Value`, `Conversion_Currency`).
-- [ ] **3. Saldo Akun Google Ads:** Pastikan metode pembayaran utama (kartu debit/kredit/transfer bank) aktif dan memiliki saldo cukup.
-- [ ] **4. URL Tujuan Iklan (Final URL):**
-  - Pastikan mengarah ke `https://asevenpile.com/area-layanan/bore-pile/jakarta` atau landing page terkait.
-  - Pastikan fitur **Auto-tagging** di akun Google Ads aktif (*Setelan Akun $\rightarrow$ Beri tag otomatis / Auto-tagging: Aktif*).
-- [ ] **5. Bersihkan Data Simulasi di Sheet:**
-  - Hapus baris testing di tab `Leads` (baris `Bpk. Andrey` & ID transaksi uji coba).
-  - Hapus atau biarkan baris testing di tab `Events` agar data real nanti tidak rancu dengan data uji coba.
-- [ ] **6. Tombol WhatsApp Website:** Cek sekali lagi klik tombol WA di HP, pastikan pesan template pembuka dari website langsung mengarah ke nomor WA resmi ASeven Pile (`6285814173761`).
+- [ ] **2. Auto-tagging Aktif:** Pastikan fitur Beri Tag Otomatis aktif di Google Ads (*Setelan Akun $\rightarrow$ Beri tag otomatis / Auto-tagging: Centang Aktif*).
+- [ ] **3. Bidding Awal (Fase 1):** Gunakan **Maximize Clicks** dengan batas tawaran (Max CPC Limit) di angka Rp 15.000 – Rp 25.000.
+- [ ] **4. Status Konversi Awal:**
+  - `Klik WhatsApp`: Disetel sebagai **Primary Action**.
+  - `Scroll Depth 50%`: Disetel sebagai **Secondary Action**.
+  - `Closing Proyek (Offline)`: Sudah dibuat dan disetel sebagai **Secondary Action** (akan diubah ke Primary setelah ada 15 deal).
+- [ ] **5. Kata Kunci Negatif:** Seluruh daftar kata kunci negatif (loker, skripsi, jual alat bekas, sumur bor air) sudah disalin ke menu *Campaign Negative Keywords*.
+- [ ] **6. Saldo Akun Google Ads:** Pastikan metode pembayaran utama aktif dan memiliki saldo cukup.
+- [ ] **7. URL Tujuan Iklan (Final URL):** Mengarah ke halaman layanan spesifik kota, contoh: `https://asevenpile.com/area-layanan/bore-pile/jakarta/`.
+- [ ] **8. Tombol WhatsApp Website:** Sudah diverifikasi di HP dan laptop, klik tombol WA langsung membuka chat ke nomor resmi ASeven Pile (`6285814173761`).
