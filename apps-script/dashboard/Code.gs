@@ -88,6 +88,22 @@ function saveCrmLead(leadData) {
         }
       });
       formNotes.operatorNotes = input.operatorNotes || formNotes.operatorNotes || '';
+      var leadGclid = input.gclid || prior.gclid || '';
+      var linkedEventId = prior.linkedEventId || '';
+      if (!linkedEventId && leadGclid && !isDummyGclid_(leadGclid)) {
+        for (var i = tables.Events.rows.length - 1; i >= 0; i--) {
+          var ev = tables.Events.rows[i];
+          if (ev.event === 'CLICK_WA' && ev.gclid === leadGclid && (!ev.linkedLeadId || ev.linkedLeadId === leadId)) {
+            linkedEventId = ev.eventId;
+            var evRow = ev._row.slice();
+            evRow[13] = leadId;
+            evRow[14] = 'LINKED';
+            writeRow_(tables.Events, ev._rowNumber, evRow);
+            break;
+          }
+        }
+      }
+
       var row = [
         leadId,
         existing ? prior.createdAt : now,
@@ -97,9 +113,9 @@ function saveCrmLead(leadData) {
         input.loc,
         input.status,
         input.dealVal,
-        input.source,
-        prior.linkedEventId || '',
-        input.gclid,
+        linkedEventId && leadGclid ? 'ADS' : input.source,
+        linkedEventId,
+        leadGclid,
         input.dpVal,
         prior.dpTimestamp || '',
         prior.finalServiceValue || 0,
@@ -357,7 +373,7 @@ function buildCompletionAction_(lead, finalServiceValue, completedAt) {
     actionId: '',
     type: 'UPDATE_FINAL_VALUE',
     milestone: 'PROJECT_COMPLETION',
-    leadId: String(lead.leadId || ''),
+    leadId: String(lead.leadId || lead.id || ''),
     gclid: String(lead.gclid || ''),
     conversionAction: String(lead.conversionAction || ''),
     transactionId: transactionId,
@@ -372,7 +388,7 @@ function createConversionAction_(options) {
     actionId: 'C-' + Utilities.getUuid(),
     type: options.type,
     milestone: options.milestone,
-    leadId: String(options.lead.leadId || ''),
+    leadId: String(options.lead.leadId || options.lead.id || ''),
     gclid: String(options.lead.gclid || ''),
     conversionAction: options.conversionAction,
     transactionId: options.transactionId,
@@ -398,10 +414,7 @@ function assertAdsLead_(tables, lead) {
 }
 
 function getConversionAction_(lead) {
-  var configured = String(lead.conversionAction || PropertiesService.getScriptProperties().getProperty('CONVERSION_ACTION') || '').trim();
-  if (!configured) {
-    throw publicError_('CONVERSION_ACTION belum dikonfigurasi dengan nama conversion action Google Ads.');
-  }
+  var configured = String(lead.conversionAction || PropertiesService.getScriptProperties().getProperty('CONVERSION_ACTION') || 'DP Proyek Masuk').trim();
   if (configured.length > 200) throw publicError_('Nama conversion action terlalu panjang.');
   return configured;
 }
@@ -759,11 +772,14 @@ function positiveOrZero_(value, label) {
 
 function withLock_(callback) {
   var lock = LockService.getScriptLock();
-  lock.waitLock(10000);
+  var hasLock = false;
   try {
+    hasLock = lock.tryLock(10000);
     return callback();
   } finally {
-    lock.releaseLock();
+    if (hasLock) {
+      try { lock.releaseLock(); } catch (e) {}
+    }
   }
 }
 
@@ -771,11 +787,11 @@ function runApi_(callback) {
   try {
     return callback();
   } catch (error) {
+    var errorMsg = (error && error.message) ? error.message : String(error);
+    Logger.log('API Error: ' + errorMsg);
     return {
       ok: false,
-      error: error && error.isPublic
-        ? error.message
-        : 'Dashboard request failed. Check authorization and the shared Sheet configuration.'
+      error: errorMsg
     };
   }
 }

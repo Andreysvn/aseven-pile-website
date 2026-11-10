@@ -4038,12 +4038,21 @@ function openLeadDrawer(id = null) {
             ${['Belum Ada','DP 30% Masuk','Lunas 100%'].map(s =>
               `<option value="${s}" ${v('payStatus','Belum Ada')===s?'selected':''}>${s}</option>`).join('')}
           </select></div>
-        <div class="field"><label>DP yang benar-benar diterima (Rp)</label>
-          <input type="number" min="0" step="1" data-field="dpVal" value="${v('dpVal','')}" placeholder="Opsional"></div>
+        <div class="field">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+            <label style="margin:0">DP yang diterima (Rp)</label>
+            <div style="display:flex;gap:3px">
+              <button type="button" class="btn btn-ghost btn-sm" style="padding:1px 6px;font-size:9.5px;font-weight:700;color:var(--emerald)" onclick="setDpPercent(30)" title="Hitung 30% dari Total Proyek">⚡ 30%</button>
+              <button type="button" class="btn btn-ghost btn-sm" style="padding:1px 6px;font-size:9.5px" onclick="setDpPercent(50)" title="Hitung 50% dari Total Proyek">50%</button>
+              <button type="button" class="btn btn-ghost btn-sm" style="padding:1px 6px;font-size:9.5px" onclick="setDpPercent(100)" title="Pelunasan 100%">100%</button>
+            </div>
+          </div>
+          <input type="number" min="0" step="1" data-field="dpVal" value="${v('dpVal','')}" placeholder="Ketik atau klik ⚡ 30%">
+        </div>
       </div>
       <div class="form-row">
         <div class="field"><label>Waktu DP diterima</label>
-          <input type="datetime-local" data-field="dpTimestamp" value="${esc(toDatetimeLocal(v('dpTimestamp')))}"></div>
+          <input type="datetime-local" data-field="dpTimestamp" value="${esc(toDatetimeLocal(v('dpTimestamp') || new Date().toISOString()))}"></div>
         <div class="field"><label>Waktu proyek selesai</label>
           <input type="datetime-local" data-field="completionTimestamp" value="${esc(toDatetimeLocal(v('completionTimestamp')))}"></div>
       </div>
@@ -4066,6 +4075,36 @@ function openLeadDrawer(id = null) {
   $('#lead-drawer').classList.add('open');
   $('#drawer-backdrop').classList.add('open');
   setTimeout(() => $('#drawer-body [data-field="name"]')?.focus(), 120);
+}
+
+function setDpPercent(pct) {
+  const dealInput = $('#drawer-body [data-field="dealVal"]');
+  const dpInput = $('#drawer-body [data-field="dpVal"]');
+  const payStatusSelect = $('#drawer-body [data-field="payStatus"]');
+  const statusSelect = $('#drawer-body [data-field="status"]');
+  const dpTimeInput = $('#drawer-body [data-field="dpTimestamp"]');
+  if (!dealInput || !dpInput) return;
+  const dealVal = parseFloat(dealInput.value) || 0;
+  if (dealVal <= 0) {
+    toast('Isi Total Nilai Proyek / Omset terlebih dahulu', 'warn');
+    return;
+  }
+  const calc = Math.round(dealVal * (pct / 100));
+  dpInput.value = calc;
+  if (pct === 30) {
+    if (payStatusSelect) payStatusSelect.value = 'DP 30% Masuk';
+    if (statusSelect && (statusSelect.value === 'Baru' || statusSelect.value === 'Survei')) {
+      statusSelect.value = 'DP Masuk';
+    }
+  } else if (pct === 100) {
+    if (payStatusSelect) payStatusSelect.value = 'Lunas 100%';
+    if (statusSelect) statusSelect.value = 'Selesai';
+  }
+  if (dpTimeInput && !dpTimeInput.value) {
+    dpTimeInput.value = toDatetimeLocal(new Date().toISOString());
+  }
+  recalcDrawer();
+  toast(`✓ DP otomatis dihitung ${pct}%: ${fmtRp(calc)}`, 'success');
 }
 
 function recalcDrawer() {
@@ -4177,7 +4216,19 @@ function toDatetimeLocal(value) {
   return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 }
 
+function safeIsoTimestamp(value, fallback = '') {
+  if (!value) return fallback;
+  try {
+    const d = new Date(value);
+    if (!Number.isNaN(d.getTime())) {
+      return d.toISOString();
+    }
+  } catch (e) {}
+  return fallback;
+}
+
 function saveLead() {
+  try {
   const fields = {};
   $$('#drawer-body [data-field]').forEach(el => { fields[el.dataset.field] = el.value; });
   if (!fields.name?.trim() || !fields.phone?.trim()) {
@@ -4195,12 +4246,8 @@ function saveLead() {
     ? (fields.gclid?.trim() || existing?.gclid || '')
     : '';
   const dpValue = parseFloat(fields.dpVal) || 0;
-  const dpTimestamp = fields.dpTimestamp
-    ? new Date(fields.dpTimestamp).toISOString()
-    : (existing?.dpTimestamp || '');
-  const completionTimestamp = fields.completionTimestamp
-    ? new Date(fields.completionTimestamp).toISOString()
-    : (existing?.completionTimestamp || '');
+  const dpTimestamp = safeIsoTimestamp(fields.dpTimestamp, existing?.dpTimestamp || (dpValue > 0 ? new Date().toISOString() : ''));
+  const completionTimestamp = safeIsoTimestamp(fields.completionTimestamp, existing?.completionTimestamp || '');
 
   const lead = {
     id: existing?.id || 'L-' + (100 + DATA.crmLeads.length + 1),
@@ -4318,6 +4365,10 @@ function saveLead() {
     return;
   }
   finishSave(lead);
+  } catch (err) {
+    console.error('saveLead error:', err);
+    toast('Gagal menyimpan: ' + (err?.message || err), 'error');
+  }
 }
 
 function linkTrafficEvent(eventId, leadId) {
@@ -4701,9 +4752,11 @@ function setDashboardStatus(message, isLive = false) {
 
 function showDashboardError(message) {
   const alert = $('#dashboard-alert');
-  if (!alert) return;
-  alert.textContent = message || 'Dashboard gagal memuat data. Periksa akses dan konfigurasi Google Sheet.';
-  alert.classList.add('visible');
+  if (alert) {
+    alert.textContent = message || 'Dashboard gagal memuat data. Periksa akses dan konfigurasi Google Sheet.';
+    alert.classList.add('visible');
+  }
+  toast(message || 'Gagal memproses data', 'error', 7000);
   setDashboardStatus('GAGAL MEMUAT DATA');
 }
 
