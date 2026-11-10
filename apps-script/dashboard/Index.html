@@ -3730,12 +3730,13 @@ function setScrollSourceFilter(src) {
 function renderScrollSection() {
   const allEvents = filteredTraffic();
   
-  // Render Filter Tabs
+  // Render Filter Tabs (Pisahkan Instagram & TikTok agar analisa tajam)
   const filters = [
     { key: 'all', label: 'Semua Sumber' },
     { key: 'ADS', label: 'Google Ads' },
     { key: 'SEO', label: 'SEO Google' },
-    { key: 'MEDSOS', label: 'Medsos (IG/FB/TikTok)' },
+    { key: 'INSTAGRAM', label: 'Instagram' },
+    { key: 'TIKTOK', label: 'TikTok' },
     { key: 'DIRECT', label: 'Direct' }
   ];
   const filterContainer = $('#scroll-filters');
@@ -3752,7 +3753,8 @@ function renderScrollSection() {
   let sessionList = allSessions.slice();
   if (State.scrollSourceFilter === 'ADS') sessionList = sessionList.filter(s => s.source === 'ADS');
   else if (State.scrollSourceFilter === 'SEO') sessionList = sessionList.filter(s => s.source === 'SEO');
-  else if (State.scrollSourceFilter === 'MEDSOS') sessionList = sessionList.filter(s => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(s.source));
+  else if (State.scrollSourceFilter === 'INSTAGRAM') sessionList = sessionList.filter(s => s.source === 'INSTAGRAM');
+  else if (State.scrollSourceFilter === 'TIKTOK') sessionList = sessionList.filter(s => s.source === 'TIKTOK');
   else if (State.scrollSourceFilter === 'DIRECT') sessionList = sessionList.filter(s => s.source === 'DIRECT');
 
   // Metrik per sesi pengunjung
@@ -3840,17 +3842,19 @@ function renderScrollSection() {
     }).join('');
   }
 
-  // Summary badges by source
+  // Summary badges by source (dengan perbandingan Instagram & TikTok)
   const badgeContainer = $('#scroll-source-summary-badges');
   if (badgeContainer) {
     const adsAvg = calcSourceAvgScroll(allSessions, 'ADS');
     const seoAvg = calcSourceAvgScroll(allSessions, 'SEO');
-    const medsosAvg = calcSourceAvgScroll(allSessions, 'MEDSOS');
+    const igAvg = calcSourceAvgScroll(allSessions, 'INSTAGRAM');
+    const ttAvg = calcSourceAvgScroll(allSessions, 'TIKTOK');
     const directAvg = calcSourceAvgScroll(allSessions, 'DIRECT');
     badgeContainer.innerHTML = `
       <span class="badge maroon mono" style="font-size:9.5px">Ads: ${adsAvg}% avg</span>
       <span class="badge blue mono" style="font-size:9.5px">SEO: ${seoAvg}% avg</span>
-      <span class="badge rose mono" style="font-size:9.5px">Medsos: ${medsosAvg}% avg</span>
+      <span class="badge rose mono" style="font-size:9.5px">IG: ${igAvg}% avg</span>
+      <span class="badge neutral mono" style="font-size:9.5px">TikTok: ${ttAvg}% avg</span>
       <span class="badge neutral mono" style="font-size:9.5px">Direct: ${directAvg}% avg</span>
     `;
   }
@@ -3862,6 +3866,8 @@ function calcSourceAvgScroll(sessions, src) {
   let list = (sessions || []).slice();
   if (src === 'ADS') list = list.filter(t => t.source === 'ADS');
   else if (src === 'SEO') list = list.filter(t => t.source === 'SEO');
+  else if (src === 'INSTAGRAM') list = list.filter(t => t.source === 'INSTAGRAM');
+  else if (src === 'TIKTOK') list = list.filter(t => t.source === 'TIKTOK');
   else if (src === 'MEDSOS') list = list.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source));
   else if (src === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
   if (!list.length) return 0;
