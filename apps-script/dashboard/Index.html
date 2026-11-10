@@ -535,6 +535,17 @@ body, html { max-width: 100vw; overflow-x: hidden; }
         <span id="date-picker-label" style="font-size:11.5px;font-weight:600">Kalender</span>
         <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
+      <div style="position:relative;display:inline-flex;align-items:center">
+        <select id="sync-interval-select" onchange="changeSyncInterval(this.value)" aria-label="Interval Sinkronisasi Otomatis" style="font-size:11px;font-weight:600;height:30px;padding:0 6px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--maroon-800);cursor:pointer">
+          <option value="15000" selected>⚡ 15s (Aman)</option>
+          <option value="8000">⚡ 8s (Cepat)</option>
+          <option value="30000">⚡ 30s (Santai)</option>
+          <option value="0">Manual (Off)</option>
+        </select>
+      </div>
+      <button class="btn btn-ghost btn-icon" onclick="loadDashboardData()" title="Sinkronkan Data Sekarang" style="color:var(--maroon-800);width:30px;height:30px">
+        <svg viewBox="0 0 24 24" id="refresh-icon" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+      </button>
       <button class="btn btn-ghost" onclick="openCommand()" title="Cari (⌘K)">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <kbd>⌘K</kbd>
@@ -627,7 +638,12 @@ body, html { max-width: 100vw; overflow-x: hidden; }
             <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Perisai Anti-Kompetitor
           </div>
-          <div class="panel-meta">IP dengan ≥2 klik tanpa chat WA</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="panel-meta">IP dengan ≥2 klik tanpa chat WA</span>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="triggerFraudSimulation()" style="color:var(--rose);border-color:var(--rose-bd);font-size:10px;padding:2px 8px;height:24px;font-weight:600" title="Simulasikan 3 klik iklan berulang dari kompetitor">
+              ⚡ Tes Simulasi Fraud
+            </button>
+          </div>
         </div>
         <div class="tbl-scroll" role="region">
           <table class="tbl" id="ads-fraud-table">
@@ -1572,16 +1588,23 @@ function getChartData(type, range) {
   const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
+  const toLocalDateStr = d => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  };
+
   const points = [];
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
-    const dateStr = d.toISOString().slice(0, 10);
+    const dateStr = toLocalDateStr(d);
     const dayLabel = `${String(d.getDate()).padStart(2, '0')} ${monthNames[d.getMonth()]}`;
     const fullDate = `${dayNames[d.getDay()]}, ${dayLabel}`;
 
     const trDay = DATA.trafficLogs.filter(t => {
       if (!t.timestamp) return false;
-      const tDate = new Date(t.timestamp).toISOString().slice(0, 10);
+      const tDate = toLocalDateStr(new Date(t.timestamp));
       return tDate === dateStr && (type === 'ads' ? t.source === 'ADS' : t.source === 'SEO');
     });
 
@@ -1589,8 +1612,9 @@ function getChartData(type, range) {
     const chats = trDay.filter(isWhatsAppTrafficEvent).length;
 
     const dealsDay = DATA.crmLeads.filter(l => {
-      if (!l.createdAt) return false;
-      const lDate = new Date(l.createdAt).toISOString().slice(0, 10);
+      const rawDate = l.createdAt || l.dpTimestamp || l.dealTimestamp;
+      if (!rawDate) return false;
+      const lDate = toLocalDateStr(new Date(rawDate));
       return lDate === dateStr && isClosed(l) && (type === 'ads' ? l.source === 'ADS' : l.source === 'SEO');
     });
 
@@ -1637,10 +1661,22 @@ function sourceStats(source) {
 function computeCampaigns() {
   if (IS_HOSTED_DASHBOARD) {
     const campMap = {};
+    const gclidToCamp = {};
+
     filteredTraffic().forEach(t => {
-      const camp = t.campaign || t.utmCampaign;
-      if (camp && camp !== '-' && camp.trim()) {
-        const key = camp.trim();
+      const camp = (t.campaign || t.utmCampaign || '').trim();
+      if (t.gclid && camp && camp !== '-') {
+        gclidToCamp[t.gclid] = camp;
+      }
+    });
+
+    filteredTraffic().forEach(t => {
+      let camp = (t.campaign || t.utmCampaign || '').trim();
+      if ((!camp || camp === '-') && t.gclid && gclidToCamp[t.gclid]) {
+        camp = gclidToCamp[t.gclid];
+      }
+      if (camp && camp !== '-') {
+        const key = camp;
         if (!campMap[key]) {
           campMap[key] = {
             name: key,
@@ -1657,9 +1693,16 @@ function computeCampaigns() {
     });
 
     filteredLeads().forEach(l => {
-      if (l.campaign && campMap[l.campaign] && isClosed(l)) {
-        campMap[l.campaign].deals++;
-        campMap[l.campaign].revenue += (Number(l.dealVal) || 0);
+      let camp = (l.campaign || '').trim();
+      if ((!camp || !campMap[camp]) && l.gclid && gclidToCamp[l.gclid]) {
+        camp = gclidToCamp[l.gclid];
+      }
+      if ((!camp || !campMap[camp]) && Object.keys(campMap).length === 1 && l.source === 'ADS') {
+        camp = Object.keys(campMap)[0];
+      }
+      if (camp && campMap[camp] && isClosed(l)) {
+        campMap[camp].deals++;
+        campMap[camp].revenue += (Number(l.dealVal) || 0);
       }
     });
 
@@ -1756,11 +1799,26 @@ function filterByRollout(key) {
 function computeFraud() {
   const m = {};
   filteredTraffic().forEach(t => {
+    // Khusus memantau klik berbayar dari iklan Google Ads (yang berpotensi menguras biaya)
+    const isPaid = t.source === 'ADS' || Boolean(t.gclid) || Boolean(t.campaign);
+    if (!isPaid) return;
     if (!t.ip || t.ip === '-' || t.ip.trim() === '') return;
-    if (!m[t.ip]) m[t.ip] = { ip:t.ip, clicks:0, chats:0, last:t.time, loc:t.loc };
+    const rawTime = t.timestamp || t.time;
+    let timeLabel = t.time || '';
+    if (rawTime && (timeLabel === '' || timeLabel === 'Invalid Date' || timeLabel.includes('Invalid'))) {
+      const d = new Date(rawTime);
+      if (!isNaN(d.getTime())) {
+        timeLabel = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+    if (!timeLabel || timeLabel.includes('Invalid')) timeLabel = 'Baru saja';
+    if (!m[t.ip]) m[t.ip] = { ip: t.ip, clicks: 0, chats: 0, last: timeLabel, rawTime: rawTime, loc: t.loc || 'Jabodetabek' };
     if (isWhatsAppTrafficEvent(t)) m[t.ip].chats++;
     else m[t.ip].clicks++;
-    if (t.time > m[t.ip].last) m[t.ip].last = t.time;
+    if (rawTime && (!m[t.ip].rawTime || rawTime > m[t.ip].rawTime)) {
+      m[t.ip].last = timeLabel;
+      m[t.ip].rawTime = rawTime;
+    }
   });
   return Object.values(m).filter(x => x.clicks >= 2 && x.chats === 0).sort((a,b)=>b.clicks-a.clicks);
 }
@@ -2098,7 +2156,7 @@ function renderAds() {
     ft.innerHTML = fr.map(f => '<tr class="static">' +
       '<td>' +
         '<span class="badge mono rose" style="font-size:11px;font-weight:700;padding:2px 6px">' + esc(f.ip) + '</span>' +
-        '<div class="cell-secondary" style="font-size:9.5px;margin-top:3px">Terakhir: ' + esc(f.last) + ' WIB</div>' +
+        '<div class="cell-secondary" style="font-size:9.5px;margin-top:3px">Terakhir: ' + esc(f.last) + (f.last.includes(':') ? ' WIB' : '') + '</div>' +
       '</td>' +
       '<td>' +
         '<div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--rose)">' + f.clicks + '× Klik · 0 Chat</div>' +
@@ -3336,11 +3394,18 @@ function renderArmadaTable() {
 
 function renderTraffic() {
   const tr = filteredTraffic();
+  const fraudList = computeFraud();
+  const fraudIps = new Set(fraudList.map(f => f.ip));
+  tr.forEach(t => {
+    t.fraud = fraudIps.has(t.ip);
+  });
   const ads = tr.filter(t => t.source === 'ADS').length;
   const seo = tr.filter(t => t.source === 'SEO').length;
   const direct = tr.filter(t => t.source === 'DIRECT').length;
   const fraud = tr.filter(t => t.fraud).length;
   const chats = tr.filter(isWhatsAppTrafficEvent).length;
+
+  const medsos = tr.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source)).length;
 
   $('#traffic-kpis').innerHTML = `
     <div class="kpi-item">
@@ -3359,6 +3424,11 @@ function renderTraffic() {
       <div class="kpi-sub">Kunjungan & aksi</div>
     </div>
     <div class="kpi-item">
+      <div class="kpi-label">Medsos</div>
+      <div class="kpi-value rose">${medsos}</div>
+      <div class="kpi-sub">IG, FB, TikTok, WA</div>
+    </div>
+    <div class="kpi-item">
       <div class="kpi-label">Direct</div>
       <div class="kpi-value">${direct}</div>
       <div class="kpi-sub">Tanpa sumber terdeteksi</div>
@@ -3371,7 +3441,7 @@ function renderTraffic() {
     <div class="kpi-item">
       <div class="kpi-label">Fraud</div>
       <div class="kpi-value danger">${fraud}</div>
-      <div class="kpi-sub">IP berulang</div>
+      <div class="kpi-sub">${fraudList.length} IP terindikasi</div>
     </div>
   `;
 
@@ -3379,7 +3449,8 @@ function renderTraffic() {
     { key:'all', label:'Semua' },
     { key:'WA', label:'Chat WA' },
     { key:'ADS', label:'Google Ads' },
-    { key:'SEO', label:'SEO' },
+    { key:'SEO', label:'SEO Google' },
+    { key:'MEDSOS', label:'Medsos (IG/FB/TikTok)' },
     { key:'DIRECT', label:'Direct' },
     { key:'REFERRAL', label:'Referral' },
     { key:'CAMPAIGN', label:'Kampanye UTM' },
@@ -3395,8 +3466,13 @@ function renderTraffic() {
 function renderTrafficTable() {
   const tbody = $('#traffic-tbody');
   const q = State.trafficSearch.toLowerCase().trim();
+  const fraudList = computeFraud();
+  const fraudIps = new Set(fraudList.map(f => f.ip));
 
-  let list = filteredTraffic().slice().sort((a, b) => {
+  let list = filteredTraffic().slice().map(t => {
+    t.fraud = fraudIps.has(t.ip);
+    return t;
+  }).sort((a, b) => {
     const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
     const timeB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
     return timeB - timeA;
@@ -3404,6 +3480,7 @@ function renderTrafficTable() {
   if (State.trafficFilter === 'WA') list = list.filter(isWhatsAppTrafficEvent);
   else if (State.trafficFilter === 'ADS') list = list.filter(t => t.source === 'ADS');
   else if (State.trafficFilter === 'SEO') list = list.filter(t => t.source === 'SEO');
+  else if (State.trafficFilter === 'MEDSOS') list = list.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source));
   else if (State.trafficFilter === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
   else if (State.trafficFilter === 'REFERRAL') list = list.filter(t => t.source === 'REFERRAL');
   else if (State.trafficFilter === 'CAMPAIGN') list = list.filter(t => t.source === 'CAMPAIGN');
@@ -3432,7 +3509,12 @@ function renderTrafficTable() {
         : '<span class="badge neutral" style="font-size:9px"><span class="badge-dot"></span>View</span>');
     const sourceMeta = {
       ADS: { label: 'Google Ads', className: 'maroon' },
-      SEO: { label: 'SEO', className: 'blue' },
+      SEO: { label: 'SEO Google', className: 'blue' },
+      INSTAGRAM: { label: 'Instagram', className: 'rose' },
+      FACEBOOK: { label: 'Facebook', className: 'blue' },
+      TIKTOK: { label: 'TikTok', className: 'neutral' },
+      YOUTUBE: { label: 'YouTube', className: 'rose' },
+      WHATSAPP: { label: 'Link WA', className: 'emerald' },
       DIRECT: { label: 'Direct', className: 'neutral' },
       REFERRAL: { label: 'Referral', className: 'amber' },
       CAMPAIGN: { label: 'Kampanye UTM', className: 'neutral' }
@@ -4273,8 +4355,8 @@ function saveLead() {
     piutangVal: parseFloat(fields.piutangVal)||0,
     payStatus: fields.payStatus || 'Belum Ada',
     source: src,
-    campaign: src === 'ADS' ? (fields.campaign || 'bore_pile_jakarta_mesin') : undefined,
-    keyword: src === 'SEO' ? (fields.keyword || 'jasa bore pile jakarta') : undefined,
+    campaign: src === 'ADS' ? (((DATA.traffic || []).find(t => (gclid && t.gclid === gclid) || (fields.linkedEventId && (t.id === fields.linkedEventId || t.eventId === fields.linkedEventId)))?.campaign) || fields.campaign || 'bore_pile_jakarta_mesin') : undefined,
+    keyword: src === 'SEO' ? (fields.keyword || 'jasa bore pile jakarta') : (((DATA.traffic || []).find(t => (gclid && t.gclid === gclid)))?.keyword || undefined),
     page: src === 'SEO' ? (fields.page || '/area-layanan/bore-pile/jakarta-selatan') : undefined,
     gclid: gclid
   };
@@ -4478,6 +4560,16 @@ function renderCmd(q) {
       {icon:'clock', title:'Overview', action:()=>switchSection('overview')}
     ].filter(x=>x.title.toLowerCase().includes(q))
       .forEach(x => items.push({ type:'Nav', icon:x.icon, title:x.title, action:()=>{closeCommand();x.action();} }));
+
+    if ('reset database bersihkan data kosongkan'.includes(q)) {
+      items.push({
+        type: 'Admin',
+        icon: 'trash',
+        title: 'Kosongkan Semua Data Uji Coba',
+        sub: 'Wajib ketik "HAPUS" untuk konfirmasi',
+        action: () => { closeCommand(); resetDashboardData(); }
+      });
+    }
 
     // Cari halaman website di Katalog Konten
     (DATA.seoPages || []).filter(p => p.label.toLowerCase().includes(q) || p.url.toLowerCase().includes(q) || (p.keyword && p.keyword.toLowerCase().includes(q))).slice(0, 4)
@@ -4801,14 +4893,22 @@ function runDashboardCall(method, args = [], onSuccess, onFailure) {
   return true;
 }
 
-function loadDashboardData() {
-  setDashboardStatus('MEMUAT DATA...');
+function loadDashboardData(isSilent = false) {
+  if (!isSilent) setDashboardStatus('MEMUAT DATA...');
+  const refIcon = $('#refresh-icon');
+  if (refIcon && !isSilent) {
+    refIcon.style.transition = 'transform 600ms ease';
+    refIcon.style.transform = 'rotate(360deg)';
+  }
   const disclaimer = $('#data-disclaimer');
   if (disclaimer) disclaimer.style.display = 'block';
   google.script.run
     .withSuccessHandler(result => {
+      if (refIcon) {
+        setTimeout(() => { refIcon.style.transition = 'none'; refIcon.style.transform = 'none'; }, 650);
+      }
       if (!result || result.ok !== true) {
-        showDashboardError(result?.error || 'Data dashboard tidak tersedia.');
+        if (!isSilent) showDashboardError(result?.error || 'Data dashboard tidak tersedia.');
         return;
       }
       DATA.crmLeads = (result.crm || []).map(lead => ({
@@ -4830,17 +4930,95 @@ function loadDashboardData() {
         channel: entry.actor
       })).sort((a, b) => new Date(b.timestamp || 0).getTime() - new Date(a.timestamp || 0).getTime());
       clearDashboardError();
-      setDashboardStatus('LIVE · EVENT & CRM', true);
-      renderCurrent();
-      renderFleet();
-      renderArmadaTable();
-      renderOverview();
+      const currentInterval = getSyncInterval();
+      const intervalLabel = currentInterval === 0 ? 'MANUAL' : `AUTO-SYNC (${currentInterval/1000}s)`;
+      setDashboardStatus(`LIVE · ${intervalLabel}`, true);
+      const hasOpenModal = $$('.modal-backdrop.open, .drawer.open').length > 0;
+      const isInputFocused = document.activeElement && ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
+      const hasSelection = window.getSelection && window.getSelection().toString().trim().length > 0;
+      const isUserInteracting = hasOpenModal || isInputFocused || hasSelection;
+      if (!isUserInteracting) {
+        renderCurrent();
+        renderFleet();
+        renderArmadaTable();
+        renderOverview();
+      }
       loadPendingAdsActions();
     })
     .withFailureHandler(error => {
-      showDashboardError(error?.message || 'Koneksi ke dashboard gagal. Muat ulang halaman setelah memeriksa akses.');
+      if (refIcon) refIcon.style.transform = 'none';
+      if (!isSilent) showDashboardError(error?.message || 'Koneksi ke dashboard gagal.');
     })
     .getDashboardData();
+}
+
+let syncTimer = null;
+function getSyncInterval() {
+  const saved = localStorage.getItem('aseven_sync_interval');
+  return saved !== null ? parseInt(saved, 10) : 15000;
+}
+
+function changeSyncInterval(val) {
+  const ms = parseInt(val, 10);
+  localStorage.setItem('aseven_sync_interval', ms);
+  startAutoSyncTimer(ms);
+  const label = ms === 0 ? 'MANUAL' : `AUTO-SYNC (${ms/1000}s)`;
+  setDashboardStatus(`LIVE · ${label}`, true);
+  toast(`Sinkronisasi disetel ke: ${ms === 0 ? 'Manual' : ms/1000 + ' detik'}`, 'info', 2500);
+}
+
+function startAutoSyncTimer(ms) {
+  if (syncTimer) clearInterval(syncTimer);
+  if (ms <= 0) return;
+  syncTimer = setInterval(() => {
+    const hasOpenModal = $$('.modal-backdrop.open, .drawer.open').length > 0;
+    const isInputFocused = document.activeElement && ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
+    const hasSelection = window.getSelection && window.getSelection().toString().trim().length > 0;
+    const isUserInteracting = hasOpenModal || isInputFocused || hasSelection;
+    if (!isUserInteracting) {
+      loadDashboardData(true);
+    }
+  }, ms);
+}
+
+function triggerFraudSimulation() {
+  if (!IS_HOSTED_DASHBOARD) return;
+  toast('Mengirim 3 klik kompetitor dari IP 182.253.110.45 tanpa chat WA...', 'warn', 3500);
+  google.script.run
+    .withSuccessHandler(res => {
+      if (res && res.ok) {
+        toast(`Berhasil! IP ${res.ip} terdeteksi sebagai Fraud (3x klik)!`, 'error', 6000);
+        loadDashboardData();
+      } else {
+        toast('Gagal simulasi: ' + (res?.error || 'Unknown error'), 'warn');
+      }
+    })
+    .withFailureHandler(err => {
+      toast('Gagal koneksi simulasi: ' + err.message, 'error');
+    })
+    .simulateFraudClicks('182.253.110.45');
+}
+
+function resetDashboardData() {
+  const confirmText = prompt('PERINGATAN KEAMANAN TINGKAT TINGGI:\n\nUntuk mencegah data prospek dan omzet terhapus secara tidak sengaja, Anda WAJIB mengetik kata "HAPUS" (huruf besar semua) untuk mengosongkan database:');
+  if (confirmText !== 'HAPUS') {
+    if (confirmText !== null) toast('Reset dibatalkan (kata konfirmasi salah).', 'info');
+    return;
+  }
+  toast('Sedang mereset semua data database...', 'warn', 4000);
+  google.script.run
+    .withSuccessHandler(res => {
+      if (res && res.ok) {
+        toast(`Berhasil reset! ${res.cleared.events} log dan ${res.cleared.leads} prospek telah dibersihkan kembali ke 0.`, 'success', 6000);
+        loadDashboardData();
+      } else {
+        toast('Gagal reset: ' + (res?.error || 'Unknown error'), 'error');
+      }
+    })
+    .withFailureHandler(err => {
+      toast('Gagal koneksi reset: ' + err.message, 'error');
+    })
+    .resetAllData();
 }
 
 function daysAgoFrom(value) {
@@ -4857,7 +5035,13 @@ function daysAgoFrom(value) {
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   switchSection('ads');
-  if (IS_HOSTED_DASHBOARD) loadDashboardData();
+  if (IS_HOSTED_DASHBOARD) {
+    const currentInterval = getSyncInterval();
+    const selectEl = $('#sync-interval-select');
+    if (selectEl) selectEl.value = String(currentInterval);
+    loadDashboardData();
+    startAutoSyncTimer(currentInterval);
+  }
 });
 </script>
 

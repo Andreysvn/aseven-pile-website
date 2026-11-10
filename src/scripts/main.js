@@ -143,13 +143,26 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const attribution = initTrafficParams();
 
+  let maxScrollPct = 0;
+  const updateScrollDepth = () => {
+    const docEl = document.documentElement;
+    const scrollHeight = docEl.scrollHeight - window.innerHeight;
+    if (scrollHeight > 0) {
+      const pct = Math.min(100, Math.round((window.scrollY / scrollHeight) * 100));
+      if (pct > maxScrollPct) maxScrollPct = pct;
+    }
+  };
+  window.addEventListener('scroll', updateScrollDepth, { passive: true });
+
   const sendTrackingLog = (event) => {
     try {
+      updateScrollDepth();
+      const scrollSuffix = maxScrollPct > 0 ? ` · Scroll ${maxScrollPct}%` : '';
       const payload = createTrackingEvent(event, {
         page: window.location.pathname,
         ip: '-',
         referrer: sessionStorage.getItem('aseven_referrer') || document.referrer || '-',
-        device: getDeviceLabel(),
+        device: `${getDeviceLabel()}${scrollSuffix}`,
       }, attribution, Date.now(), window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`);
       const payloadString = JSON.stringify(payload);
       queueTrackingPayload(TRACKING_WEBHOOK_URL, payloadString, {
@@ -182,6 +195,53 @@ document.addEventListener('DOMContentLoaded', () => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event, ...parameters });
   };
+
+  // 3. Deteksi Scroll Depth (GTM DataLayer Push untuk Trigger 50%, 25%, 75%, 90%)
+  const trackedScrollDepths = new Set();
+  const scrollThresholds = [25, 50, 75, 90];
+
+  const handleScrollDepth = () => {
+    const docEl = document.documentElement;
+    const scrollHeight = docEl.scrollHeight - window.innerHeight;
+    if (scrollHeight <= 0) return;
+    const currentPercent = Math.round((window.scrollY / scrollHeight) * 100);
+
+    for (let i = 0; i < scrollThresholds.length; i++) {
+      const threshold = scrollThresholds[i];
+      if (currentPercent >= threshold && !trackedScrollDepths.has(threshold)) {
+        trackedScrollDepths.add(threshold);
+
+        // Format standar GA4 / Google Tag Manager
+        pushTrackingEvent('scroll', {
+          percent_scrolled: threshold,
+          scroll_depth_threshold: threshold,
+          page_location: window.location.href,
+          page_path: window.location.pathname
+        });
+
+        // Format Custom Event untuk GTM tag spesifik
+        pushTrackingEvent('scroll_depth', {
+          percent: threshold,
+          depth: threshold,
+          page_path: window.location.pathname
+        });
+
+        if (threshold === 50) {
+          pushTrackingEvent('scroll_50', {
+            percent: 50,
+            page_path: window.location.pathname
+          });
+        }
+      }
+    }
+
+    if (trackedScrollDepths.size === scrollThresholds.length) {
+      window.removeEventListener('scroll', handleScrollDepth);
+    }
+  };
+
+  window.addEventListener('scroll', handleScrollDepth, { passive: true });
+  setTimeout(handleScrollDepth, 500);
 
   // 4. Deteksi Klik Tombol WhatsApp & Telepon
   document.addEventListener('click', (e) => {

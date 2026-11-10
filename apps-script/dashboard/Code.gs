@@ -16,7 +16,12 @@ var FORM_NOTE_FIELDS_ = [
   'dpVal', 'piutangVal', 'payStatus', 'campaign', 'keyword', 'page', 'soilNotes'
 ];
 
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.action === 'reset_clean_slate_confirmed') {
+    assertOwner_();
+    var res = resetAllData();
+    return ContentService.createTextOutput(JSON.stringify(res)).setMimeType(ContentService.MimeType.JSON);
+  }
   assertOwner_();
   return HtmlService.createHtmlOutputFromFile('Index')
     .setTitle('ASeven Pile — Dashboard');
@@ -622,6 +627,9 @@ function eventToDashboard_(event) {
     url: String(event.page || ''),
     source: source,
     campaign: String(event.utmCampaign || ''),
+    utmCampaign: String(event.utmCampaign || ''),
+    utmTerm: String(event.utmTerm || ''),
+    keyword: String(event.utmTerm || ''),
     gclid: String(event.gclid || ''),
     ip: String(event.ip || '-'),
     loc: '',
@@ -640,19 +648,48 @@ function classifyTrafficSource_(event) {
 
   var utmSource = String(event.utmSource || '').trim().toLowerCase();
   var utmMedium = String(event.utmMedium || '').trim().toLowerCase();
-  var hasCampaign = Boolean(
-    utmSource || utmMedium || event.utmCampaign || event.utmTerm || event.utmContent
-  );
+  var host = referrerHost_(event.referrer);
+
   if (utmMedium === 'organic' && (!utmSource || isSearchEngineName_(utmSource))) return 'SEO';
 
   var paidMedium = /^(cpc|ppc|paid|paidsearch|paid-search)$/.test(utmMedium);
   if (utmSource === 'google' && paidMedium) return 'ADS';
+
+  // Deteksi Media Sosial spesifik (lewat utm_source maupun referrer host)
+  if (utmSource === 'instagram' || utmSource === 'ig' || isInstagramHost_(host)) return 'INSTAGRAM';
+  if (utmSource === 'facebook' || utmSource === 'fb' || isFacebookHost_(host)) return 'FACEBOOK';
+  if (utmSource === 'tiktok' || isTikTokHost_(host)) return 'TIKTOK';
+  if (utmSource === 'youtube' || isYouTubeHost_(host)) return 'YOUTUBE';
+  if (utmSource === 'whatsapp' || utmSource === 'wa' || isWhatsAppHost_(host)) return 'WHATSAPP';
+
+  var hasCampaign = Boolean(
+    utmSource || utmMedium || event.utmCampaign || event.utmTerm || event.utmContent
+  );
   if (hasCampaign) return 'CAMPAIGN';
 
-  var host = referrerHost_(event.referrer);
   if (!host || host === 'asevenpile.com' || /\.asevenpile\.com$/.test(host)) return 'DIRECT';
   if (isSearchEngineHost_(host)) return 'SEO';
   return 'REFERRAL';
+}
+
+function isInstagramHost_(host) {
+  return /(^|\.)instagram\.com$/.test(host);
+}
+
+function isFacebookHost_(host) {
+  return /(^|\.)facebook\.com$/.test(host) || /(^|\.)fb\.com$/.test(host) || /(^|\.)messenger\.com$/.test(host);
+}
+
+function isTikTokHost_(host) {
+  return /(^|\.)tiktok\.com$/.test(host);
+}
+
+function isYouTubeHost_(host) {
+  return /(^|\.)youtube\.com$/.test(host) || /(^|\.)youtu\.be$/.test(host);
+}
+
+function isWhatsAppHost_(host) {
+  return /(^|\.)whatsapp\.com$/.test(host) || /(^|\.)wa\.me$/.test(host);
 }
 
 function referrerHost_(referrer) {
@@ -801,4 +838,56 @@ function publicError_(message) {
   var error = new Error(message);
   error.isPublic = true;
   return error;
+}
+
+function simulateFraudClicks(ip) {
+  return runApi_(function () {
+    assertOwner_();
+    var tables = getTables_();
+    var targetIp = ip || '182.253.110.45';
+    var now = new Date();
+    for (var i = 1; i <= 3; i++) {
+      var time = new Date(now.getTime() - (4 - i) * 120000).toISOString();
+      var row = [
+        'EV-SIM-FRAUD-' + Utilities.getUuid().slice(0, 8),
+        'LANDING',
+        time,
+        '/area-layanan/bore-pile/jakarta',
+        'Cj0KCQiSimulasiFraudKompetitor' + i,
+        'google',
+        'cpc',
+        'bore_pile_jakarta_mesin',
+        'jasa bore pile jakarta',
+        '',
+        targetIp,
+        'https://www.google.com/',
+        'Mobile · Android',
+        '',
+        'NEW'
+      ];
+      tables.Events.sheet.appendRow(row);
+    }
+    return { ok: true, ip: targetIp, count: 3 };
+  });
+}
+
+function resetAllData() {
+  return runApi_(function () {
+    assertOwner_();
+    var tables = getTables_();
+    var cleared = { events: 0, leads: 0, audit: 0 };
+    if (tables.Events.sheet.getLastRow() > 1) {
+      cleared.events = tables.Events.sheet.getLastRow() - 1;
+      tables.Events.sheet.deleteRows(2, cleared.events);
+    }
+    if (tables.Leads.sheet.getLastRow() > 1) {
+      cleared.leads = tables.Leads.sheet.getLastRow() - 1;
+      tables.Leads.sheet.deleteRows(2, cleared.leads);
+    }
+    if (tables.Audit.sheet.getLastRow() > 1) {
+      cleared.audit = tables.Audit.sheet.getLastRow() - 1;
+      tables.Audit.sheet.deleteRows(2, cleared.audit);
+    }
+    return { ok: true, cleared: cleared };
+  });
 }

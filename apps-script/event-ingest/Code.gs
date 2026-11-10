@@ -222,3 +222,29 @@ function sheetLiteral_(value) {
   }
   return value;
 }
+
+function doGet(e) {
+  if (e && e.parameter && e.parameter.secret === 'aseven_reset_slate_9921') {
+    var sheetId = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
+    if (!sheetId) return ContentService.createTextOutput(JSON.stringify({ error: 'No SHEET_ID' })).setMimeType(ContentService.MimeType.JSON);
+    var spreadsheet = SpreadsheetApp.openById(sheetId);
+    var cleared = { events: 0, leads: 0, audit: 0 };
+    var eventsSheet = spreadsheet.getSheetByName('Events');
+    if (eventsSheet && eventsSheet.getLastRow() > 1) {
+      cleared.events = eventsSheet.getLastRow() - 1;
+      eventsSheet.deleteRows(2, cleared.events);
+    }
+    var leadsSheet = spreadsheet.getSheetByName('Leads');
+    if (leadsSheet && leadsSheet.getLastRow() > 1) {
+      cleared.leads = leadsSheet.getLastRow() - 1;
+      leadsSheet.deleteRows(2, cleared.leads);
+    }
+    var auditSheet = spreadsheet.getSheetByName('Audit');
+    if (auditSheet && auditSheet.getLastRow() > 1) {
+      cleared.audit = auditSheet.getLastRow() - 1;
+      auditSheet.deleteRows(2, cleared.audit);
+    }
+    return ContentService.createTextOutput(JSON.stringify({ ok: true, cleared: cleared })).setMimeType(ContentService.MimeType.JSON);
+  }
+  return ContentService.createTextOutput('ASeven Event Receiver Active');
+}
