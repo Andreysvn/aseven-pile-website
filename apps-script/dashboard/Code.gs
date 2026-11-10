@@ -80,7 +80,7 @@ function saveCrmLead(leadData) {
 
       var now = new Date().toISOString();
       var leadId = existing ? input.id : 'L-' + Utilities.getUuid();
-      var prior = existing ? rowObject_(tables.Leads, existing.values) : {};
+      var prior = existing ? (existing.values || {}) : {};
       var formNotes = existing ? parseNotes_(prior.notes) : {};
       FORM_NOTE_FIELDS_.forEach(function (field) {
         if (Object.prototype.hasOwnProperty.call(input, field)) {
@@ -515,8 +515,9 @@ function getTable_(spreadsheet, name, headers) {
 
 function rowObject_(table, row, rowNumber) {
   var object = {};
-  table.headers.forEach(function (header, index) { object[header] = row[index] === undefined ? '' : row[index]; });
-  object._row = row.slice();
+  var arrayRow = Array.isArray(row) ? row : (row && Array.isArray(row._row) ? row._row : []);
+  table.headers.forEach(function (header, index) { object[header] = arrayRow[index] === undefined ? '' : arrayRow[index]; });
+  object._row = arrayRow.slice();
   if (rowNumber) object._rowNumber = rowNumber;
   return object;
 }
