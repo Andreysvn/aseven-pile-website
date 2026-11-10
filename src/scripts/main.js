@@ -148,7 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const docEl = document.documentElement;
     const scrollHeight = docEl.scrollHeight - window.innerHeight;
     if (scrollHeight > 0) {
-      const pct = Math.min(100, Math.round((window.scrollY / scrollHeight) * 100));
+      const isAtBottom = (window.innerHeight + window.scrollY) >= (docEl.scrollHeight - 20);
+      let pct = Math.min(100, Math.round((window.scrollY / scrollHeight) * 100));
+      if (isAtBottom || pct >= 97) pct = 100;
       if (pct > maxScrollPct) maxScrollPct = pct;
     }
   };
@@ -196,15 +198,19 @@ document.addEventListener('DOMContentLoaded', () => {
     window.dataLayer.push({ event, ...parameters });
   };
 
-  // 3. Deteksi Scroll Depth (GTM DataLayer Push untuk Trigger 50%, 25%, 75%, 90%)
+  // 3. Deteksi Scroll Depth (GTM DataLayer Push untuk 25%, 50%, 75%, 90%, 100% mentok footer)
   const trackedScrollDepths = new Set();
-  const scrollThresholds = [25, 50, 75, 90];
+  const scrollThresholds = [25, 50, 75, 90, 100];
 
   const handleScrollDepth = () => {
     const docEl = document.documentElement;
     const scrollHeight = docEl.scrollHeight - window.innerHeight;
     if (scrollHeight <= 0) return;
-    const currentPercent = Math.round((window.scrollY / scrollHeight) * 100);
+    
+    // Hitung persentase scroll, jika sudah mentok paling bawah (selisih <= 15px) jadikan 100%
+    const isAtBottom = (window.innerHeight + window.scrollY) >= (docEl.scrollHeight - 15);
+    let currentPercent = Math.min(100, Math.round((window.scrollY / scrollHeight) * 100));
+    if (isAtBottom || currentPercent >= 98) currentPercent = 100;
 
     for (let i = 0; i < scrollThresholds.length; i++) {
       const threshold = scrollThresholds[i];
@@ -245,6 +251,12 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           sendTrackingLog('SCROLL_75');
         } else if (threshold === 90) {
+          pushTrackingEvent('scroll_90', {
+            percent: 90,
+            page_path: window.location.pathname
+          });
+          sendTrackingLog('SCROLL_90');
+        } else if (threshold === 100) {
           pushTrackingEvent('scroll_100', {
             percent: 100,
             page_path: window.location.pathname
