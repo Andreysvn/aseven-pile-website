@@ -62,7 +62,7 @@ function validateEvent_(data) {
   if (event.eventId.trim().length === 0) {
     throw requestError_('eventId must not be blank.');
   }
-  if (ALLOWED_EVENTS_.indexOf(event.event) === -1) {
+  if (ALLOWED_EVENTS_.indexOf(event.event) === -1 && !/^SCROLL_\d+$/.test(event.event)) {
     throw requestError_('Unsupported event type.');
   }
   var timestampParts = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(Z|[+-](\d{2}):(\d{2}))$/.exec(event.timestamp);
