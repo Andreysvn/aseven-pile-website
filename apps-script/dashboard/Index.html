@@ -3470,9 +3470,11 @@ function renderTraffic() {
   });
   const ads = tr.filter(t => t.source === 'ADS').length;
   const seo = tr.filter(t => t.source === 'SEO').length;
+  const maps = tr.filter(t => t.source === 'MAPS').length;
   const direct = tr.filter(t => t.source === 'DIRECT').length;
   const fraud = tr.filter(t => t.fraud).length;
   const chats = tr.filter(isWhatsAppTrafficEvent).length;
+  const qrEvents = tr.filter(t => (t.utmMedium || '').toLowerCase().includes('qr')).length;
 
   const medsos = tr.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source)).length;
 
@@ -3495,17 +3497,22 @@ function renderTraffic() {
     <div class="kpi-item">
       <div class="kpi-label">Medsos</div>
       <div class="kpi-value rose">${medsos}</div>
-      <div class="kpi-sub">IG, FB, TikTok, WA</div>
+      <div class="kpi-sub">IG, TikTok, FB, YT, WA</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">Scan QR</div>
+      <div class="kpi-value info">${qrEvents}</div>
+      <div class="kpi-sub">Fisik & Medsos</div>
     </div>
     <div class="kpi-item">
       <div class="kpi-label">Direct</div>
       <div class="kpi-value">${direct}</div>
-      <div class="kpi-sub">Tanpa sumber terdeteksi</div>
+      <div class="kpi-sub">Tanpa parameter UTM</div>
     </div>
     <div class="kpi-item">
       <div class="kpi-label">Klik WA</div>
       <div class="kpi-value money">${chats}</div>
-      <div class="kpi-sub">Intent, bukan bukti chat</div>
+      <div class="kpi-sub">Intent konversi</div>
     </div>
     <div class="kpi-item">
       <div class="kpi-label">Fraud</div>
@@ -3515,22 +3522,53 @@ function renderTraffic() {
   `;
 
   const filters = [
-    { key:'all', label:'Semua' },
-    { key:'WA', label:'Chat WA' },
-    { key:'ADS', label:'Google Ads' },
-    { key:'SEO', label:'SEO Google' },
-    { key:'MAPS', label:'Google Maps' },
-    { key:'MEDSOS', label:'Medsos (IG/FB/TikTok)' },
-    { key:'DIRECT', label:'Direct' },
+    { key:'all', label:`Semua (${tr.length})` },
+    { key:'WA', label:`Chat WA (${chats})` },
+    { key:'ADS', label:`Google Ads (${ads})` },
+    { key:'SEO', label:`SEO (${seo})` },
+    { key:'MAPS', label:`Google Maps (${maps})` },
+    { key:'MEDSOS', label:`Medsos (${medsos})` },
+    { key:'QR', label:`📷 QR Code (${qrEvents})` },
+    { key:'DIRECT', label:`Direct (${direct})` },
     { key:'REFERRAL', label:'Referral' },
     { key:'CAMPAIGN', label:'Kampanye UTM' },
-    { key:'FRAUD', label:'Fraud' }
+    { key:'FRAUD', label:`Fraud (${fraud})` }
   ];
   $('#traffic-filters').innerHTML = filters.map(f =>
     `<button class="filter ${State.trafficFilter===f.key?'active':''}" onclick="setTrafficFilter('${f.key}')">${f.label}</button>`
   ).join('');
 
   renderTrafficTable();
+}
+
+function getMediumBadge(medium) {
+  if (!medium) return '';
+  const m = String(medium).toLowerCase().trim();
+  if (m === 'qr' || m === 'qrcode') {
+    return '<span class="badge mono" style="font-size:9px;padding:1px 5px;background:rgba(99,102,241,.12);color:#4f46e5;border:1px solid rgba(99,102,241,.3)">📷 QR Code</span>';
+  }
+  if (m === 'bio') {
+    return '<span class="badge mono" style="font-size:9px;padding:1px 5px;background:rgba(236,72,153,.12);color:#db2777;border:1px solid rgba(236,72,153,.3)">🔗 Bio Link</span>';
+  }
+  if (m === 'story') {
+    return '<span class="badge mono" style="font-size:9px;padding:1px 5px;background:rgba(245,158,11,.12);color:#d97706;border:1px solid rgba(245,158,11,.3)">⚡ Story Link</span>';
+  }
+  if (m === 'chat' || m === 'wa_direct') {
+    return '<span class="badge mono" style="font-size:9px;padding:1px 5px;background:rgba(16,185,129,.12);color:#059669;border:1px solid rgba(16,185,129,.3)">💬 Chat WA</span>';
+  }
+  if (m === 'video' || m === 'feed') {
+    return '<span class="badge mono" style="font-size:9px;padding:1px 5px;background:rgba(239,68,68,.12);color:#dc2626;border:1px solid rgba(239,68,68,.3)">▶ Video</span>';
+  }
+  if (m === 'page') {
+    return '<span class="badge mono" style="font-size:9px;padding:1px 5px;background:rgba(59,130,246,.12);color:#2563eb;border:1px solid rgba(59,130,246,.3)">📄 Halaman</span>';
+  }
+  if (m === 'offline') {
+    return '<span class="badge mono" style="font-size:9px;padding:1px 5px;background:rgba(100,116,139,.12);color:#475569;border:1px solid rgba(100,116,139,.3)">🏷 Spanduk/Fisik</span>';
+  }
+  if (m === 'organic') {
+    return '<span class="badge mono" style="font-size:9px;padding:1px 5px;background:rgba(16,185,129,.1);color:#059669">🌱 Organik</span>';
+  }
+  return '<span class="badge mono neutral" style="font-size:9px;padding:1px 5px">' + esc(medium) + '</span>';
 }
 
 function renderTrafficTable() {
@@ -3552,6 +3590,7 @@ function renderTrafficTable() {
   else if (State.trafficFilter === 'SEO') list = list.filter(t => t.source === 'SEO');
   else if (State.trafficFilter === 'MAPS') list = list.filter(t => t.source === 'MAPS');
   else if (State.trafficFilter === 'MEDSOS') list = list.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source));
+  else if (State.trafficFilter === 'QR') list = list.filter(t => (t.utmMedium || '').toLowerCase().includes('qr'));
   else if (State.trafficFilter === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
   else if (State.trafficFilter === 'REFERRAL') list = list.filter(t => t.source === 'REFERRAL');
   else if (State.trafficFilter === 'CAMPAIGN') list = list.filter(t => t.source === 'CAMPAIGN');
@@ -3562,6 +3601,9 @@ function renderTrafficTable() {
       t.ip.includes(q) ||
       t.url.toLowerCase().includes(q) ||
       (t.gclid && t.gclid.toLowerCase().includes(q)) ||
+      (t.utmMedium && t.utmMedium.toLowerCase().includes(q)) ||
+      (t.utmSource && t.utmSource.toLowerCase().includes(q)) ||
+      (t.campaign && t.campaign.toLowerCase().includes(q)) ||
       t.device.toLowerCase().includes(q) ||
       t.loc.toLowerCase().includes(q)
     );
@@ -3595,6 +3637,8 @@ function renderTrafficTable() {
     }[t.source] || { label: 'Sumber lain', className: 'neutral' };
     const sourceBadge = '<span class="badge ' + sourceMeta.className + ' mono" style="font-size:9px;padding:1px 5px">' +
       esc(sourceMeta.label) + '</span>';
+    const mediumBadge = getMediumBadge(t.utmMedium);
+    const campaignBadge = t.campaign ? '<span class="badge mono neutral" style="font-size:9px;padding:1px 5px" title="Kampanye: ' + esc(t.campaign) + '">🏷 ' + esc(t.campaign) + '</span>' : '';
 
     const linkControl = IS_HOSTED_DASHBOARD && t.eventId && !t.leadId
       ? '<select class="event-link-select" aria-label="Hubungkan event dengan prospek" onchange="linkTrafficEvent(\'' + esc(t.eventId) + '\', this.value)">' +
@@ -3611,6 +3655,8 @@ function renderTrafficTable() {
       '<td>' +
         '<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">' +
           eventBadge + ' ' + sourceBadge +
+          (mediumBadge ? ' ' + mediumBadge : '') +
+          (campaignBadge ? ' ' + campaignBadge : '') +
           (t.leadName ? '<span style="font-size:10px;font-weight:700;color:var(--emerald);margin-left:2px">👤 ' + esc(t.leadName) + '</span>' : '') +
         '</div>' +
         '<div class="cell-mono" style="font-size:9.5px;color:var(--maroon-800);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(t.url) + '">' + esc(t.url) + '</div>' +
@@ -3693,6 +3739,8 @@ function groupEventsIntoSessions(events) {
       if (isWa) matched.hasWa = true;
       if (ev.keyword && !matched.keyword) matched.keyword = ev.keyword;
       if (ev.campaign && !matched.campaign) matched.campaign = ev.campaign;
+      if (ev.utmSource && !matched.utmSource) matched.utmSource = ev.utmSource;
+      if (ev.utmMedium && !matched.utmMedium) matched.utmMedium = ev.utmMedium;
       if (ev.gclid && !matched.gclid) matched.gclid = ev.gclid;
       if (ev.device) matched.device = ev.device;
       if (pct > 0 && !matched.milestones.includes(pct)) {
@@ -3709,6 +3757,8 @@ function groupEventsIntoSessions(events) {
         device: ev.device || '',
         url: url,
         source: ev.source,
+        utmSource: ev.utmSource || '',
+        utmMedium: ev.utmMedium || '',
         campaign: ev.campaign || '',
         keyword: ev.keyword || '',
         gclid: gclid,
@@ -3736,7 +3786,11 @@ function setScrollSourceFilter(src) {
 function renderScrollSection() {
   const allEvents = filteredTraffic();
   
-  // Render Filter Tabs (Mencakup semua 8 sumber trafik)
+  // Kelompokkan event ke dalam sesi pengunjung unik (Deduplikasi Sesi)
+  const allSessions = groupEventsIntoSessions(allEvents);
+  const qrSessions = allSessions.filter(s => (s.utmMedium || '').toLowerCase().includes('qr')).length;
+
+  // Render Filter Tabs (Mencakup semua 8 sumber trafik + YouTube + QR)
   const filters = [
     { key: 'all', label: 'Semua Sumber' },
     { key: 'ADS', label: 'Google Ads' },
@@ -3745,7 +3799,9 @@ function renderScrollSection() {
     { key: 'INSTAGRAM', label: 'Instagram' },
     { key: 'TIKTOK', label: 'TikTok' },
     { key: 'FACEBOOK', label: 'Facebook' },
+    { key: 'YOUTUBE', label: 'YouTube' },
     { key: 'WHATSAPP', label: 'Link WA' },
+    { key: 'QR', label: `📷 QR Code (${qrSessions})` },
     { key: 'DIRECT', label: 'Direct' }
   ];
   const filterContainer = $('#scroll-filters');
@@ -3755,9 +3811,6 @@ function renderScrollSection() {
     ).join('');
   }
 
-  // Kelompokkan event ke dalam sesi pengunjung unik (Deduplikasi Sesi)
-  const allSessions = groupEventsIntoSessions(allEvents);
-
   // Filter sesi berdasarkan sumber yang dipilih
   let sessionList = allSessions.slice();
   if (State.scrollSourceFilter === 'ADS') sessionList = sessionList.filter(s => s.source === 'ADS');
@@ -3766,7 +3819,9 @@ function renderScrollSection() {
   else if (State.scrollSourceFilter === 'INSTAGRAM') sessionList = sessionList.filter(s => s.source === 'INSTAGRAM');
   else if (State.scrollSourceFilter === 'TIKTOK') sessionList = sessionList.filter(s => s.source === 'TIKTOK');
   else if (State.scrollSourceFilter === 'FACEBOOK') sessionList = sessionList.filter(s => s.source === 'FACEBOOK');
+  else if (State.scrollSourceFilter === 'YOUTUBE') sessionList = sessionList.filter(s => s.source === 'YOUTUBE');
   else if (State.scrollSourceFilter === 'WHATSAPP') sessionList = sessionList.filter(s => s.source === 'WHATSAPP');
+  else if (State.scrollSourceFilter === 'QR') sessionList = sessionList.filter(s => (s.utmMedium || '').toLowerCase().includes('qr'));
   else if (State.scrollSourceFilter === 'DIRECT') sessionList = sessionList.filter(s => s.source === 'DIRECT');
 
   // Metrik per sesi pengunjung
@@ -3854,19 +3909,25 @@ function renderScrollSection() {
     }).join('');
   }
 
-  // Summary badges by source (dengan perbandingan Instagram & TikTok)
+  // Summary badges by source (dengan perbandingan semua kanal + YouTube & QR)
   const badgeContainer = $('#scroll-source-summary-badges');
   if (badgeContainer) {
     const adsAvg = calcSourceAvgScroll(allSessions, 'ADS');
     const seoAvg = calcSourceAvgScroll(allSessions, 'SEO');
+    const mapsAvg = calcSourceAvgScroll(allSessions, 'MAPS');
     const igAvg = calcSourceAvgScroll(allSessions, 'INSTAGRAM');
     const ttAvg = calcSourceAvgScroll(allSessions, 'TIKTOK');
+    const ytAvg = calcSourceAvgScroll(allSessions, 'YOUTUBE');
+    const qrAvg = calcSourceAvgScroll(allSessions, 'QR');
     const directAvg = calcSourceAvgScroll(allSessions, 'DIRECT');
     badgeContainer.innerHTML = `
       <span class="badge maroon mono" style="font-size:9.5px">Ads: ${adsAvg}% avg</span>
       <span class="badge blue mono" style="font-size:9.5px">SEO: ${seoAvg}% avg</span>
+      <span class="badge emerald mono" style="font-size:9.5px">Maps: ${mapsAvg}% avg</span>
       <span class="badge rose mono" style="font-size:9.5px">IG: ${igAvg}% avg</span>
       <span class="badge neutral mono" style="font-size:9.5px">TikTok: ${ttAvg}% avg</span>
+      <span class="badge rose mono" style="font-size:9.5px">YouTube: ${ytAvg}% avg</span>
+      <span class="badge info mono" style="font-size:9.5px">QR: ${qrAvg}% avg</span>
       <span class="badge neutral mono" style="font-size:9.5px">Direct: ${directAvg}% avg</span>
     `;
   }
@@ -3878,8 +3939,13 @@ function calcSourceAvgScroll(sessions, src) {
   let list = (sessions || []).slice();
   if (src === 'ADS') list = list.filter(t => t.source === 'ADS');
   else if (src === 'SEO') list = list.filter(t => t.source === 'SEO');
+  else if (src === 'MAPS') list = list.filter(t => t.source === 'MAPS');
   else if (src === 'INSTAGRAM') list = list.filter(t => t.source === 'INSTAGRAM');
   else if (src === 'TIKTOK') list = list.filter(t => t.source === 'TIKTOK');
+  else if (src === 'FACEBOOK') list = list.filter(t => t.source === 'FACEBOOK');
+  else if (src === 'YOUTUBE') list = list.filter(t => t.source === 'YOUTUBE');
+  else if (src === 'WHATSAPP') list = list.filter(t => t.source === 'WHATSAPP');
+  else if (src === 'QR') list = list.filter(t => (t.utmMedium || '').toLowerCase().includes('qr'));
   else if (src === 'MEDSOS') list = list.filter(t => ['INSTAGRAM', 'FACEBOOK', 'TIKTOK', 'YOUTUBE', 'WHATSAPP'].includes(t.source));
   else if (src === 'DIRECT') list = list.filter(t => t.source === 'DIRECT');
   if (!list.length) return 0;
@@ -3902,6 +3968,8 @@ function renderScrollTable(sessionList) {
       t.url.toLowerCase().includes(q) ||
       (t.keyword && t.keyword.toLowerCase().includes(q)) ||
       (t.campaign && t.campaign.toLowerCase().includes(q)) ||
+      (t.utmMedium && t.utmMedium.toLowerCase().includes(q)) ||
+      (t.utmSource && t.utmSource.toLowerCase().includes(q)) ||
       t.device.toLowerCase().includes(q)
     );
   }
@@ -3929,6 +3997,8 @@ function renderScrollTable(sessionList) {
     const pct = t.maxScrollPct || 0;
     const meta = sourceMeta[t.source] || { label: 'Lainnya', className: 'neutral' };
     const srcBadge = `<span class="badge ${meta.className} mono" style="font-size:9px;padding:1px 5px">${esc(meta.label)}</span>`;
+    const mediumBadge = getMediumBadge(t.utmMedium);
+    const campaignBadge = t.campaign ? `<span class="badge mono neutral" style="font-size:9px;padding:1px 5px" title="Kampanye: ${esc(t.campaign)}">🏷 ${esc(t.campaign)}</span>` : '';
 
     let barColor = '#94a3b8';
     if (pct >= 90) barColor = '#059669';
@@ -3963,8 +4033,10 @@ function renderScrollTable(sessionList) {
           <div style="font-size:9.5px;color:var(--fg-3);margin-top:2px;line-height:1.2">${esc(t.loc || '-')} · ${esc(String(t.device || '').split('·')[0].trim())}</div>
         </td>
         <td>
-          <div style="display:flex;align-items:center;gap:4px">
+          <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
             ${srcBadge}
+            ${mediumBadge}
+            ${campaignBadge}
             ${t.keyword ? `<span class="badge mono neutral" style="font-size:9px">🔍 ${esc(t.keyword)}</span>` : ''}
           </div>
           <div class="cell-mono" style="font-size:9.5px;color:var(--maroon-800);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(t.url)}">${esc(t.url)}</div>
@@ -3989,7 +4061,7 @@ function renderScrollTable(sessionList) {
 
 function exportScrollCSV() {
   const allSessions = groupEventsIntoSessions(filteredTraffic());
-  const rows = [['Waktu', 'IP', 'Lokasi', 'Device', 'Sumber', 'URL', 'Keyword_Campaign', 'Max_Scroll_Pct', 'Milestones', 'Action']];
+  const rows = [['Waktu', 'IP', 'Lokasi', 'Device', 'Sumber', 'Placement_Medium', 'Campaign', 'URL', 'Keyword', 'Max_Scroll_Pct', 'Milestones', 'Action']];
   allSessions.forEach(s => {
     const pct = s.maxScrollPct || 0;
     const action = s.hasWa ? 'KLIK_WA' : (pct >= 50 ? 'SCROLL_50_PLUS' : 'VIEW');
@@ -4000,8 +4072,10 @@ function exportScrollCSV() {
       `"${s.loc}"`,
       `"${String(s.device || '').split('·')[0].trim()}"`,
       s.source,
+      `"${s.utmMedium || '-'}"`,
+      `"${s.campaign || '-'}"`,
       `"${s.url}"`,
-      `"${s.keyword || s.campaign || '-'}"`,
+      `"${s.keyword || '-'}"`,
       pct,
       `"${milestonesStr}"`,
       action

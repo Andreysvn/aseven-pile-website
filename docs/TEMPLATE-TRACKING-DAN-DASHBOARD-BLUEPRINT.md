@@ -102,7 +102,7 @@ Bagian ini merangkum solusi teknis terhadap jebakan (*gotchas*) umum yang sering
   ```
   3. Hasil di Dashboard: Ditampilkan sebagai **1 baris sesi utuh** dengan rekam jejak: `Tahapan: 25% → 50% → 90% → 100%`, dan kedalaman mengambil nilai tertinggi (`100%`).
 
-### C. Klasifikasi 8 Kanal Otomatis (Omnichannel Engine)
+### C. Klasifikasi Kanal Otomatis (Omnichannel Engine)
 Fungsi `classifyTrafficSource_(event)` di backend memetakan sumber trafik secara akurat tanpa tertukar:
 1. **Google Ads (`ADS`):** Memiliki parameter `gclid` valid atau `utm_medium=cpc`.
 2. **Google Maps (`MAPS`):** Parameter `utm_source=google_maps` / `gmb` atau referrer `maps.google.com`.
@@ -110,8 +110,18 @@ Fungsi `classifyTrafficSource_(event)` di backend memetakan sumber trafik secara
 4. **Instagram (`INSTAGRAM`):** `utm_source=instagram` / `ig` atau referrer `instagram.com`.
 5. **TikTok (`TIKTOK`):** `utm_source=tiktok` atau referrer `tiktok.com`.
 6. **Facebook (`FACEBOOK`):** `utm_source=facebook` / `fb` atau referrer `facebook.com` / `fb.com`.
-7. **WhatsApp (`WHATSAPP`):** `utm_source=whatsapp` / `wa` atau referrer `wa.me` / `whatsapp.com`.
-8. **Direct (`DIRECT`):** Tidak ada parameter kampanye dan referrer kosong / internal domain.
+7. **YouTube (`YOUTUBE`):** `utm_source=youtube` atau referrer `youtube.com` / `youtu.be`.
+8. **WhatsApp (`WHATSAPP`):** `utm_source=whatsapp` / `wa` atau referrer `wa.me` / `whatsapp.com`.
+9. **Direct (`DIRECT`):** Tidak ada parameter kampanye dan referrer kosong / internal domain.
+
+Penempatan spesifik (`utm_medium`) otomatis diberi badge di dasbor:
+* `qr` $\rightarrow$ `📷 QR Code`
+* `bio` $\rightarrow$ `🔗 Bio Link`
+* `story` $\rightarrow$ `⚡ Story Link`
+* `video` $\rightarrow$ `▶ Video Link`
+* `chat` $\rightarrow$ `💬 Chat WA`
+* `page` $\rightarrow$ `📄 Halaman Web`
+* `offline` $\rightarrow$ `🏷 Spanduk/Fisik`
 
 ---
 
@@ -122,11 +132,13 @@ Untuk diberikan kepada tim marketing atau klien saat menyebarkan tautan website:
 | Kanal Distribusi | Format URL Rekomendasi |
 |---|---|
 | **Google Maps (GBP)** | `https://domain.com/halaman/?utm_source=google_maps&utm_medium=organic` |
-| **Instagram (Bio/Story)** | `https://domain.com/halaman/?utm_source=instagram&utm_medium=social` |
-| **TikTok (Bio/Video)** | `https://domain.com/halaman/?utm_source=tiktok&utm_medium=social` |
-| **Facebook (Post/Halaman)** | `https://domain.com/halaman/?utm_source=facebook&utm_medium=social` |
-| **WhatsApp Chat / Broadcast** | `https://domain.com/halaman/?utm_source=whatsapp&utm_medium=chat` |
-| **Spanduk / Banner Cetak (QR)** | `https://domain.com/halaman/?utm_source=offline_qr&utm_medium=print` |
+| **Instagram (Bio)** | `https://domain.com/halaman/?utm_source=instagram&utm_medium=bio` |
+| **Instagram (Story / QR)** | `https://domain.com/halaman/?utm_source=instagram&utm_medium=story` *(atau `utm_medium=qr`)* |
+| **TikTok (Bio / Video / QR)** | `https://domain.com/halaman/?utm_source=tiktok&utm_medium=bio` *(atau `utm_medium=qr`)* |
+| **Facebook (Post / Halaman / QR)** | `https://domain.com/halaman/?utm_source=facebook&utm_medium=page` *(atau `utm_medium=qr`)* |
+| **YouTube (Deskripsi / QR Video)**| `https://domain.com/halaman/?utm_source=youtube&utm_medium=video` *(atau `utm_medium=qr`)* |
+| **WhatsApp Chat / Broadcast / QR** | `https://domain.com/halaman/?utm_source=whatsapp&utm_medium=chat` *(atau `utm_medium=qr`)* |
+| **Spanduk / Banner Cetak (QR)** | `https://domain.com/halaman/?utm_source=banner&utm_medium=qr&utm_campaign=spanduk_proyek` |
 
 ---
 

@@ -1,158 +1,220 @@
 # Panduan & Daftar Link Pelacakan Kanal Marketing (ASeven Pile)
 
-Dokumen ini berisi **daftar link resmi berlabel pelacakan (UTM Tagging)** untuk dipasang di masing-masing platform pemasaran ASeven Pile.
+Dokumen ini berisi **daftar link resmi berlabel pelacakan (UTM Tagging & QR Code)** untuk dipasang di masing-masing platform pemasaran ASeven Pile.
 
 > **Kenapa Link Ini Wajib Dipasang?**  
-> Aplikasi mobile di HP (seperti aplikasi Google Maps, Instagram, dan TikTok) secara otomatis menghapus data rujukan (*referrer*) saat pengguna mengklik tautan keluar. Tanpa parameter khusus di bawah ini, calon klien yang datang dari aplikasi HP akan salah terdeteksi sebagai **Direct (Ketik Sendiri)**.  
-> Dengan memasang link di bawah ini **cukup 1 kali saja**, Dasbor ASeven Pile akan 100% akurat memisahkan pengunjung dari Maps, IG, TikTok, FB, WA, maupun Google Ads.
+> Aplikasi mobile di HP (seperti Google Maps, Instagram, TikTok, YouTube, dan Facebook) secara otomatis menghapus data rujukan (*referrer*) saat pengguna mengklik tautan keluar. Tanpa parameter khusus di bawah ini, calon klien yang datang dari aplikasi HP akan salah terdeteksi sebagai **Direct (Ketik Sendiri)**.  
+> Dengan memasang link resmi di bawah ini, Dasbor ASeven Pile akan 100% akurat mendeteksi sumber dan penempatan: apakah mereka datang dari **Link Bio**, **Link Story**, **Video**, atau **Scan QR Code**!
 
 ---
 
-## 📌 Ringkasan Cepat: Tabel Link Copy-Paste
+## 📌 Ringkasan Cepat: Tabel Semua Link Pelacakan & QR Code
 
-| No | Platform / Kanal | Lokasi Pemasangan | Link Resmi yang Dipasang (Tinggal Copy) | Rekomendasi Halaman Tujuan |
+| No | Platform / Kanal | Penempatan / Format | Link Resmi Siap Pakai (Tinggal Copy) | Tampilan Badge di Dasbor |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | **Google Maps (GMB Bekasi)** | Profil Bisnis > Kolom "Situs Web" | `https://asevenpile.com/area-layanan/bore-pile/bekasi/?utm_source=google_maps&utm_medium=organic` | **Halaman Bekasi** (Kesesuaian alamat fisik pool Tarumajaya) |
-| **2** | **Google Maps (GMB Jakarta)** | Profil Bisnis Jakarta (jika ada) | `https://asevenpile.com/area-layanan/bore-pile/jakarta/?utm_source=google_maps&utm_medium=organic` | **Halaman Jakarta** (Khusus cabang/area Jakarta) |
-| **3** | **Instagram** | Edit Profil > Tautan > Tautan Eksternal | `https://asevenpile.com/?utm_source=instagram&utm_medium=bio` | **Beranda Utama** (Mencakup seluruh Jabodetabek & ada kalkulator) |
-| **4** | **TikTok** | Edit Profil > Situs Web (Bio TikTok) | `https://asevenpile.com/?utm_source=tiktok&utm_medium=bio` | **Beranda Utama** (Visual cepat, profil armada & kontak) |
-| **5** | **Facebook Page** | Edit Halaman > Tombol Aksi / Info Web | `https://asevenpile.com/?utm_source=facebook&utm_medium=page` | **Beranda Utama** (Company profile & kredibilitas) |
-| **6** | **WhatsApp Business** | Pesan Sambutan / Broadcast / Katalog | `https://asevenpile.com/harga?utm_source=whatsapp&utm_medium=chat` | **Kalkulator Biaya** (Klien WA suka langsung cek estimasi harga) |
-| **7** | **YouTube** | Deskripsi Video Proyek / Tentang Channel | `https://asevenpile.com/?utm_source=youtube&utm_medium=video` | **Beranda Utama** (Portofolio & galeri mesin) |
-| **8** | **QR Code Cetak** | Spanduk Proyek / Brosur Lapangan | `https://asevenpile.com/?utm_source=banner&utm_medium=offline&utm_campaign=spanduk_proyek` | **Beranda Utama** |
-| **9** | **Google Ads** | Kolom "Final URL" di Iklan Google Ads | `https://asevenpile.com/area-layanan/bore-pile/jakarta/` | **Halaman Kota Target** (Polos, otomatis ditempeli GCLID) |
+| **1** | **Google Maps (GMB)** | Kolom "Situs Web" Profil GMB | `https://asevenpile.com/area-layanan/bore-pile/bekasi/?utm_source=google_maps&utm_medium=organic` | `[Google Maps]` `[🌱 Organik]` |
+| **2** | **Google Maps (GMB)** | QR Code (Plang Kantor / Meja) | `https://asevenpile.com/area-layanan/bore-pile/bekasi/?utm_source=google_maps&utm_medium=qr` | `[Google Maps]` `[📷 QR Code]` |
+| **3** | **Instagram** | Link Bio Profil (@asevenpile) | `https://asevenpile.com/?utm_source=instagram&utm_medium=bio` | `[Instagram]` `[🔗 Bio Link]` |
+| **4** | **Instagram** | Link Stiker Story | `https://asevenpile.com/?utm_source=instagram&utm_medium=story` | `[Instagram]` `[⚡ Story Link]` |
+| **5** | **Instagram** | **QR Code** (Slide Postingan/Feed) | `https://asevenpile.com/?utm_source=instagram&utm_medium=qr` | `[Instagram]` `[📷 QR Code]` |
+| **6** | **TikTok** | Link Bio Profil TikTok | `https://asevenpile.com/?utm_source=tiktok&utm_medium=bio` | `[TikTok]` `[🔗 Bio Link]` |
+| **7** | **TikTok** | Link Video / Story TikTok | `https://asevenpile.com/?utm_source=tiktok&utm_medium=story` | `[TikTok]` `[⚡ Story Link]` |
+| **8** | **TikTok** | **QR Code** (Watermark Video/Live) | `https://asevenpile.com/?utm_source=tiktok&utm_medium=qr` | `[TikTok]` `[📷 QR Code]` |
+| **9** | **Facebook** | Tombol Halaman (Action Button) | `https://asevenpile.com/?utm_source=facebook&utm_medium=page` | `[Facebook]` `[📄 Halaman]` |
+| **10** | **Facebook** | Link Story Facebook | `https://asevenpile.com/?utm_source=facebook&utm_medium=story` | `[Facebook]` `[⚡ Story Link]` |
+| **11** | **Facebook** | **QR Code** (Cover Page / Banner FB) | `https://asevenpile.com/?utm_source=facebook&utm_medium=qr` | `[Facebook]` `[📷 QR Code]` |
+| **12** | **YouTube** | Deskripsi Video Proyek / Shorts | `https://asevenpile.com/?utm_source=youtube&utm_medium=video` | `[YouTube]` `[▶ Video]` |
+| **13** | **YouTube** | Tab Komunitas / Postingan YouTube | `https://asevenpile.com/?utm_source=youtube&utm_medium=story` | `[YouTube]` `[⚡ Story Link]` |
+| **14** | **YouTube** | **QR Code** (End Screen / Closing Video) | `https://asevenpile.com/?utm_source=youtube&utm_medium=qr` | `[YouTube]` `[📷 QR Code]` |
+| **15** | **WhatsApp Business** | Pesan Sambutan / Chat / Katalog | `https://asevenpile.com/?utm_source=whatsapp&utm_medium=chat` | `[Link WA]` `[💬 Chat WA]` |
+| **16** | **WhatsApp Business** | Status / Story WhatsApp | `https://asevenpile.com/?utm_source=whatsapp&utm_medium=story` | `[Link WA]` `[⚡ Story Link]` |
+| **17** | **WhatsApp Business** | **QR Code** (Kop Surat / Brosur Chat) | `https://asevenpile.com/?utm_source=whatsapp&utm_medium=qr` | `[Link WA]` `[📷 QR Code]` |
+| **18** | **Spanduk Proyek** | **QR Code** Spanduk Pagar Lapangan | `https://asevenpile.com/?utm_source=banner&utm_medium=qr&utm_campaign=spanduk_proyek` | `[Kampanye UTM]` `[📷 QR Code]` `[🏷 spanduk_proyek]` |
+| **19** | **Kartu Nama** | **QR Code** di Belakang Kartu Nama | `https://asevenpile.com/?utm_source=business_card&utm_medium=qr&utm_campaign=kartu_nama` | `[Kampanye UTM]` `[📷 QR Code]` `[🏷 kartu_nama]` |
+| **20** | **Brosur Lapangan** | **QR Code** di Cetakan Brosur Fisik | `https://asevenpile.com/?utm_source=brochure&utm_medium=qr&utm_campaign=brosur_lapangan` | `[Kampanye UTM]` `[📷 QR Code]` `[🏷 brosur_lapangan]` |
+| **21** | **Google Ads** | Final URL Iklan Berbayar | `https://asevenpile.com/area-layanan/bore-pile/jakarta/` *(Polos)* | `[Google Ads]` *(Auto GCLID)* |
 
 ---
 
 ## 1. Google Maps (Google Profil Bisnis / GMB)
-Karena lokasi pool dan workshop fisik ASeven Pile berada di **Setia Asih, Kec. Tarumajaya, Kabupaten Bekasi**, maka link website di profil Google Maps **WAJIB diarahkan ke halaman Bekasi**:
+Karena pool alat dan workshop fisik ASeven Pile berlokasi di **Setia Asih, Kec. Tarumajaya, Kabupaten Bekasi**, maka link website profil Google Maps **diarahkan langsung ke halaman Bekasi** agar selaras dengan data geolokasi Google Local Pack:
 
-### Link Resmi GMB Bekasi (Tinggal Copy):
+### A. Link Profil Website Google Maps:
 ```text
 https://asevenpile.com/area-layanan/bore-pile/bekasi/?utm_source=google_maps&utm_medium=organic
 ```
+*Pasang di: Google Business Profile Manager > Edit Profil > Kontak > Situs Web.*
 
-> **Catatan:** Jika kelak Mas Andrey memiliki listing profil Google Maps terpisah khusus cabang Jakarta, gunakan link ini:
-> ```text
-> https://asevenpile.com/area-layanan/bore-pile/jakarta/?utm_source=google_maps&utm_medium=organic
-> ```
-
-### Cara Memasang di Google Maps:
-1. Buka Google Search atau aplikasi Google Maps saat login dengan akun Google pemilik profil ASeven Pile.
-2. Cari *"Bisnis Saya"* atau buka [Google Business Profile Manager](https://business.google.com/).
-3. Klik menu **Edit Profil** $\rightarrow$ pilih tab **Kontak**.
-4. Pada baris **Situs Web (Website)**, paste link di atas.
-5. Klik **Simpan**. Selesai!
+### B. QR Code Google Maps (Untuk Plang / Meja Kantor):
+```text
+https://asevenpile.com/area-layanan/bore-pile/bekasi/?utm_source=google_maps&utm_medium=qr
+```
 
 ---
 
 ## 2. Instagram
-### Link yang Dipasang di Bio:
+### A. Link Bio Profil:
 ```text
 https://asevenpile.com/?utm_source=instagram&utm_medium=bio
 ```
-*(Jika memasang link di Story Instagram / Swipe-up):*
+*Pasang di: Edit Profil > Tautan > Tambahkan Tautan Eksternal.*
+
+### B. Link Stiker Story Instagram:
 ```text
 https://asevenpile.com/?utm_source=instagram&utm_medium=story
 ```
+*Pasang di: Stiker Tautan (Link Sticker) pada Instagram Story.*
 
-### Cara Memasang di Instagram:
-1. Buka profil Instagram **@asevenpile**.
-2. Klik tombol **Edit Profil (Edit Profile)**.
-3. Pilih menu **Tautan (Links)** $\rightarrow$ **Tambahkan Tautan Eksternal (Add External Link)**.
-4. Masukkan URL di atas, dan beri judul (misal: *Situs Resmi ASeven Pile*).
-5. Klik Simpan (Centang biru di pojok kanan atas).
+### C. Link untuk QR Code Instagram (Postingan Feed / Carousel):
+```text
+https://asevenpile.com/?utm_source=instagram&utm_medium=qr
+```
+*Gunakan link ini untuk generate gambar QR Code, lalu taruh di slide terakhir carousel feed atau gambar infografis Instagram.*
 
 ---
 
 ## 3. TikTok
-### Link yang Dipasang di Profil:
+### A. Link Bio Profil TikTok:
 ```text
 https://asevenpile.com/?utm_source=tiktok&utm_medium=bio
 ```
+*Pasang di: Edit Profil > Situs Web (Website).*
 
-### Cara Memasang di TikTok:
-1. Buka profil TikTok ASeven Pile.
-2. Klik tombol **Edit Profil**.
-3. Gulir ke bawah ke kolom **Situs Web (Website)**.
-   *(Catatan: Akun TikTok Bisnis memerlukan syarat minimal followers tertentu atau registrasi bisnis untuk memunculkan kolom Website hidup).*
-4. Paste link di atas dan klik **Simpan**.
+### B. Link Story / Promo TikTok:
+```text
+https://asevenpile.com/?utm_source=tiktok&utm_medium=story
+```
+
+### C. Link untuk QR Code TikTok:
+```text
+https://asevenpile.com/?utm_source=tiktok&utm_medium=qr
+```
+*Gunakan untuk generate QR Code yang ditempelkan di sudut video TikTok atau saat siaran Live Streaming.*
 
 ---
 
-## 4. Facebook (Halaman Bisnis / Fanspage)
-### Link yang Dipasang:
+## 4. Facebook (Fanspage Bisnis)
+### A. Link Halaman Facebook:
 ```text
 https://asevenpile.com/?utm_source=facebook&utm_medium=page
 ```
+*Pasang di: Info Halaman > Kontak > Situs Web, atau Tombol Tindakan (Action Button).*
 
-### Cara Memasang di Facebook:
-1. Buka Halaman Facebook resmi ASeven Pile.
-2. Masuk ke tab **Tentang (About)** $\rightarrow$ **Kontak dan Info Dasar**.
-3. Edit bagian **Situs Web**, tempelkan link di atas, lalu klik Simpan.
-4. Jika membuat tombol aksi utama (Action Button) *"Kunjungi Situs Web"*, gunakan juga link di atas.
-
----
-
-## 5. WhatsApp Business (Pesan Otomatis & Broadcast)
-### Link yang Digunakan:
+### B. Link Story Facebook:
 ```text
-https://asevenpile.com/?utm_source=whatsapp&utm_medium=chat
+https://asevenpile.com/?utm_source=facebook&utm_medium=story
 ```
 
-### Cara Penggunaan:
-* **Pesan Sambutan Otomatis (Greeting Message):**  
-  *"Halo! Terima kasih telah menghubungi ASeven Pile. Untuk melihat armada mini crane & estimasi harga bore pile Jakarta, silakan kunjungi website resmi kami: https://asevenpile.com/?utm_source=whatsapp&utm_medium=chat"*
-* **Broadcast Promo / Edukasi:**  
-  Setiap mengirim pesan massal ke kontraktor atau relasi arsitek via WA, selalu sertakan link di atas agar saat mereka klik, tercatat sebagai kanal **Link WA** di dasbor.
+### C. Link untuk QR Code Facebook:
+```text
+https://asevenpile.com/?utm_source=facebook&utm_medium=qr
+```
 
 ---
 
-## 6. YouTube (Deskripsi Video Proyek & Short)
-### Link yang Dipasang:
+## 5. YouTube
+### A. Link Deskripsi Video Proyek & Shorts:
 ```text
 https://asevenpile.com/?utm_source=youtube&utm_medium=video
 ```
+*Cantumkan di baris awal setiap deskripsi video YouTube dokumentasi pengeboran mini crane / strauss pile.*
 
-### Cara Memasang:
-* Di setiap deskripsi video YouTube dokumentasi pengeboran (misal: *Proyek Bore Pile D40 di Cilandak*):
-  Cantumkan di baris awal deskripsi:  
-  *"Konsultasi teknis pondasi & pemesanan armada: https://asevenpile.com/?utm_source=youtube&utm_medium=video"*
+### B. Link Tab Komunitas / Postingan YouTube:
+```text
+https://asevenpile.com/?utm_source=youtube&utm_medium=story
+```
+
+### C. Link untuk QR Code YouTube (Closing / End Screen Video):
+```text
+https://asevenpile.com/?utm_source=youtube&utm_medium=qr
+```
+*Tampilkan gambar QR Code di 5 detik terakhir video YouTube bersama teks: "Scan untuk estimasi biaya & survei lokasi".*
 
 ---
 
-## 7. Spanduk Proyek Lapangan / Brosur Cetak (QR Code)
-### Link untuk Membuat QR Code:
+## 6. WhatsApp Business (Pesan Otomatis, Broadcast, Status)
+### A. Pesan Sambutan Otomatis (Greeting Message) & Chat:
 ```text
-https://asevenpile.com/?utm_source=banner&utm_medium=offline&utm_campaign=spanduk_proyek
+https://asevenpile.com/?utm_source=whatsapp&utm_medium=chat
+```
+*Contoh pesan sambutan otomatis:*
+> *"Halo! Terima kasih telah menghubungi ASeven Pile (Spesialis Pondasi Bore Pile & Strauss Pile Jabodetabek). Untuk melihat profil armada, dokumentasi proyek, dan simulasi biaya, silakan kunjungi website resmi kami di:*  
+> `https://asevenpile.com/?utm_source=whatsapp&utm_medium=chat`  
+> *Tim kami akan segera membalas pesan Anda."*
+
+### B. Link Status / Story WhatsApp:
+```text
+https://asevenpile.com/?utm_source=whatsapp&utm_medium=story
 ```
 
-### Cara Penggunaan:
-1. Buka generator QR Code gratis (misal: [me-qr.com](https://me-qr.com) atau [qr-code-generator.com](https://www.qr-code-generator.com/)).
-2. Masukkan link di atas sebagai tujuan QR Code.
-3. Cetak QR Code tersebut pada spanduk pengaman proyek di depan pagar rumah klien atau di kartu nama mandor.
-4. Saat tetangga proyek men-scan QR Code pakai kamera HP, dasbor akan mencatat kunjungan dari kanal **Offline / Spanduk Proyek**!
+### C. Link untuk QR Code WhatsApp (Kop Surat / Dokumen Penawaran):
+```text
+https://asevenpile.com/?utm_source=whatsapp&utm_medium=qr
+```
+
+---
+
+## 7. Media Fisik / Lapangan (Spanduk Proyek, Kartu Nama, Brosur)
+
+Semua link di bawah ini dirancang khusus untuk dijadikan **QR Code Cetak**:
+
+### A. Spanduk Pagar Proyek (Banner):
+```text
+https://asevenpile.com/?utm_source=banner&utm_medium=qr&utm_campaign=spanduk_proyek
+```
+*Cetak QR Code ini berukuran minimal 15x15 cm di spanduk pagar seng proyek. Saat mandor, kontraktor, atau tetangga proyek scan pakai kamera HP, langsung terdata di dasbor!*
+
+### B. Kartu Nama Bisnis:
+```text
+https://asevenpile.com/?utm_source=business_card&utm_medium=qr&utm_campaign=kartu_nama
+```
+*Cetak QR Code ini di bagian belakang kartu nama Mas Andrey / tim lapangan.*
+
+### C. Brosur Cetak Lapangan:
+```text
+https://asevenpile.com/?utm_source=brochure&utm_medium=qr&utm_campaign=brosur_lapangan
+```
 
 ---
 
 ## 8. Google Ads (Iklan Berbayar)
-### Link yang Dipasang:
+### Link yang Dipasang di Final URL Iklan:
 ```text
 https://asevenpile.com/area-layanan/bore-pile/jakarta/
 ```
+*(Atau target kota lain sesuai kampanye, misal: `https://asevenpile.com/area-layanan/bore-pile/bekasi/`)*
 
 ### Ketentuan Khusus Google Ads:
-* **TIDAK PERLU DITAMBAHKAN PARAMETER MANUAL.**
-* Cukup pastikan fitur **Auto-tagging (Penandaan Otomatis)** di akun Google Ads dalam kondisi **AKTIF** (ini setting default Google Ads).
-* Google Ads secara otomatis akan menempelkan parameter `?gclid=...` yang terenkripsi dan unik per klik, yang akan dibaca oleh sistem ASeven Pile untuk pencocokan konversi offline.
+* **JANGAN tambahkan parameter UTM manual.** Gunakan URL polos di atas.
+* Google Ads secara otomatis akan menempelkan parameter `?gclid=...` (*Google Click Identifier*) saat iklan diklik.
+* Sistem pelacakan ASeven Pile otomatis mendeteksi kode `gclid` tersebut dan menguncinya sebagai **Google Ads** di dasbor serta menyimpan data klik untuk konversi offline.
 
 ---
 
-## 🧪 Cara Memastikan Link Berfungsi Normal
+## 🛠 Panduan Membuat Gambar QR Code Gratis
 
-Setelah link dipasang di salah satu platform (misal Instagram):
-1. Buka link tersebut dari HP Mas Andrey.
-2. Scroll sedikit halamannya.
-3. Buka **Dasbor ASeven Pile** pada tab **Analitik Scroll Depth** atau **Log Trafik**.
-4. Klik tombol filter kanal yang bersangkutan (misal: klik tombol `Instagram` atau `Google Maps`).
-5. Sesi kunjungan Mas Andrey akan langsung muncul secara instan dengan label dan warna badge yang sesuai!
+Untuk mengubah link-link QR di atas menjadi gambar kode barcode QR:
+1. Buka situs generator QR gratis terpercaya (pilih salah satu):
+   * **[me-qr.com](https://me-qr.com)**
+   * **[qr-code-generator.com](https://www.qr-code-generator.com/)**
+   * **[quickchart.io](https://quickchart.io/qr-code-api/)**
+2. Pilih jenis **URL / Website**.
+3. Copy salah satu link di atas (misal link QR Instagram atau link QR Spanduk).
+4. Paste ke kolom URL.
+5. Download gambar QR Code dalam format **PNG** (resolusi tinggi) atau **SVG/PDF** (untuk percetakan agar tajam saat dicetak besar).
+
+---
+
+## 📊 Fitur Dasbor Pelacakan yang Sudah Aktif
+
+Dasbor ASeven Pile telah diupdate untuk mendukung seluruh parameter di atas:
+1. **Identifikasi Badge Ganda:**
+   * Menampilkan badge platform asal: `Google Ads`, `SEO Google`, `Google Maps`, `Instagram`, `TikTok`, `Facebook`, `YouTube`, `Link WA`, atau `Direct`.
+   * Menampilkan badge penempatan spesifik: `📷 QR Code`, `🔗 Bio Link`, `⚡ Story Link`, `▶ Video`, `💬 Chat WA`, `📄 Halaman`, atau `🌱 Organik`.
+2. **Tab Filter Cepat:**
+   * Tombol filter **📷 QR Code** di Log Trafik dan Analitik Scroll Depth untuk melihat semua pengunjung hasil scan QR secara instan.
+   * Tab filter khusus untuk **YouTube**, **Instagram**, **TikTok**, **Facebook**, dan **Google Maps**.
+3. **Pencarian Cerdas (Search Box):**
+   * Mas Andrey bisa langsung mengetik `qr`, `bio`, `story`, atau `spanduk_proyek` di kotak pencarian untuk memfilter data spesifik.
+4. **Export CSV Lengkap:**
+   * Saat klik tombol export di analitik scroll depth, file Excel/CSV otomatis memuat kolom `Placement_Medium` dan `Campaign` yang rapi.

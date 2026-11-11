@@ -562,7 +562,7 @@ function validateLeadInput_(data) {
   if (['Baru', 'Diskusi', 'Survei', 'DP Masuk', 'Selesai', 'Batal'].indexOf(input.status) === -1) {
     throw publicError_('Status prospek tidak valid.');
   }
-  if (['ADS', 'SEO', 'MAPS', 'INSTAGRAM', 'TIKTOK', 'FACEBOOK', 'WHATSAPP', 'DIRECT', 'REFERRAL', 'CAMPAIGN'].indexOf(input.source) === -1) {
+  if (['ADS', 'SEO', 'MAPS', 'INSTAGRAM', 'TIKTOK', 'FACEBOOK', 'YOUTUBE', 'WHATSAPP', 'DIRECT', 'REFERRAL', 'CAMPAIGN'].indexOf(input.source) === -1) {
     throw publicError_('Sumber prospek tidak valid.');
   }
   FORM_NOTE_FIELDS_.forEach(function (field) {
@@ -645,6 +645,8 @@ function eventToDashboard_(event) {
     scrollPct: scrollPct,
     url: String(event.page || ''),
     source: source,
+    utmSource: String(event.utmSource || ''),
+    utmMedium: String(event.utmMedium || ''),
     campaign: String(event.utmCampaign || ''),
     utmCampaign: String(event.utmCampaign || ''),
     utmTerm: String(event.utmTerm || ''),
