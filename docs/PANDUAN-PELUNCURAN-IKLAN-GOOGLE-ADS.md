@@ -205,16 +205,17 @@ bor sumur jet pump
 Agar nama kampanye dan kata kunci yang diketik calon klien di Google **otomatis tertangkap di Dashboard tanpa perlu diketik manual**:
 
 1. Di akun Google Ads, buka menu:  
-   **Setelan Akun** (atau di **Setelan Kampanye**) $\rightarrow$ **Opsi URL Kampanye** $\rightarrow$ cari kolom **Akhiran URL Final (*Final URL Suffix*)**.
+   **Setelan Akun** $\rightarrow$ **Pelacakan** $\rightarrow$ cari kolom **Akhiran URL Final (*Final URL Suffix*)**.
 2. Masukkan baris ini:
    ```text
-   utm_source=google&utm_medium=cpc&utm_campaign={_campaign}&utm_term={keyword}
+   utm_source=google&utm_medium=cpc&utm_campaign=bore-pile&utm_term={keyword}
    ```
+   *(Catatan: Jika Mas Andrey ingin nama kampanye dinamis mengikuti ID kampanye otomatis dari Google, bisa gunakan `utm_campaign={campaignid}`. Namun `utm_campaign=bore-pile` adalah yang paling bersih dan mudah dibaca di dashboard).*
 3. Klik **Simpan**.
 
 ### Cara Kerjanya di Lapangan:
-* **`{_campaign}`:** Google Ads otomatis mengganti parameter ini dengan nama kampanye yang Mas Andrey buat (misal: *"Bore Pile Jakarta"*).
-* **`{keyword}`:** Google Ads otomatis mengganti parameter ini dengan kata kunci asli yang diketik calon klien saat mencari di Google.
+* **`utm_campaign=bore-pile`:** Langsung melabeli semua prospek dari kampanye bore pile di Dashboard.
+* **`{keyword}`:** Google Ads otomatis mengganti parameter ini dengan kata kunci asli yang diketik calon klien saat mencari di Google (misal: *"jasa bore pile jakarta"*).
 * **Hasil di Dashboard:** Nama kampanye, kata kunci pencarian, klik, chat WA, dan omzet closing akan otomatis terkelompokkan rapi di tabel Dashboard ASeven Pile.
 
 ---
@@ -223,7 +224,7 @@ Agar nama kampanye dan kata kunci yang diketik calon klien di Google **otomatis 
 
 Pastikan semua poin berikut sudah diperiksa sebelum menekan tombol *Publish Campaign*:
 
-- [ ] **1. Akhiran URL Final (*Final URL Suffix*):** Sudah dipasang `utm_source=google&utm_medium=cpc&utm_campaign={_campaign}&utm_term={keyword}` di setelan Google Ads.
+- [ ] **1. Akhiran URL Final (*Final URL Suffix*):** Sudah dipasang `utm_source=google&utm_medium=cpc&utm_campaign=bore-pile&utm_term={keyword}` di setelan Google Ads.
 - [ ] **2. Auto-tagging Aktif:** Pastikan fitur Beri Tag Otomatis aktif di Google Ads (*Setelan Akun $\rightarrow$ Beri tag otomatis / Auto-tagging: Centang Aktif*).
 - [ ] **3. Bidding Awal (Fase 1):** Gunakan **Maximize Clicks** dengan batas tawaran (Max CPC Limit) di angka Rp 15.000 – Rp 25.000.
 - [ ] **4. Status Konversi Awal:**
