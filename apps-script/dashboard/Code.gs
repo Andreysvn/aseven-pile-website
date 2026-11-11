@@ -419,7 +419,7 @@ function assertAdsLead_(tables, lead) {
 }
 
 function getConversionAction_(lead) {
-  var configured = String(lead.conversionAction || PropertiesService.getScriptProperties().getProperty('CONVERSION_ACTION') || 'DP Proyek Masuk').trim();
+  var configured = String(lead.conversionAction || PropertiesService.getScriptProperties().getProperty('CONVERSION_ACTION') || 'offline (Upload)').trim();
   if (configured.length > 200) throw publicError_('Nama conversion action terlalu panjang.');
   return configured;
 }

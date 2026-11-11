@@ -5173,7 +5173,7 @@ function exportAdsCSV() {
   const rows = [['Google Click ID', 'Conversion Name', 'Conversion Time', 'Conversion Value', 'Conversion Currency', 'Order ID']];
   deals.forEach(d => {
     const isCompleted = d.status === 'Selesai';
-    const actionName = d.conversionAction || (isCompleted ? 'Proyek Selesai' : 'DP Proyek Masuk');
+    const actionName = d.conversionAction || 'offline (Upload)';
     const convVal = isCompleted ? (d.finalServiceValue || d.dealVal) : (d.dpVal || d.dealVal);
     const orderId = d.adsTransactionId || (d.id ? 'TX-' + d.id : '');
     rows.push([
