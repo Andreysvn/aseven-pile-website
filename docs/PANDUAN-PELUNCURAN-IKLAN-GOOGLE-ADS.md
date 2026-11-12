@@ -228,9 +228,9 @@ Pastikan semua poin berikut sudah diperiksa sebelum menekan tombol *Publish Camp
 - [ ] **2. Auto-tagging Aktif:** Pastikan fitur Beri Tag Otomatis aktif di Google Ads (*Setelan Akun $\rightarrow$ Beri tag otomatis / Auto-tagging: Centang Aktif*).
 - [ ] **3. Bidding Awal (Fase 1):** Gunakan **Maximize Clicks** dengan batas tawaran (Max CPC Limit) di angka Rp 15.000 – Rp 25.000.
 - [ ] **4. Status Konversi Awal:**
-  - `Klik WhatsApp`: Disetel sebagai **Primary Action**.
-  - `Scroll Depth 50%`: Disetel sebagai **Secondary Action**.
-  - `Closing Proyek (Offline)`: Sudah dibuat dan disetel sebagai **Secondary Action** (akan diubah ke Primary setelah ada 15 deal).
+  - `WhatsApp`: Disetel sebagai **Tindakan Utama (Primary Action)** (Status: 🟢 Aktif).
+  - `Scroll Depth 50%` & `Tayangan Halaman`: Disetel sebagai **Tindakan Sekunder (Secondary Action)**.
+  - `offline (Upload)`: Disetel sebagai **Tindakan Sekunder (Secondary Action)** dengan nilai dinamis (akan diubah ke Utama setelah ada 15 deal closing).
 - [ ] **5. Kata Kunci Negatif:** Seluruh daftar kata kunci negatif (loker, skripsi, jual alat bekas, sumur bor air) sudah disalin ke menu *Campaign Negative Keywords*.
 - [ ] **6. Saldo Akun Google Ads:** Pastikan metode pembayaran utama aktif dan memiliki saldo cukup.
 - [ ] **7. URL Tujuan Iklan (Final URL):** Mengarah ke halaman layanan spesifik kota, contoh: `https://asevenpile.com/area-layanan/bore-pile/jakarta/`.
