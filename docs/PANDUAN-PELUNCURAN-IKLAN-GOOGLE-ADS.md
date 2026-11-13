@@ -50,33 +50,26 @@ Karena di hari pertama peluncuran iklan Mas Andrey **belum memiliki data histori
 • Goal: Google HANYA memburu klien berduit yang berpotensi transfer DP puluhan juta.
 ```
 
-### Tabel Status Konversi per Fase di Google Ads:
+### Tabel Status Konversi per Fase di Akun Google Ads Mas Andrey:
 
-| Nama Konversi | Tipe / Event | Status di Fase 1 (Minggu 1-2) | Status di Fase 2 (Minggu 3+) |
+| Nama Konversi di Akun | Tipe / Event | Status di Fase 1 (Minggu 1-2) | Status di Fase 2 (Minggu 3+ setelah ada deal) |
 | :--- | :--- | :--- | :--- |
-| **Klik WhatsApp** | `CE - generate_lead` (Website) | 🟢 **PRIMARY** (Bahan bakar awal) | 🟡 **SECONDARY** (Hanya observasi) |
-| **Scroll Depth 50%** | `Scroll Depth 50%` (Website) | 🟡 **SECONDARY** (Observasi minat) | 🟡 **SECONDARY** (Observasi minat) |
-| **Kunjungan Halaman** | `All Pages` (Website) | 🟡 **SECONDARY** (Traffic monitor) | 🟡 **SECONDARY** (Traffic monitor) |
-| **Deal Closing / DP Proyek** | `Import from Clicks` (Offline CSV) | ⚪ *Belum ada data* | 🟢 **PRIMARY** (Target bid utama Google) |
+| **WhatsApp** | `Kontak / Situs` (Website Event) | 🟢 **UTAMA (PRIMARY)** (Bahan bakar awal AI Google) | 🟡 **SEKUNDER (SECONDARY)** (Hanya observasi) |
+| **offline (Upload)** | `Mengimpor dari klik` (CSV Dashboard) | 🟡 **SEKUNDER (SECONDARY)** (Menampung data transfer DP) | 🟢 **UTAMA (PRIMARY)** (Target penawaran utama Google) |
+| **Scroll depth 50%** | `Tayangan halaman / Situs` | 🟡 **SEKUNDER (SECONDARY)** (Anti-boncos, observasi saja) | 🟡 **SEKUNDER (SECONDARY)** (Anti-boncos, observasi saja) |
+| **Tayangan halaman** | `Tayangan halaman / Situs` | 🟡 **SEKUNDER (SECONDARY)** (Anti-boncos, observasi saja) | 🟡 **SEKUNDER (SECONDARY)** (Anti-boncos, observasi saja) |
 
 ---
 
 ## 3. Langkah Teknis di Akun Google Ads
 
-### A. Cara Membuat Conversion Action untuk Offline Conversion (1x di Awal)
-1. Buka akun **Google Ads** $\rightarrow$ klik menu **Goals (Sasaran)** $\rightarrow$ **Conversions (Konversi)** $\rightarrow$ **Summary (Ringkasan)**.
-2. Klik tombol biru **+ New conversion action (+ Tindakan konversi baru)**.
-3. Pilih opsi **Import (Impor)** $\rightarrow$ pilih **CRMs, files, or other data sources (CRM, file, atau sumber data lain)** $\rightarrow$ pilih **Track conversions from clicks (Lacak konversi dari klik)**.
-4. Setelan tindakan konversi:
-   * **Goal category:** Pilih *Qualified Lead* atau *Converted Lead*.
-   * **Conversion name:** Beri nama persis: `Closing Proyek` (atau `Deal Closing`).
-   * **Value:** Pilih *Use different values for each conversion* (Gunakan nilai berbeda untuk setiap konversi), mata uang pilih **IDR (Rp)**, nilai default isi `0`.
-   * **Count:** Pilih *One* (Satu) untuk setiap lead/proyek.
-   * **Attribution model:** *Data-driven* (bawaan Google).
-5. Pada setelan **Action optimization**:
-   * Di **Fase 1**: Pilih **Secondary action (not used for bidding optimization)**.
-   * Di **Fase 2**: Ubah menjadi **Primary action (used for bidding optimization)**.
-6. Klik **Create and continue** $\rightarrow$ **Done**.
+### A. Konfigurasi Tindakan Konversi Offline (`offline (Upload)`)
+Tindakan konversi ini sudah dibuat di akun Google Ads Mas Andrey dengan nama **`offline (Upload)`**:
+* **Nama konversi:** `offline (Upload)`
+* **Nilai (Value):** Pilih *Gunakan nilai yang berbeda untuk setiap konversi* (Use different values for each conversion), mata uang **IDR (Rp)**, nilai default isi `0`.
+* **Pengoptimalan tindakan (Action optimization):**
+  * Di **Fase 1 (Sekarang)**: Disetel sebagai **Tindakan sekunder (Secondary action)**.
+  * Di **Fase 2 (Nanti setelah ada 15 deal)**: Cukup ubah menjadi **Tindakan utama (Primary action)**.
 
 ### B. Cara Mengunggah CSV Konversi dari Dashboard ASeven Pile
 Setiap kali ada klien yang mentransfer DP atau melunasi proyek:
